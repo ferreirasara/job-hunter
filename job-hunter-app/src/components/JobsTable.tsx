@@ -1,10 +1,11 @@
-import { Alert, Button, Checkbox, Divider, Space, Table, Typography } from "antd"
+import { Alert, Button, Divider, Space, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI, isNewJob } from "../utils/utils";
 import { DetailsModal } from "./DetailsModal";
-import { DeleteOutlined, LinkOutlined, ZoomInOutlined } from "@ant-design/icons";
+import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
+import { Link } from "./Link";
 
 export type JobsTableData = {
   uuid: string
@@ -31,16 +32,19 @@ export const JobsTable = () => {
 
   const handleError = (message: string) => setErrorMessage(message);
 
-  useEffect(() => {
+  const fetchData = async () => {
     setLoading(true);
-    getJobsFromAPI()
-      .then(result => {
-        setData(result?.filter((cur: JobsTableData) => !cur?.discarded));
-        setLoading(false);
-      })
-      .catch(e => {
-        handleError(e?.toString());
-      })
+    try {
+      const response: JobsTableData[] = await getJobsFromAPI();
+      if (response) setData(response?.filter(cur => !cur?.discarded))
+    } catch (e) {
+      handleError(e?.toString() || "");
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData()
   }, []);
 
   const handleSeeDetails = (uuid: string) => {
@@ -74,7 +78,7 @@ export const JobsTable = () => {
       width: 72,
       align: 'center',
       ellipsis: true,
-      render: (url) => <Typography.Link href={url} target="_blank"><LinkOutlined /></Typography.Link>,
+      render: (url) => <Link url={url} />,
     },
     {
       title: "Aplicada?",
@@ -82,26 +86,25 @@ export const JobsTable = () => {
       key: 'applied',
       width: 100,
       align: 'center',
-      render: (applied) => <Checkbox disabled={!!applied} checked={!!applied} />,
+      render: (applied) => applied ? <CheckSquareTwoTone twoToneColor="#52c41a" /> : <CloseSquareTwoTone twoToneColor="#eb2f96" />,
     },
     { title: "País", dataIndex: 'country', key: 'country', width: 100, ellipsis: true, },
     { title: "Estado", dataIndex: 'state', key: 'state', width: 100, ellipsis: true, },
     { title: "Cidade", dataIndex: 'city', key: 'city', width: 100, ellipsis: true, },
     {
-      title: "Ações",
+      title: "",
       dataIndex: 'uuid',
       key: 'uuid',
-      width: 88,
+      width: 56,
       align: 'center',
-      render: (uuid) => <Space>
-        <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
-        <Button size="small" icon={<DeleteOutlined />} />
-      </Space>
+      render: (uuid) => <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
     },
   ]
 
-  return <div>
-    <Divider>Vagas</Divider>
+  return <Space direction="vertical">
+    <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+      Job Hunter
+    </Divider>
     {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
     <Table
       loading={loading}
@@ -115,6 +118,7 @@ export const JobsTable = () => {
       open={modalOpen}
       onCancel={handleCloseModal}
       selectedJob={selectedJob}
+      fetchData={fetchData}
     />
-  </div>
+  </Space>
 }

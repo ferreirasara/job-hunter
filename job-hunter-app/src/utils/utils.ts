@@ -6,6 +6,28 @@ export const getJobsFromAPI = async () => {
   return jobsResponseJson;
 }
 
+export const setJobAsApplied = async (uuid: string) => {
+  const body = { applied: true }
+  const jobAppliedResponse = await fetch("http://localhost:8080/job/" + uuid, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const jobAppliedResponseJson = await jobAppliedResponse?.json();
+  return jobAppliedResponseJson;
+}
+
+export const setJobAsDiscarded = async (uuid: string) => {
+  const body = { discarded: true }
+  const jobDiscardedResponse = await fetch("http://localhost:8080/job/" + uuid, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const jobDiscardedResponseJson = await jobDiscardedResponse?.json();
+  return jobDiscardedResponseJson;
+}
+
 export const formatDateHour = (date: string): string => {
   const dateObj = new Date(date);
   return dateObj?.toLocaleDateString('pt-br')
