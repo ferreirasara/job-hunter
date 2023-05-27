@@ -24,32 +24,33 @@ AppDataSource.initialize().then(async () => {
 
     const params = url.searchParams;
 
-    const companyFilter = params.get('company');
-    const cityilter = params.get('title');
-    const platformFilter = params.get('platform');
-    const descriptionFilter = params.get('description');
-    const countryFilter = params.get('country');
-    const stateFilter = params.get('state');
-    const cityFilter = params.get('city');
-    const appliedFilter = params.get('applied');
-    const orderBy = params.get('orderBy');
+    const platformFilter = params.get('platformFilter');
+    const countryFilter = params.get('countryFilter');
+    const stateFilter = params.get('stateFilter');
+    const cityFilter = params.get('cityFilter');
+    const appliedFilter = params.get('appliedFilter');
+    const orderByField = params.get('orderByField');
+    const orderByOrder = params.get('orderByOrder');
     const limit = params.get('limit');
     const page = params.get('page');
+
+    if (!limit || !page) {
+      res.send({ totalOfJobs: 0, data: [] })
+      return
+    }
 
     const result = await JobOpportunityController.getAllJobs({
       limit: parseInt(limit),
       page: parseInt(page),
-      companyFilter,
-      cityilter,
-      platformFilter,
-      descriptionFilter,
-      countryFilter,
-      stateFilter,
-      cityFilter,
-      appliedFilter,
-      orderBy,
+      platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,
+      countryFilter: countryFilter ? decodeURI(countryFilter) : undefined,
+      stateFilter: stateFilter ? decodeURI(stateFilter) : undefined,
+      cityFilter: cityFilter ? decodeURI(cityFilter) : undefined,
+      appliedFilter: appliedFilter ? decodeURI(appliedFilter) : undefined,
+      orderByField: orderByField ? decodeURI(orderByField) : undefined,
+      orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
     });
-    res.send({ totalOfJobs: result?.totalOfJobs, data: result?.data })
+    res.send(result);
   })
 
   app.post('/job/:uuid', async (req, res) => {
