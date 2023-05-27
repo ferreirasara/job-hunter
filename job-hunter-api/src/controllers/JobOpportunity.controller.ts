@@ -8,9 +8,23 @@ type UpdateJobInput = {
 }
 
 export default class JobOpportunityController {
-  public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity);
-    return jobs;
+  public static async getAllJobs(args: {
+    limit?: number,
+    page?: number,
+    companyFilter?: string,
+    cityilter?: string,
+    platformFilter?: string,
+    descriptionFilter?: string,
+    countryFilter?: string,
+    stateFilter?: string,
+    cityFilter?: string,
+    appliedFilter?: string,
+    orderBy?: string,
+  }) {
+    const { limit, page, appliedFilter, cityFilter, cityilter, companyFilter, countryFilter, descriptionFilter, orderBy, platformFilter, stateFilter } = args;
+    const jobs = await AppDataSource.manager.find(JobOpportunity, { skip: page * limit, take: limit });
+    const totalOfJobs = await AppDataSource.manager.count(JobOpportunity);
+    return { totalOfJobs, data: jobs };
   }
 
   public static async updateJob(job: UpdateJobInput) {
