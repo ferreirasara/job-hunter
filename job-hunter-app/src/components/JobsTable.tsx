@@ -118,6 +118,7 @@ export const JobsTable = () => {
       render: (createdAt) => formatDateHour(createdAt),
       width: 100,
       align: 'center',
+      sorter: (a, b) => 0,
     },
     {
       title: "Plataforma",
