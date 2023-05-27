@@ -1,4 +1,4 @@
-import { Alert, Button, Divider, Space, Table, Typography } from "antd"
+import { Alert, Button, Divider, Space, Table } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI, isNewJob } from "../utils/utils";
@@ -29,14 +29,41 @@ export const JobsTable = () => {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+  const [companyFilter, setCompanyFilter] = useState<string>("");
+  const [cityilter, setCityilter] = useState<string>("");
+  const [platformFilter, setPlatformFilter] = useState<string>("");
+  const [descriptionFilter, setDescriptionFilter] = useState<string>("");
+  const [countryFilter, setCountryFilter] = useState<string>("");
+  const [stateFilter, setStateFilter] = useState<string>("");
+  const [cityFilter, setCityFilter] = useState<string>("");
+  const [appliedFilter, setAppliedFilter] = useState<string>("");
+  const [orderBy, setOrderBy] = useState<string>("");
+  const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
 
   const handleError = (message: string) => setErrorMessage(message);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response: JobsTableData[] = await getJobsFromAPI();
-      if (response) setData(response?.filter(cur => !cur?.discarded))
+      const response: { totalOfJobs: number, data: JobsTableData[] } = await getJobsFromAPI({
+        limit,
+        page,
+        companyFilter,
+        cityilter,
+        platformFilter,
+        descriptionFilter,
+        countryFilter,
+        stateFilter,
+        cityFilter,
+        appliedFilter,
+        orderBy,
+      });
+      if (response) {
+        setTotalOfJobs(response?.totalOfJobs);
+        setData(response?.data?.filter(cur => !cur?.discarded))
+      }
     } catch (e) {
       handleError(e?.toString() || "");
     }
@@ -45,7 +72,7 @@ export const JobsTable = () => {
 
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [limit, page]);
 
   const handleSeeDetails = (uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
@@ -113,6 +140,16 @@ export const JobsTable = () => {
       rowKey={'uuid'}
       rowClassName={(record) => isNewJob(record) ? 'new-job' : ''}
       size="small"
+      pagination={{
+        onChange: (page, pageSize) => {
+          setPage(page - 1);
+          setLimit(pageSize);
+        },
+        total: totalOfJobs || 0,
+        current: page + 1,
+        pageSize: limit,
+      }}
+    // onChange={ }
     />
     <DetailsModal
       open={modalOpen}

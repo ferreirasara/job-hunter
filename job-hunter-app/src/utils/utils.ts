@@ -1,7 +1,20 @@
 import { JobsTableData } from "../components/JobsTable";
 
-export const getJobsFromAPI = async () => {
-  const jobsResponse = await fetch("http://localhost:8080/jobs");
+export const getJobsFromAPI = async (args: {
+  page?: number,
+  limit?: number,
+  companyFilter?: string,
+  cityilter?: string,
+  platformFilter?: string,
+  descriptionFilter?: string,
+  countryFilter?: string,
+  stateFilter?: string,
+  cityFilter?: string,
+  appliedFilter?: string,
+  orderBy?: string,
+}) => {
+  const { limit, page, appliedFilter, cityFilter, cityilter, companyFilter, countryFilter, descriptionFilter, orderBy, platformFilter, stateFilter } = args;
+  const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?limit=${limit}&page=${page}`));
   const jobsResponseJson = await jobsResponse?.json();
   return jobsResponseJson;
 }
