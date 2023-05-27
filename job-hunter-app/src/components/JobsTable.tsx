@@ -1,17 +1,25 @@
 import { Alert, Button, Divider, Space, Table } from "antd"
 import { ColumnsType } from "antd/es/table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI, isNewJob } from "../utils/utils";
 import { DetailsModal } from "./DetailsModal";
 import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import { Link } from "./Link";
+import castArray from 'lodash/castArray';
+import { uniq } from "lodash";
+
+export enum Platform {
+  GUPY = "GUPY",
+  INDEED = "INDEED",
+  LINKEDIN = "LINKEDIN",
+}
 
 export type JobsTableData = {
   uuid: string
   idInPlatform: string
   company: string
-  platform: string
+  platform: Platform
   title: string
   description: string
   url: string
@@ -23,37 +31,48 @@ export type JobsTableData = {
   createdAt: Date
 }
 
+export type JobsResponse = {
+  totalOfJobs: number,
+  data: JobsTableData[],
+  allCities: { city: string }[],
+  allCountries: { country: string }[],
+  allStates: { state: string }[],
+}
+
+export type OrderBy = { field: string, order: "ascend" | "descend" }
+
 export const JobsTable = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
   const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
-  const [companyFilter, setCompanyFilter] = useState<string>("");
-  const [cityilter, setCityilter] = useState<string>("");
-  const [platformFilter, setPlatformFilter] = useState<string>("");
-  const [descriptionFilter, setDescriptionFilter] = useState<string>("");
-  const [countryFilter, setCountryFilter] = useState<string>("");
-  const [stateFilter, setStateFilter] = useState<string>("");
-  const [cityFilter, setCityFilter] = useState<string>("");
-  const [appliedFilter, setAppliedFilter] = useState<string>("");
-  const [orderBy, setOrderBy] = useState<string>("");
+  const [limit, setLimit] = useState<number>(18);
+
+  const [platformFilter, setPlatformFilter] = useState<string[]>();
+  const [countryFilter, setCountryFilter] = useState<string[]>();
+  const [stateFilter, setStateFilter] = useState<string[]>();
+  const [cityFilter, setCityFilter] = useState<string[]>();
+  const [appliedFilter, setAppliedFilter] = useState<string[]>();
+
+  const [orderBy, setOrderBy] = useState<OrderBy>();
+
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
+  const [allCities, setAllCities] = useState<string[]>();
+  const [allStates, setAllStates] = useState<string[]>();
+  const [allCountries, setAllCountries] = useState<string[]>();
 
   const handleError = (message: string) => setErrorMessage(message);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response: { totalOfJobs: number, data: JobsTableData[] } = await getJobsFromAPI({
+      const response: JobsResponse = await getJobsFromAPI({
         limit,
         page,
-        companyFilter,
-        cityilter,
         platformFilter,
-        descriptionFilter,
         countryFilter,
         stateFilter,
         cityFilter,
@@ -62,17 +81,21 @@ export const JobsTable = () => {
       });
       if (response) {
         setTotalOfJobs(response?.totalOfJobs);
-        setData(response?.data?.filter(cur => !cur?.discarded))
+        setData(response?.data?.filter(cur => !cur?.discarded));
+        setAllCities(uniq(response?.allCities?.map(cur => cur?.city)))
+        setAllStates(uniq(response?.allStates?.map(cur => cur?.state)))
+        setAllCountries(uniq(response?.allCountries?.map(cur => cur?.country)))
       }
     } catch (e) {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }
+
+  }, [appliedFilter, cityFilter, countryFilter, limit, orderBy, page, platformFilter, stateFilter])
 
   useEffect(() => {
     fetchData()
-  }, [limit, page]);
+  }, [fetchData]);
 
   const handleSeeDetails = (uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
@@ -85,6 +108,8 @@ export const JobsTable = () => {
     setSelectedJob(undefined);
   }
 
+
+  const platformOptions = Object.keys(Platform);
   const columns: ColumnsType<JobsTableData> = [
     {
       title: "Criada em",
@@ -94,10 +119,37 @@ export const JobsTable = () => {
       width: 100,
       align: 'center',
     },
-    { title: "Plataforma", dataIndex: 'platform', key: 'platform', width: 100, },
-    { title: "Empresa", dataIndex: 'company', key: 'company', width: 200, ellipsis: true, },
-    { title: "Título", dataIndex: 'title', key: 'title', ellipsis: true, },
-    { title: "Descrição", dataIndex: 'description', key: 'description', ellipsis: true, },
+    {
+      title: "Plataforma",
+      dataIndex: 'platform',
+      key: 'platform',
+      width: 130,
+      sorter: (a, b) => a.platform.localeCompare(b.platform),
+      filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+    },
+    {
+      title: "Empresa",
+      dataIndex: 'company',
+      key: 'company',
+      width: 200,
+      ellipsis: true,
+      sorter: (a, b) => a.company.localeCompare(b.company),
+    },
+    {
+      title: "Título",
+      dataIndex: 'title',
+      key: 'title',
+      ellipsis: true,
+      sorter: (a, b) => a.title.localeCompare(b.title),
+    },
+    {
+      title: "Descrição",
+      dataIndex: 'description',
+      key: 'description',
+      ellipsis: true,
+      sorter: (a, b) => a.description.localeCompare(b.description),
+    },
     {
       title: "URL",
       dataIndex: 'url',
@@ -111,13 +163,42 @@ export const JobsTable = () => {
       title: "Aplicada?",
       dataIndex: 'applied',
       key: 'applied',
-      width: 100,
+      width: 110,
       align: 'center',
       render: (applied) => applied ? <CheckSquareTwoTone twoToneColor="#52c41a" /> : <CloseSquareTwoTone twoToneColor="#eb2f96" />,
+      filters: [{ text: "Sim", value: true }, { text: "Não", value: false }],
+      filterSearch: true,
     },
-    { title: "País", dataIndex: 'country', key: 'country', width: 100, ellipsis: true, },
-    { title: "Estado", dataIndex: 'state', key: 'state', width: 100, ellipsis: true, },
-    { title: "Cidade", dataIndex: 'city', key: 'city', width: 100, ellipsis: true, },
+    {
+      title: "País",
+      dataIndex: 'country',
+      key: 'country',
+      width: 100,
+      ellipsis: true,
+      sorter: (a, b) => a.country.localeCompare(b.country),
+      filters: allCountries?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+    },
+    {
+      title: "Estado",
+      dataIndex: 'state',
+      key: 'state',
+      width: 100,
+      ellipsis: true,
+      sorter: (a, b) => a.state.localeCompare(b.state),
+      filters: allStates?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+    },
+    {
+      title: "Cidade",
+      dataIndex: 'city',
+      key: 'city',
+      width: 100,
+      ellipsis: true,
+      sorter: (a, b) => a.city.localeCompare(b.city),
+      filters: allCities?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+    },
     {
       title: "",
       dataIndex: 'uuid',
@@ -132,6 +213,22 @@ export const JobsTable = () => {
     <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
       Job Hunter
     </Divider>
+    {/* <Space style={{ width: '100%' }}>
+      <Input
+        disabled={loading}
+        addonAfter={<Button
+          type="text"
+          size="small"
+          icon={<SearchOutlined />}
+          loading={loading}
+          onClick={handleTextSearch}
+        >
+          Pesquisar
+        </Button>}
+        onChange={(e) => setInputValue(e?.target?.value)}
+        placeholder="Pesquisar por empresa, título ou descrição"
+      />
+    </Space> */}
     {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
     <Table
       loading={loading}
@@ -149,7 +246,16 @@ export const JobsTable = () => {
         current: page + 1,
         pageSize: limit,
       }}
-    // onChange={ }
+      onChange={(pagination, filters, sorter) => {
+        const sorter2 = sorter && castArray(sorter)[0];
+        if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
+
+        setPlatformFilter(filters?.platform as string[]);
+        setCountryFilter(filters?.country as string[]);
+        setStateFilter(filters?.state as string[]);
+        setCityFilter(filters?.city as string[]);
+        setAppliedFilter(filters?.applied as string[]);
+      }}
     />
     <DetailsModal
       open={modalOpen}

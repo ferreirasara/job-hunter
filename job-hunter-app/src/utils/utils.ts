@@ -1,20 +1,35 @@
-import { JobsTableData } from "../components/JobsTable";
+import { JobsTableData, OrderBy } from "../components/JobsTable";
 
 export const getJobsFromAPI = async (args: {
   page?: number,
   limit?: number,
-  companyFilter?: string,
-  cityilter?: string,
-  platformFilter?: string,
-  descriptionFilter?: string,
-  countryFilter?: string,
-  stateFilter?: string,
-  cityFilter?: string,
-  appliedFilter?: string,
-  orderBy?: string,
+  platformFilter?: string[],
+  countryFilter?: string[],
+  stateFilter?: string[],
+  cityFilter?: string[],
+  appliedFilter?: string[],
+  orderBy?: OrderBy,
 }) => {
-  const { limit, page, appliedFilter, cityFilter, cityilter, companyFilter, countryFilter, descriptionFilter, orderBy, platformFilter, stateFilter } = args;
-  const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?limit=${limit}&page=${page}`));
+  const { limit = 10, page = 0, appliedFilter, cityFilter, countryFilter, orderBy, platformFilter, stateFilter } = args;
+  const searchParams: any = {};
+
+  if (limit) searchParams.limit = limit?.toString();
+  if (page || page === 0) searchParams.page = page?.toString();
+  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
+  if (cityFilter) searchParams.cityFilter = cityFilter;
+  if (countryFilter) searchParams.countryFilter = countryFilter;
+  if (platformFilter) searchParams.platformFilter = platformFilter;
+  if (stateFilter) searchParams.stateFilter = stateFilter;
+  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
+  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
+  if (orderBy?.field && orderBy?.order) {
+    searchParams.orderByField = orderBy?.field;
+    searchParams.orderByOrder = orderBy?.order;
+  }
+
+  const qs = new URLSearchParams(searchParams);
+
+  const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?${qs.toString()}`));
   const jobsResponseJson = await jobsResponse?.json();
   return jobsResponseJson;
 }
