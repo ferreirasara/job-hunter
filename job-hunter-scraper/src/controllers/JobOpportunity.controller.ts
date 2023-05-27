@@ -1,7 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 
-type JobPlatform = "GUPY" | "LINKEDIN" | "INDEED"
+type JobPlatform = "GUPY" | "PROGRAMATHOR"
 
 type JobInput = {
   company: string,
@@ -9,10 +9,11 @@ type JobInput = {
   title: string,
   description: string
   url: string
-  country: string
-  state: string
-  city: string
-  idInPlatform: string
+  country?: string
+  state?: string
+  city?: string
+  idInPlatform?: string
+  skills?: string
 }
 
 export default class JobOpportunityController {
@@ -36,6 +37,7 @@ export default class JobOpportunityController {
       newJob.state = jobInput.state;
       newJob.city = jobInput.city;
       newJob.url = jobInput.url;
+      newJob.skills = jobInput.skills;
 
       try {
         const res = await AppDataSource.manager.save(newJob);

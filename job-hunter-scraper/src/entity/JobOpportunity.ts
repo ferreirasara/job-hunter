@@ -11,7 +11,7 @@ export class JobOpportunity {
   @Column()
   company: string
 
-  @Column({ enum: ["GUPY", "LINKEDIN", "INDEED"] })
+  @Column({ enum: ["GUPY", "PROGRAMATHOR"] })
   platform: string
 
   @Column()
@@ -19,6 +19,9 @@ export class JobOpportunity {
 
   @Column()
   description: string
+
+  @Column({ nullable: true })
+  skills: string
 
   @Column()
   url: string
