@@ -19,6 +19,9 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "state") return { state: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "city") return { city: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "platform") return { platform: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "createdAt") return { createdAt: orderByOrder === "ascend" ? "ASC" : "DESC" }
+
+  return { createdAt: "DESC" }
 }
 
 export default class JobOpportunityController {
