@@ -11,7 +11,7 @@ export class JobOpportunity {
   @Column()
   company: string
 
-  @Column({ enum: ["GUPY", "PROGRAMATHOR"] })
+  @Column({ enum: ["GUPY", "PROGRAMATHOR", "TRAMPOS"] })
   platform: string
 
   @Column()
@@ -25,6 +25,9 @@ export class JobOpportunity {
 
   @Column()
   url: string
+
+  @Column({ nullable: true })
+  salaryRange: string
 
   @Column({ nullable: true })
   country: string
