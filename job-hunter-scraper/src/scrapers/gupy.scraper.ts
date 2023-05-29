@@ -78,7 +78,7 @@ export default class GupyScraper extends ScraperInterface {
           idInPlatform: job.id.toString(),
           state: job.state,
           type: job.isRemoteWork ? "REMOTE" : "FACE_TO_FACE",
-          description,
+          description: description.replace(/\n+/g, '\n'),
         });
       } catch (e) {
         this.logError(e);

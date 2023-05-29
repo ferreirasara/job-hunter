@@ -67,7 +67,7 @@ export default class ProgramathorScraper extends ScraperInterface {
           title,
           skills: skills?.join(', '),
           company,
-          description,
+          description: description.replace(/\n+/g, '\n'),
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
           salaryRange,

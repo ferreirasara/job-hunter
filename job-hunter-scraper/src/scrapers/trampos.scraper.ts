@@ -63,7 +63,7 @@ export default class TramposScraper extends ScraperInterface {
         jobs?.push({
           title,
           company,
-          description,
+          description: description.replace(/\n+/g, '\n'),
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
           salaryRange,
