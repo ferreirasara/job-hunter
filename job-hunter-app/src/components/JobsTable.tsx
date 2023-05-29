@@ -7,12 +7,17 @@ import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-des
 import "../style/JobsTable.css"
 import { Link } from "./Link";
 import castArray from 'lodash/castArray';
-import { uniq } from "lodash";
+import { renderSkills } from "./renderSkills";
 
 export enum Platform {
   GUPY = "GUPY",
-  INDEED = "INDEED",
-  LINKEDIN = "LINKEDIN",
+  PROGRAMATHOR = "PROGRAMATHOR",
+  TRAMPOS = "TRAMPOS",
+}
+export enum JobType {
+  REMOTE = "REMOTE",
+  HYBRID = "HYBRID",
+  FACE_TO_FACE = "FACE_TO_FACE",
 }
 
 export type JobsTableData = {
@@ -29,14 +34,14 @@ export type JobsTableData = {
   applied: boolean
   discarded: boolean
   createdAt: Date
+  type: JobType
+  salaryRange: string
+  skills: string
 }
 
 export type JobsResponse = {
   totalOfJobs: number,
   data: JobsTableData[],
-  allCities: { city: string }[],
-  allCountries: { country: string }[],
-  allStates: { state: string }[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -52,17 +57,12 @@ export const JobsTable = () => {
   const [limit, setLimit] = useState<number>(18);
 
   const [platformFilter, setPlatformFilter] = useState<string[]>();
-  const [countryFilter, setCountryFilter] = useState<string[]>();
-  const [stateFilter, setStateFilter] = useState<string[]>();
-  const [cityFilter, setCityFilter] = useState<string[]>();
+  const [typeFilter, setTypeFilter] = useState<string[]>();
   const [appliedFilter, setAppliedFilter] = useState<string[]>();
 
   const [orderBy, setOrderBy] = useState<OrderBy>();
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
-  const [allCities, setAllCities] = useState<string[]>();
-  const [allStates, setAllStates] = useState<string[]>();
-  const [allCountries, setAllCountries] = useState<string[]>();
 
   const handleError = (message: string) => setErrorMessage(message);
 
@@ -73,25 +73,20 @@ export const JobsTable = () => {
         limit,
         page,
         platformFilter,
-        countryFilter,
-        stateFilter,
-        cityFilter,
         appliedFilter,
+        typeFilter,
         orderBy,
       });
       if (response) {
         setTotalOfJobs(response?.totalOfJobs);
         setData(response?.data?.filter(cur => !cur?.discarded));
-        setAllCities(uniq(response?.allCities?.map(cur => cur?.city)))
-        setAllStates(uniq(response?.allStates?.map(cur => cur?.state)))
-        setAllCountries(uniq(response?.allCountries?.map(cur => cur?.country)))
       }
     } catch (e) {
       handleError(e?.toString() || "");
     }
     setLoading(false);
 
-  }, [appliedFilter, cityFilter, countryFilter, limit, orderBy, page, platformFilter, stateFilter])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter])
 
   useEffect(() => {
     fetchData()
@@ -110,6 +105,7 @@ export const JobsTable = () => {
 
 
   const platformOptions = Object.keys(Platform);
+  const typeOptions = Object.keys(JobType);
   const columns: ColumnsType<JobsTableData> = [
     {
       title: "Criada em",
@@ -149,7 +145,6 @@ export const JobsTable = () => {
       dataIndex: 'description',
       key: 'description',
       ellipsis: true,
-      sorter: (a, b) => a.description.localeCompare(b.description),
     },
     {
       title: "URL",
@@ -161,6 +156,30 @@ export const JobsTable = () => {
       render: (url) => <Link url={url} />,
     },
     {
+      title: "Tipo",
+      dataIndex: 'type',
+      key: 'type',
+      filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+      width: 110,
+      sorter: (a, b) => 0,
+    },
+    {
+      title: "Faixa salarial",
+      dataIndex: 'salaryRange',
+      key: 'salaryRange',
+      width: 150,
+      sorter: (a, b) => 0,
+    },
+    {
+      title: "Skills",
+      dataIndex: 'skills',
+      key: 'skills',
+      ellipsis: true,
+      render: (skills: string) => renderSkills(skills),
+      sorter: (a, b) => 0,
+    },
+    {
       title: "Aplicada?",
       dataIndex: 'applied',
       key: 'applied',
@@ -169,36 +188,7 @@ export const JobsTable = () => {
       render: (applied) => applied ? <CheckSquareTwoTone twoToneColor="#52c41a" /> : <CloseSquareTwoTone twoToneColor="#eb2f96" />,
       filters: [{ text: "Sim", value: true }, { text: "Não", value: false }],
       filterSearch: true,
-    },
-    {
-      title: "País",
-      dataIndex: 'country',
-      key: 'country',
-      width: 100,
-      ellipsis: true,
-      sorter: (a, b) => a.country.localeCompare(b.country),
-      filters: allCountries?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-    },
-    {
-      title: "Estado",
-      dataIndex: 'state',
-      key: 'state',
-      width: 100,
-      ellipsis: true,
-      sorter: (a, b) => a.state.localeCompare(b.state),
-      filters: allStates?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-    },
-    {
-      title: "Cidade",
-      dataIndex: 'city',
-      key: 'city',
-      width: 100,
-      ellipsis: true,
-      sorter: (a, b) => a.city.localeCompare(b.city),
-      filters: allCities?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
+      sorter: (a, b) => 0,
     },
     {
       title: "",
@@ -252,10 +242,8 @@ export const JobsTable = () => {
         if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
         setPlatformFilter(filters?.platform as string[]);
-        setCountryFilter(filters?.country as string[]);
-        setStateFilter(filters?.state as string[]);
-        setCityFilter(filters?.city as string[]);
         setAppliedFilter(filters?.applied as string[]);
+        setTypeFilter(filters?.type as string[]);
       }}
     />
     <DetailsModal

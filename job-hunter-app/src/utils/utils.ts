@@ -4,24 +4,20 @@ export const getJobsFromAPI = async (args: {
   page?: number,
   limit?: number,
   platformFilter?: string[],
-  countryFilter?: string[],
-  stateFilter?: string[],
-  cityFilter?: string[],
   appliedFilter?: string[],
+  typeFilter?: string[],
+  skillsFilter?: string[],
   orderBy?: OrderBy,
 }) => {
-  const { limit = 10, page = 0, appliedFilter, cityFilter, countryFilter, orderBy, platformFilter, stateFilter } = args;
+  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter } = args;
   const searchParams: any = {};
 
   if (limit) searchParams.limit = limit?.toString();
   if (page || page === 0) searchParams.page = page?.toString();
-  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
-  if (cityFilter) searchParams.cityFilter = cityFilter;
-  if (countryFilter) searchParams.countryFilter = countryFilter;
   if (platformFilter) searchParams.platformFilter = platformFilter;
-  if (stateFilter) searchParams.stateFilter = stateFilter;
   if (appliedFilter) searchParams.appliedFilter = appliedFilter;
-  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
+  if (skillsFilter) searchParams.skillsFilter = skillsFilter;
+  if (typeFilter) searchParams.typeFilter = typeFilter;
   if (orderBy?.field && orderBy?.order) {
     searchParams.orderByField = orderBy?.field;
     searchParams.orderByOrder = orderBy?.order;
