@@ -11,7 +11,7 @@ export class JobOpportunity {
   @Column()
   company: string
 
-  @Column({ enum: ["GUPY", "LINKEDIN", "INDEED"] })
+  @Column({ enum: ["GUPY", "PROGRAMATHOR", "TRAMPOS"] })
   platform: string
 
   @Column()
@@ -20,8 +20,17 @@ export class JobOpportunity {
   @Column()
   description: string
 
+  @Column({ nullable: true })
+  skills: string
+
   @Column()
   url: string
+
+  @Column({ enum: ["REMOTE", "HYBRID", "FACE_TO_FACE"], nullable: true })
+  type: string
+
+  @Column({ nullable: true })
+  salaryRange: string
 
   @Column({ nullable: true })
   country: string

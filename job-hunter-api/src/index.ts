@@ -25,10 +25,8 @@ AppDataSource.initialize().then(async () => {
     const params = url.searchParams;
 
     const platformFilter = params.get('platformFilter');
-    const countryFilter = params.get('countryFilter');
-    const stateFilter = params.get('stateFilter');
-    const cityFilter = params.get('cityFilter');
     const appliedFilter = params.get('appliedFilter');
+    const typeFilter = params.get('typeFilter');
     const orderByField = params.get('orderByField');
     const orderByOrder = params.get('orderByOrder');
     const limit = params.get('limit');
@@ -43,10 +41,8 @@ AppDataSource.initialize().then(async () => {
       limit: parseInt(limit),
       page: parseInt(page),
       platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,
-      countryFilter: countryFilter ? decodeURI(countryFilter) : undefined,
-      stateFilter: stateFilter ? decodeURI(stateFilter) : undefined,
-      cityFilter: cityFilter ? decodeURI(cityFilter) : undefined,
       appliedFilter: appliedFilter ? decodeURI(appliedFilter) : undefined,
+      typeFilter: typeFilter ? decodeURI(typeFilter) : undefined,
       orderByField: orderByField ? decodeURI(orderByField) : undefined,
       orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
     });
