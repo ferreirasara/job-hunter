@@ -26,6 +26,9 @@ export class JobOpportunity {
   @Column()
   url: string
 
+  @Column({ enum: ["REMOTE", "HYBRID", "FACE_TO_FACE"], nullable: true })
+  type: string
+
   @Column({ nullable: true })
   salaryRange: string
 
