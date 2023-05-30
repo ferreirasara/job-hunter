@@ -23,6 +23,9 @@ export class JobOpportunity {
   @Column({ nullable: true })
   skills: string
 
+  @Column({ nullable: true })
+  benefits: string
+
   @Column()
   url: string
 
