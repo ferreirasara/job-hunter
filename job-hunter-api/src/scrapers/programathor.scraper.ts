@@ -69,8 +69,8 @@ export default class ProgramathorScraper extends ScraperInterface {
         const skills = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
         const infoArray: string[] = await page?.$$eval('div.col-md-7.col-md-9 > div.row > div', (el) => el?.map(cur => cur?.innerText));
         const salaryRange = infoArray?.find(cur => cur?.toLowerCase()?.includes("salário"))?.split('Salário: ')?.[1];
-        const typeString = infoArray?.find(cur => cur?.toLowerCase()?.includes("remoto"));
-        const type: JobType = typeString?.includes('Sim') ? "REMOTE" : "FACE_TO_FACE";
+        const homeOffice = infoArray?.find(cur => cur?.toLowerCase()?.includes("home office"));
+        const type: JobType = !!homeOffice ? "REMOTE" : "FACE_TO_FACE";
         const benefits = getBenefitsBasedOnDescription({ description });
 
         jobs?.push({

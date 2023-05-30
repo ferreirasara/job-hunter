@@ -94,6 +94,7 @@ export default class JobOpportunityController {
 
     const where: FindOptionsWhere<JobOpportunity> = {}
 
+    where.discarded = false
     if (appliedFilter) where.applied = In(appliedFilter?.split(','));
     if (platformFilter) where.platform = In(platformFilter?.split(','));
     if (typeFilter) where.type = In(typeFilter?.split(','));
@@ -115,6 +116,11 @@ export default class JobOpportunityController {
 
   public static async updateJob(job: UpdateJobInput) {
     const response = await AppDataSource.manager.update(JobOpportunity, job.uuid, { applied: job.applied, discarded: job.discarded });
+    return response?.affected > 0;
+  }
+
+  public static async updateSkills(uuid: string, skills: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { skills });
     return response?.affected > 0;
   }
 

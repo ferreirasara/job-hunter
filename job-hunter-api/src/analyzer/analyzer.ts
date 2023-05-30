@@ -1,6 +1,6 @@
 import { uniq } from "lodash";
-import JobOpportunityController from "../../../job-hunter-analyzer/src/controllers/JobOpportunity.controller";
-import { stringContainsAny } from "../../../job-hunter-analyzer/src/utils/utils";
+import { stringContainsAny } from "../utils/utils";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 
 const SKILLS = {
   ANGULAR: [/angular/i],
@@ -211,39 +211,37 @@ export const getBenefitsBasedOnDescription = (job: { benefits?: string[], descri
 }
 
 export const normalizeProgramathorSkills = async () => {
-  const programathorJobs = await JobOpportunityController.getJobs({ platform: "PROGRAMATHOR" });
+  const programathorJobs = await JobOpportunityController.getAllJobsFromPlatform("PROGRAMATHOR");
   for (const job of programathorJobs) {
-    const existentSkills = job.skills?.split(',');
-    const newSkills = existentSkills?.map(cur => getNormalizedSkill(cur));
+    const newSkills = getSkillsBasedOnDescription({ description: job.skills })
     await JobOpportunityController.updateSkills(job.uuid, newSkills?.join(','))
   }
 }
 
 export const getNormalizedSkill = (skill: string) => {
   switch (skill) {
-
-    case 'Docker': return JobSkills.DEV_OPS;
-    case 'Git': return JobSkills.CODE_VERSIONING;
-    case 'ReactJS': return JobSkills.REACT;
-    case 'React Native': return JobSkills.REACT_NATIVE;
-    case 'HTML': return JobSkills.HTML;
-    case 'CSS': return JobSkills.CSS;
-    case 'Sass': return JobSkills.SASS;
-    case 'JavaScript': return JobSkills.JAVASCRIPT;
-    case 'Vue.js': return JobSkills.VUE;
-    case 'NextJS': return JobSkills.NEXT;
-    case 'Node.js': return JobSkills.NODE;
+    case 'docker': return JobSkills.DEV_OPS;
+    case 'git': return JobSkills.CODE_VERSIONING;
+    case 'reactjs': return JobSkills.REACT;
+    case 'react native': return JobSkills.REACT_NATIVE;
+    case 'html': return JobSkills.HTML;
+    case 'css': return JobSkills.CSS;
+    case 'sass': return JobSkills.SASS;
+    case 'javaScript': return JobSkills.JAVASCRIPT;
+    case 'vue.js': return JobSkills.VUE;
+    case 'nextjs': return JobSkills.NEXT;
+    case 'node.js': return JobSkills.NODE;
     // case 'SCRUM': return JobSkills.SCRUM;
-    case 'TypeScript': return JobSkills.TYPESCRIPT;
-    case 'Java': return JobSkills.JAVA;
+    case 'typescript': return JobSkills.TYPESCRIPT;
+    case 'vava': return JobSkills.JAVA;
     // case 'Less': return JobSkills.LESS;
-    case 'WordPress': return JobSkills.WORDPRESS;
-    case 'RESTful': return JobSkills.API;
-    case 'Flutter': return JobSkills.FLUTTER;
-    case 'Styled - Components': return JobSkills.STYLED_COMPONENTS;
-    case 'Ionic': return JobSkills.IONIC;
-    case 'Angular': return JobSkills.ANGULAR;
-    case 'Google Cloud': return JobSkills.DEV_OPS;
+    case 'wordpress': return JobSkills.WORDPRESS;
+    case 'restful': return JobSkills.API;
+    case 'flutter': return JobSkills.FLUTTER;
+    case 'styled - components': return JobSkills.STYLED_COMPONENTS;
+    case 'ionic': return JobSkills.IONIC;
+    case 'angular': return JobSkills.ANGULAR;
+    case 'google cloud': return JobSkills.DEV_OPS;
     case 'MongoDB': return JobSkills.DB;
     // case 'JSON': return JobSkills.JSON;
     case 'SQL': return JobSkills.DB;
