@@ -1,9 +1,11 @@
-export const joinRegExps = (regExpArr: RegExp[]) => {
-  return stringsAsRegExp(regExpArr.map(cur => cur.source));
-}
+import { HTTPRequest } from "puppeteer";
 
-export const stringsAsRegExp = (strs: string[]) => {
-  return (new RegExp(strs.join('')));
+export const interceptRequest = (request: HTTPRequest) => {
+  if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+    request.abort();
+  } else {
+    request.continue();
+  }
 }
 
 export const stringContainsAny = (inputString: string, filterArray: (RegExp)[]) => {

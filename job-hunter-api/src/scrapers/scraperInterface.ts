@@ -15,7 +15,6 @@ export default abstract class ScraperInterface {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setRequestInterception(true);
-    // await page.setDefaultNavigationTimeout();
     page.on('request', interceptRequest);
 
     return { browser, page }
@@ -43,21 +42,5 @@ export default abstract class ScraperInterface {
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);
     return jobsSavedCount;
-  }
-
-  public async updateJobs(): Promise<number> {
-    const jobs = await this.getJobs(false);
-    const jobsLength = jobs?.length;
-    console.log(`[${this.platform}] there are ${jobsLength} jobs to update!`);
-    let jobsUpdatedCount = 0;
-
-    for (let i = 0; i < jobsLength; i++) {
-      const job = jobs?.[i];
-      const affected = await JobOpportunityController.update(job);
-      if (!!affected) jobsUpdatedCount++
-    }
-
-    console.log(`[${this.platform}] updated ${jobsUpdatedCount} jobs!`);
-    return jobsUpdatedCount;
   }
 }

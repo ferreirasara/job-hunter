@@ -1,6 +1,6 @@
 import { uniq } from "lodash";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import { stringContainsAny } from "../utils/utils";
+import JobOpportunityController from "../../../job-hunter-analyzer/src/controllers/JobOpportunity.controller";
+import { stringContainsAny } from "../../../job-hunter-analyzer/src/utils/utils";
 
 const SKILLS = {
   ANGULAR: [/angular/i],
@@ -130,8 +130,8 @@ enum JobBenefits {
   TRANSPORTATION_VOUCHER = "TRANSPORTATION_VOUCHER",
 }
 
-export const getSkillsBasedOnDescription = (job: { uuid: string, skills: string, description: string }) => {
-  const existentSkills = job.skills?.split(',');
+export const getSkillsBasedOnDescription = (job: { skills?: string[], description: string }) => {
+  const existentSkills = job.skills;
   const description = job.description;
 
   const skills: JobSkills[] = existentSkills?.length ? [...existentSkills as JobSkills[]] : [];
@@ -181,8 +181,8 @@ export const getSkillsBasedOnDescription = (job: { uuid: string, skills: string,
   return uniq(skills);
 }
 
-export const getBenefitsBasedOnDescription = (job: { uuid: string, benefits: string, description: string }) => {
-  const existentBenefits = job.benefits?.split(',');
+export const getBenefitsBasedOnDescription = (job: { benefits?: string[], description: string }) => {
+  const existentBenefits = job.benefits;
   const description = job.description;
 
   const benefits: JobBenefits[] = existentBenefits?.length ? [...existentBenefits as JobBenefits[]] : [];

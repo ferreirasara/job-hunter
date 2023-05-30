@@ -2,6 +2,7 @@ import { uniqBy } from "lodash";
 import fetch from "node-fetch";
 import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
+import { getBenefitsBasedOnDescription, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 
 type GupyResponse = {
   data: GupyData[]
@@ -68,6 +69,9 @@ export default class GupyScraper extends ScraperInterface {
       try {
         await page.goto(job?.jobUrl);
         const description = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        const skills = getSkillsBasedOnDescription({ description });
+        const benefits = getBenefitsBasedOnDescription({ description });
+
         jobsWithDescription.push({
           company: job.careerPageName,
           platform: this.platform,
@@ -79,6 +83,8 @@ export default class GupyScraper extends ScraperInterface {
           state: job.state,
           type: job.isRemoteWork ? "REMOTE" : "FACE_TO_FACE",
           description: description.replace(/\n+/g, '\n'),
+          skills: skills?.join(', '),
+          benefits: benefits?.join(', '),
         });
       } catch (e) {
         this.logError(e);

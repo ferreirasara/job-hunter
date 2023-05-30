@@ -1,6 +1,7 @@
-import puppeteer, { Page } from "puppeteer";
+import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
+import { getBenefitsBasedOnDescription, getNormalizedSkill, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 
 type ProgramathorJob = {
   title: string,
@@ -54,18 +55,26 @@ export default class ProgramathorScraper extends ScraperInterface {
       try {
         const obj = urls[i]
         await page.goto(obj?.url);
+
+        try {
+          const expired = await page.$eval('span.text-16.border-red.border-radius-4.padding-xs-full.color-red', (el) => el?.innerText);
+          if (!!expired) continue;
+        } catch { }
+
         const title = await page?.$eval('div.container > h1', (el) => el?.innerText);
-        const skills = await page?.$$eval('div.container > a > span', (el) => el?.map(cur => cur?.innerText));
-        const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
         const description = await page?.$$eval('div.line-height-2-4', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
+        const programathorSkills = await page?.$$eval('div.container > a > span', (el) => el?.map(cur => cur?.innerText));
+        const normalizedSkills = programathorSkills?.map(cur => getNormalizedSkill(cur));
+        const skills = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
         const infoArray: string[] = await page?.$$eval('div.col-md-7.col-md-9 > div.row > div', (el) => el?.map(cur => cur?.innerText));
         const salaryRange = infoArray?.find(cur => cur?.toLowerCase()?.includes("salário"))?.split('Salário: ')?.[1];
         const typeString = infoArray?.find(cur => cur?.toLowerCase()?.includes("remoto"));
         const type: JobType = typeString?.includes('Sim') ? "REMOTE" : "FACE_TO_FACE";
+        const benefits = getBenefitsBasedOnDescription({ description });
 
         jobs?.push({
           title,
-          skills: skills?.join(', '),
           company,
           description: description.replace(/\n+/g, '\n'),
           url: obj?.url,
@@ -73,6 +82,8 @@ export default class ProgramathorScraper extends ScraperInterface {
           salaryRange,
           type,
           platform: this.platform,
+          skills: skills?.join(', '),
+          benefits: benefits?.join(', '),
         });
       } catch (e) {
         this.logError(e);
