@@ -4,7 +4,7 @@ import { isUpperCase, setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons"
 import { Link } from "./Link"
 import { useState } from "react"
-import { renderSkills } from "./renderSkills"
+import { renderMultipleTags } from "./renderMultipleTags"
 
 type DetailsModalProps = {
   open: boolean
@@ -49,7 +49,8 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
       {selectedJob?.city ? <List.Item><strong>Cidade:</strong> {selectedJob?.city}</List.Item> : null}
       {selectedJob?.type ? <List.Item><strong>Tipo:</strong> {selectedJob?.type}</List.Item> : null}
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
-      {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderSkills(selectedJob?.skills)}</List.Item> : null}
+      {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
+      {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>
         <Space>

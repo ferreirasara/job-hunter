@@ -1,13 +1,13 @@
 import { Alert, Button, Divider, Space, Table } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useCallback, useEffect, useState } from "react";
-import { formatDateHour, getJobsFromAPI, isNewJob } from "../utils/utils";
+import { formatDateHour, getJobsFromAPI } from "../utils/utils";
 import { DetailsModal } from "./DetailsModal";
 import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import { Link } from "./Link";
 import castArray from 'lodash/castArray';
-import { renderSkills } from "./renderSkills";
+import { renderMultipleTags } from "./renderMultipleTags";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -37,6 +37,7 @@ export type JobsTableData = {
   type: JobType
   salaryRange: string
   skills: string
+  benefits: string
 }
 
 export type JobsResponse = {
@@ -79,7 +80,7 @@ export const JobsTable = () => {
       });
       if (response) {
         setTotalOfJobs(response?.totalOfJobs);
-        setData(response?.data?.filter(cur => !cur?.discarded));
+        setData(response?.data);
       }
     } catch (e) {
       handleError(e?.toString() || "");
@@ -176,7 +177,15 @@ export const JobsTable = () => {
       dataIndex: 'skills',
       key: 'skills',
       ellipsis: true,
-      render: (skills: string) => renderSkills(skills),
+      render: (skills: string) => renderMultipleTags(skills),
+      sorter: (a, b) => 0,
+    },
+    {
+      title: "Benfícios",
+      dataIndex: 'benefits',
+      key: 'benefits',
+      ellipsis: true,
+      render: (benefits: string) => renderMultipleTags(benefits),
       sorter: (a, b) => 0,
     },
     {
@@ -226,7 +235,6 @@ export const JobsTable = () => {
       columns={columns}
       dataSource={data}
       rowKey={'uuid'}
-      rowClassName={(record) => isNewJob(record) ? 'new-job' : ''}
       size="small"
       pagination={{
         onChange: (page, pageSize) => {
