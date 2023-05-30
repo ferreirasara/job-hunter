@@ -18,4 +18,9 @@ export default class JobOpportunityController {
     const res = await AppDataSource.manager.update(JobOpportunity, uuid, { salaryRange })
     return res.affected;
   }
+
+  public static async updateBenefits(uuid: string, benefits: string) {
+    const res = await AppDataSource.manager.update(JobOpportunity, uuid, { benefits })
+    return res.affected;
+  }
 }

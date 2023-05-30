@@ -1,12 +1,12 @@
 import { IsNull } from "typeorm"
 import JobOpportunityController from "./controllers/JobOpportunity.controller"
 import { AppDataSource } from "./data-source"
-import { getNormalizedSkill, getSkillsBasedOnDescription } from "./analyzer/analyzer";
+import { getBenefitsBasedOnDescription } from "./analyzer/analyzer";
 
 AppDataSource.initialize().then(async () => {
-  const jobsWithoutSkills = await JobOpportunityController.getJobs({ skills: IsNull() });
-  for (const job of jobsWithoutSkills) {
-    const skills = getSkillsBasedOnDescription(job);
-    await JobOpportunityController.updateSkills(job.uuid, skills?.join(','))
+  const jobsWithoutBenefits = await JobOpportunityController.getJobs({ benefits: IsNull() });
+  for (const job of jobsWithoutBenefits) {
+    const benefits = getBenefitsBasedOnDescription(job);
+    await JobOpportunityController.updateBenefits(job.uuid, benefits?.join(','))
   }
 }).catch(error => console.log(error))
