@@ -78,4 +78,12 @@ export default class RemotarScraper extends ScraperInterface {
 
     return jobs;
   }
+
+  private getType(description: string): JobType {
+    if (description?.toLowerCase()?.includes('hibrid')) return "HYBRID";
+    if (description?.toLowerCase()?.includes('hybrid')) return "HYBRID";
+    if (description?.toLowerCase()?.includes('remot')) return "REMOTE";
+    if (description?.toLowerCase()?.includes('home office')) return "REMOTE";
+    return "FACE_TO_FACE";
+  }
 }

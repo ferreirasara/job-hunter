@@ -37,7 +37,7 @@ AppDataSource.initialize().then(async () => {
       return
     }
 
-    const result = await JobOpportunityController.getAllJobs({
+    const result = await JobOpportunityController.getAllJobsWithFilter({
       limit: parseInt(limit),
       page: parseInt(page),
       platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,

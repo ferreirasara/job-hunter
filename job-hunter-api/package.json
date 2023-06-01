@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:api": "ts-node src/index.api.ts",
     "start:scrapers": "ts-node src/index.scrapers.ts",
+    "start:analyzer": "ts-node src/index.analyzer.ts",
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "author": "Sara Ferreira",

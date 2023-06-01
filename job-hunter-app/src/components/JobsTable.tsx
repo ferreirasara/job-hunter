@@ -144,12 +144,6 @@ export const JobsTable = () => {
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
-      title: "Descrição",
-      dataIndex: 'description',
-      key: 'description',
-      ellipsis: true,
-    },
-    {
       title: "URL",
       dataIndex: 'url',
       key: 'url',
@@ -180,7 +174,6 @@ export const JobsTable = () => {
       key: 'skills',
       ellipsis: true,
       render: (skills: string) => renderMultipleTags(skills),
-      sorter: (a, b) => 0,
     },
     {
       title: "Benfícios",
@@ -188,7 +181,6 @@ export const JobsTable = () => {
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
-      sorter: (a, b) => 0,
     },
     {
       title: "Aplicada?",

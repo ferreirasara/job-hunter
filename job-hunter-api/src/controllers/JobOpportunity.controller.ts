@@ -81,7 +81,7 @@ export default class JobOpportunityController {
     }
   }
 
-  public static async getAllJobs(args: {
+  public static async getAllJobsWithFilter(args: {
     limit?: number,
     page?: number,
     platformFilter?: string,
@@ -112,6 +112,11 @@ export default class JobOpportunityController {
       totalOfJobs,
       data: jobs,
     };
+  }
+
+  public static async getAllJobs() {
+    const jobs = await AppDataSource.manager.find(JobOpportunity,);
+    return jobs;
   }
 
   public static async updateJob(job: UpdateJobInput) {

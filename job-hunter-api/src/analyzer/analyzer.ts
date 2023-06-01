@@ -8,6 +8,7 @@ const SKILLS = {
   API: [/rest api/i, /apis restful/i, /api restful/i, /api/i, /apis rest/i, /soap/i, /graphql/],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CSHARP: [/c#/i],
+  CPLUSPLUS: [/c\+\+/i],
   CSS: [/css/i, /scss/i, /css3/i],
   DB: [/banco de dados/i, /mongodb/i, /sql/i, /sql server/i, /postgres/i, /mysql/i, /firebase/i, /redis/i],
   DEV_OPS: [/docker/i, /aws/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /ci\/cd/i, /ci-cd/i, /cloud/i],
@@ -22,6 +23,7 @@ const SKILLS = {
   JAVA: [/java/i],
   JAVASCRIPT: [/javascript/i, /java script/i, /js/i, /es6/i],
   JQUERY: [/jquery/i],
+  LINUX: [/linux/i],
   NEXT: [/next/i, /next.js/i, /nextjs/i],
   NUXT: [/nuxt/i, /nuxt.js/i, /nuxtjs/i],
   NODE: [/node/i, /node.js/i, /nodejs/i],
@@ -37,7 +39,7 @@ const SKILLS = {
   STORYBOOK: [/storybook/i],
   STYLED_COMPONENTS: [/styled components/i, /styled-components/i],
   TAILWIND: [/tailwindcss/i, /tailwind css/i],
-  TEST: [/jest/i, /cypress/i, /tdd/i, /e2e/i, /testes unitarios/i],
+  TEST: [/jest/i, /cypress/i, /tdd/i, /e2e/i, /testes unitarios/i, /testes automatizados/i],
   TYPESCRIPT: [/typescript/i, /type script/i, /ts/i],
   VANILLA: [/javascript vanilla/i, /vanilla/i, /vanillajs/i, /vanilla js/i],
   VUE: [/vue/i, /vue.js/i, /vuejs/i, /vue js/i],
@@ -50,6 +52,7 @@ enum JobSkills {
   API = "API",
   CODE_MAINTAINABILITY = "CODE_MAINTAINABILITY",
   CSHARP = "CSHARP",
+  CPLUSPLUS = "CPLUSPLUS",
   CSS = "CSS",
   DB = "DB",
   DEV_OPS = "DEV_OPS",
@@ -64,6 +67,7 @@ enum JobSkills {
   JAVA = "JAVA",
   JAVASCRIPT = "JAVASCRIPT",
   JQUERY = "JQUERY",
+  LINUX = "LINUX",
   NEXT = "NEXT",
   NUXT = "NUXT",
   NODE = "NODE",
@@ -91,7 +95,7 @@ const BENEFITS = {
   ANUAL_BONUS: [/bônus anual/i, /bonus per year/i],
   BIRTHDAY_DAYOFF: [/day off de aniversário/i, /day off/i],
   CLT: [/clt/i],
-  COURSE_HELP: [/curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitação/i, /alura/i],
+  COURSE_HELP: [/curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitação/i, /alura/i, /acesso a cursos/i],
   DENTAL_PLAN: [/plano odontológico/i, /convênio odontológico/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /dental/i, /assistência odontológica/i],
   FLEXIBLE_HOURS: [/horários flexíveis/i, /horário flexível/i, /flexible hours/i, /flexibilidade de horário/i],
   GYMPASS: [/gympass/i, /academia/i, /gym pass/i],
@@ -142,6 +146,7 @@ export const getSkillsBasedOnDescription = (job: { skills?: string[], descriptio
   if (stringContainsAny(description, SKILLS.API)) skills.push(JobSkills.API)
   if (stringContainsAny(description, SKILLS.CODE_MAINTAINABILITY)) skills.push(JobSkills.CODE_MAINTAINABILITY)
   if (stringContainsAny(description, SKILLS.CSHARP)) skills.push(JobSkills.CSHARP)
+  if (stringContainsAny(description, SKILLS.CPLUSPLUS)) skills.push(JobSkills.CPLUSPLUS)
   if (stringContainsAny(description, SKILLS.CSS)) skills.push(JobSkills.CSS)
   if (stringContainsAny(description, SKILLS.DB)) skills.push(JobSkills.DB)
   if (stringContainsAny(description, SKILLS.DEV_OPS)) skills.push(JobSkills.DEV_OPS)
@@ -156,6 +161,7 @@ export const getSkillsBasedOnDescription = (job: { skills?: string[], descriptio
   if (stringContainsAny(description, SKILLS.JAVA)) skills.push(JobSkills.JAVA)
   if (stringContainsAny(description, SKILLS.JAVASCRIPT)) skills.push(JobSkills.JAVASCRIPT)
   if (stringContainsAny(description, SKILLS.JQUERY)) skills.push(JobSkills.JQUERY)
+  if (stringContainsAny(description, SKILLS.LINUX)) skills.push(JobSkills.LINUX)
   if (stringContainsAny(description, SKILLS.NEXT)) skills.push(JobSkills.NEXT)
   if (stringContainsAny(description, SKILLS.NUXT)) skills.push(JobSkills.NUXT)
   if (stringContainsAny(description, SKILLS.NODE)) skills.push(JobSkills.NODE)

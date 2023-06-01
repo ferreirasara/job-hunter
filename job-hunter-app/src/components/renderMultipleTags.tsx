@@ -1,7 +1,7 @@
 import { Tag } from "antd"
 
 export const renderMultipleTags = (field: string) => {
-  return field?.split(',')?.map(cur => <Tag color={getTagColor(cur?.trim())} style={{ margin: 1 }}>{cur?.trim()}</Tag>)
+  return field?.split(',')?.map(cur => <Tag color={getTagColor(cur?.trim())} style={{ margin: 2 }}>{cur?.trim()}</Tag>)
 }
 
 const getTagColor = (tag: string) => {
