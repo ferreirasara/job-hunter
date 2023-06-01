@@ -13,6 +13,7 @@ export enum Platform {
   GUPY = "GUPY",
   PROGRAMATHOR = "PROGRAMATHOR",
   TRAMPOS = "TRAMPOS",
+  VAGAS = "VAGAS",
 }
 export enum JobType {
   REMOTE = "REMOTE",
