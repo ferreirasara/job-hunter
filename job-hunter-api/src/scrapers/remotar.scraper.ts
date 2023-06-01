@@ -4,13 +4,13 @@ import ScraperInterface from "./scraperInterface";
 import { getBenefitsBasedOnDescription, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 import { uniq } from "lodash";
 
-const platform: JobPlatform = "VAGAS"
+const platform: JobPlatform = "REMOTAR"
 
-export default class VagasScraper extends ScraperInterface {
+export default class RemotarScraper extends ScraperInterface {
   constructor() { super({ platform }) }
 
   public async getJobs(filterExistentsJobs?: boolean): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser();
+    const { browser, page } = await this.getBrowser(true);
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
@@ -27,16 +27,16 @@ export default class VagasScraper extends ScraperInterface {
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://www.vagas.com.br/vagas-de-frontend?m%5B%5D=100%25+Home+Office");
-      const frontendUrls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map(cur => cur?.href));
+      await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle0" });
+      const frontendUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
-      await page.goto("https://www.vagas.com.br/vagas-de-react?m%5B%5D=100%25+Home+Office");
-      const reactUrls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map(cur => cur?.href));
+      await page.goto("https://remotar.com.br/search/jobs?q=react", { waitUntil: "networkidle0" });
+      const reactUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
       const allUrls = [...frontendUrls, ...reactUrls];
       const urls = uniq(allUrls);
 
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('vagas/')?.[1]?.split('/')?.[0] }));
+      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0] }));
 
       return result;
     } catch (e) {
@@ -52,10 +52,10 @@ export default class VagasScraper extends ScraperInterface {
       try {
         const obj = urls[i]
         await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
-        const title = await page?.$eval('h1.job-shortdescription__title', (el) => el?.innerText);
-        const company = await page?.$eval('h2.job-shortdescription__company', (el) => el?.innerText);
-        const description = await page?.$eval('article.vaga.job-group', (el) => el?.innerText);
-        const type = this.getType(description);
+        const title = await page?.$eval('h1.job-title', (el) => el?.innerText);
+        const company = await page?.$eval('p.h2', (el) => el?.innerText);
+        const description = await page?.$$eval('div.job-info-box', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        const type: JobType = "REMOTE";
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
 
@@ -77,10 +77,5 @@ export default class VagasScraper extends ScraperInterface {
     }
 
     return jobs;
-  }
-
-  private getType(description: string): JobType {
-    if (description?.toLowerCase()?.includes('home office')) return "REMOTE";
-    return "FACE_TO_FACE";
   }
 }
