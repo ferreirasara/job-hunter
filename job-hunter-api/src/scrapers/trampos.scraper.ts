@@ -9,7 +9,7 @@ export default class TramposScraper extends ScraperInterface {
   constructor() { super({ platform }) }
 
   public async getJobs(filterExistentsJobs?: boolean): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser();
+    const { browser, page } = await this.getBrowser(true);
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);

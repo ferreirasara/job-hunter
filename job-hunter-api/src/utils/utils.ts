@@ -1,7 +1,9 @@
 import { HTTPRequest } from "puppeteer";
 
-export const interceptRequest = (request: HTTPRequest) => {
-  if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+export const interceptRequest = (request: HTTPRequest, dontAbortScript?: boolean) => {
+  const resourcesToSkip = ['image', 'stylesheet', 'font']
+  if (!dontAbortScript) resourcesToSkip.push('script');
+  if (resourcesToSkip.includes(request.resourceType())) {
     request.abort();
   } else {
     request.continue();

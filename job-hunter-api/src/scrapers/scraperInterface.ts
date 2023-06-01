@@ -11,11 +11,13 @@ export default abstract class ScraperInterface {
 
   public abstract getJobs(filterExistentsJobs: boolean): Promise<JobInput[]>
 
-  protected async getBrowser() {
+  protected async getBrowser(dontAbortScript?: boolean) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    const ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36";
+    await page.setUserAgent(ua);
     await page.setRequestInterception(true);
-    page.on('request', interceptRequest);
+    page.on('request', (request) => interceptRequest(request, dontAbortScript));
 
     return { browser, page }
   }

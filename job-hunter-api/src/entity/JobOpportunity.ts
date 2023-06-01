@@ -11,7 +11,7 @@ export class JobOpportunity {
   @Column()
   company: string
 
-  @Column({ enum: ["GUPY", "PROGRAMATHOR", "TRAMPOS"] })
+  @Column({ enum: ["GUPY", "PROGRAMATHOR", "TRAMPOS", "VAGAS"] })
   platform: string
 
   @Column()

@@ -2,7 +2,7 @@ import { ArrayContains, FindOptionsOrder, FindOptionsWhere, In, Like, Not, Raw }
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 
-export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS"
+export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS"
 export type JobType = "REMOTE" | "HYBRID" | "FACE_TO_FACE"
 export type JobInitialData = { url: string, idInPlatform: string }
 
