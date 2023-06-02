@@ -2,9 +2,9 @@ import express = require("express")
 import cors = require("cors")
 import morgan = require("morgan")
 import { AppDataSource } from "./data-source"
-import JobOpportunityController from "./controllers/JobOpportunity.controller"
+import JobOpportunityController, { JobInput } from "./controllers/JobOpportunity.controller"
 
-type PostJobBody = {
+type UpdateJobBody = {
   applied?: boolean
   discarded?: boolean
 }
@@ -51,10 +51,29 @@ AppDataSource.initialize().then(async () => {
 
   app.post('/job/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
-    const body: PostJobBody = req.body;
+    const body: UpdateJobBody = req.body;
 
     const updated = await JobOpportunityController.updateJob({ uuid, applied: body?.applied, discarded: body?.discarded })
-    res.send(updated);
+    res.send({ updated });
+  })
+
+  app.post('/job', async (req, res) => {
+    const body: JobInput = req.body;
+    const result = await JobOpportunityController.insert({
+      company: body?.company,
+      description: body?.description,
+      platform: body?.platform,
+      title: body?.title,
+      url: body?.url,
+      benefits: body?.benefits,
+      city: body?.city,
+      country: body?.country,
+      salaryRange: body?.salaryRange,
+      skills: body?.skills,
+      state: body?.state,
+      type: body?.type,
+    })
+    res.send(result);
   })
 
   app.listen(PORT, () => {

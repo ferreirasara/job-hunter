@@ -38,8 +38,8 @@ export default abstract class ScraperInterface {
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
-      const uuid = await JobOpportunityController.insert(job);
-      if (!!uuid) jobsSavedCount++
+      const response = await JobOpportunityController.insert(job);
+      if (!!response?.success) jobsSavedCount++
     }
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);

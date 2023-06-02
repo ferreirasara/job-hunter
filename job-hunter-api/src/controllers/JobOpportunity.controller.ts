@@ -44,7 +44,7 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
 }
 
 export default class JobOpportunityController {
-  public static async insert(jobInput: JobInput) {
+  public static async insert(jobInput: JobInput): Promise<{ success: boolean, uuid?: string, message?: string }> {
     const existentJob = await AppDataSource.manager.findOne(JobOpportunity, {
       where: {
         platform: jobInput.platform,
@@ -71,13 +71,13 @@ export default class JobOpportunityController {
 
       try {
         const res = await AppDataSource.manager.save(newJob);
-        return res.uuid;
+        return { success: true, uuid: res.uuid };
       } catch (e) {
         console.log(e)
         return null;
       }
     } else {
-      return null;
+      return { success: false, message: 'Duplicated' };
     }
   }
 

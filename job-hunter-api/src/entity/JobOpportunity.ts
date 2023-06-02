@@ -50,6 +50,6 @@ export class JobOpportunity {
   @Column({ default: false })
   discarded: boolean
 
-  @Column({ default: new Date() })
+  @Column({ default: new Date()?.toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) })
   createdAt: Date
 }
