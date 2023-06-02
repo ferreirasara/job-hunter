@@ -6,7 +6,7 @@ import { JobsTable } from './components/JobsTable';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-document.body.style.margin = "0 64px";
+document.body.style.margin = "0";
 document.body.style.height = "100%";
 root.render(
   <React.StrictMode>

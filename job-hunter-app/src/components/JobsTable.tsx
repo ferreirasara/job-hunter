@@ -3,11 +3,12 @@ import { ColumnsType } from "antd/es/table";
 import { useCallback, useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI } from "../utils/utils";
 import { DetailsModal } from "./DetailsModal";
-import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
+import { CheckSquareTwoTone, CloseSquareTwoTone, PlusOutlined, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import { Link } from "./Link";
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
+import { CreateJobModal } from "./CreateJobModal";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -53,7 +54,8 @@ export const JobsTable = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [detailsModalOpen, setDetailsModalOpen] = useState<boolean>(false);
+  const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [page, setPage] = useState<number>(0);
@@ -98,11 +100,11 @@ export const JobsTable = () => {
   const handleSeeDetails = (uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
     setSelectedJob(job);
-    setModalOpen(true);
+    setDetailsModalOpen(true);
   }
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleCloseDetailsModal = () => {
+    setDetailsModalOpen(false);
     setSelectedJob(undefined);
   }
 
@@ -115,7 +117,7 @@ export const JobsTable = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt) => formatDateHour(createdAt),
-      width: 100,
+      width: 150,
       align: 'center',
       sorter: (a, b) => 0,
     },
@@ -203,11 +205,18 @@ export const JobsTable = () => {
     },
   ]
 
-  return <Space direction="vertical">
-    <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
-      Job Hunter
-    </Divider>
-    {/* <Space style={{ width: '100%' }}>
+  return <div>
+    <Space direction="vertical" style={{ margin: '0 64px' }}>
+      <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+        Job Hunter
+      </Divider>
+      <Button
+        icon={<PlusOutlined />}
+        onClick={() => setCreateModalOpen(true)}
+      >
+        Adicionar Job
+      </Button>
+      {/* <Space style={{ width: '100%' }}>
       <Input
         disabled={loading}
         addonAfter={<Button
@@ -223,36 +232,42 @@ export const JobsTable = () => {
         placeholder="Pesquisar por empresa, título ou descrição"
       />
     </Space> */}
-    {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
-    <Table
-      loading={loading}
-      columns={columns}
-      dataSource={data}
-      rowKey={'uuid'}
-      size="small"
-      pagination={{
-        onChange: (page, pageSize) => {
-          setPage(page - 1);
-          setLimit(pageSize);
-        },
-        total: totalOfJobs || 0,
-        current: page + 1,
-        pageSize: limit,
-      }}
-      onChange={(pagination, filters, sorter) => {
-        const sorter2 = sorter && castArray(sorter)[0];
-        if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
+      {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={data}
+        rowKey={'uuid'}
+        size="small"
+        pagination={{
+          onChange: (page, pageSize) => {
+            setPage(page - 1);
+            setLimit(pageSize);
+          },
+          total: totalOfJobs || 0,
+          current: page + 1,
+          pageSize: limit,
+        }}
+        onChange={(pagination, filters, sorter) => {
+          const sorter2 = sorter && castArray(sorter)[0];
+          if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
-        setPlatformFilter(filters?.platform as string[]);
-        setAppliedFilter(filters?.applied as string[]);
-        setTypeFilter(filters?.type as string[]);
-      }}
-    />
+          setPlatformFilter(filters?.platform as string[]);
+          setAppliedFilter(filters?.applied as string[]);
+          setTypeFilter(filters?.type as string[]);
+        }}
+      />
+    </Space>
     <DetailsModal
-      open={modalOpen}
-      onCancel={handleCloseModal}
+      open={detailsModalOpen}
+      onCancel={handleCloseDetailsModal}
       selectedJob={selectedJob}
       fetchData={fetchData}
     />
-  </Space>
+    <CreateJobModal
+      open={createModalOpen}
+      onCancel={() => setCreateModalOpen(false)}
+      fetchData={fetchData}
+    />
+  </div>
 }

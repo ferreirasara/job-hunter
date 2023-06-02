@@ -39,7 +39,9 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
     open={open}
     onCancel={onCancel}
     footer={null}
-    title={<Typography.Title level={3}>{selectedJob?.title}</Typography.Title>}
+    title={selectedJob?.title}
+    centered
+    bodyStyle={{ margin: "16px 0px" }}
   >
     <List>
       <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>
@@ -75,6 +77,6 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
         </Space>
       </List.Item>
     </List>
-    {description?.map(cur => isUpperCase(cur) ? <Typography.Title level={4}>{cur}</Typography.Title> : <Typography.Paragraph>{cur}</Typography.Paragraph>)}
+    {description?.map(cur => <Typography.Paragraph>{cur}</Typography.Paragraph>)}
   </Modal>
 }

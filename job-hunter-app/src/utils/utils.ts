@@ -1,4 +1,4 @@
-import { JobsTableData, OrderBy } from "../components/JobsTable";
+import { JobType, JobsTableData, OrderBy, Platform } from "../components/JobsTable";
 
 export const getJobsFromAPI = async (args: {
   page?: number,
@@ -52,9 +52,33 @@ export const setJobAsDiscarded = async (uuid: string) => {
   return jobDiscardedResponseJson;
 }
 
+export const createNewJob = async (body: {
+  company: string
+  platform: Platform
+  title: string
+  description: string
+  url: string
+  country?: string
+  state?: string
+  city?: string
+  idInPlatform?: string
+  skills?: string
+  benefits?: string
+  salaryRange?: string
+  type?: JobType
+}): Promise<{ success: boolean, message?: string, uuid?: string }> => {
+  const newJobResponse = await fetch("http://localhost:8080/job/", {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const newJobResponseJson = await newJobResponse?.json();
+  return newJobResponseJson;
+}
+
 export const formatDateHour = (date: string): string => {
   const dateObj = new Date(date);
-  return dateObj?.toLocaleDateString('pt-br')
+  return dateObj?.toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
 }
 
 export const isNewJob = (job: JobsTableData): boolean => {
