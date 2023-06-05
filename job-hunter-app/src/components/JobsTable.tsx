@@ -1,13 +1,10 @@
-import { Alert, Button, Divider, Space, Table, Typography } from "antd"
+import { Button, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
-import { useCallback, useEffect, useState } from "react";
-import { formatDateHour, getJobsFromAPI } from "../utils/utils";
-import { CheckSquareTwoTone, CloseSquareTwoTone, PlusOutlined, ZoomInOutlined } from "@ant-design/icons";
+import { formatDateHour } from "../utils/utils";
+import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
-import { CreateJobModal } from "./CreateJobModal";
-import { DetailsDrawer } from "./DetailsDrawer";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -52,65 +49,35 @@ export type JobsResponse = {
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
 
-export const JobsTable = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<JobsTableData[]>([]);
-  const [selectedJob, setSelectedJob] = useState<JobsTableData>();
-  const [detailsModalOpen, setDetailsModalOpen] = useState<boolean>(false);
-  const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+type JobsTableProps = {
+  loading: boolean
+  data: JobsTableData[]
+  totalOfJobs?: number
+  page: number
+  onChangePage: (page: number) => void
+  limit: number
+  onChangeLimit: (limit: number) => void
+  onChangeOrderBy: ({ field, order }: { field: string, order: "descend" | "ascend" }) => void
+  onChangePlatformFilter: (filter: string[]) => void
+  onChangeAppliedFilter: (filter: string[]) => void
+  onChangeTypeFilter: (filter: string[]) => void
+  handleSeeDetails: (uuid: string) => void
+}
 
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(18);
-
-  const [platformFilter, setPlatformFilter] = useState<string[]>();
-  const [typeFilter, setTypeFilter] = useState<string[]>();
-  const [appliedFilter, setAppliedFilter] = useState<string[]>();
-
-  const [orderBy, setOrderBy] = useState<OrderBy>();
-
-  const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
-
-  const handleError = (message: string) => setErrorMessage(message);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response: JobsResponse = await getJobsFromAPI({
-        limit,
-        page,
-        platformFilter,
-        appliedFilter,
-        typeFilter,
-        orderBy,
-      });
-      if (response) {
-        setTotalOfJobs(response?.totalOfJobs);
-        setData(response?.data);
-      }
-    } catch (e) {
-      handleError(e?.toString() || "");
-    }
-    setLoading(false);
-
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData]);
-
-  const handleSeeDetails = (uuid: string) => {
-    const job = data?.find(cur => cur?.uuid === uuid)
-    setSelectedJob(job);
-    setDetailsModalOpen(true);
-  }
-
-  const handleCloseDetailsModal = () => {
-    setDetailsModalOpen(false);
-    setSelectedJob(undefined);
-  }
-
-
+export const JobsTable = ({
+  loading,
+  data,
+  totalOfJobs,
+  page,
+  onChangePage,
+  limit,
+  onChangeLimit,
+  onChangeOrderBy,
+  onChangePlatformFilter,
+  onChangeAppliedFilter,
+  onChangeTypeFilter,
+  handleSeeDetails,
+}: JobsTableProps) => {
   const platformOptions = Object.keys(Platform);
   const typeOptions = Object.keys(JobType);
   const columns: ColumnsType<JobsTableData> = [
@@ -162,13 +129,6 @@ export const JobsTable = () => {
       width: 110,
       sorter: () => 0,
     },
-    // {
-    //   title: "Faixa salarial",
-    //   dataIndex: 'salaryRange',
-    //   key: 'salaryRange',
-    //   width: 150,
-    //   sorter: () => 0,
-    // },
     {
       title: "Skills",
       dataIndex: 'skills',
@@ -183,18 +143,6 @@ export const JobsTable = () => {
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
     },
-    // {
-    //   title: "Rating Skills",
-    //   dataIndex: 'skillsRating',
-    //   key: 'skillsRating',
-    //   sorter: () => 0,
-    // },
-    // {
-    //   title: "Rating Benefícios",
-    //   dataIndex: 'benefitsRating',
-    //   key: 'benefitsRating',
-    //   sorter: () => 0,
-    // },
     {
       title: "Rating",
       dataIndex: 'totalRating',
@@ -211,7 +159,7 @@ export const JobsTable = () => {
       render: (applied) => applied ? <CheckSquareTwoTone twoToneColor="#52c41a" /> : <CloseSquareTwoTone twoToneColor="#eb2f96" />,
       filters: [{ text: "Sim", value: true }, { text: "Não", value: false }],
       filterSearch: true,
-      sorter: (a, b) => 0,
+      sorter: () => 0,
     },
     {
       title: "",
@@ -223,69 +171,34 @@ export const JobsTable = () => {
     },
   ]
 
-  return <div>
-    <Space direction="vertical" style={{ margin: '0 64px' }}>
-      <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
-        Job Hunter
-      </Divider>
-      <Button
-        icon={<PlusOutlined />}
-        onClick={() => setCreateModalOpen(true)}
-      >
-        Adicionar Job
-      </Button>
-      {/* <Space style={{ width: '100%' }}>
-      <Input
-        disabled={loading}
-        addonAfter={<Button
-          type="text"
-          size="small"
-          icon={<SearchOutlined />}
-          loading={loading}
-          onClick={handleTextSearch}
-        >
-          Pesquisar
-        </Button>}
-        onChange={(e) => setInputValue(e?.target?.value)}
-        placeholder="Pesquisar por empresa, título ou descrição"
-      />
-    </Space> */}
-      {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={data}
-        rowKey={'uuid'}
-        size="small"
-        pagination={{
-          onChange: (page, pageSize) => {
-            setPage(page - 1);
-            setLimit(pageSize);
-          },
-          total: totalOfJobs || 0,
-          current: page + 1,
-          pageSize: limit,
-        }}
-        onChange={(pagination, filters, sorter) => {
-          const sorter2 = sorter && castArray(sorter)[0];
-          if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
+  return <Table
+    loading={loading}
+    columns={columns}
+    dataSource={data}
+    rowKey={'uuid'}
+    size="small"
+    pagination={{
+      onChange: (page, pageSize) => {
+        // setPage(page - 1);
+        // setLimit(pageSize);
+        onChangePage(page - 1);
+        onChangeLimit(pageSize);
+      },
+      total: totalOfJobs || 0,
+      current: page + 1,
+      pageSize: limit,
+    }}
+    onChange={(pagination, filters, sorter) => {
+      const sorter2 = sorter && castArray(sorter)[0];
+      // if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
+      if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
-          setPlatformFilter(filters?.platform as string[]);
-          setAppliedFilter(filters?.applied as string[]);
-          setTypeFilter(filters?.type as string[]);
-        }}
-      />
-    </Space>
-    <CreateJobModal
-      open={createModalOpen}
-      onCancel={() => setCreateModalOpen(false)}
-      fetchData={fetchData}
-    />
-    <DetailsDrawer
-      open={detailsModalOpen}
-      onCancel={handleCloseDetailsModal}
-      selectedJob={selectedJob}
-      fetchData={fetchData}
-    />
-  </div>
+      // setPlatformFilter(filters?.platform as string[]);
+      onChangePlatformFilter(filters?.platform as string[]);
+      // setAppliedFilter(filters?.applied as string[]);
+      onChangeAppliedFilter(filters?.applied as string[]);
+      // setTypeFilter(filters?.type as string[]);
+      onChangeTypeFilter(filters?.type as string[]);
+    }}
+  />
 }

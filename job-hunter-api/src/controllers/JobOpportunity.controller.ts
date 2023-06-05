@@ -98,12 +98,13 @@ export default class JobOpportunityController {
     typeFilter?: string,
     orderByField?: string,
     orderByOrder?: string,
+    showDiscarded?: string
   }) {
-    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter } = args;
+    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, showDiscarded } = args;
 
     const where: FindOptionsWhere<JobOpportunity> = {}
 
-    where.discarded = false
+    where.discarded = showDiscarded === 'true' || false
     if (appliedFilter) where.applied = In(appliedFilter?.split(','));
     if (platformFilter) where.platform = In(platformFilter?.split(','));
     if (typeFilter) where.type = In(typeFilter?.split(','));

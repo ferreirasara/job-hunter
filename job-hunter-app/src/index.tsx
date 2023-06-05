@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { JobsTable } from './components/JobsTable';
+import { Root } from './components/Root';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 document.body.style.margin = "0";
 document.body.style.height = "100%";
+
 root.render(
   <React.StrictMode>
-    <JobsTable />
+    <Root />
   </React.StrictMode>
 );
 

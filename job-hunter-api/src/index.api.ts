@@ -27,6 +27,7 @@ AppDataSource.initialize().then(async () => {
     const platformFilter = params.get('platformFilter');
     const appliedFilter = params.get('appliedFilter');
     const typeFilter = params.get('typeFilter');
+    const showDiscarded = params.get('showDiscarded');
     const orderByField = params.get('orderByField');
     const orderByOrder = params.get('orderByOrder');
     const limit = params.get('limit');
@@ -43,6 +44,7 @@ AppDataSource.initialize().then(async () => {
       platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,
       appliedFilter: appliedFilter ? decodeURI(appliedFilter) : undefined,
       typeFilter: typeFilter ? decodeURI(typeFilter) : undefined,
+      showDiscarded: showDiscarded ? decodeURI(showDiscarded) : undefined,
       orderByField: orderByField ? decodeURI(orderByField) : undefined,
       orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
     });
