@@ -1,15 +1,49 @@
 import { uniq } from "lodash";
-import { getJobRating, getSkillsBasedOnDescription } from "./analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getJobRating, getSkillsBasedOnDescription } from "./analyzer/analyzer";
 import JobOpportunityController from "./controllers/JobOpportunity.controller";
 import { AppDataSource } from "./data-source";
 
 AppDataSource.initialize().then(async () => {
-  const allJobs = await JobOpportunityController.getAllJobs();
-  for (const job of allJobs) {
-    const skills = uniq(job?.skills?.split(',')?.map(cur => cur?.trim()));
-    const benefits = uniq(job?.benefits?.split(',')?.map(cur => cur?.trim()));
-    const rating = getJobRating({ benefits, rating: 0, skills });
+  const functionToCall = process?.argv?.[2];
 
-    await JobOpportunityController.updateRatings(job.uuid, rating);
+  if (functionToCall === 'update-skills') {
+    console.log(`[update-skills] Start`);
+    const allJobs = await JobOpportunityController.getAllJobs();
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      console.log(`[update-skills] Updating job ${i + 1} of ${allJobsLength}`);
+      const oldSkills = uniq(job?.skills?.split(',')?.map(cur => cur?.trim()));
+      const newSkills = getSkillsBasedOnDescription({ skills: oldSkills, description: job?.description });
+
+      await JobOpportunityController.updateSkills(job.uuid, newSkills?.join(','));
+    }
+    console.log(`[update-skills] End`);
+  } else if (functionToCall === 'update-benefits') {
+    console.log(`[update-benefits] Start`);
+    const allJobs = await JobOpportunityController.getAllJobs();
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      console.log(`[update-benefits] Updating job ${i + 1} of ${allJobsLength}`);
+      const oldBenefits = uniq(job?.benefits?.split(',')?.map(cur => cur?.trim()));
+      const newBenefits = getBenefitsBasedOnDescription({ benefits: oldBenefits, description: job?.description });
+      await JobOpportunityController.updateBenefits(job.uuid, newBenefits?.join(','));
+    }
+    console.log(`[update-benefits] End`);
+  } else if (functionToCall === 'update-ratings') {
+    console.log(`[update-ratings] Start`);
+    const allJobs = await JobOpportunityController.getAllJobs();
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      console.log(`[update-ratings] Updating job ${i + 1} of ${allJobsLength}`);
+      const skills = uniq(job?.skills?.split(',')?.map(cur => cur?.trim()));
+      const benefits = uniq(job?.benefits?.split(',')?.map(cur => cur?.trim()));
+      const newRating = getJobRating({ benefits, skills });
+      await JobOpportunityController.updateRatings(job.uuid, newRating);
+    }
+    console.log(`[update-ratings] End`);
   }
+
 }).catch(error => console.log(error))

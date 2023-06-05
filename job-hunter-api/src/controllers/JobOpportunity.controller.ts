@@ -129,13 +129,23 @@ export default class JobOpportunityController {
     return jobs;
   }
 
-  public static async updateJob(job: UpdateJobInput) {
-    const response = await AppDataSource.manager.update(JobOpportunity, job.uuid, { applied: job.applied, discarded: job.discarded });
+  public static async updateApplied(uuid: string, applied: boolean) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { applied });
+    return response?.affected > 0;
+  }
+
+  public static async updateDiscarded(uuid: string, discarded: boolean) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { discarded });
     return response?.affected > 0;
   }
 
   public static async updateSkills(uuid: string, skills: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, { skills });
+    return response?.affected > 0;
+  }
+
+  public static async updateBenefits(uuid: string, benefits: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { benefits });
     return response?.affected > 0;
   }
 

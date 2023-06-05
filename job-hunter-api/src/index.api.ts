@@ -55,7 +55,11 @@ AppDataSource.initialize().then(async () => {
     const uuid = req.params.uuid;
     const body: UpdateJobBody = req.body;
 
-    const updated = await JobOpportunityController.updateJob({ uuid, applied: body?.applied, discarded: body?.discarded })
+    let updated = null;
+
+    if (body?.applied) updated = await JobOpportunityController.updateApplied(uuid, body?.applied);
+    if (body?.discarded) updated = await JobOpportunityController.updateDiscarded(uuid, body?.discarded);
+
     res.send({ updated });
   })
 
