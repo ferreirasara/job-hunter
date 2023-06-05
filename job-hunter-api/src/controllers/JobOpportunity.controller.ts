@@ -20,6 +20,9 @@ export type JobInput = {
   benefits?: string
   salaryRange?: string
   type?: JobType
+  skillsRating?: number
+  benefitsRating?: number
+  totalRating?: number
 }
 
 type UpdateJobInput = {
@@ -39,6 +42,9 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "salaryRange") return { salaryRange: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skills") return { skills: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "applied") return { applied: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "skillsRating") return { skillsRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "benefitsRating") return { benefitsRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "totalRating") return { totalRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
 
   return { createdAt: "DESC" }
 }
@@ -68,6 +74,9 @@ export default class JobOpportunityController {
       newJob.benefits = jobInput.benefits;
       newJob.salaryRange = jobInput.salaryRange;
       newJob.type = jobInput.type;
+      newJob.skillsRating = jobInput.skillsRating;
+      newJob.benefitsRating = jobInput.benefitsRating;
+      newJob.totalRating = jobInput.totalRating;
 
       try {
         const res = await AppDataSource.manager.save(newJob);
@@ -126,6 +135,15 @@ export default class JobOpportunityController {
 
   public static async updateSkills(uuid: string, skills: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, { skills });
+    return response?.affected > 0;
+  }
+
+  public static async updateRatings(uuid: string, rating: { skillsRating?: number, benefitsRating?: number }) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
+      skillsRating: rating.skillsRating,
+      benefitsRating: rating.benefitsRating,
+      totalRating: rating.skillsRating + rating.benefitsRating,
+    });
     return response?.affected > 0;
   }
 

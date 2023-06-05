@@ -44,6 +44,15 @@ export class JobOpportunity {
   @Column({ nullable: true })
   city: string
 
+  @Column({ nullable: true })
+  skillsRating: number
+
+  @Column({ nullable: true })
+  benefitsRating: number
+
+  @Column({ nullable: true })
+  totalRating: number
+
   @Column({ default: false })
   applied: boolean
 

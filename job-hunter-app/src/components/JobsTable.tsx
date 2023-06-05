@@ -1,11 +1,10 @@
-import { Alert, Button, Divider, Space, Table } from "antd"
+import { Alert, Button, Divider, Space, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useCallback, useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI } from "../utils/utils";
 import { DetailsModal } from "./DetailsModal";
 import { CheckSquareTwoTone, CloseSquareTwoTone, PlusOutlined, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
-import { Link } from "./Link";
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { CreateJobModal } from "./CreateJobModal";
@@ -41,6 +40,9 @@ export type JobsTableData = {
   salaryRange: string
   skills: string
   benefits: string
+  skillsRating: number
+  benefitsRating: number
+  totalRating: number
 }
 
 export type JobsResponse = {
@@ -117,16 +119,16 @@ export const JobsTable = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt) => formatDateHour(createdAt),
-      width: 150,
+      width: 100,
       align: 'center',
-      sorter: (a, b) => 0,
+      sorter: () => 0,
     },
     {
       title: "Plataforma",
       dataIndex: 'platform',
       key: 'platform',
       width: 130,
-      sorter: (a, b) => a.platform.localeCompare(b.platform),
+      sorter: () => 0,
       filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
     },
@@ -136,23 +138,20 @@ export const JobsTable = () => {
       key: 'company',
       width: 200,
       ellipsis: true,
-      sorter: (a, b) => a.company.localeCompare(b.company),
+      sorter: () => 0,
     },
     {
       title: "Título",
       dataIndex: 'title',
       key: 'title',
       ellipsis: true,
-      sorter: (a, b) => a.title.localeCompare(b.title),
-    },
-    {
-      title: "URL",
-      dataIndex: 'url',
-      key: 'url',
-      width: 72,
-      align: 'center',
-      ellipsis: true,
-      render: (url) => <Link url={url} />,
+      sorter: () => 0,
+      render: (title, record) => <Typography.Link
+        href={record.url}
+        target="_blank"
+      >
+        {title}
+      </Typography.Link>
     },
     {
       title: "Tipo",
@@ -161,14 +160,14 @@ export const JobsTable = () => {
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       width: 110,
-      sorter: (a, b) => 0,
+      sorter: () => 0,
     },
     {
       title: "Faixa salarial",
       dataIndex: 'salaryRange',
       key: 'salaryRange',
       width: 150,
-      sorter: (a, b) => 0,
+      sorter: () => 0,
     },
     {
       title: "Skills",
@@ -178,11 +177,29 @@ export const JobsTable = () => {
       render: (skills: string) => renderMultipleTags(skills),
     },
     {
-      title: "Benfícios",
+      title: "Benefícios",
       dataIndex: 'benefits',
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
+    },
+    {
+      title: "Rating Skills",
+      dataIndex: 'skillsRating',
+      key: 'skillsRating',
+      sorter: () => 0,
+    },
+    {
+      title: "Rating Benefícios",
+      dataIndex: 'benefitsRating',
+      key: 'benefitsRating',
+      sorter: () => 0,
+    },
+    {
+      title: "Rating Total",
+      dataIndex: 'totalRating',
+      key: 'totalRating',
+      sorter: () => 0,
     },
     {
       title: "Aplicada?",

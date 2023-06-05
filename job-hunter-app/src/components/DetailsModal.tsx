@@ -1,6 +1,6 @@
 import { Button, List, Modal, Space, Typography } from "antd"
 import { JobsTableData } from "./JobsTable"
-import { isUpperCase, setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
+import { setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons"
 import { Link } from "./Link"
 import { useState } from "react"
@@ -53,6 +53,9 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
       {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
       {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
+      {selectedJob?.skillsRating ? <List.Item><strong>Rating Skills:</strong> {selectedJob?.skillsRating}</List.Item> : null}
+      {selectedJob?.benefitsRating ? <List.Item><strong>Rating Benefícios:</strong> {selectedJob?.benefitsRating}</List.Item> : null}
+      {selectedJob?.totalRating ? <List.Item><strong>Rating Total:</strong> {selectedJob?.totalRating}</List.Item> : null}
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>
         <Space>

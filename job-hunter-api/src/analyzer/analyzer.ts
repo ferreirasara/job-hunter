@@ -90,6 +90,50 @@ enum JobSkills {
   WEB_HOOKS = "WEB_HOOKS",
   WORDPRESS = "WORDPRESS",
 }
+const SKILL_RATING = {
+  "ANGULAR": -1,
+  "AJAX": -1,
+  "API": 0,
+  "CODE_MAINTAINABILITY": 1,
+  "CSHARP": -1,
+  "CPLUSPLUS": -1,
+  "CSS": 1,
+  "DB": 0,
+  "DEV_OPS": -1,
+  "DOT_NET": -1,
+  "ECOMMERCE": 0,
+  "ENGLISH": 0,
+  "FIGMA": 1,
+  "FLUTTER": -1,
+  "CODE_VERSIONING": 1,
+  "HTML": 1,
+  "IONIC": -1,
+  "JAVA": -1,
+  "JAVASCRIPT": 1,
+  "JQUERY": -1,
+  "LINUX": 0,
+  "NEXT": 1,
+  "NUXT": -1,
+  "NODE": 1,
+  "PHP": -1,
+  "PYTHON": 0,
+  "PWA": 0,
+  "REACT": 1,
+  "REACT_NATIVE": -1,
+  "RESPONSIVE_DESIGN": 1,
+  "RUBY": -1,
+  "SASS": 1,
+  "STATE_MANAGEMENT": 1,
+  "STORYBOOK": 1,
+  "STYLED_COMPONENTS": 1,
+  "TAILWIND": 0,
+  "TEST": 1,
+  "TYPESCRIPT": 1,
+  "VANILLA": -1,
+  "VUE": -1,
+  "WEB_HOOKS": 1,
+  "WORDPRESS": -1,
+}
 
 const BENEFITS = {
   ANUAL_BONUS: [/bônus anual/i, /bonus per year/i],
@@ -132,6 +176,27 @@ enum JobBenefits {
   REFERRAL_BONUS = "REFERRAL_BONUS",
   STOCK_OPTIONS = "STOCK_OPTIONS",
   TRANSPORTATION_VOUCHER = "TRANSPORTATION_VOUCHER",
+}
+const BENEFITS_RATING = {
+  "ANUAL_BONUS": 0,
+  "BIRTHDAY_DAYOFF": 0,
+  "CLT": 1,
+  "COURSE_HELP": 0,
+  "DENTAL_PLAN": 0,
+  "FLEXIBLE_HOURS": 1,
+  "GYMPASS": 1,
+  "HEALTH_PLAN": 1,
+  "HOME_OFFICE": 1,
+  "HOME_OFFICE_VOUCHER": 1,
+  "LIFE_INSURANCE": 0,
+  "MEAL_VOUCHER": 1,
+  "PAID_VACATIONS": 0,
+  "PJ": 0,
+  "PRIVATE_PENSION": 0,
+  "PSYCHOLOGICAL_HELP": 0,
+  "REFERRAL_BONUS": 0,
+  "STOCK_OPTIONS": 0,
+  "TRANSPORTATION_VOUCHER": 0,
 }
 
 export const getSkillsBasedOnDescription = (job: { skills?: string[], description: string }) => {
@@ -254,4 +319,22 @@ export const getNormalizedSkill = (skill: string) => {
 
     default: return skill?.toUpperCase();
   }
+}
+
+export const getJobRating = (job: { rating?: number, skills?: string[], benefits?: string[] }): { skillsRating: number, benefitsRating: number } => {
+  let skillsRating = 0;
+  let benefitsRating = 0;
+
+  for (const skill of job.skills) {
+    skillsRating += SKILL_RATING?.[skill];
+  }
+
+  for (const benefit of job.benefits) {
+    benefitsRating += BENEFITS_RATING?.[benefit];
+  }
+
+  return {
+    skillsRating: skillsRating || 0,
+    benefitsRating: benefitsRating || 0,
+  };
 }

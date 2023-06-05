@@ -78,7 +78,7 @@ export const createNewJob = async (body: {
 
 export const formatDateHour = (date: string): string => {
   const dateObj = new Date(date);
-  return dateObj?.toLocaleString('pt-br')
+  return dateObj?.toLocaleString('pt-br', { day: '2-digit', month: '2-digit', year: '2-digit' });
 }
 
 export const isNewJob = (job: JobsTableData): boolean => {
