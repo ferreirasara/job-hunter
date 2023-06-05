@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { Root } from './components/Root';
+import { ConfigProvider, theme } from 'antd';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,10 +10,13 @@ const root = ReactDOM.createRoot(
 
 document.body.style.margin = "0";
 document.body.style.height = "100%";
+document.body.style.backgroundColor = "rgb(20,20,20)";
 
 root.render(
   <React.StrictMode>
-    <Root />
+    <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+      <Root />
+    </ConfigProvider>
   </React.StrictMode>
 );
 
