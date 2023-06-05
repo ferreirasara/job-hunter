@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getNormalizedSkill, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getProgramathorNormalizedSkill, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 
 type ProgramathorJob = {
   title: string,
@@ -65,7 +65,7 @@ export default class ProgramathorScraper extends ScraperInterface {
         const description = await page?.$$eval('div.line-height-2-4', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
         const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
         const programathorSkills = await page?.$$eval('div.container > a > span', (el) => el?.map(cur => cur?.innerText));
-        const normalizedSkills = programathorSkills?.map(cur => getNormalizedSkill(cur));
+        const normalizedSkills = programathorSkills?.map(cur => getProgramathorNormalizedSkill(cur));
         const skills = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
         const infoArray: string[] = await page?.$$eval('div.col-md-7.col-md-9 > div.row > div', (el) => el?.map(cur => cur?.innerText));
         const salaryRange = infoArray?.find(cur => cur?.toLowerCase()?.includes("salário"))?.split('Salário: ')?.[1];

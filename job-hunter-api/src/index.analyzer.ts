@@ -1,5 +1,5 @@
 import { uniq } from "lodash";
-import { getBenefitsBasedOnDescription, getJobRating, getSkillsBasedOnDescription } from "./analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getJobRating, getProgramathorNormalizedSkill, getSkillsBasedOnDescription } from "./analyzer/analyzer";
 import JobOpportunityController from "./controllers/JobOpportunity.controller";
 import { AppDataSource } from "./data-source";
 
@@ -44,6 +44,18 @@ AppDataSource.initialize().then(async () => {
       await JobOpportunityController.updateRatings(job.uuid, newRating);
     }
     console.log(`[update-ratings] End`);
+  } else if (functionToCall === 'normalize-programathor-skills') {
+    console.log(`[normalize-programathor-skills] Start`);
+    const allJobs = await JobOpportunityController.getAllJobsFromPlatform("PROGRAMATHOR");
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      console.log(`[normalize-programathor-skills] Updating job ${i + 1} of ${allJobsLength}`);
+      const skills = uniq(job?.skills?.split(',')?.map(cur => cur?.trim()));
+      const newSkills = skills?.map(cur => getProgramathorNormalizedSkill(cur));
+      await JobOpportunityController.updateSkills(job.uuid, newSkills?.join(','));
+    }
+    console.log(`[normalize-programathor-skills] End`);
   }
 
 }).catch(error => console.log(error))

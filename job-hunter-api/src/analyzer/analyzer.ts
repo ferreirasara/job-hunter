@@ -261,7 +261,7 @@ export const getSkillsBasedOnDescription = (job: { skills?: string[], descriptio
   if (stringContainsAny(description, SKILLS.WEB_HOOKS)) skills.push(JobSkills.WEB_HOOKS)
   if (stringContainsAny(description, SKILLS.WORDPRESS)) skills.push(JobSkills.WORDPRESS)
 
-  return uniq(skills);
+  return uniq(skills)?.sort((a, b) => a.localeCompare(b));
 }
 
 export const getBenefitsBasedOnDescription = (job: { benefits?: string[], description: string }) => {
@@ -290,46 +290,44 @@ export const getBenefitsBasedOnDescription = (job: { benefits?: string[], descri
   if (stringContainsAny(description, BENEFITS.STOCK_OPTIONS)) benefits.push(JobBenefits.STOCK_OPTIONS);
   if (stringContainsAny(description, BENEFITS.TRANSPORTATION_VOUCHER)) benefits.push(JobBenefits.TRANSPORTATION_VOUCHER);
 
-  return uniq(benefits);
+  return uniq(benefits)?.sort((a, b) => a.localeCompare(b));
 }
 
-export const normalizeProgramathorSkills = async () => {
-  const programathorJobs = await JobOpportunityController.getAllJobsFromPlatform("PROGRAMATHOR");
-  for (const job of programathorJobs) {
-    const newSkills = getSkillsBasedOnDescription({ description: job.skills })
-    await JobOpportunityController.updateSkills(job.uuid, newSkills?.join(','))
-  }
-}
+export const getProgramathorNormalizedSkill = (skill: string) => {
+  const allSkills = Object.keys(JobSkills);
+  if (allSkills?.includes(skill)) return skill;
 
-export const getNormalizedSkill = (skill: string) => {
-  switch (skill) {
-    case 'docker': return JobSkills.DEV_OPS;
-    case 'git': return JobSkills.CODE_VERSIONING;
-    case 'reactjs': return JobSkills.REACT;
-    case 'react native': return JobSkills.REACT_NATIVE;
-    case 'html': return JobSkills.HTML;
+  const lowerCaseSkill = skill?.toLowerCase();
+  switch (lowerCaseSkill) {
+    case 'angular': return JobSkills.ANGULAR;
+    case 'bootstrap': return JobSkills.CSS;
     case 'css': return JobSkills.CSS;
-    case 'sass': return JobSkills.SASS;
-    case 'javaScript': return JobSkills.JAVASCRIPT;
-    case 'vue.js': return JobSkills.VUE;
+    case 'docker': return JobSkills.DEV_OPS;
+    case 'flutter': return JobSkills.FLUTTER;
+    case 'git': return JobSkills.CODE_VERSIONING;
+    case 'google cloud': return JobSkills.DEV_OPS;
+    case 'graphql': return JobSkills.API;
+    case 'html': return JobSkills.HTML;
+    case 'ionic': return JobSkills.IONIC;
+    case 'mongodb': return JobSkills.DB;
     case 'nextjs': return JobSkills.NEXT;
     case 'node.js': return JobSkills.NODE;
-    // case 'SCRUM': return JobSkills.SCRUM;
+    case 'javaScript': return JobSkills.JAVASCRIPT;
+    case 'reactjs': return JobSkills.REACT;
+    case 'react native': return JobSkills.REACT_NATIVE;
+    case 'restful': return JobSkills.API;
+    case 'sass': return JobSkills.SASS;
+    case 'sql': return JobSkills.DB;
+    case 'styled - components': return JobSkills.STYLED_COMPONENTS;
     case 'typescript': return JobSkills.TYPESCRIPT;
     case 'vava': return JobSkills.JAVA;
-    // case 'Less': return JobSkills.LESS;
+    case 'vue.js': return JobSkills.VUE;
     case 'wordpress': return JobSkills.WORDPRESS;
-    case 'restful': return JobSkills.API;
-    case 'flutter': return JobSkills.FLUTTER;
-    case 'styled - components': return JobSkills.STYLED_COMPONENTS;
-    case 'ionic': return JobSkills.IONIC;
-    case 'angular': return JobSkills.ANGULAR;
-    case 'google cloud': return JobSkills.DEV_OPS;
-    case 'MongoDB': return JobSkills.DB;
-    // case 'JSON': return JobSkills.JSON;
-    case 'SQL': return JobSkills.DB;
 
-    default: return skill?.toUpperCase();
+    default: {
+      console.log(`[getProgramathorNormalizedSkill] Skill not founded: ${lowerCaseSkill}`)
+      return lowerCaseSkill?.toUpperCase();
+    }
   }
 }
 
