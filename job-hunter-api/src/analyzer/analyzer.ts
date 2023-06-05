@@ -331,7 +331,7 @@ export const getProgramathorNormalizedSkill = (skill: string) => {
   }
 }
 
-export const getJobRating = (job: { skills?: string[], benefits?: string[] }): { skillsRating: number, benefitsRating: number } => {
+export const getRatingsBasedOnSkillsAndBenefits = (job: { skills?: string[], benefits?: string[] }): { skillsRating: number, benefitsRating: number } => {
   let skillsRating = 0;
   let benefitsRating = 0;
 

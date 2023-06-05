@@ -22,7 +22,6 @@ export type JobInput = {
   type?: JobType
   skillsRating?: number
   benefitsRating?: number
-  totalRating?: number
 }
 
 type UpdateJobInput = {
@@ -76,7 +75,7 @@ export default class JobOpportunityController {
       newJob.type = jobInput.type;
       newJob.skillsRating = jobInput.skillsRating;
       newJob.benefitsRating = jobInput.benefitsRating;
-      newJob.totalRating = jobInput.totalRating;
+      newJob.totalRating = jobInput.skillsRating + jobInput.benefitsRating;
 
       try {
         const res = await AppDataSource.manager.save(newJob);

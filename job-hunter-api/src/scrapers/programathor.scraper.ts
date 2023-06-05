@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getProgramathorNormalizedSkill, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getProgramathorNormalizedSkill, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 
 type ProgramathorJob = {
   title: string,
@@ -72,6 +72,7 @@ export default class ProgramathorScraper extends ScraperInterface {
         const homeOffice = infoArray?.find(cur => cur?.toLowerCase()?.includes("home office"));
         const type: JobType = !!homeOffice ? "REMOTE" : "FACE_TO_FACE";
         const benefits = getBenefitsBasedOnDescription({ description });
+        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
 
         jobs?.push({
           title,
@@ -84,6 +85,8 @@ export default class ProgramathorScraper extends ScraperInterface {
           platform: this.platform,
           skills: skills?.join(', '),
           benefits: benefits?.join(', '),
+          benefitsRating,
+          skillsRating,
         });
       } catch (e) {
         this.logError(e);

@@ -1,5 +1,5 @@
 import { uniq } from "lodash";
-import { getBenefitsBasedOnDescription, getJobRating, getProgramathorNormalizedSkill, getSkillsBasedOnDescription } from "./analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getProgramathorNormalizedSkill, getSkillsBasedOnDescription } from "./analyzer/analyzer";
 import JobOpportunityController from "./controllers/JobOpportunity.controller";
 import { AppDataSource } from "./data-source";
 
@@ -40,7 +40,7 @@ AppDataSource.initialize().then(async () => {
       console.log(`[update-ratings] Updating job ${i + 1} of ${allJobsLength}`);
       const skills = uniq(job?.skills?.split(',')?.map(cur => cur?.trim()));
       const benefits = uniq(job?.benefits?.split(',')?.map(cur => cur?.trim()));
-      const newRating = getJobRating({ benefits, skills });
+      const newRating = getRatingsBasedOnSkillsAndBenefits({ benefits, skills });
       await JobOpportunityController.updateRatings(job.uuid, newRating);
     }
     console.log(`[update-ratings] End`);

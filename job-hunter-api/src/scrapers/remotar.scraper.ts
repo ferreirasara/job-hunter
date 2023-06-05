@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription } from "../analyzer/analyzer";
 import { uniq } from "lodash";
 
 const platform: JobPlatform = "REMOTAR"
@@ -58,6 +58,7 @@ export default class RemotarScraper extends ScraperInterface {
         const type: JobType = "REMOTE";
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
+        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
 
         jobs?.push({
           title,
@@ -69,6 +70,8 @@ export default class RemotarScraper extends ScraperInterface {
           platform: this.platform,
           skills: skills?.join(', '),
           benefits: benefits?.join(', '),
+          benefitsRating,
+          skillsRating,
         });
       } catch (e) {
         this.logError(e);
