@@ -1,19 +1,20 @@
-import { Button, List, Modal, Space, Typography } from "antd"
+import { Button, Descriptions, Drawer, List, Space, Typography } from "antd"
 import { JobsTableData } from "./JobsTable"
-import { setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons"
-import { Link } from "./Link"
-import { useState } from "react"
 import { renderMultipleTags } from "./renderMultipleTags"
+import { Link } from "./Link"
+import { DeleteOutlined, FormOutlined } from "@ant-design/icons"
+import { setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
+import { useState } from "react"
 
-type DetailsModalProps = {
+
+type DetailsDrawerProps = {
   open: boolean
   onCancel: () => void
   selectedJob?: JobsTableData
   fetchData: () => Promise<void>
 }
 
-export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: DetailsModalProps) => {
+export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: DetailsDrawerProps) => {
   const [appliedLoading, setAppliedLoading] = useState<boolean>(false);
   const [discardedLoading, setDiscardedLoading] = useState<boolean>(false);
   const descriptionSplit = selectedJob?.description?.split('\n');
@@ -35,13 +36,13 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
     onCancel();
   }
 
-  return <Modal
-    open={open}
-    onCancel={onCancel}
-    footer={null}
+  return <Drawer
     title={selectedJob?.title}
-    centered
-    bodyStyle={{ margin: "16px 0px" }}
+    placement="right"
+    onClose={onCancel}
+    open={open}
+    width={700}
+    bodyStyle={{ display: 'flex', flexDirection: 'column', height: '100%' }}
   >
     <List>
       <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>
@@ -53,9 +54,9 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
       {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
       {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
-      {selectedJob?.skillsRating ? <List.Item><strong>Rating Skills:</strong> {selectedJob?.skillsRating}</List.Item> : null}
-      {selectedJob?.benefitsRating ? <List.Item><strong>Rating Benefícios:</strong> {selectedJob?.benefitsRating}</List.Item> : null}
-      {selectedJob?.totalRating ? <List.Item><strong>Rating Total:</strong> {selectedJob?.totalRating}</List.Item> : null}
+      {(selectedJob?.skillsRating && selectedJob?.benefitsRating && selectedJob?.totalRating)
+        ? <List.Item><strong>Rating:</strong> Skills={selectedJob?.skillsRating} | Benefícios={selectedJob?.benefitsRating} | Total={selectedJob?.totalRating}</List.Item>
+        : null}
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>
         <Space>
@@ -80,6 +81,9 @@ export const DetailsModal = ({ onCancel, open, selectedJob, fetchData }: Details
         </Space>
       </List.Item>
     </List>
-    {description?.map(cur => <Typography.Paragraph>{cur}</Typography.Paragraph>)}
-  </Modal>
+    <Typography.Title level={2}>Descrição</Typography.Title>
+    <div style={{ flex: 1, overflowY: 'auto' }}>
+      {description?.map(cur => <Typography.Paragraph>{cur}</Typography.Paragraph>)}
+    </div>
+  </Drawer>
 }

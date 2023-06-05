@@ -2,12 +2,12 @@ import { Alert, Button, Divider, Space, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useCallback, useEffect, useState } from "react";
 import { formatDateHour, getJobsFromAPI } from "../utils/utils";
-import { DetailsModal } from "./DetailsModal";
 import { CheckSquareTwoTone, CloseSquareTwoTone, PlusOutlined, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { CreateJobModal } from "./CreateJobModal";
+import { DetailsDrawer } from "./DetailsDrawer";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -162,13 +162,13 @@ export const JobsTable = () => {
       width: 110,
       sorter: () => 0,
     },
-    {
-      title: "Faixa salarial",
-      dataIndex: 'salaryRange',
-      key: 'salaryRange',
-      width: 150,
-      sorter: () => 0,
-    },
+    // {
+    //   title: "Faixa salarial",
+    //   dataIndex: 'salaryRange',
+    //   key: 'salaryRange',
+    //   width: 150,
+    //   sorter: () => 0,
+    // },
     {
       title: "Skills",
       dataIndex: 'skills',
@@ -183,22 +183,23 @@ export const JobsTable = () => {
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
     },
+    // {
+    //   title: "Rating Skills",
+    //   dataIndex: 'skillsRating',
+    //   key: 'skillsRating',
+    //   sorter: () => 0,
+    // },
+    // {
+    //   title: "Rating Benefícios",
+    //   dataIndex: 'benefitsRating',
+    //   key: 'benefitsRating',
+    //   sorter: () => 0,
+    // },
     {
-      title: "Rating Skills",
-      dataIndex: 'skillsRating',
-      key: 'skillsRating',
-      sorter: () => 0,
-    },
-    {
-      title: "Rating Benefícios",
-      dataIndex: 'benefitsRating',
-      key: 'benefitsRating',
-      sorter: () => 0,
-    },
-    {
-      title: "Rating Total",
+      title: "Rating",
       dataIndex: 'totalRating',
       key: 'totalRating',
+      width: 90,
       sorter: () => 0,
     },
     {
@@ -275,15 +276,15 @@ export const JobsTable = () => {
         }}
       />
     </Space>
-    <DetailsModal
-      open={detailsModalOpen}
-      onCancel={handleCloseDetailsModal}
-      selectedJob={selectedJob}
-      fetchData={fetchData}
-    />
     <CreateJobModal
       open={createModalOpen}
       onCancel={() => setCreateModalOpen(false)}
+      fetchData={fetchData}
+    />
+    <DetailsDrawer
+      open={detailsModalOpen}
+      onCancel={handleCloseDetailsModal}
+      selectedJob={selectedJob}
       fetchData={fetchData}
     />
   </div>
