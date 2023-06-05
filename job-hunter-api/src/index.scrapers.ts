@@ -6,19 +6,22 @@ import TramposScraper from "./scrapers/trampos.scraper"
 import VagasScraper from "./scrapers/vagas.scraper";
 
 AppDataSource.initialize().then(async () => {
-  // const tramposScraper = new TramposScraper()
-  // await tramposScraper.saveJobs();
+  let numberOfNewJobs = 0;
 
-  // const gupyScraper = new GupyScraper()
-  // await gupyScraper.saveJobs();
+  const tramposScraper = new TramposScraper()
+  numberOfNewJobs = await tramposScraper.saveJobs();
 
-  // const programathorScraper = new ProgramathorScraper()
-  // await programathorScraper.saveJobs();
+  const gupyScraper = new GupyScraper()
+  numberOfNewJobs = await gupyScraper.saveJobs();
 
-  // const vagasScraper = new VagasScraper()
-  // await vagasScraper.saveJobs();
+  const programathorScraper = new ProgramathorScraper()
+  numberOfNewJobs = await programathorScraper.saveJobs();
+
+  const vagasScraper = new VagasScraper()
+  numberOfNewJobs = await vagasScraper.saveJobs();
 
   const remotarScraper = new RemotarScraper()
-  await remotarScraper.saveJobs();
+  numberOfNewJobs = await remotarScraper.saveJobs();
 
+  console.log(`Number of new jobs: ${numberOfNewJobs}`);
 }).catch(error => console.log(error))
