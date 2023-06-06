@@ -4,6 +4,7 @@ import { JobOpportunity } from "../entity/JobOpportunity"
 
 export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS" | "REMOTAR"
 export type JobType = "REMOTE" | "HYBRID" | "FACE_TO_FACE"
+export type HiringRegime = "CLT" | "PJ"
 export type JobInitialData = { url: string, idInPlatform: string }
 
 export type JobInput = {
@@ -20,6 +21,7 @@ export type JobInput = {
   benefits?: string
   salaryRange?: string
   type?: JobType
+  hiringRegime: HiringRegime
   skillsRating?: number
   benefitsRating?: number
 }
@@ -32,6 +34,7 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "company") return { company: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "title") return { title: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "type") return { type: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "hiringRegime") return { hiringRegime: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "salaryRange") return { salaryRange: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skills") return { skills: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "applied") return { applied: orderByOrder === "ascend" ? "ASC" : "DESC" }
@@ -89,11 +92,12 @@ export default class JobOpportunityController {
     platformFilter?: string,
     appliedFilter?: string,
     typeFilter?: string,
+    hiringRegimeFilter?: string,
     orderByField?: string,
     orderByOrder?: string,
     showDiscarded?: string
   }) {
-    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, showDiscarded } = args;
+    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, hiringRegimeFilter, showDiscarded } = args;
 
     const where: FindOptionsWhere<JobOpportunity> = {}
 
@@ -101,6 +105,7 @@ export default class JobOpportunityController {
     if (appliedFilter) where.applied = In(appliedFilter?.split(','));
     if (platformFilter) where.platform = In(platformFilter?.split(','));
     if (typeFilter) where.type = In(typeFilter?.split(','));
+    if (hiringRegimeFilter) where.hiringRegime = In(hiringRegimeFilter?.split(','));
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
       skip: page * limit,
@@ -118,8 +123,13 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity,);
+    const jobs = await AppDataSource.manager.find(JobOpportunity);
     return jobs;
+  }
+
+  public static async getJobByUuid(uuid: string) {
+    const job = await AppDataSource.manager.findOne(JobOpportunity, { where: { uuid } });
+    return job;
   }
 
   public static async updateApplied(uuid: string, applied: boolean) {
@@ -148,6 +158,16 @@ export default class JobOpportunityController {
       benefitsRating: rating.benefitsRating,
       totalRating: rating.skillsRating + rating.benefitsRating,
     });
+    return response?.affected > 0;
+  }
+
+  public static async updateType(uuid: string, type: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { type });
+    return response?.affected > 0;
+  }
+
+  public static async updateHiringRegime(uuid: string, hiringRegime: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { hiringRegime });
     return response?.affected > 0;
   }
 

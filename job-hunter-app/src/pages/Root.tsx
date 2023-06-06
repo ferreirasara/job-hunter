@@ -20,6 +20,7 @@ export const Root = () => {
 
   const [platformFilter, setPlatformFilter] = useState<string[]>();
   const [typeFilter, setTypeFilter] = useState<string[]>();
+  const [hiringRegimeFilter, setHiringRegimeFilter] = useState<string[]>();
   const [appliedFilter, setAppliedFilter] = useState<string[]>();
 
   const [orderBy, setOrderBy] = useState<OrderBy>();
@@ -37,6 +38,7 @@ export const Root = () => {
         platformFilter,
         appliedFilter,
         typeFilter,
+        hiringRegimeFilter,
         orderBy,
         showDiscarded,
       });
@@ -48,7 +50,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, showDiscarded])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showDiscarded])
 
   useEffect(() => {
     handleFetchData();
@@ -100,6 +102,7 @@ export const Root = () => {
         onChangeOrderBy={({ field, order }) => setOrderBy({ field, order })}
         onChangePlatformFilter={(filter) => setPlatformFilter(filter)}
         onChangeTypeFilter={(filter) => setTypeFilter(filter)}
+        onChangeHiringRegimeFilter={(filter) => setHiringRegimeFilter(filter)}
         onChangeAppliedFilter={(filter) => setAppliedFilter(filter)}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />

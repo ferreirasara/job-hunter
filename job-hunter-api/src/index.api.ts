@@ -27,6 +27,7 @@ AppDataSource.initialize().then(async () => {
     const platformFilter = params.get('platformFilter');
     const appliedFilter = params.get('appliedFilter');
     const typeFilter = params.get('typeFilter');
+    const hiringRegimeFilter = params.get('hiringRegimeFilter');
     const showDiscarded = params.get('showDiscarded');
     const orderByField = params.get('orderByField');
     const orderByOrder = params.get('orderByOrder');
@@ -44,6 +45,7 @@ AppDataSource.initialize().then(async () => {
       platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,
       appliedFilter: appliedFilter ? decodeURI(appliedFilter) : undefined,
       typeFilter: typeFilter ? decodeURI(typeFilter) : undefined,
+      hiringRegimeFilter: hiringRegimeFilter ? decodeURI(hiringRegimeFilter) : undefined,
       showDiscarded: showDiscarded ? decodeURI(showDiscarded) : undefined,
       orderByField: orderByField ? decodeURI(orderByField) : undefined,
       orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
@@ -78,6 +80,7 @@ AppDataSource.initialize().then(async () => {
       skills: body?.skills,
       state: body?.state,
       type: body?.type,
+      hiringRegime: body.hiringRegime,
     })
     res.send(result);
   })

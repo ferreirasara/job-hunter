@@ -8,6 +8,7 @@
     "start:api": "ts-node src/index.api.ts",
     "start:scrapers": "ts-node src/index.scrapers.ts",
     "start:analyzer": "ts-node src/index.analyzer.ts",
+    "update-jobs": "npm run start:analyzer update-benefits && npm run start:analyzer update-ratings && npm run start:analyzer update-type && npm run start:analyzer update-hiring-regime",
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "author": "Sara Ferreira",

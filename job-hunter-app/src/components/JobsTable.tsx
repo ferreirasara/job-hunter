@@ -18,6 +18,10 @@ export enum JobType {
   HYBRID = "HYBRID",
   FACE_TO_FACE = "FACE_TO_FACE",
 }
+enum JobHiringRegime {
+  PJ = "PJ",
+  CLT = "CLT",
+}
 
 export type JobsTableData = {
   uuid: string
@@ -34,6 +38,7 @@ export type JobsTableData = {
   discarded: boolean
   createdAt: Date
   type: JobType
+  hiringRegime: JobHiringRegime
   salaryRange: string
   skills: string
   benefits: string
@@ -61,6 +66,7 @@ type JobsTableProps = {
   onChangePlatformFilter: (filter: string[]) => void
   onChangeAppliedFilter: (filter: string[]) => void
   onChangeTypeFilter: (filter: string[]) => void
+  onChangeHiringRegimeFilter: (filter: string[]) => void
   handleSeeDetails: (uuid: string) => void
 }
 
@@ -76,10 +82,12 @@ export const JobsTable = ({
   onChangePlatformFilter,
   onChangeAppliedFilter,
   onChangeTypeFilter,
+  onChangeHiringRegimeFilter,
   handleSeeDetails,
 }: JobsTableProps) => {
   const platformOptions = Object.keys(Platform);
   const typeOptions = Object.keys(JobType);
+  const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const columns: ColumnsType<JobsTableData> = [
     {
       title: "Criada em",
@@ -127,6 +135,15 @@ export const JobsTable = ({
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       width: 110,
+      sorter: () => 0,
+    },
+    {
+      title: "Contratação",
+      dataIndex: 'hiringRegime',
+      key: 'hiringRegime',
+      filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+      width: 130,
       sorter: () => 0,
     },
     {
@@ -190,15 +207,12 @@ export const JobsTable = ({
     }}
     onChange={(pagination, filters, sorter) => {
       const sorter2 = sorter && castArray(sorter)[0];
-      // if (sorter) setOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
       if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
-      // setPlatformFilter(filters?.platform as string[]);
       onChangePlatformFilter(filters?.platform as string[]);
-      // setAppliedFilter(filters?.applied as string[]);
       onChangeAppliedFilter(filters?.applied as string[]);
-      // setTypeFilter(filters?.type as string[]);
       onChangeTypeFilter(filters?.type as string[]);
+      onChangeHiringRegimeFilter(filters?.hiringRegime as string[]);
     }}
   />
 }

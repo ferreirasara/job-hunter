@@ -44,18 +44,20 @@ export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: Detail
     width={700}
     bodyStyle={{ display: 'flex', flexDirection: 'column', height: '100%' }}
   >
-    <List>
+    <List size="small">
       <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>
+      {selectedJob?.platform ? <List.Item><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</List.Item> : null}
       {selectedJob?.company ? <List.Item><strong>Empresa:</strong> {selectedJob?.company}</List.Item> : null}
       {selectedJob?.country ? <List.Item><strong>País:</strong> {selectedJob?.country}</List.Item> : null}
       {selectedJob?.state ? <List.Item><strong>Estado:</strong> {selectedJob?.state}</List.Item> : null}
       {selectedJob?.city ? <List.Item><strong>Cidade:</strong> {selectedJob?.city}</List.Item> : null}
       {selectedJob?.type ? <List.Item><strong>Tipo:</strong> {selectedJob?.type}</List.Item> : null}
+      {selectedJob?.hiringRegime ? <List.Item><strong>Regime de contratação:</strong> {selectedJob?.hiringRegime}</List.Item> : null}
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
       {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
       {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
-      {(selectedJob?.skillsRating && selectedJob?.benefitsRating && selectedJob?.totalRating)
-        ? <List.Item><strong>Rating:</strong> Skills={selectedJob?.skillsRating} | Benefícios={selectedJob?.benefitsRating} | Total={selectedJob?.totalRating}</List.Item>
+      {(selectedJob?.skillsRating?.toString() || selectedJob?.benefitsRating?.toString() || selectedJob?.totalRating?.toString())
+        ? <List.Item><strong>Rating:</strong> Skills={selectedJob?.skillsRating || 0} | Benefícios={selectedJob?.benefitsRating || 0} | Total={selectedJob?.totalRating || 0}</List.Item>
         : null}
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>

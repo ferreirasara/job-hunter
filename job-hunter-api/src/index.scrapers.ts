@@ -9,19 +9,19 @@ AppDataSource.initialize().then(async () => {
   let numberOfNewJobs = 0;
 
   const tramposScraper = new TramposScraper()
-  numberOfNewJobs = await tramposScraper.saveJobs();
+  numberOfNewJobs += await tramposScraper.saveJobs();
 
   const gupyScraper = new GupyScraper()
-  numberOfNewJobs = await gupyScraper.saveJobs();
+  numberOfNewJobs += await gupyScraper.saveJobs();
 
   const programathorScraper = new ProgramathorScraper()
-  numberOfNewJobs = await programathorScraper.saveJobs();
+  numberOfNewJobs += await programathorScraper.saveJobs();
 
   const vagasScraper = new VagasScraper()
-  numberOfNewJobs = await vagasScraper.saveJobs();
+  numberOfNewJobs += await vagasScraper.saveJobs();
 
   const remotarScraper = new RemotarScraper()
-  numberOfNewJobs = await remotarScraper.saveJobs();
+  numberOfNewJobs += await remotarScraper.saveJobs();
 
   console.log(`Number of new jobs: ${numberOfNewJobs}`);
 }).catch(error => console.log(error))

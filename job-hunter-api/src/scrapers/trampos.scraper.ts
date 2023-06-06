@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobType, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 const platform: JobPlatform = "TRAMPOS"
 
@@ -58,7 +58,7 @@ export default class TramposScraper extends ScraperInterface {
         const address: string = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[1]);
         const description = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
         const salaryRange = await page?.$eval('div.value > span.blog-description', (el) => el?.innerText);
-        const type = this.getType(address);
+        const type = this.getType(address, description);
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
         const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
@@ -88,10 +88,10 @@ export default class TramposScraper extends ScraperInterface {
     return jobs;
   }
 
-  private getType(address: string): JobType {
+  private getType(address: string, description: string): JobType {
     if (address?.toLowerCase()?.includes('home office')) return "REMOTE";
     if (address?.toLowerCase()?.includes('remoto')) return "REMOTE";
     if (address?.toLowerCase()?.includes('hibrido')) return "HYBRID";
-    return "FACE_TO_FACE";
+    return getTypeBasedOnDescription({ description });
   }
 }

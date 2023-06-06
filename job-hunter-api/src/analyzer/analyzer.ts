@@ -1,13 +1,12 @@
 import { uniq } from "lodash";
 import { stringContainsAny } from "../utils/utils";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
 
-const SKILLS = {
-  AGILE: [/agile/i, /scrum/i, /kanban/i, /pair programming/i, /tdd/i, /clean architectures/i],
+const SKILLS_REGEX = {
+  AGILE: [/agile/i, /scrum/i, /kanban/i, /pair programming/i, /tdd/i, /clean architectures/i, /metodologias ágeis/i, /metodologias ageis/i],
   ANGULAR: [/angular/i],
   AJAX: [/ajax/i],
   API: [/rest api/i, /apis restful/i, /api restful/i, /api/i, /apis rest/i, /soap/i, /graphql/],
-  BACHELORS_DEGREE: [/bachelor's degree/i, /computer science/i, /bacharelado/i, /ciência da computação/i],
+  BACHELORS_DEGREE: [/bachelor's degree/i, /computer science/i, /bacharelado/i, /ciência da computação/i, /graduado/i, /ensino superior/i, /formação superior/i],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CODE_VERSIONING: [/git/i, /gitlab/i, /git lab/i, /github/i, /bitbucket/i, /svn/i, /controle de versionamento/i],
   CPLUSPLUS: [/c\+\+/i],
@@ -15,42 +14,48 @@ const SKILLS = {
   CSS: [/css/i, /scss/i, /css3/i],
   DART: [/dart/i],
   DB: [/banco de dados/i, /mongodb/i, /sql/i, /sql server/i, /postgres/i, /mysql/i, /firebase/i, /redis/i, /no sql/i, /nosql/i, /orm/i],
-  DEV_OPS: [/docker/i, /aws/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /ci\/cd/i, /ci-cd/i, /cloud/i, /containers/i],
-  DOT_NET: [/.net/i],
+  DEV_OPS: [/docker/i, /aws/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /ci\/cd/i, /ci-cd/i, /cloud/i, /containers/i, /devops/i],
+  DOT_NET: [/\.net/i],
   ECOMMERCE: [/shopfy/i, /linx/i, /traycorp/i, /tray/i],
   ENGLISH: [/ingles/i, /english/i, /inglês/i],
   FIGMA: [/figma/i],
   FLUTTER: [/flutter/i],
   FULL_STACK: [/full stack/i, /full-stack/i],
+  GOLANG: [/golang/i],
   HTML: [/html/i, /html5/i],
   IONIC: [/ionic/i],
-  JAVA: [/java/i],
+  JAVA: [/\bjava\b/i],
   JAVASCRIPT: [/javascript/i, /java script/i, /js/i, /es6/i],
   JQUERY: [/jquery/i],
+  KOTLIN: [/kotlin/i],
   LINUX: [/linux/i],
+  MACHINE_LEARNING: [/machine learning/i],
   NEXT: [/next/i, /next.js/i, /nextjs/i],
   NUXT: [/nuxt/i, /nuxt.js/i, /nuxtjs/i],
   NODE: [/node/i, /node.js/i, /nodejs/i],
   PHP: [/php/i, /laravel/i, /symfony/i],
-  PYTHON: [/python/i],
+  POWER_BI: [/power bi/i],
+  PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
   REACT: [/react/i, /react.js/i, /reactjs/i, /react js/i],
   REACT_NATIVE: [/react native/i, /react-native/i],
-  RESPONSIVE_DESIGN: [/design responsivo/i, /sites responsivos/i],
+  RESPONSIVE_DESIGN: [/design responsivo/i, /sites responsivos/i, /responsividade/i],
   RUBY: [/ruby/i, /ruby on rails/i],
   SASS: [/sass/i],
+  SCALA: [/scala/i],
   STATE_MANAGEMENT: [/redux/i, /mobx/i, /state management/i],
   STORYBOOK: [/storybook/i],
   STYLED_COMPONENTS: [/styled components/i, /styled-components/i],
+  SWIFT: [/swift/i],
   TAILWIND: [/tailwindcss/i, /tailwind css/i],
-  TEST: [/jest/i, /cypress/i, /tdd/i, /e2e/i, /testes unitarios/i, /testes automatizados/i, /de integração/i, /teste de software/i],
+  TEST: [/jest/i, /cypress/i, /tdd/i, /e2e/i, /testes unitarios/i, /testes unitários/i, /testes automatizados/i, /de integração/i, /teste de software/i, /testes/i, /testes funcionais automatizados/i, /teste e depuração/i, /testes de unidade/i, /testes de performance/i],
   TYPESCRIPT: [/typescript/i, /type script/i, /ts/i],
   VANILLA: [/javascript vanilla/i, /vanilla/i, /vanillajs/i, /vanilla js/i],
   VUE: [/vue/i, /vue.js/i, /vuejs/i, /vue js/i],
   WEB_HOOKS: [/webhooks/i, /web hooks/i],
   WORDPRESS: [/wordpress/i],
 }
-enum JobSkills {
+enum JobSkill {
   AGILE = "AGILE",
   ANGULAR = "ANGULAR",
   AJAX = "AJAX",
@@ -70,16 +75,20 @@ enum JobSkills {
   FIGMA = "FIGMA",
   FLUTTER = "FLUTTER",
   FULL_STACK = "FULL_STACK",
+  GOLANG = "GOLANG",
   HTML = "HTML",
   IONIC = "IONIC",
   JAVA = "JAVA",
   JAVASCRIPT = "JAVASCRIPT",
   JQUERY = "JQUERY",
+  KOTLIN = "KOTLIN",
   LINUX = "LINUX",
+  MACHINE_LEARNING = "MACHINE_LEARNING",
   NEXT = "NEXT",
   NUXT = "NUXT",
   NODE = "NODE",
   PHP = "PHP",
+  POWER_BI = "POWER_BI",
   PYTHON = "PYTHON",
   PWA = "PWA",
   REACT = "REACT",
@@ -87,9 +96,11 @@ enum JobSkills {
   RESPONSIVE_DESIGN = "RESPONSIVE_DESIGN",
   RUBY = "RUBY",
   SASS = "SASS",
+  SCALA = "SCALA",
   STATE_MANAGEMENT = "STATE_MANAGEMENT",
   STORYBOOK = "STORYBOOK",
   STYLED_COMPONENTS = "STYLED_COMPONENTS",
+  SWIFT = "SWIFT",
   TAILWIND = "TAILWIND",
   TEST = "TEST",
   TYPESCRIPT = "TYPESCRIPT",
@@ -118,16 +129,20 @@ const SKILL_RATING = {
   "FIGMA": 1,
   "FLUTTER": -1,
   "FULL_STACK": 0,
+  "GOLANG": -1,
   "HTML": 1,
   "IONIC": -1,
   "JAVA": -1,
   "JAVASCRIPT": 1,
   "JQUERY": -1,
+  "KOTLIN": -1,
   "LINUX": 0,
+  "MACHINE_LEARNING": -1,
   "NEXT": 1,
   "NUXT": -1,
   "NODE": 1,
   "PHP": -1,
+  "POWER_BI": -1,
   "PYTHON": 0,
   "PWA": 0,
   "REACT": 1,
@@ -135,9 +150,11 @@ const SKILL_RATING = {
   "RESPONSIVE_DESIGN": 1,
   "RUBY": -1,
   "SASS": 1,
+  "SCALA": -1,
   "STATE_MANAGEMENT": 1,
   "STORYBOOK": 1,
   "STYLED_COMPONENTS": 1,
+  "SWIFT": -1,
   "TAILWIND": 0,
   "TEST": 1,
   "TYPESCRIPT": 1,
@@ -147,31 +164,27 @@ const SKILL_RATING = {
   "WORDPRESS": -1,
 }
 
-const BENEFITS = {
-  ANUAL_BONUS: [/bônus anual/i, /bonus per year/i],
+const BENEFITS_REGEX = {
+  ANUAL_BONUS: [/bônus anual/i, /bonus per year/i, /bonificação anual/i],
   BIRTHDAY_DAYOFF: [/day off de aniversário/i, /day off/i, /dia de folga na semana do seu aniversário/i],
-  CLT: [/clt/i],
-  COURSE_HELP: [/curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitação/i, /alura/i, /acesso a cursos/i, /curso de/i],
+  COURSE_HELP: [/curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitação/i, /alura/i, /acesso a cursos/i, /curso de/i, /aquisição de livros e cursos/i],
   DENTAL_PLAN: [/plano odontológico/i, /convênio odontológico/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /dental/i, /assistência odontológica/i],
   FLEXIBLE_HOURS: [/horários flexíveis/i, /horário flexível/i, /flexible hours/i, /flexibilidade de horário/i],
-  GYMPASS: [/gympass/i, /academia/i, /gym pass/i],
-  HEALTH_PLAN: [/plano de saúde/i, /convênio saúde/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /health care/i, /assistência médica/i],
-  HOME_OFFICE: [/home office/i, /remoto/i, /trabalhar de casa/i, /remote/i],
-  HOME_OFFICE_VOUCHER: [/auxílio home office/i, /subsídio para trabalho remoto/i],
+  GYMPASS: [/gympass/i, /academia/i, /gym pass/i, /auxílio academia/i, /totalpass/i],
+  HEALTH_PLAN: [/plano de saúde/i, /convênio saúde/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /health care/i, /assistência médica/i, /convênio médico/i],
+  HOME_OFFICE_VOUCHER: [/auxílio home office/i, /subsídio para trabalho remoto/i, /auxílio home-office/i, /auxílio para atuação em home office/i],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
   MEAL_VOUCHER: [/alimentação/i, /refeição/i, /caju/i, /va/i, /vr/i, /flex food/i],
-  PAID_VACATIONS: [/férias remuneradas/i, /férias anuais remuneradas/i],
-  PJ: [/pj/i],
+  PAID_VACATIONS: [/férias remuneradas/i, /férias anuais remuneradas/i, /descanso anual/i, /descanso remunerado/i],
   PRIVATE_PENSION: [/previdência privada/i],
-  PSYCHOLOGICAL_HELP: [/auxílio psicológico/i, /apoio psicológico/i, /mental health/i, /apoio à saúde mental/i],
+  PSYCHOLOGICAL_HELP: [/auxílio psicológico/i, /apoio psicológico/i, /mental health/i, /apoio à saúde mental/i, /cuidado com saúde mental/i],
   REFERRAL_BONUS: [/bônus indicação/i, /program of indication/i, /indicação premiada/i],
   STOCK_OPTIONS: [/stock options/i],
   TRANSPORTATION_VOUCHER: [/vale transporte/i],
 }
-enum JobBenefits {
+enum JobBenefit {
   ANUAL_BONUS = "ANUAL_BONUS",
   BIRTHDAY_DAYOFF = "BIRTHDAY_DAYOFF",
-  CLT = "CLT",
   COURSE_HELP = "COURSE_HELP",
   DENTAL_PLAN = "DENTAL_PLAN",
   FLEXIBLE_HOURS = "FLEXIBLE_HOURS",
@@ -182,7 +195,6 @@ enum JobBenefits {
   LIFE_INSURANCE = "LIFE_INSURANCE",
   MEAL_VOUCHER = "MEAL_VOUCHER",
   PAID_VACATIONS = "PAID_VACATIONS",
-  PJ = "PJ",
   PRIVATE_PENSION = "PRIVATE_PENSION",
   PSYCHOLOGICAL_HELP = "PSYCHOLOGICAL_HELP",
   REFERRAL_BONUS = "REFERRAL_BONUS",
@@ -192,7 +204,6 @@ enum JobBenefits {
 const BENEFITS_RATING = {
   "ANUAL_BONUS": 0,
   "BIRTHDAY_DAYOFF": 0,
-  "CLT": 1,
   "COURSE_HELP": 0,
   "DENTAL_PLAN": 0,
   "FLEXIBLE_HOURS": 1,
@@ -203,7 +214,6 @@ const BENEFITS_RATING = {
   "LIFE_INSURANCE": 0,
   "MEAL_VOUCHER": 1,
   "PAID_VACATIONS": 0,
-  "PJ": 0,
   "PRIVATE_PENSION": 0,
   "PSYCHOLOGICAL_HELP": 0,
   "REFERRAL_BONUS": 0,
@@ -211,118 +221,143 @@ const BENEFITS_RATING = {
   "TRANSPORTATION_VOUCHER": 0,
 }
 
-export const getSkillsBasedOnDescription = (job: { skills?: string[], description: string }) => {
+const HIRING_REGIMES_REGEX = {
+  CLT: [/\bclt\b/i],
+  PJ: [/\bpj\b/i, /\bpessoa juridica\b/i, /\bpessoa jurídica\b/i],
+}
+enum JobHiringRegime {
+  PJ = "PJ",
+  CLT = "CLT",
+}
+
+const TYPES_REGEX = {
+  REMOTE: [/\bhome office\b/i, /\bremoto\b/i, /\btrabalhar de casa\b/i, /\bremote\b/i, /\bremota\b/i],
+  HYBRID: [/\bhíbrido\b/i, /hibrido\b/i, /hybrid\b/i],
+  FACE_TO_FACE: [/\bpresencial\b/i],
+}
+enum JobType {
+  REMOTE = "REMOTE",
+  HYBRID = "HYBRID",
+  FACE_TO_FACE = "FACE_TO_FACE",
+}
+
+export const getSkillsBasedOnDescription = (job: { skills?: string[], description: string }): JobSkill[] => {
   const existentSkills = job.skills;
   const description = job.description;
 
-  const skills: JobSkills[] = existentSkills?.length ? [...existentSkills as JobSkills[]] : [];
+  const skills: JobSkill[] = existentSkills?.length ? [...existentSkills as JobSkill[]] : [];
 
-  if (stringContainsAny(description, SKILLS.API)) skills.push(JobSkills.API);
-  if (stringContainsAny(description, SKILLS.ANGULAR)) skills.push(JobSkills.ANGULAR)
-  if (stringContainsAny(description, SKILLS.AJAX)) skills.push(JobSkills.AJAX)
-  if (stringContainsAny(description, SKILLS.API)) skills.push(JobSkills.API)
-  if (stringContainsAny(description, SKILLS.CODE_MAINTAINABILITY)) skills.push(JobSkills.CODE_MAINTAINABILITY)
-  if (stringContainsAny(description, SKILLS.CSHARP)) skills.push(JobSkills.CSHARP)
-  if (stringContainsAny(description, SKILLS.CPLUSPLUS)) skills.push(JobSkills.CPLUSPLUS)
-  if (stringContainsAny(description, SKILLS.CSS)) skills.push(JobSkills.CSS)
-  if (stringContainsAny(description, SKILLS.DB)) skills.push(JobSkills.DB)
-  if (stringContainsAny(description, SKILLS.DEV_OPS)) skills.push(JobSkills.DEV_OPS)
-  if (stringContainsAny(description, SKILLS.DOT_NET)) skills.push(JobSkills.DOT_NET)
-  if (stringContainsAny(description, SKILLS.ECOMMERCE)) skills.push(JobSkills.ECOMMERCE)
-  if (stringContainsAny(description, SKILLS.ENGLISH)) skills.push(JobSkills.ENGLISH)
-  if (stringContainsAny(description, SKILLS.FIGMA)) skills.push(JobSkills.FIGMA)
-  if (stringContainsAny(description, SKILLS.FLUTTER)) skills.push(JobSkills.FLUTTER)
-  if (stringContainsAny(description, SKILLS.CODE_VERSIONING)) skills.push(JobSkills.CODE_VERSIONING)
-  if (stringContainsAny(description, SKILLS.HTML)) skills.push(JobSkills.HTML)
-  if (stringContainsAny(description, SKILLS.IONIC)) skills.push(JobSkills.IONIC)
-  if (stringContainsAny(description, SKILLS.JAVA)) skills.push(JobSkills.JAVA)
-  if (stringContainsAny(description, SKILLS.JAVASCRIPT)) skills.push(JobSkills.JAVASCRIPT)
-  if (stringContainsAny(description, SKILLS.JQUERY)) skills.push(JobSkills.JQUERY)
-  if (stringContainsAny(description, SKILLS.LINUX)) skills.push(JobSkills.LINUX)
-  if (stringContainsAny(description, SKILLS.NEXT)) skills.push(JobSkills.NEXT)
-  if (stringContainsAny(description, SKILLS.NUXT)) skills.push(JobSkills.NUXT)
-  if (stringContainsAny(description, SKILLS.NODE)) skills.push(JobSkills.NODE)
-  if (stringContainsAny(description, SKILLS.PHP)) skills.push(JobSkills.PHP)
-  if (stringContainsAny(description, SKILLS.PYTHON)) skills.push(JobSkills.PYTHON)
-  if (stringContainsAny(description, SKILLS.PWA)) skills.push(JobSkills.PWA)
-  if (stringContainsAny(description, SKILLS.REACT)) skills.push(JobSkills.REACT)
-  if (stringContainsAny(description, SKILLS.REACT_NATIVE)) skills.push(JobSkills.REACT_NATIVE)
-  if (stringContainsAny(description, SKILLS.RESPONSIVE_DESIGN)) skills.push(JobSkills.RESPONSIVE_DESIGN)
-  if (stringContainsAny(description, SKILLS.RUBY)) skills.push(JobSkills.RUBY)
-  if (stringContainsAny(description, SKILLS.SASS)) skills.push(JobSkills.SASS)
-  if (stringContainsAny(description, SKILLS.STATE_MANAGEMENT)) skills.push(JobSkills.STATE_MANAGEMENT)
-  if (stringContainsAny(description, SKILLS.STORYBOOK)) skills.push(JobSkills.STORYBOOK)
-  if (stringContainsAny(description, SKILLS.STYLED_COMPONENTS)) skills.push(JobSkills.STYLED_COMPONENTS)
-  if (stringContainsAny(description, SKILLS.TAILWIND)) skills.push(JobSkills.TAILWIND)
-  if (stringContainsAny(description, SKILLS.TEST)) skills.push(JobSkills.TEST)
-  if (stringContainsAny(description, SKILLS.TYPESCRIPT)) skills.push(JobSkills.TYPESCRIPT)
-  if (stringContainsAny(description, SKILLS.VANILLA)) skills.push(JobSkills.VANILLA)
-  if (stringContainsAny(description, SKILLS.VUE)) skills.push(JobSkills.VUE)
-  if (stringContainsAny(description, SKILLS.WEB_HOOKS)) skills.push(JobSkills.WEB_HOOKS)
-  if (stringContainsAny(description, SKILLS.WORDPRESS)) skills.push(JobSkills.WORDPRESS)
+  if (stringContainsAny(description, SKILLS_REGEX.AGILE)) skills.push(JobSkill.AGILE);
+  if (stringContainsAny(description, SKILLS_REGEX.ANGULAR)) skills.push(JobSkill.ANGULAR);
+  if (stringContainsAny(description, SKILLS_REGEX.AJAX)) skills.push(JobSkill.AJAX);
+  if (stringContainsAny(description, SKILLS_REGEX.API)) skills.push(JobSkill.API);
+  if (stringContainsAny(description, SKILLS_REGEX.BACHELORS_DEGREE)) skills.push(JobSkill.BACHELORS_DEGREE);
+  if (stringContainsAny(description, SKILLS_REGEX.CODE_MAINTAINABILITY)) skills.push(JobSkill.CODE_MAINTAINABILITY);
+  if (stringContainsAny(description, SKILLS_REGEX.CODE_VERSIONING)) skills.push(JobSkill.CODE_VERSIONING);
+  if (stringContainsAny(description, SKILLS_REGEX.CPLUSPLUS)) skills.push(JobSkill.CPLUSPLUS);
+  if (stringContainsAny(description, SKILLS_REGEX.CSS)) skills.push(JobSkill.CSS);
+  if (stringContainsAny(description, SKILLS_REGEX.CSHARP)) skills.push(JobSkill.CSHARP);
+  if (stringContainsAny(description, SKILLS_REGEX.DART)) skills.push(JobSkill.DART);
+  if (stringContainsAny(description, SKILLS_REGEX.DB)) skills.push(JobSkill.DB);
+  if (stringContainsAny(description, SKILLS_REGEX.DEV_OPS)) skills.push(JobSkill.DEV_OPS);
+  if (stringContainsAny(description, SKILLS_REGEX.DOT_NET)) skills.push(JobSkill.DOT_NET);
+  if (stringContainsAny(description, SKILLS_REGEX.ECOMMERCE)) skills.push(JobSkill.ECOMMERCE);
+  if (stringContainsAny(description, SKILLS_REGEX.ENGLISH)) skills.push(JobSkill.ENGLISH);
+  if (stringContainsAny(description, SKILLS_REGEX.FIGMA)) skills.push(JobSkill.FIGMA);
+  if (stringContainsAny(description, SKILLS_REGEX.FLUTTER)) skills.push(JobSkill.FLUTTER);
+  if (stringContainsAny(description, SKILLS_REGEX.FULL_STACK)) skills.push(JobSkill.FULL_STACK);
+  if (stringContainsAny(description, SKILLS_REGEX.HTML)) skills.push(JobSkill.HTML);
+  if (stringContainsAny(description, SKILLS_REGEX.GOLANG)) skills.push(JobSkill.GOLANG);
+  if (stringContainsAny(description, SKILLS_REGEX.IONIC)) skills.push(JobSkill.IONIC);
+  if (stringContainsAny(description, SKILLS_REGEX.JAVA)) skills.push(JobSkill.JAVA);
+  if (stringContainsAny(description, SKILLS_REGEX.JAVASCRIPT)) skills.push(JobSkill.JAVASCRIPT);
+  if (stringContainsAny(description, SKILLS_REGEX.JQUERY)) skills.push(JobSkill.JQUERY);
+  if (stringContainsAny(description, SKILLS_REGEX.KOTLIN)) skills.push(JobSkill.KOTLIN);
+  if (stringContainsAny(description, SKILLS_REGEX.LINUX)) skills.push(JobSkill.LINUX);
+  if (stringContainsAny(description, SKILLS_REGEX.NEXT)) skills.push(JobSkill.NEXT);
+  if (stringContainsAny(description, SKILLS_REGEX.NUXT)) skills.push(JobSkill.NUXT);
+  if (stringContainsAny(description, SKILLS_REGEX.NODE)) skills.push(JobSkill.NODE);
+  if (stringContainsAny(description, SKILLS_REGEX.PHP)) skills.push(JobSkill.PHP);
+  if (stringContainsAny(description, SKILLS_REGEX.POWER_BI)) skills.push(JobSkill.POWER_BI);
+  if (stringContainsAny(description, SKILLS_REGEX.PYTHON)) skills.push(JobSkill.PYTHON);
+  if (stringContainsAny(description, SKILLS_REGEX.PWA)) skills.push(JobSkill.PWA);
+  if (stringContainsAny(description, SKILLS_REGEX.REACT)) skills.push(JobSkill.REACT);
+  if (stringContainsAny(description, SKILLS_REGEX.REACT_NATIVE)) skills.push(JobSkill.REACT_NATIVE);
+  if (stringContainsAny(description, SKILLS_REGEX.RESPONSIVE_DESIGN)) skills.push(JobSkill.RESPONSIVE_DESIGN);
+  if (stringContainsAny(description, SKILLS_REGEX.RUBY)) skills.push(JobSkill.RUBY);
+  if (stringContainsAny(description, SKILLS_REGEX.SASS)) skills.push(JobSkill.SASS);
+  if (stringContainsAny(description, SKILLS_REGEX.SCALA)) skills.push(JobSkill.SCALA);
+  if (stringContainsAny(description, SKILLS_REGEX.STATE_MANAGEMENT)) skills.push(JobSkill.STATE_MANAGEMENT);
+  if (stringContainsAny(description, SKILLS_REGEX.STORYBOOK)) skills.push(JobSkill.STORYBOOK);
+  if (stringContainsAny(description, SKILLS_REGEX.STYLED_COMPONENTS)) skills.push(JobSkill.STYLED_COMPONENTS);
+  if (stringContainsAny(description, SKILLS_REGEX.SWIFT)) skills.push(JobSkill.SWIFT);
+  if (stringContainsAny(description, SKILLS_REGEX.TAILWIND)) skills.push(JobSkill.TAILWIND);
+  if (stringContainsAny(description, SKILLS_REGEX.TEST)) skills.push(JobSkill.TEST);
+  if (stringContainsAny(description, SKILLS_REGEX.TYPESCRIPT)) skills.push(JobSkill.TYPESCRIPT);
+  if (stringContainsAny(description, SKILLS_REGEX.VANILLA)) skills.push(JobSkill.VANILLA);
+  if (stringContainsAny(description, SKILLS_REGEX.VUE)) skills.push(JobSkill.VUE);
+  if (stringContainsAny(description, SKILLS_REGEX.WEB_HOOKS)) skills.push(JobSkill.WEB_HOOKS);
+  if (stringContainsAny(description, SKILLS_REGEX.WORDPRESS)) skills.push(JobSkill.WORDPRESS);
 
   return uniq(skills)?.sort((a, b) => a.localeCompare(b));
 }
 
-export const getBenefitsBasedOnDescription = (job: { benefits?: string[], description: string }) => {
+export const getBenefitsBasedOnDescription = (job: { benefits?: string[], description: string }): JobBenefit[] => {
   const existentBenefits = job.benefits;
   const description = job.description;
 
-  const benefits: JobBenefits[] = existentBenefits?.length ? [...existentBenefits as JobBenefits[]] : [];
+  const benefits: JobBenefit[] = existentBenefits?.length ? [...existentBenefits as JobBenefit[]] : [];
 
-  if (stringContainsAny(description, BENEFITS.ANUAL_BONUS)) benefits.push(JobBenefits.ANUAL_BONUS);
-  if (stringContainsAny(description, BENEFITS.BIRTHDAY_DAYOFF)) benefits.push(JobBenefits.BIRTHDAY_DAYOFF);
-  if (stringContainsAny(description, BENEFITS.CLT)) benefits.push(JobBenefits.CLT);
-  if (stringContainsAny(description, BENEFITS.COURSE_HELP)) benefits.push(JobBenefits.COURSE_HELP);
-  if (stringContainsAny(description, BENEFITS.DENTAL_PLAN)) benefits.push(JobBenefits.DENTAL_PLAN);
-  if (stringContainsAny(description, BENEFITS.FLEXIBLE_HOURS)) benefits.push(JobBenefits.FLEXIBLE_HOURS);
-  if (stringContainsAny(description, BENEFITS.GYMPASS)) benefits.push(JobBenefits.GYMPASS);
-  if (stringContainsAny(description, BENEFITS.HEALTH_PLAN)) benefits.push(JobBenefits.HEALTH_PLAN);
-  if (stringContainsAny(description, BENEFITS.HOME_OFFICE)) benefits.push(JobBenefits.HOME_OFFICE);
-  if (stringContainsAny(description, BENEFITS.HOME_OFFICE_VOUCHER)) benefits.push(JobBenefits.HOME_OFFICE_VOUCHER);
-  if (stringContainsAny(description, BENEFITS.LIFE_INSURANCE)) benefits.push(JobBenefits.LIFE_INSURANCE);
-  if (stringContainsAny(description, BENEFITS.MEAL_VOUCHER)) benefits.push(JobBenefits.MEAL_VOUCHER);
-  if (stringContainsAny(description, BENEFITS.PAID_VACATIONS)) benefits.push(JobBenefits.PAID_VACATIONS);
-  if (stringContainsAny(description, BENEFITS.PJ)) benefits.push(JobBenefits.PJ);
-  if (stringContainsAny(description, BENEFITS.PRIVATE_PENSION)) benefits.push(JobBenefits.PRIVATE_PENSION);
-  if (stringContainsAny(description, BENEFITS.PSYCHOLOGICAL_HELP)) benefits.push(JobBenefits.PSYCHOLOGICAL_HELP);
-  if (stringContainsAny(description, BENEFITS.REFERRAL_BONUS)) benefits.push(JobBenefits.REFERRAL_BONUS);
-  if (stringContainsAny(description, BENEFITS.STOCK_OPTIONS)) benefits.push(JobBenefits.STOCK_OPTIONS);
-  if (stringContainsAny(description, BENEFITS.TRANSPORTATION_VOUCHER)) benefits.push(JobBenefits.TRANSPORTATION_VOUCHER);
+  if (stringContainsAny(description, BENEFITS_REGEX.ANUAL_BONUS)) benefits.push(JobBenefit.ANUAL_BONUS);
+  if (stringContainsAny(description, BENEFITS_REGEX.BIRTHDAY_DAYOFF)) benefits.push(JobBenefit.BIRTHDAY_DAYOFF);
+  if (stringContainsAny(description, BENEFITS_REGEX.COURSE_HELP)) benefits.push(JobBenefit.COURSE_HELP);
+  if (stringContainsAny(description, BENEFITS_REGEX.DENTAL_PLAN)) benefits.push(JobBenefit.DENTAL_PLAN);
+  if (stringContainsAny(description, BENEFITS_REGEX.FLEXIBLE_HOURS)) benefits.push(JobBenefit.FLEXIBLE_HOURS);
+  if (stringContainsAny(description, BENEFITS_REGEX.GYMPASS)) benefits.push(JobBenefit.GYMPASS);
+  if (stringContainsAny(description, BENEFITS_REGEX.HEALTH_PLAN)) benefits.push(JobBenefit.HEALTH_PLAN);
+  if (stringContainsAny(description, BENEFITS_REGEX.HOME_OFFICE_VOUCHER)) benefits.push(JobBenefit.HOME_OFFICE_VOUCHER);
+  if (stringContainsAny(description, BENEFITS_REGEX.LIFE_INSURANCE)) benefits.push(JobBenefit.LIFE_INSURANCE);
+  if (stringContainsAny(description, BENEFITS_REGEX.MEAL_VOUCHER)) benefits.push(JobBenefit.MEAL_VOUCHER);
+  if (stringContainsAny(description, BENEFITS_REGEX.PAID_VACATIONS)) benefits.push(JobBenefit.PAID_VACATIONS);
+  if (stringContainsAny(description, BENEFITS_REGEX.PRIVATE_PENSION)) benefits.push(JobBenefit.PRIVATE_PENSION);
+  if (stringContainsAny(description, BENEFITS_REGEX.PSYCHOLOGICAL_HELP)) benefits.push(JobBenefit.PSYCHOLOGICAL_HELP);
+  if (stringContainsAny(description, BENEFITS_REGEX.REFERRAL_BONUS)) benefits.push(JobBenefit.REFERRAL_BONUS);
+  if (stringContainsAny(description, BENEFITS_REGEX.STOCK_OPTIONS)) benefits.push(JobBenefit.STOCK_OPTIONS);
+  if (stringContainsAny(description, BENEFITS_REGEX.TRANSPORTATION_VOUCHER)) benefits.push(JobBenefit.TRANSPORTATION_VOUCHER);
 
   return uniq(benefits)?.sort((a, b) => a.localeCompare(b));
 }
 
-export const getProgramathorNormalizedSkill = (skill: string) => {
-  const allSkills = Object.keys(JobSkills);
+export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string => {
+  const allSkills = Object.keys(JobSkill);
   if (allSkills?.includes(skill)) return skill;
 
   const lowerCaseSkill = skill?.toLowerCase();
   switch (lowerCaseSkill) {
-    case 'angular': return JobSkills.ANGULAR;
-    case 'bootstrap': return JobSkills.CSS;
-    case 'css': return JobSkills.CSS;
-    case 'docker': return JobSkills.DEV_OPS;
-    case 'flutter': return JobSkills.FLUTTER;
-    case 'git': return JobSkills.CODE_VERSIONING;
-    case 'google cloud': return JobSkills.DEV_OPS;
-    case 'graphql': return JobSkills.API;
-    case 'html': return JobSkills.HTML;
-    case 'ionic': return JobSkills.IONIC;
-    case 'mongodb': return JobSkills.DB;
-    case 'nextjs': return JobSkills.NEXT;
-    case 'node.js': return JobSkills.NODE;
-    case 'javaScript': return JobSkills.JAVASCRIPT;
-    case 'reactjs': return JobSkills.REACT;
-    case 'react native': return JobSkills.REACT_NATIVE;
-    case 'restful': return JobSkills.API;
-    case 'sass': return JobSkills.SASS;
-    case 'sql': return JobSkills.DB;
-    case 'styled - components': return JobSkills.STYLED_COMPONENTS;
-    case 'typescript': return JobSkills.TYPESCRIPT;
-    case 'vava': return JobSkills.JAVA;
-    case 'vue.js': return JobSkills.VUE;
-    case 'wordpress': return JobSkills.WORDPRESS;
+    case 'angular': return JobSkill.ANGULAR;
+    case 'bootstrap': return JobSkill.CSS;
+    case 'css': return JobSkill.CSS;
+    case 'docker': return JobSkill.DEV_OPS;
+    case 'flutter': return JobSkill.FLUTTER;
+    case 'git': return JobSkill.CODE_VERSIONING;
+    case 'google cloud': return JobSkill.DEV_OPS;
+    case 'graphql': return JobSkill.API;
+    case 'html': return JobSkill.HTML;
+    case 'ionic': return JobSkill.IONIC;
+    case 'mongodb': return JobSkill.DB;
+    case 'nextjs': return JobSkill.NEXT;
+    case 'node.js': return JobSkill.NODE;
+    case 'javaScript': return JobSkill.JAVASCRIPT;
+    case 'reactjs': return JobSkill.REACT;
+    case 'react native': return JobSkill.REACT_NATIVE;
+    case 'restful': return JobSkill.API;
+    case 'sass': return JobSkill.SASS;
+    case 'sql': return JobSkill.DB;
+    case 'styled - components': return JobSkill.STYLED_COMPONENTS;
+    case 'typescript': return JobSkill.TYPESCRIPT;
+    case 'vava': return JobSkill.JAVA;
+    case 'vue.js': return JobSkill.VUE;
+    case 'wordpress': return JobSkill.WORDPRESS;
 
     default: {
       console.log(`[getProgramathorNormalizedSkill] Skill not founded: ${lowerCaseSkill}`)
@@ -347,4 +382,19 @@ export const getRatingsBasedOnSkillsAndBenefits = (job: { skills?: string[], ben
     skillsRating: skillsRating || 0,
     benefitsRating: benefitsRating || 0,
   };
+}
+
+export const getHiringRegimeBasedOnDescription = (job: { description: string }): JobHiringRegime => {
+  if (stringContainsAny(job.description, HIRING_REGIMES_REGEX.CLT)) return JobHiringRegime.CLT;
+  if (stringContainsAny(job.description, HIRING_REGIMES_REGEX.PJ)) return JobHiringRegime.PJ;
+
+  return JobHiringRegime.PJ;
+}
+
+export const getTypeBasedOnDescription = (job: { description: string }): JobType => {
+  if (stringContainsAny(job.description, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
+  if (stringContainsAny(job.description, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
+  if (stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
+
+  return JobType.REMOTE;
 }

@@ -10,7 +10,7 @@ type CreateJobModalProps = {
   onCancel: () => void
   fetchData: () => Promise<void>
 }
-enum JobSkills {
+enum JobSkill {
   ANGULAR = "ANGULAR",
   AJAX = "AJAX",
   API = "API",
@@ -54,7 +54,7 @@ enum JobSkills {
   WEB_HOOKS = "WEB_HOOKS",
   WORDPRESS = "WORDPRESS",
 }
-enum JobBenefits {
+enum JobBenefit {
   ANUAL_BONUS = "ANUAL_BONUS",
   BIRTHDAY_DAYOFF = "BIRTHDAY_DAYOFF",
   CLT = "CLT",
@@ -83,8 +83,8 @@ export const CreateJobModal = ({ onCancel, open, fetchData }: CreateJobModalProp
   const [form] = Form.useForm();
   const platformOptions = Object.keys(Platform);
   const typeOptions = Object.keys(JobType);
-  const benefitsOptions = Object.keys(JobBenefits);
-  const skillsOptions = Object.keys(JobSkills);
+  const benefitsOptions = Object.keys(JobBenefit);
+  const skillsOptions = Object.keys(JobSkill);
 
   const onFinish = async (values: any) => {
     setLoading(true);

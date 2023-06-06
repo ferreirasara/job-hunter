@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
-import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController, { JobInitialData, JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 import { uniq } from "lodash";
 
 const platform: JobPlatform = "VAGAS"
@@ -55,7 +55,7 @@ export default class VagasScraper extends ScraperInterface {
         const title = await page?.$eval('h1.job-shortdescription__title', (el) => el?.innerText);
         const company = await page?.$eval('h2.job-shortdescription__company', (el) => el?.innerText);
         const description = await page?.$eval('article.vaga.job-group', (el) => el?.innerText);
-        const type = this.getType(description);
+        const type = getTypeBasedOnDescription({ description });
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
         const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
@@ -80,10 +80,5 @@ export default class VagasScraper extends ScraperInterface {
     }
 
     return jobs;
-  }
-
-  private getType(description: string): JobType {
-    if (description?.toLowerCase()?.includes('home office')) return "REMOTE";
-    return "FACE_TO_FACE";
   }
 }

@@ -2,7 +2,7 @@ import { uniqBy } from "lodash";
 import fetch from "node-fetch";
 import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 type GupyResponse = {
   data: GupyData[]
@@ -82,7 +82,7 @@ export default class GupyScraper extends ScraperInterface {
           country: job.country,
           idInPlatform: job.id.toString(),
           state: job.state,
-          type: job.isRemoteWork ? "REMOTE" : "FACE_TO_FACE",
+          type: job.isRemoteWork ? "REMOTE" : getTypeBasedOnDescription({ description }),
           description: description.replace(/\n+/g, '\n'),
           skills: skills?.join(', '),
           benefits: benefits?.join(', '),

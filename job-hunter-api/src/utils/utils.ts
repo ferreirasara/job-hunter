@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import { HTTPRequest } from "puppeteer";
 
 export const interceptRequest = (request: HTTPRequest, dontAbortScript?: boolean) => {
@@ -18,4 +19,8 @@ export const stringContainsAny = (inputString: string, filterArray: (RegExp)[]) 
     }
   }
   return false;
+}
+
+export const convertStrToArray = (str: string): string[] => {
+  return uniq(str?.split(',')?.map(cur => cur?.trim()));
 }
