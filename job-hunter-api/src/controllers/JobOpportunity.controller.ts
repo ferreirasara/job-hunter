@@ -24,12 +24,6 @@ export type JobInput = {
   benefitsRating?: number
 }
 
-type UpdateJobInput = {
-  uuid: string,
-  applied?: boolean,
-  discarded?: boolean,
-}
-
 export type OrderBy = { field: string, order: "ascend" | "descend" }
 
 const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrder<JobOpportunity> => {
@@ -160,5 +154,23 @@ export default class JobOpportunityController {
   public static async getAllJobsFromPlatform(platform: JobPlatform) {
     const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { platform: platform } });
     return jobs;
+  }
+
+  public static async getStats() {
+    const jobsPerPlatform: { platform: string, count: string }[] = await AppDataSource.manager.query("SELECT platform, COUNT(uuid) FROM job_opportunity GROUP BY platform");
+    const jobsPerCompany: { company: string, count: string }[] = await AppDataSource.manager.query("SELECT company, COUNT(uuid) FROM job_opportunity GROUP BY company");
+    const jobsPerRating: { totalRating: number, count: string }[] = await AppDataSource.manager.query('SELECT "totalRating", COUNT(uuid) FROM job_opportunity GROUP BY "totalRating"');
+    const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true } });
+    const totalOfAppliedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { applied: true } });
+    const totalOfDiscardedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { discarded: true } });
+
+    return {
+      jobsPerPlatform: jobsPerPlatform?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
+      jobsPerCompany: jobsPerCompany?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
+      jobsPerRating: jobsPerRating?.map(cur => ({ ...cur, count: parseInt(cur?.count) })),
+      totalOfJobs,
+      totalOfAppliedJobs,
+      totalOfDiscardedJobs,
+    }
   }
 }

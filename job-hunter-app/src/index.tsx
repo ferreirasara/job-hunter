@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { Root } from './components/Root';
-import { ConfigProvider, theme } from 'antd';
+import { Root } from './pages/Root';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Stats } from './pages/Stats';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,13 +11,21 @@ const root = ReactDOM.createRoot(
 
 document.body.style.margin = "0";
 document.body.style.height = "100%";
-document.body.style.backgroundColor = "rgb(20,20,20)";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+  },
+  {
+    path: "/stats",
+    element: <Stats />,
+  },
+]);
 
 root.render(
   <React.StrictMode>
-    <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
-      <Root />
-    </ConfigProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

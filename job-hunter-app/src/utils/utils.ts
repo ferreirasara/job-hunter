@@ -54,6 +54,12 @@ export const setJobAsDiscarded = async (uuid: string) => {
   return jobDiscardedResponseJson;
 }
 
+export const getStatsFromAPI = async () => {
+  const statsResponse = await fetch(encodeURI(`http://localhost:8080/stats`));
+  const statsResponseJson = await statsResponse?.json();
+  return statsResponseJson;
+}
+
 export const createNewJob = async (body: {
   company: string
   platform: Platform

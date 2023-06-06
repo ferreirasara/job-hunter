@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Input, Modal, Select, Space, Typography } from "antd"
+import { Alert, Button, Form, Input, Modal, Select } from "antd"
 import { JobType, Platform } from "./JobsTable"
 import { useState } from "react"
 import { SaveOutlined } from "@ant-design/icons"

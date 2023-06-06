@@ -82,6 +82,11 @@ AppDataSource.initialize().then(async () => {
     res.send(result);
   })
 
+  app.get('/stats', async (req, res) => {
+    const result = await JobOpportunityController.getStats();
+    res.send(result);
+  })
+
   app.listen(PORT, () => {
     console.log(`Running in ${HOSTNAME}:${PORT}`)
   })

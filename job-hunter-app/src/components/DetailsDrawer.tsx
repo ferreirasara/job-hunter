@@ -1,4 +1,4 @@
-import { Button, Descriptions, Drawer, List, Space, Typography } from "antd"
+import { Button, Drawer, List, Space, Typography } from "antd"
 import { JobsTableData } from "./JobsTable"
 import { renderMultipleTags } from "./renderMultipleTags"
 import { Link } from "./Link"

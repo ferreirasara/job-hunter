@@ -1,10 +1,10 @@
-import { DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons"
-import { Alert, Button, Divider, Space, Switch, Typography } from "antd"
+import { BarChartOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons"
+import { Alert, Button, Divider, Space } from "antd"
 import { useCallback, useEffect, useState } from "react";
-import { CreateJobModal } from "./CreateJobModal";
-import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "./JobsTable";
+import { CreateJobModal } from "../components/CreateJobModal";
+import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
-import { DetailsDrawer } from "./DetailsDrawer";
+import { DetailsDrawer } from "../components/DetailsDrawer";
 
 export const Root = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export const Root = () => {
 
   const handleError = (message: string) => setErrorMessage(message);
 
-  const handleFetchData = async () => {
+  const handleFetchData = useCallback(async () => {
     setLoading(true);
     try {
       const response: JobsResponse = await getJobsFromAPI({
@@ -48,11 +48,11 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, showDiscarded])
 
   useEffect(() => {
     handleFetchData();
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, showDiscarded]);
+  }, [handleFetchData]);
 
   const handleSeeDetails = (uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
@@ -66,7 +66,7 @@ export const Root = () => {
   }
 
   return <div>
-    <Space direction="vertical" style={{ margin: '0 64px' }}>
+    <Space direction="vertical" style={{ padding: '0 64px' }}>
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
@@ -82,7 +82,10 @@ export const Root = () => {
           Mostrar apenas vagas {showDiscarded ? "não descartadas" : "descartadas"}
         </Button>
         <Button icon={<PlusOutlined />} onClick={() => setCreateModalOpen(true)} loading={loading}>
-          Adicionar Job
+          Adicionar vaga
+        </Button>
+        <Button icon={<BarChartOutlined />} href="/stats">
+          Ver estatísticas
         </Button>
       </Space>
       {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
