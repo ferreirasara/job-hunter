@@ -6,12 +6,17 @@ export const renderMultipleTags = (field: string) => {
 
 const getTagColor = (tag: string) => {
   switch (tag) {
+    case ("AGILE"): return "red";
     case ("ANGULAR"): return "red";
     case ("AJAX"): return "orange";
     case ("API"): return "orange";
+    case ("BACHELORS_DEGREE"): return "green";
     case ("CODE_MAINTAINABILITY"): return "green";
+    case ("CODE_VERSIONING"): return "green";
+    case ("CPLUSPLUS"): return "red";
     case ("CSHARP"): return "red";
     case ("CSS"): return "green";
+    case ("DART"): return "red";
     case ("DB"): return "orange";
     case ("DEV_OPS"): return "red";
     case ("DOT_NET"): return "red";
@@ -19,16 +24,21 @@ const getTagColor = (tag: string) => {
     case ("ENGLISH"): return "orange";
     case ("FIGMA"): return "green";
     case ("FLUTTER"): return "red";
-    case ("CODE_VERSIONING"): return "green";
+    case ("FULL_STACK"): return "orange";
+    case ("GOLANG"): return "red";
     case ("HTML"): return "green";
     case ("IONIC"): return "red";
     case ("JAVA"): return "red";
     case ("JAVASCRIPT"): return "green";
     case ("JQUERY"): return "red";
+    case ("KOTLIN"): return "red";
+    case ("LINUX"): return "orange";
+    case ("MACHINE_LEARNING"): return "red";
     case ("NEXT"): return "green";
-    case ("NUXT"): return "orange";
-    case ("NODE"): return "orange";
+    case ("NUXT"): return "red";
+    case ("NODE"): return "green";
     case ("PHP"): return "red";
+    case ("POWER_BI"): return "red";
     case ("PYTHON"): return "orange";
     case ("PWA"): return "orange";
     case ("REACT"): return "green";
@@ -36,9 +46,11 @@ const getTagColor = (tag: string) => {
     case ("RESPONSIVE_DESIGN"): return "green";
     case ("RUBY"): return "red";
     case ("SASS"): return "green";
+    case ("SCALA"): return "red";
     case ("STATE_MANAGEMENT"): return "green";
     case ("STORYBOOK"): return "green";
     case ("STYLED_COMPONENTS"): return "green";
+    case ("SWFIT"): return "red";
     case ("TAILWIND"): return "orange";
     case ("TEST"): return "green";
     case ("TYPESCRIPT"): return "green";
@@ -49,7 +61,6 @@ const getTagColor = (tag: string) => {
 
     case ("ANUAL_BONUS"): return "purple";
     case ("BIRTHDAY_DAYOFF"): return "geekblue";
-    case ("CLT"): return "purple";
     case ("COURSE_HELP"): return "geekblue";
     case ("DENTAL_PLAN"): return "purple";
     case ("FLEXIBLE_HOURS"): return "purple";
@@ -60,11 +71,17 @@ const getTagColor = (tag: string) => {
     case ("LIFE_INSURANCE"): return "blue";
     case ("MEAL_VOUCHER"): return "purple";
     case ("PAID_VACATIONS"): return "geekblue";
-    case ("PJ"): return "blue";
     case ("PRIVATE_PENSION"): return "geekblue";
     case ("PSYCHOLOGICAL_HELP"): return "geekblue";
     case ("REFERRAL_BONUS"): return "blue";
     case ("STOCK_OPTIONS"): return "blue";
     case ("TRANSPORTATION_VOUCHER"): return "blue";
+
+    case ("CLT"): return "green";
+    case ("PJ"): return "red";
+
+    case ("REMOTE"): return "green";
+    case ("HYBRID"): return "red";
+    case ("FACE_TO_FACE"): return "red";
   }
 }

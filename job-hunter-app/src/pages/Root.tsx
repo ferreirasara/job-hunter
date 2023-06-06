@@ -73,20 +73,35 @@ export const Root = () => {
         Job Hunter
       </Divider>
       <Space>
-        <Button icon={<ReloadOutlined />} onClick={handleFetchData} loading={loading}>
+        <Button
+          block
+          icon={<ReloadOutlined />}
+          onClick={handleFetchData}
+          loading={loading}
+        >
           {data?.length ? "Recarregar" : "Carregar"} dados
         </Button>
         <Button
+          block
           icon={showDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
           onClick={() => setShowDiscarded(!showDiscarded)}
           loading={loading}
         >
           Mostrar apenas vagas {showDiscarded ? "não descartadas" : "descartadas"}
         </Button>
-        <Button icon={<PlusOutlined />} onClick={() => setCreateModalOpen(true)} loading={loading}>
+        <Button
+          block
+          icon={<PlusOutlined />}
+          onClick={() => setCreateModalOpen(true)}
+          loading={loading}
+        >
           Adicionar vaga
         </Button>
-        <Button icon={<BarChartOutlined />} href="/stats">
+        <Button
+          block
+          icon={<BarChartOutlined />}
+          href="/stats"
+        >
           Ver estatísticas
         </Button>
       </Space>

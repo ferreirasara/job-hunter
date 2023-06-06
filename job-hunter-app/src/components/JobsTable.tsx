@@ -136,6 +136,7 @@ export const JobsTable = ({
       filterSearch: true,
       width: 110,
       sorter: () => 0,
+      render: (type: string) => renderMultipleTags(type),
     },
     {
       title: "Contratação",
@@ -145,6 +146,7 @@ export const JobsTable = ({
       filterSearch: true,
       width: 130,
       sorter: () => 0,
+      render: (type: string) => renderMultipleTags(type),
     },
     {
       title: "Skills",

@@ -51,8 +51,8 @@ export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: Detail
       {selectedJob?.country ? <List.Item><strong>País:</strong> {selectedJob?.country}</List.Item> : null}
       {selectedJob?.state ? <List.Item><strong>Estado:</strong> {selectedJob?.state}</List.Item> : null}
       {selectedJob?.city ? <List.Item><strong>Cidade:</strong> {selectedJob?.city}</List.Item> : null}
-      {selectedJob?.type ? <List.Item><strong>Tipo:</strong> {selectedJob?.type}</List.Item> : null}
-      {selectedJob?.hiringRegime ? <List.Item><strong>Regime de contratação:</strong> {selectedJob?.hiringRegime}</List.Item> : null}
+      {selectedJob?.type ? <List.Item><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</List.Item> : null}
+      {selectedJob?.hiringRegime ? <List.Item><strong>Regime de contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</List.Item> : null}
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
       {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
       {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
