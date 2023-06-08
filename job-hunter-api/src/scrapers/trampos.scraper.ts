@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobType, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 const platform: JobPlatform = "TRAMPOS"
 
@@ -62,6 +62,7 @@ export default class TramposScraper extends ScraperInterface {
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
         const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
+        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
 
         jobs?.push({
           title,
@@ -78,6 +79,7 @@ export default class TramposScraper extends ScraperInterface {
           benefits: benefits?.join(', '),
           benefitsRating,
           skillsRating,
+          hiringRegime,
         });
       } catch (e) {
         this.logError(e);

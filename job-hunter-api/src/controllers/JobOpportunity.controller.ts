@@ -1,4 +1,4 @@
-import { ArrayContains, FindOptionsOrder, FindOptionsWhere, In, Like, Not, Raw } from "typeorm";
+import { FindOptionsOrder, FindOptionsWhere, In } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 
@@ -21,7 +21,7 @@ export type JobInput = {
   benefits?: string
   salaryRange?: string
   type?: JobType
-  hiringRegime: HiringRegime
+  hiringRegime?: HiringRegime
   skillsRating?: number
   benefitsRating?: number
 }

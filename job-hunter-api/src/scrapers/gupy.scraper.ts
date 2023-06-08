@@ -2,7 +2,7 @@ import { uniqBy } from "lodash";
 import fetch from "node-fetch";
 import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 type GupyResponse = {
   data: GupyData[]
@@ -72,6 +72,7 @@ export default class GupyScraper extends ScraperInterface {
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
         const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
+        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
 
         jobsWithDescription.push({
           company: job.careerPageName,
@@ -88,6 +89,7 @@ export default class GupyScraper extends ScraperInterface {
           benefits: benefits?.join(', '),
           benefitsRating,
           skillsRating,
+          hiringRegime,
         });
       } catch (e) {
         this.logError(e);

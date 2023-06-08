@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./scraperInterface";
-import { getBenefitsBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 import { uniq } from "lodash";
 
 const platform: JobPlatform = "VAGAS"
@@ -59,6 +59,7 @@ export default class VagasScraper extends ScraperInterface {
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
         const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
+        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
 
         jobs?.push({
           title,
@@ -72,6 +73,7 @@ export default class VagasScraper extends ScraperInterface {
           benefits: benefits?.join(', '),
           benefitsRating,
           skillsRating,
+          hiringRegime,
         });
       } catch (e) {
         this.logError(e);
