@@ -3,6 +3,10 @@ import { useCallback, useEffect, useState } from "react";
 import { getStatsFromAPI } from "../utils/utils";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
 
+type ContType = {
+  name: string
+  cont: number
+}
 type StatsResponse = {
   jobsPerPlatform: { platform: string; count: number }[]
   jobsPerCompany: { company: string; count: number }[]
@@ -10,6 +14,8 @@ type StatsResponse = {
   totalOfJobs: number
   totalOfAppliedJobs: number
   totalOfDiscardedJobs: number
+  skillsContType: ContType[]
+  benefitsContType: ContType[]
 }
 
 export const Stats = () => {
@@ -48,6 +54,20 @@ export const Stats = () => {
               <List.Item><strong>Vagas aplicadas:</strong> {data?.totalOfAppliedJobs}</List.Item>
               <List.Item><strong>Vagas descartadas:</strong> {data?.totalOfDiscardedJobs}</List.Item>
             </List>
+          </Collapse.Panel>
+          <Collapse.Panel header={<strong>Contagem de skills</strong>} key="skillsContType">
+            <List
+              size="small"
+              dataSource={data?.skillsContType}
+              renderItem={(item) => <List.Item><strong>{item?.name}:</strong> {item?.cont}</List.Item>}
+            />
+          </Collapse.Panel>
+          <Collapse.Panel header={<strong>Contagem de benefícios</strong>} key="benefitsContType">
+            <List
+              size="small"
+              dataSource={data?.benefitsContType}
+              renderItem={(item) => <List.Item><strong>{item?.name}:</strong> {item?.cont}</List.Item>}
+            />
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por plataforma</strong>} key="jobsPerPlatform">
             <List

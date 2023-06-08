@@ -1,6 +1,8 @@
 import { FindOptionsOrder, FindOptionsWhere, In } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
+import { flatten } from "lodash";
+import { calcContType, convertStrToArray } from "../utils/utils";
 
 export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS" | "REMOTAR"
 export type JobType = "REMOTE" | "HYBRID" | "FACE_TO_FACE"
@@ -70,6 +72,7 @@ export default class JobOpportunityController {
       newJob.benefits = jobInput.benefits;
       newJob.salaryRange = jobInput.salaryRange;
       newJob.type = jobInput.type;
+      newJob.hiringRegime = jobInput.hiringRegime;
       newJob.skillsRating = jobInput.skillsRating;
       newJob.benefitsRating = jobInput.benefitsRating;
       newJob.totalRating = jobInput.skillsRating + jobInput.benefitsRating;
@@ -183,6 +186,10 @@ export default class JobOpportunityController {
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true } });
     const totalOfAppliedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { applied: true } });
     const totalOfDiscardedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { discarded: true } });
+    const allSkillStrs = await AppDataSource.manager.find(JobOpportunity, { select: { skills: true } });
+    const allSkills = flatten(allSkillStrs?.map(cur => convertStrToArray(cur?.skills)));
+    const allBeneftStrs = await AppDataSource.manager.find(JobOpportunity, { select: { benefits: true } });
+    const allBenefits = flatten(allBeneftStrs?.map(cur => convertStrToArray(cur?.benefits)));
 
     return {
       jobsPerPlatform: jobsPerPlatform?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
@@ -191,6 +198,8 @@ export default class JobOpportunityController {
       totalOfJobs,
       totalOfAppliedJobs,
       totalOfDiscardedJobs,
+      skillsContType: calcContType(allSkills),
+      benefitsContType: calcContType(allBenefits),
     }
   }
 }
