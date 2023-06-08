@@ -104,6 +104,7 @@ export const JobsTable = ({
       key: 'platform',
       width: 130,
       sorter: () => 0,
+      align: 'center',
       filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
     },
@@ -111,7 +112,7 @@ export const JobsTable = ({
       title: "Empresa",
       dataIndex: 'company',
       key: 'company',
-      width: 200,
+      width: 170,
       ellipsis: true,
       sorter: () => 0,
     },
@@ -135,6 +136,7 @@ export const JobsTable = ({
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       width: 110,
+      align: 'center',
       sorter: () => 0,
       render: (type: string) => renderMultipleTags(type),
     },
@@ -145,6 +147,7 @@ export const JobsTable = ({
       filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       width: 130,
+      align: 'center',
       sorter: () => 0,
       render: (type: string) => renderMultipleTags(type),
     },
@@ -167,6 +170,7 @@ export const JobsTable = ({
       dataIndex: 'totalRating',
       key: 'totalRating',
       width: 90,
+      align: 'center',
       sorter: () => 0,
     },
     {
@@ -191,6 +195,7 @@ export const JobsTable = ({
   ]
 
   return <Table
+    bordered
     loading={loading}
     columns={columns}
     dataSource={data}

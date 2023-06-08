@@ -1,87 +1,113 @@
 import { Tag } from "antd"
 
 export const renderMultipleTags = (field: string) => {
-  return field?.split(',')?.map(cur => <Tag color={getTagColor(cur?.trim())} style={{ margin: 2 }}>{cur?.trim()}</Tag>)
+  if (!field || field === "") return null;
+  return field?.split(',')?.map(cur => <Tag bordered={false} color={getTagColor(cur?.trim())} style={{ margin: 2 }}>{cur?.trim()}</Tag>)
+}
+
+const SKILL_RATING = {
+  "AGILE": 1,
+  "ANGULAR": -1,
+  "AJAX": -1,
+  "API": 0,
+  "APOLLO": 1,
+  "BACHELORS_DEGREE": 1,
+  "COBOL": -1,
+  "CODE_MAINTAINABILITY": 1,
+  "CODE_VERSIONING": 1,
+  "CPLUSPLUS": -1,
+  "CSHARP": -1,
+  "CSS": 1,
+  "DART": -1,
+  "DB": 0,
+  "DELPHI": -1,
+  "DEV_OPS": -1,
+  "DOT_NET": -1,
+  "ECOMMERCE": 0,
+  "ENGLISH": 0,
+  "FIGMA": 1,
+  "FLUTTER": -1,
+  "FULL_STACK": 0,
+  "GOLANG": -1,
+  "HTML": 1,
+  "IONIC": -1,
+  "JAVA": -1,
+  "JAVASCRIPT": 1,
+  "JQUERY": -1,
+  "KOTLIN": -1,
+  "LINUX": 0,
+  "MACHINE_LEARNING": -1,
+  "NEXT": 1,
+  "NUXT": -1,
+  "NODE": 1,
+  "PHP": -1,
+  "POWER_BI": -1,
+  "PYTHON": 0,
+  "PWA": 0,
+  "REACT": 1,
+  "REACT_NATIVE": -1,
+  "RESPONSIVE_DESIGN": 1,
+  "RUBY": -1,
+  "RUST": -1,
+  "SASS": 1,
+  "SALESFORCE": -1,
+  "SCALA": -1,
+  "STATE_MANAGEMENT": 1,
+  "STORYBOOK": 1,
+  "STYLED_COMPONENTS": 1,
+  "SWIFT": -1,
+  "TAILWIND": 0,
+  "TEST": 1,
+  "TYPESCRIPT": 1,
+  "VANILLA": -1,
+  "VUE": -1,
+  "WEB_HOOKS": 1,
+  "WORDPRESS": -1,
+}
+
+const BENEFITS_RATING = {
+  "ANUAL_BONUS": 1,
+  "BIRTHDAY_DAYOFF": 1,
+  "COURSE_HELP": 1,
+  "DENTAL_PLAN": 1,
+  "FLEXIBLE_HOURS": 2,
+  "GYMPASS": 2,
+  "HEALTH_PLAN": 2,
+  "HOME_OFFICE_VOUCHER": 2,
+  "LIFE_INSURANCE": 1,
+  "MEAL_VOUCHER": 1,
+  "PAID_VACATIONS": 1,
+  "PRIVATE_PENSION": 1,
+  "PSYCHOLOGICAL_HELP": 1,
+  "REFERRAL_BONUS": 1,
+  "STOCK_OPTIONS": 1,
+  "TRANSPORTATION_VOUCHER": 1,
+  "USD_SALARY": 1,
 }
 
 const getTagColor = (tag: string) => {
-  switch (tag) {
-    case ("AGILE"): return "red";
-    case ("ANGULAR"): return "red";
-    case ("AJAX"): return "orange";
-    case ("API"): return "orange";
-    case ("BACHELORS_DEGREE"): return "green";
-    case ("CODE_MAINTAINABILITY"): return "green";
-    case ("CODE_VERSIONING"): return "green";
-    case ("CPLUSPLUS"): return "red";
-    case ("CSHARP"): return "red";
-    case ("CSS"): return "green";
-    case ("DART"): return "red";
-    case ("DB"): return "orange";
-    case ("DEV_OPS"): return "red";
-    case ("DOT_NET"): return "red";
-    case ("ECOMMERCE"): return "orange";
-    case ("ENGLISH"): return "orange";
-    case ("FIGMA"): return "green";
-    case ("FLUTTER"): return "red";
-    case ("FULL_STACK"): return "orange";
-    case ("GOLANG"): return "red";
-    case ("HTML"): return "green";
-    case ("IONIC"): return "red";
-    case ("JAVA"): return "red";
-    case ("JAVASCRIPT"): return "green";
-    case ("JQUERY"): return "red";
-    case ("KOTLIN"): return "red";
-    case ("LINUX"): return "orange";
-    case ("MACHINE_LEARNING"): return "red";
-    case ("NEXT"): return "green";
-    case ("NUXT"): return "red";
-    case ("NODE"): return "green";
-    case ("PHP"): return "red";
-    case ("POWER_BI"): return "red";
-    case ("PYTHON"): return "orange";
-    case ("PWA"): return "orange";
-    case ("REACT"): return "green";
-    case ("REACT_NATIVE"): return "red";
-    case ("RESPONSIVE_DESIGN"): return "green";
-    case ("RUBY"): return "red";
-    case ("SASS"): return "green";
-    case ("SCALA"): return "red";
-    case ("STATE_MANAGEMENT"): return "green";
-    case ("STORYBOOK"): return "green";
-    case ("STYLED_COMPONENTS"): return "green";
-    case ("SWFIT"): return "red";
-    case ("TAILWIND"): return "orange";
-    case ("TEST"): return "green";
-    case ("TYPESCRIPT"): return "green";
-    case ("VANILLA"): return "red";
-    case ("VUE"): return "orange";
-    case ("WEB_HOOKS"): return "orange";
-    case ("WORDPRESS"): return "red";
+  // @ts-ignore
+  const skillRating = SKILL_RATING?.[tag];
+  // @ts-ignore
+  const benefitRating = BENEFITS_RATING?.[tag];
 
-    case ("ANUAL_BONUS"): return "purple";
-    case ("BIRTHDAY_DAYOFF"): return "geekblue";
-    case ("COURSE_HELP"): return "geekblue";
-    case ("DENTAL_PLAN"): return "purple";
-    case ("FLEXIBLE_HOURS"): return "purple";
-    case ("GYMPASS"): return "purple";
-    case ("HEALTH_PLAN"): return "purple";
-    case ("HOME_OFFICE"): return "purple";
-    case ("HOME_OFFICE_VOUCHER"): return "purple";
-    case ("LIFE_INSURANCE"): return "blue";
-    case ("MEAL_VOUCHER"): return "purple";
-    case ("PAID_VACATIONS"): return "geekblue";
-    case ("PRIVATE_PENSION"): return "geekblue";
-    case ("PSYCHOLOGICAL_HELP"): return "geekblue";
-    case ("REFERRAL_BONUS"): return "blue";
-    case ("STOCK_OPTIONS"): return "blue";
-    case ("TRANSPORTATION_VOUCHER"): return "blue";
-
-    case ("CLT"): return "green";
-    case ("PJ"): return "red";
-
-    case ("REMOTE"): return "green";
-    case ("HYBRID"): return "red";
-    case ("FACE_TO_FACE"): return "red";
+  if (skillRating !== undefined) {
+    if (skillRating === -1) return "red";
+    if (skillRating === 0) return "orange";
+    if (skillRating === 1) return "green";
   }
+
+  if (benefitRating !== undefined) {
+    if (benefitRating === 1) return "blue";
+    if (benefitRating === 2) return "purple";
+  }
+
+  if (tag === "CLT") return "green";
+  if (tag === "PJ") return "red";
+
+  if (tag === "REMOTE") return "green";
+  if (tag === "HYBRID") return "red";
+  if (tag === "FACE_TO_FACE") return "red";
+
+  return "default";
 }

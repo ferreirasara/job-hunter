@@ -48,21 +48,34 @@ export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: Detail
       <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>
       {selectedJob?.platform ? <List.Item><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</List.Item> : null}
       {selectedJob?.company ? <List.Item><strong>Empresa:</strong> {selectedJob?.company}</List.Item> : null}
-      {selectedJob?.country ? <List.Item><strong>País:</strong> {selectedJob?.country}</List.Item> : null}
-      {selectedJob?.state ? <List.Item><strong>Estado:</strong> {selectedJob?.state}</List.Item> : null}
-      {selectedJob?.city ? <List.Item><strong>Cidade:</strong> {selectedJob?.city}</List.Item> : null}
+      {(selectedJob?.country || selectedJob?.state || selectedJob?.city)
+        ? <List.Item>
+          <Space style={{ width: '100%' }}>
+            <span><strong>País:</strong> {selectedJob?.country}</span>
+            <span><strong>Estado:</strong> {selectedJob?.state}</span>
+            <span><strong>Cidade:</strong> {selectedJob?.city}</span>
+          </Space>
+        </List.Item>
+        : null}
       {selectedJob?.type ? <List.Item><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</List.Item> : null}
       {selectedJob?.hiringRegime ? <List.Item><strong>Regime de contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</List.Item> : null}
       {selectedJob?.salaryRange ? <List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item> : null}
       {selectedJob?.skills ? <List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item> : null}
       {selectedJob?.benefits ? <List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item> : null}
       {(selectedJob?.skillsRating?.toString() || selectedJob?.benefitsRating?.toString() || selectedJob?.totalRating?.toString())
-        ? <List.Item><strong>Rating:</strong> Skills={selectedJob?.skillsRating || 0} | Benefícios={selectedJob?.benefitsRating || 0} | Total={selectedJob?.totalRating || 0}</List.Item>
+        ? <List.Item>
+          <Space style={{ width: '100%' }}>
+            <span><strong>SkillsRating:</strong> {selectedJob?.skillsRating || 0}</span>
+            <span><strong>BeneftsRating:</strong> {selectedJob?.benefitsRating || 0}</span>
+            <span><strong>TotalRating:</strong> {selectedJob?.totalRating || 0}</span>
+          </Space>
+        </List.Item>
         : null}
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>
         <Space>
           <Button
+            block
             size="small"
             icon={<FormOutlined />}
             onClick={handleSetAsApplied}
@@ -72,6 +85,7 @@ export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: Detail
             Marcar como aplicada
           </Button>
           <Button
+            block
             size="small"
             icon={<DeleteOutlined />}
             onClick={handleSetAsDiscarded}
