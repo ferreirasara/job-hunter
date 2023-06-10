@@ -1,4 +1,4 @@
-import { JobType, JobsTableData, OrderBy, Platform } from "../components/JobsTable";
+import { JobType, JobsResponse, JobsTableData, OrderBy, Platform } from "../components/JobsTable";
 
 export const getJobsFromAPI = async (args: {
   page?: number,
@@ -7,12 +7,14 @@ export const getJobsFromAPI = async (args: {
   appliedFilter?: string[],
   typeFilter?: string[],
   hiringRegimeFilter?: string[],
+  skillFilter?: string[],
+  benefitFilter?: string[],
   skillsFilter?: string[],
   orderBy?: OrderBy,
   showOnlyDiscarded?: boolean
   showOnlyNewJobs?: boolean
 }) => {
-  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs } = args;
+  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, showOnlyDiscarded, showOnlyNewJobs } = args;
   const searchParams: any = {};
 
   if (limit) searchParams.limit = limit?.toString();
@@ -22,6 +24,8 @@ export const getJobsFromAPI = async (args: {
   if (skillsFilter) searchParams.skillsFilter = skillsFilter;
   if (typeFilter) searchParams.typeFilter = typeFilter;
   if (hiringRegimeFilter) searchParams.hiringRegimeFilter = hiringRegimeFilter;
+  if (skillFilter) searchParams.skillFilter = skillFilter;
+  if (benefitFilter) searchParams.benefitFilter = benefitFilter;
   if (showOnlyDiscarded) searchParams.showOnlyDiscarded = showOnlyDiscarded;
   if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;
   if (orderBy?.field && orderBy?.order) {
@@ -32,7 +36,7 @@ export const getJobsFromAPI = async (args: {
   const qs = new URLSearchParams(searchParams);
 
   const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?${qs.toString()}`));
-  const jobsResponseJson = await jobsResponse?.json();
+  const jobsResponseJson: JobsResponse = await jobsResponse?.json();
   return jobsResponseJson;
 }
 

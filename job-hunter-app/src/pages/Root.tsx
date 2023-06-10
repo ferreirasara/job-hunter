@@ -22,11 +22,15 @@ export const Root = () => {
   const [platformFilter, setPlatformFilter] = useState<string[]>();
   const [typeFilter, setTypeFilter] = useState<string[]>();
   const [hiringRegimeFilter, setHiringRegimeFilter] = useState<string[]>();
+  const [skillFilter, setSkillFilter] = useState<string[]>();
+  const [benefitFilter, setBenefitFilter] = useState<string[]>();
   const [appliedFilter, setAppliedFilter] = useState<string[]>();
 
   const [orderBy, setOrderBy] = useState<OrderBy>();
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
+  const [allSkills, setAllSkills] = useState<string[]>([]);
+  const [allBenefits, setAllBenefits] = useState<string[]>([]);
 
   const handleError = (message: string) => setErrorMessage(message);
 
@@ -40,6 +44,8 @@ export const Root = () => {
         appliedFilter,
         typeFilter,
         hiringRegimeFilter,
+        skillFilter,
+        benefitFilter,
         orderBy,
         showOnlyDiscarded,
         showOnlyNewJobs,
@@ -47,6 +53,8 @@ export const Root = () => {
       if (response) {
         setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
+        setAllSkills(response?.allSkills);
+        setAllBenefits(response?.allBenefits);
         setData(response?.data);
       }
     } catch (e) {
@@ -130,6 +138,8 @@ export const Root = () => {
         loading={loading}
         data={data}
         totalOfJobs={totalOfJobs}
+        allSkills={allSkills}
+        allBenefits={allBenefits}
         page={page}
         onChangePage={(newPage) => setPage(newPage)}
         limit={limit}
@@ -138,6 +148,8 @@ export const Root = () => {
         onChangePlatformFilter={(filter) => setPlatformFilter(filter)}
         onChangeTypeFilter={(filter) => setTypeFilter(filter)}
         onChangeHiringRegimeFilter={(filter) => setHiringRegimeFilter(filter)}
+        onChangeSkillFilter={(filter) => setSkillFilter(filter)}
+        onChangeBenefitFilter={(filter) => setBenefitFilter(filter)}
         onChangeAppliedFilter={(filter) => setAppliedFilter(filter)}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />

@@ -50,6 +50,8 @@ export type JobsTableData = {
 export type JobsResponse = {
   totalOfJobs: number,
   data: JobsTableData[],
+  allSkills: string[],
+  allBenefits: string[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -58,6 +60,8 @@ type JobsTableProps = {
   loading: boolean
   data: JobsTableData[]
   totalOfJobs?: number
+  allSkills: string[]
+  allBenefits: string[]
   page: number
   onChangePage: (page: number) => void
   limit: number
@@ -67,6 +71,8 @@ type JobsTableProps = {
   onChangeAppliedFilter: (filter: string[]) => void
   onChangeTypeFilter: (filter: string[]) => void
   onChangeHiringRegimeFilter: (filter: string[]) => void
+  onChangeSkillFilter: (filter: string[]) => void
+  onChangeBenefitFilter: (filter: string[]) => void
   handleSeeDetails: (uuid: string) => void
 }
 
@@ -74,6 +80,8 @@ export const JobsTable = ({
   loading,
   data,
   totalOfJobs,
+  allSkills,
+  allBenefits,
   page,
   onChangePage,
   limit,
@@ -83,6 +91,8 @@ export const JobsTable = ({
   onChangeAppliedFilter,
   onChangeTypeFilter,
   onChangeHiringRegimeFilter,
+  onChangeBenefitFilter,
+  onChangeSkillFilter,
   handleSeeDetails,
 }: JobsTableProps) => {
   const platformOptions = Object.keys(Platform);
@@ -157,6 +167,8 @@ export const JobsTable = ({
       key: 'skills',
       ellipsis: true,
       render: (skills: string) => renderMultipleTags(skills),
+      filters: allSkills?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
     },
     {
       title: "Benefícios",
@@ -164,6 +176,8 @@ export const JobsTable = ({
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
+      filters: allBenefits?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
     },
     {
       title: "Rating",
@@ -220,6 +234,8 @@ export const JobsTable = ({
       onChangeAppliedFilter(filters?.applied as string[]);
       onChangeTypeFilter(filters?.type as string[]);
       onChangeHiringRegimeFilter(filters?.hiringRegime as string[]);
+      onChangeSkillFilter(filters?.skills as string[]);
+      onChangeBenefitFilter(filters?.benefits as string[]);
     }}
   />
 }
