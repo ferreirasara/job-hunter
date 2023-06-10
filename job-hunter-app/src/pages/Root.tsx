@@ -1,5 +1,5 @@
-import { BarChartOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons"
-import { Alert, Button, Divider, Space } from "antd"
+import { BarChartOutlined, ClockCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
+import { Alert, Button, Divider, Space, Tooltip } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { CreateJobModal } from "../components/CreateJobModal";
 import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
@@ -12,7 +12,8 @@ export const Root = () => {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsModalOpen, setDetailsModalOpen] = useState<boolean>(false);
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
-  const [showDiscarded, setShowDiscarded] = useState<boolean>(false);
+  const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
+  const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [page, setPage] = useState<number>(0);
@@ -40,9 +41,11 @@ export const Root = () => {
         typeFilter,
         hiringRegimeFilter,
         orderBy,
-        showDiscarded,
+        showOnlyDiscarded,
+        showOnlyNewJobs,
       });
       if (response) {
+        setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
         setData(response?.data);
       }
@@ -50,7 +53,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showDiscarded])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs])
 
   useEffect(() => {
     handleFetchData();
@@ -83,12 +86,24 @@ export const Root = () => {
         </Button>
         <Button
           block
-          icon={showDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
-          onClick={() => setShowDiscarded(!showDiscarded)}
+          type={showOnlyDiscarded ? "primary" : "default"}
+          icon={showOnlyDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
+          onClick={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
           loading={loading}
         >
-          Mostrar apenas vagas {showDiscarded ? "não descartadas" : "descartadas"}
+          Mostrar apenas vagas {showOnlyDiscarded ? "não descartadas" : "descartadas"}
         </Button>
+        <Tooltip title={showOnlyNewJobs ? "Exibe todas as vagas" : "Exibe apenas as vagas dos 2 últimos dias"}>
+          <Button
+            block
+            type={showOnlyNewJobs ? "primary" : "default"}
+            icon={showOnlyNewJobs ? <ClockCircleOutlined /> : <StarOutlined />}
+            onClick={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
+            loading={loading}
+          >
+            Mostrar {showOnlyNewJobs ? "todas as vagas" : "apenas vagas novas"}
+          </Button>
+        </Tooltip>
         <Button
           block
           icon={<PlusOutlined />}
@@ -105,7 +120,12 @@ export const Root = () => {
           Ver estatísticas
         </Button>
       </Space>
-      {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
+      {errorMessage ? <Alert
+        type="error"
+        description={errorMessage}
+        showIcon
+        message="Error"
+      /> : null}
       <JobsTable
         loading={loading}
         data={data}

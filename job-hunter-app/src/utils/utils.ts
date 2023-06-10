@@ -9,9 +9,10 @@ export const getJobsFromAPI = async (args: {
   hiringRegimeFilter?: string[],
   skillsFilter?: string[],
   orderBy?: OrderBy,
-  showDiscarded?: boolean
+  showOnlyDiscarded?: boolean
+  showOnlyNewJobs?: boolean
 }) => {
-  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter, hiringRegimeFilter, showDiscarded } = args;
+  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs } = args;
   const searchParams: any = {};
 
   if (limit) searchParams.limit = limit?.toString();
@@ -21,7 +22,8 @@ export const getJobsFromAPI = async (args: {
   if (skillsFilter) searchParams.skillsFilter = skillsFilter;
   if (typeFilter) searchParams.typeFilter = typeFilter;
   if (hiringRegimeFilter) searchParams.hiringRegimeFilter = hiringRegimeFilter;
-  if (showDiscarded) searchParams.showDiscarded = showDiscarded;
+  if (showOnlyDiscarded) searchParams.showOnlyDiscarded = showOnlyDiscarded;
+  if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;
   if (orderBy?.field && orderBy?.order) {
     searchParams.orderByField = orderBy?.field;
     searchParams.orderByOrder = orderBy?.order;

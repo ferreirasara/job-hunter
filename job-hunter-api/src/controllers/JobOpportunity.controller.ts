@@ -1,4 +1,4 @@
-import { FindOptionsOrder, FindOptionsWhere, In } from "typeorm";
+import { FindOptionsOrder, FindOptionsWhere, In, MoreThanOrEqual } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten } from "lodash";
@@ -98,17 +98,23 @@ export default class JobOpportunityController {
     hiringRegimeFilter?: string,
     orderByField?: string,
     orderByOrder?: string,
-    showDiscarded?: string
+    showOnlyDiscarded?: string
+    showOnlyNewJobs?: string
   }) {
-    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, hiringRegimeFilter, showDiscarded } = args;
+    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs } = args;
 
     const where: FindOptionsWhere<JobOpportunity> = {}
 
-    where.discarded = showDiscarded === 'true' || false
+    where.discarded = showOnlyDiscarded === 'true' || false
     if (appliedFilter) where.applied = In(appliedFilter?.split(','));
     if (platformFilter) where.platform = In(platformFilter?.split(','));
     if (typeFilter) where.type = In(typeFilter?.split(','));
     if (hiringRegimeFilter) where.hiringRegime = In(hiringRegimeFilter?.split(','));
+    if (showOnlyNewJobs) {
+      const date = new Date();
+      date.setDate(date.getDate() - 2);
+      where.createdAt = MoreThanOrEqual(date);
+    }
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
       skip: page * limit,
