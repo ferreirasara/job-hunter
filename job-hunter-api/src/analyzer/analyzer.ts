@@ -195,13 +195,13 @@ const SKILL_RATING = {
 }
 
 const BENEFITS_REGEX = {
-  ANUAL_BONUS: [/bônus anual/i, /bonus per year/i, /bonificação anual/i],
+  ANUAL_BONUS: [/bônus anual/i, /bonus per year/i, /bonificação anual/i, /annual bonus/i],
   BIRTHDAY_DAYOFF: [/day off de aniversário/i, /day off/i, /day-off/i, /dia de folga na semana do seu aniversário/i],
   COURSE_HELP: [/curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitação/i, /alura/i, /acesso a cursos/i, /curso de/i, /aquisição de livros e cursos/i],
   DENTAL_PLAN: [/plano odontológico/i, /convênio odontológico/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /dental/i, /assistência odontológica/i],
   FLEXIBLE_HOURS: [/horários flexíveis/i, /horário flexível/i, /flexible hours/i, /flexibilidade de horário/i, /flexible schedule/i, /flexible working schedules/i,],
   GYMPASS: [/gympass/i, /academia/i, /gym pass/i, /auxílio academia/i, /totalpass/i],
-  HEALTH_PLAN: [/plano de saúde/i, /convênio saúde/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /health care/i, /assistência médica/i, /convênio médico/i, /health insurance/i, /Health plan/i],
+  HEALTH_PLAN: [/plano de saúde/i, /convênio saúde/i, /convênio médico e odontológico/i, /plano de saúde e odontológico/i, /assistência médica e odontológica/i, /health care/i, /assistência médica/i, /convênio médico/i, /health insurance/i, /health plan/i, /health and dental plan/],
   HOME_OFFICE_VOUCHER: [/auxílio home office/i, /subsídio para trabalho remoto/i, /auxílio home-office/i, /auxílio para atuação em home office/i, /remote work allowance/i, /auxílio para trabalho remoto/i],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
   MEAL_VOUCHER: [/alimentação/i, /refeição/i, /caju/i, /\bva\b/i, /\bvr\b/i, /flex food/i, /to use with food/i],
