@@ -4,12 +4,14 @@ import { interceptRequest } from "../utils/utils";
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform
+  protected filterExistentsJobs: boolean
 
-  constructor({ platform }: { platform: JobPlatform }) {
+  constructor({ platform, filterExistentsJobs }: { platform: JobPlatform, filterExistentsJobs?: boolean }) {
     this.platform = platform;
+    this.filterExistentsJobs = filterExistentsJobs;
   }
 
-  public abstract getJobs(filterExistentsJobs: boolean): Promise<JobInput[]>
+  public abstract getJobs(): Promise<JobInput[]>
 
   protected async getBrowser(dontAbortScript?: boolean) {
     const browser = await puppeteer.launch({ headless: "new" });
@@ -31,7 +33,7 @@ export default abstract class ScraperInterface {
   }
 
   public async saveJobs(): Promise<number> {
-    const jobs = await this.getJobs(true);
+    const jobs = await this.getJobs();
     const jobsLength = jobs?.length;
     console.log(`[${this.platform}] there are ${jobsLength} new jobs to save!`);
     let jobsSavedCount = 0;

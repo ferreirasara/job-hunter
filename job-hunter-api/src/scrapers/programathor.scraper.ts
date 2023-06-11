@@ -17,16 +17,18 @@ type ProgramathorJob = {
 const platform: JobPlatform = "PROGRAMATHOR"
 
 export default class ProgramathorScraper extends ScraperInterface {
-  constructor() { super({ platform }) }
+  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+    super({ platform, filterExistentsJobs })
+  }
 
-  public async getJobs(filterExistentsJobs?: boolean): Promise<JobInput[]> {
+  public async getJobs(): Promise<JobInput[]> {
     const { browser, page } = await this.getBrowser();
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform("PROGRAMATHOR");
     const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
-    const filteredUrls = filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
+    const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
 

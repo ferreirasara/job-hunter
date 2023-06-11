@@ -33,9 +33,11 @@ type GupyData = {
 const platform: JobPlatform = "GUPY"
 
 export default class GupyScraper extends ScraperInterface {
-  constructor() { super({ platform }) }
+  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+    super({ platform, filterExistentsJobs })
+  }
 
-  public async getJobs(filterExistentsJobs?: boolean) {
+  public async getJobs() {
     this.logMessage("Start");
     let allJobs = [];
 
@@ -52,7 +54,7 @@ export default class GupyScraper extends ScraperInterface {
     const uniqJobs = uniqBy(allJobs, 'id');
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
     const existentJobIds = existentJobs?.map(cur => parseInt(cur?.idInPlatform));
-    const filteredJobs = filterExistentsJobs ? uniqJobs?.filter(cur => !existentJobIds?.includes(cur?.id)) : uniqJobs;
+    const filteredJobs = this.filterExistentsJobs ? uniqJobs?.filter(cur => !existentJobIds?.includes(cur?.id)) : uniqJobs;
 
     this.logMessage("End");
     return await this.getNewJobsWithDescription(filteredJobs);
