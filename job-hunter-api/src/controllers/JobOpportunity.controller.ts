@@ -26,6 +26,7 @@ export type JobInput = {
   hiringRegime?: HiringRegime
   skillsRating?: number
   benefitsRating?: number
+  applied?: boolean
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -76,6 +77,7 @@ export default class JobOpportunityController {
       newJob.skillsRating = jobInput.skillsRating;
       newJob.benefitsRating = jobInput.benefitsRating;
       newJob.totalRating = jobInput.skillsRating + jobInput.benefitsRating;
+      newJob.applied = jobInput.applied;
 
       try {
         const res = await AppDataSource.manager.save(newJob);

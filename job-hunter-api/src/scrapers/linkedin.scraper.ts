@@ -67,6 +67,7 @@ export default class LinkedinScraper extends ScraperInterface {
           benefitsRating,
           skillsRating,
           hiringRegime,
+          applied: true,
         });
       } catch (e) {
         this.logError(e);
