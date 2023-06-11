@@ -4,7 +4,7 @@ import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten, uniq } from "lodash";
 import { calcContType, convertStrToArray } from "../utils/utils";
 
-export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS" | "REMOTAR"
+export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS" | "REMOTAR" | "LINKEDIN"
 export type JobType = "REMOTE" | "HYBRID" | "FACE_TO_FACE"
 export type HiringRegime = "CLT" | "PJ"
 export type JobInitialData = { url: string, idInPlatform: string }

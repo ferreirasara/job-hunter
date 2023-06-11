@@ -12,7 +12,7 @@ export default abstract class ScraperInterface {
   public abstract getJobs(filterExistentsJobs: boolean): Promise<JobInput[]>
 
   protected async getBrowser(dontAbortScript?: boolean) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
     const ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36";
     await page.setUserAgent(ua);
@@ -23,7 +23,7 @@ export default abstract class ScraperInterface {
   }
 
   protected async logError(e: any) {
-    console.log(`[${this.platform}] Error: ${JSON.stringify(e)}`);
+    console.log(`[${this.platform}] Error: ${e}`);
   }
 
   protected async logMessage(message: string) {
