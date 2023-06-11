@@ -22,7 +22,7 @@ export default class ProgramathorScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser();
+    const { browser, page } = await this.getBrowser({});
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
@@ -42,7 +42,7 @@ export default class ProgramathorScraper extends ScraperInterface {
     try {
       await page.goto("https://programathor.com.br/jobs-front-end");
       const urls: string[] = await page?.$$eval('div.cell-list > a', (el) => el?.map(cur => cur?.href));
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0] }))
+      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0] }));
       return result;
     } catch (e) {
       this.logError(e);

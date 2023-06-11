@@ -62,7 +62,7 @@ export default class GupyScraper extends ScraperInterface {
 
   private async getNewJobsWithDescription(jobs: GupyData[]) {
     const jobsWithDescription: JobInput[] = [];
-    const { browser, page } = await this.getBrowser();
+    const { browser, page } = await this.getBrowser({});
 
     const jobsLength = jobs?.length
 

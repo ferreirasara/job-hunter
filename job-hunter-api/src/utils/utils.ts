@@ -6,9 +6,10 @@ export type ContType = {
   cont: number
 }
 
-export const interceptRequest = (request: HTTPRequest, dontAbortScript?: boolean) => {
-  const resourcesToSkip = ['image', 'stylesheet', 'font']
-  if (!dontAbortScript) resourcesToSkip.push('script');
+export const interceptRequest = ({ request, abortScript = true, abortStyle = true }: { request: HTTPRequest, abortScript?: boolean, abortStyle?: boolean }) => {
+  const resourcesToSkip = ['image', 'font']
+  if (abortScript) resourcesToSkip.push('script');
+  if (abortStyle) resourcesToSkip.push('stylesheet');
   if (resourcesToSkip.includes(request.resourceType())) {
     request.abort();
   } else {
@@ -59,4 +60,8 @@ export function orderObjectsByField<T extends Record<string, any>>(objs: T[], fi
     }
     return comparison;
   })
+}
+
+export const sleep = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

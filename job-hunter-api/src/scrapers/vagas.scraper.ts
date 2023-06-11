@@ -12,7 +12,7 @@ export default class VagasScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser();
+    const { browser, page } = await this.getBrowser({});
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
