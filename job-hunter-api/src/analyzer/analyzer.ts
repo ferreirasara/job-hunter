@@ -387,6 +387,8 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'graphql': return JobSkill.API;
     case 'html': return JobSkill.HTML;
     case 'ionic': return JobSkill.IONIC;
+    case 'java': return JobSkill.JAVA;
+    case 'javascript': return JobSkill.JAVASCRIPT;
     case 'mongodb': return JobSkill.DB;
     case 'nextjs': return JobSkill.NEXT;
     case 'node.js': return JobSkill.NODE;
@@ -395,10 +397,10 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'react native': return JobSkill.REACT_NATIVE;
     case 'restful': return JobSkill.API;
     case 'sass': return JobSkill.SASS;
+    case 'scrum': return JobSkill.AGILE;
     case 'sql': return JobSkill.DB;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
     case 'typescript': return JobSkill.TYPESCRIPT;
-    case 'vava': return JobSkill.JAVA;
     case 'vue.js': return JobSkill.VUE;
     case 'wordpress': return JobSkill.WORDPRESS;
 
