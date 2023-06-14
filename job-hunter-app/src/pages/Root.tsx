@@ -31,6 +31,7 @@ export const Root = () => {
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allSkills, setAllSkills] = useState<string[]>([]);
   const [allBenefits, setAllBenefits] = useState<string[]>([]);
+  const [allRatings, setAllRatings] = useState<number[]>([]);
 
   const handleError = (message: string) => setErrorMessage(message);
 
@@ -55,13 +56,14 @@ export const Root = () => {
         setTotalOfJobs(response?.totalOfJobs);
         setAllSkills(response?.allSkills);
         setAllBenefits(response?.allBenefits);
+        setAllRatings(response?.allRatings);
         setData(response?.data);
       }
     } catch (e) {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs, benefitFilter, skillFilter])
 
   useEffect(() => {
     handleFetchData();
@@ -140,6 +142,7 @@ export const Root = () => {
         totalOfJobs={totalOfJobs}
         allSkills={allSkills}
         allBenefits={allBenefits}
+        allRatings={allRatings}
         page={page}
         onChangePage={(newPage) => setPage(newPage)}
         limit={limit}

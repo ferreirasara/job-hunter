@@ -1,10 +1,11 @@
-import { Button, Table, Typography } from "antd"
+import { Button, Space, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
-import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
+import { CheckSquareTwoTone, CloseSquareTwoTone, MehOutlined, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
+import { renderRating } from "./renderRating";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -53,6 +54,7 @@ export type JobsResponse = {
   data: JobsTableData[],
   allSkills: string[],
   allBenefits: string[],
+  allRatings: number[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -63,6 +65,7 @@ type JobsTableProps = {
   totalOfJobs?: number
   allSkills: string[]
   allBenefits: string[]
+  allRatings: number[]
   page: number
   onChangePage: (page: number) => void
   limit: number
@@ -83,6 +86,7 @@ export const JobsTable = ({
   totalOfJobs,
   allSkills,
   allBenefits,
+  allRatings,
   page,
   onChangePage,
   limit,
@@ -186,6 +190,7 @@ export const JobsTable = ({
       key: 'totalRating',
       width: 90,
       align: 'center',
+      render: (rating) => renderRating(rating, allRatings?.indexOf(rating), allRatings?.length),
       sorter: () => 0,
     },
     {
@@ -218,8 +223,6 @@ export const JobsTable = ({
     size="small"
     pagination={{
       onChange: (page, pageSize) => {
-        // setPage(page - 1);
-        // setLimit(pageSize);
         onChangePage(page - 1);
         onChangeLimit(pageSize);
       },

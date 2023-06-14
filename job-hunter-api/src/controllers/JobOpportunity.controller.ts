@@ -138,12 +138,14 @@ export default class JobOpportunityController {
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where });
     const allSkills = await this.getAllSkills({ unique: true });
     const allBenefits = await this.getAllBenefits({ unique: true });
+    const allRatings = await AppDataSource.manager.find(JobOpportunity, { order: { totalRating: 'ASC' }, select: { totalRating: true }, where: { discarded: false } });
 
     return {
       totalOfJobs,
       data: jobs,
       allSkills,
       allBenefits,
+      allRatings: allRatings.map(cur => cur?.totalRating),
     };
   }
 
