@@ -16,8 +16,12 @@ export const Root = () => {
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const windowHeight = window.innerHeight;
+  const tableMaxSixe = windowHeight - 280;
+  const maxRows = Math.ceil(tableMaxSixe / 43);
+
   const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(18);
+  const [limit, setLimit] = useState<number>(maxRows);
 
   const [platformFilter, setPlatformFilter] = useState<string[]>();
   const [typeFilter, setTypeFilter] = useState<string[]>();
@@ -85,7 +89,7 @@ export const Root = () => {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
-      <Space>
+      <Space.Compact>
         <Button
           block
           icon={<ReloadOutlined />}
@@ -129,7 +133,7 @@ export const Root = () => {
         >
           Ver estatísticas
         </Button>
-      </Space>
+      </Space.Compact>
       {errorMessage ? <Alert
         type="error"
         description={errorMessage}
