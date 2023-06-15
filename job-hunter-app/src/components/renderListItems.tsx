@@ -4,17 +4,16 @@ import { renderMultipleTags } from "./renderMultipleTags";
 
 export const renderListItems = (selectedJob?: JobsTableData) => {
   const items = [
+    <List.Item><strong>Empresa:</strong> {selectedJob?.company}</List.Item>,
     <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>,
     <List.Item>
       <Space style={{ width: '100%' }}>
+        <span><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</span>
         <span><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</span>
         <span><strong>Regime de contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</span>
       </Space>
     </List.Item>,
-    <List.Item><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</List.Item>,
   ];
-
-  if (selectedJob?.company) items.push(<List.Item><strong>Empresa:</strong> {selectedJob?.company}</List.Item>)
   if (selectedJob?.country || selectedJob?.state || selectedJob?.city) items.push(<List.Item>
     <Space style={{ width: '100%' }}>
       <span><strong>País:</strong> {selectedJob?.country}</span>
@@ -22,9 +21,6 @@ export const renderListItems = (selectedJob?: JobsTableData) => {
       <span><strong>Cidade:</strong> {selectedJob?.city}</span>
     </Space>
   </List.Item>)
-  if (selectedJob?.salaryRange) items.push(<List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item>)
-  if (selectedJob?.skills) items.push(<List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item>)
-  if (selectedJob?.benefits) items.push(<List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item>)
   if (selectedJob?.skillsRating?.toString() || selectedJob?.benefitsRating?.toString() || selectedJob?.totalRating?.toString()) items.push(<List.Item>
     <Space style={{ width: '100%' }}>
       <span><strong>SkillsRating:</strong> {selectedJob?.skillsRating || 0}</span>
@@ -32,6 +28,9 @@ export const renderListItems = (selectedJob?: JobsTableData) => {
       <span><strong>TotalRating:</strong> {selectedJob?.totalRating || 0}</span>
     </Space>
   </List.Item>)
+  if (selectedJob?.salaryRange) items.push(<List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item>)
+  if (selectedJob?.skills) items.push(<List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item>)
+  if (selectedJob?.benefits) items.push(<List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item>)
 
   return items;
 }
