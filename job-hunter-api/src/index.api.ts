@@ -7,6 +7,9 @@ import JobOpportunityController, { JobInput } from "./controllers/JobOpportunity
 type UpdateJobBody = {
   applied?: boolean
   discarded?: boolean
+  recused?: boolean
+  numberOfInterviews?: number
+  numberOfTests?: number
 }
 
 AppDataSource.initialize().then(async () => {
@@ -67,6 +70,9 @@ AppDataSource.initialize().then(async () => {
 
     if (body?.applied) updated = await JobOpportunityController.updateApplied(uuid, body?.applied);
     if (body?.discarded) updated = await JobOpportunityController.updateDiscarded(uuid, body?.discarded);
+    if (body?.recused) updated = await JobOpportunityController.updateRecused(uuid, body?.recused);
+    if (body?.numberOfInterviews) updated = await JobOpportunityController.updateNumberOfInterviews(uuid, body?.numberOfInterviews);
+    if (body?.numberOfTests) updated = await JobOpportunityController.updateNumberOfTests(uuid, body?.numberOfTests);
 
     res.send({ updated });
   })

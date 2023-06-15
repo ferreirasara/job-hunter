@@ -38,6 +38,7 @@ export type JobsTableData = {
   city: string
   applied: boolean
   discarded: boolean
+  recused: boolean
   createdAt: Date
   type: JobType
   hiringRegime: JobHiringRegime
@@ -47,6 +48,8 @@ export type JobsTableData = {
   skillsRating: number
   benefitsRating: number
   totalRating: number
+  numberOfInterviews: number
+  numberOfTests: number
 }
 
 export type JobsResponse = {

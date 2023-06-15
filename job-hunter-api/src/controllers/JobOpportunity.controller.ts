@@ -110,6 +110,7 @@ export default class JobOpportunityController {
     const where: FindOptionsWhere<JobOpportunity> = {}
 
     where.discarded = showOnlyDiscarded === 'true' || false
+    where.recused = false
     if (appliedFilter) where.applied = In(appliedFilter?.split(','));
     if (platformFilter) where.platform = In(platformFilter?.split(','));
     if (typeFilter) where.type = In(typeFilter?.split(','));
@@ -166,6 +167,21 @@ export default class JobOpportunityController {
 
   public static async updateDiscarded(uuid: string, discarded: boolean) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, { discarded });
+    return response?.affected > 0;
+  }
+
+  public static async updateRecused(uuid: string, recused: boolean) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { recused });
+    return response?.affected > 0;
+  }
+
+  public static async updateNumberOfInterviews(uuid: string, numberOfInterviews: number) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { numberOfInterviews });
+    return response?.affected > 0;
+  }
+
+  public static async updateNumberOfTests(uuid: string, numberOfTests: number) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { numberOfTests });
     return response?.affected > 0;
   }
 

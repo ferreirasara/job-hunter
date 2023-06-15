@@ -62,6 +62,39 @@ export const setJobAsDiscarded = async (uuid: string) => {
   return jobDiscardedResponseJson;
 }
 
+export const setJobAsRecused = async (uuid: string) => {
+  const body = { recused: true }
+  const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const jobRecusedResponseJson = await jobRecusedResponse?.json();
+  return jobRecusedResponseJson;
+}
+
+export const updateNumberOfInterviews = async (uuid: string, numberOfInterviews: number) => {
+  const body = { numberOfInterviews }
+  const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const jobRecusedResponseJson = await jobRecusedResponse?.json();
+  return jobRecusedResponseJson;
+}
+
+export const updateNumberOfTests = async (uuid: string, numberOfTests: number) => {
+  const body = { numberOfTests }
+  const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const jobRecusedResponseJson = await jobRecusedResponse?.json();
+  return jobRecusedResponseJson;
+}
+
 export const getStatsFromAPI = async () => {
   const statsResponse = await fetch(encodeURI(`http://localhost:8080/stats`));
   const statsResponseJson = await statsResponse?.json();

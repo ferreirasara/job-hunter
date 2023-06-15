@@ -59,8 +59,17 @@ export class JobOpportunity {
   @Column({ default: false })
   applied: boolean
 
+  @Column({ nullable: true, default: 0 })
+  numberOfInterviews: number
+
+  @Column({ nullable: true, default: 0 })
+  numberOfTests: number
+
   @Column({ default: false })
   discarded: boolean
+
+  @Column({ default: false })
+  recused: boolean
 
   @Column({ default: new Date() })
   createdAt: Date
