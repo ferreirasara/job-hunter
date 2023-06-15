@@ -10,7 +10,7 @@ export const Root = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
-  const [detailsModalOpen, setDetailsModalOpen] = useState<boolean>(false);
+  const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
@@ -76,11 +76,11 @@ export const Root = () => {
   const handleSeeDetails = (uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
     setSelectedJob(job);
-    setDetailsModalOpen(true);
+    setDetailsDrawerOpen(true);
   }
 
-  const handleCloseDetailsModal = () => {
-    setDetailsModalOpen(false);
+  const onCloseDrawer = () => {
+    setDetailsDrawerOpen(false);
     setSelectedJob(undefined);
   }
 
@@ -167,8 +167,8 @@ export const Root = () => {
       fetchData={handleFetchData}
     />
     <DetailsDrawer
-      open={detailsModalOpen}
-      onCancel={handleCloseDetailsModal}
+      open={detailsDrawerOpen}
+      onClose={onCloseDrawer}
       selectedJob={selectedJob}
       fetchData={handleFetchData}
     />

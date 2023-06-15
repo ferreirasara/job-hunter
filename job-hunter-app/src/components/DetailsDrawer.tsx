@@ -1,45 +1,26 @@
-import { Button, Drawer, List, Space, Typography } from "antd"
+import { Drawer, List, Space } from "antd"
 import { JobsTableData } from "./JobsTable"
 import { renderMultipleTags } from "./renderMultipleTags"
 import { Link } from "./Link"
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons"
-import { setJobAsApplied, setJobAsDiscarded } from "../utils/utils"
-import { useState } from "react"
-
+import { AppliedButton } from "./AppliedButton"
+import { DiscardedButton } from "./DiscardedButton"
+import { JobDescription } from "./JobDescription"
 
 type DetailsDrawerProps = {
   open: boolean
-  onCancel: () => void
+  onClose: () => void
   selectedJob?: JobsTableData
   fetchData: () => Promise<void>
 }
 
-export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: DetailsDrawerProps) => {
-  const [appliedLoading, setAppliedLoading] = useState<boolean>(false);
-  const [discardedLoading, setDiscardedLoading] = useState<boolean>(false);
+export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: DetailsDrawerProps) => {
   const descriptionSplit = selectedJob?.description?.split('\n');
   const description = descriptionSplit?.filter(cur => !!cur);
-
-  const handleSetAsApplied = async () => {
-    setAppliedLoading(true);
-    if (selectedJob?.uuid) await setJobAsApplied(selectedJob?.uuid);
-    await fetchData();
-    setAppliedLoading(false);
-    onCancel();
-  }
-
-  const handleSetAsDiscarded = async () => {
-    setDiscardedLoading(true);
-    if (selectedJob?.uuid) await setJobAsDiscarded(selectedJob?.uuid);
-    await fetchData();
-    setDiscardedLoading(false);
-    onCancel();
-  }
 
   return <Drawer
     title={selectedJob?.title}
     placement="right"
-    onClose={onCancel}
+    onClose={onClose}
     open={open}
     width={700}
     bodyStyle={{ display: 'flex', flexDirection: 'column', height: '100%' }}
@@ -74,32 +55,11 @@ export const DetailsDrawer = ({ fetchData, onCancel, open, selectedJob }: Detail
       {selectedJob?.url ? <List.Item><strong>Link:</strong> <Link url={selectedJob?.url} /></List.Item> : null}
       <List.Item>
         <Space>
-          <Button
-            block
-            size="small"
-            icon={<FormOutlined />}
-            onClick={handleSetAsApplied}
-            loading={appliedLoading}
-            disabled={selectedJob?.applied}
-          >
-            Marcar como aplicada
-          </Button>
-          <Button
-            block
-            size="small"
-            icon={<DeleteOutlined />}
-            onClick={handleSetAsDiscarded}
-            loading={discardedLoading}
-            disabled={selectedJob?.discarded}
-          >
-            Descartar
-          </Button>
+          <AppliedButton uuid={selectedJob?.uuid} fetchData={fetchData} onFinish={onClose} disabled={!!selectedJob?.applied} />
+          <DiscardedButton uuid={selectedJob?.uuid} fetchData={fetchData} onFinish={onClose} disabled={!!selectedJob?.applied} />
         </Space>
       </List.Item>
     </List>
-    <Typography.Title level={2}>Descrição</Typography.Title>
-    <div style={{ flex: 1, overflowY: 'auto' }}>
-      {description?.map(cur => <Typography.Paragraph>{cur}</Typography.Paragraph>)}
-    </div>
+    <JobDescription description={description} />
   </Drawer>
 }
