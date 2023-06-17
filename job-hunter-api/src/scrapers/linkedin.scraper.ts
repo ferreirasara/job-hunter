@@ -63,6 +63,7 @@ export default class LinkedinScraper extends ScraperInterface {
         await page.goto(obj?.url, { waitUntil: "networkidle0" });
         const title: string = await page?.$eval('h1.top-card-layout__title', (el) => el?.innerText);
         const company: string = await page?.$eval('span.topcard__flavor', (el) => el?.innerText);
+        if (company?.toLowerCase() === 'programathor') continue;
         const description: string = await page?.$$eval('div.description__text', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
         const type: JobType = getTypeBasedOnDescription({ description });
         const skills = getSkillsBasedOnDescription({ description });
