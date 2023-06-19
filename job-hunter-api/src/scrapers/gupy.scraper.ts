@@ -1,7 +1,7 @@
 import { uniqBy } from "lodash";
 import fetch from "node-fetch";
 import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./scraperInterface";
+import ScraperInterface from "./ScraperInterface";
 import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 type GupyResponse = {

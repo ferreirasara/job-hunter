@@ -1,6 +1,6 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobType, JobPlatform } from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./scraperInterface";
+import ScraperInterface from "./ScraperInterface";
 import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 const platform: JobPlatform = "TRAMPOS"

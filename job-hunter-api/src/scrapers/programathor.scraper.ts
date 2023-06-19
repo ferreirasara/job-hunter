@@ -1,6 +1,6 @@
 import { Page } from "puppeteer";
 import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./scraperInterface";
+import ScraperInterface from "./ScraperInterface";
 import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getProgramathorNormalizedSkill, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
 
 type ProgramathorJob = {
