@@ -52,7 +52,6 @@ export default class JobOpportunityController {
   public static async insert(jobInput: JobInput): Promise<{ success: boolean, uuid?: string, message?: string }> {
     const existentJob = await AppDataSource.manager.findOne(JobOpportunity, {
       where: {
-        platform: jobInput.platform,
         company: jobInput.company,
         title: jobInput.title,
       }
