@@ -138,9 +138,9 @@ export default class JobOpportunityController {
     });
 
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where });
-    const allSkills = await this.getAllSkills({ unique: true });
-    const allPlatforms = await this.getAllPlatforms({ unique: true });
-    const allBenefits = await this.getAllBenefits({ unique: true });
+    const allSkills = await this.getAllSkills({ unique: true, whereFilter: where });
+    const allPlatforms = await this.getAllPlatforms({ unique: true, whereFilter: where });
+    const allBenefits = await this.getAllBenefits({ unique: true, whereFilter: where });
     const allRatings = await AppDataSource.manager.find(JobOpportunity, { order: { totalRating: 'ASC' }, select: { totalRating: true }, where: { discarded: false } });
 
     return {
@@ -169,7 +169,7 @@ export default class JobOpportunityController {
   }
 
   public static async updateDiscarded(uuid: string, discarded: boolean) {
-    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { discarded });
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { discarded, applied: false, recused: false });
     return response?.affected > 0;
   }
 
@@ -227,8 +227,8 @@ export default class JobOpportunityController {
     return jobs;
   }
 
-  private static async getAllSkills({ unique, considerDiscartedJobs }: { unique?: boolean, considerDiscartedJobs?: boolean }) {
-    const where: FindOptionsWhere<JobOpportunity> = {}
+  private static async getAllSkills({ unique, considerDiscartedJobs, whereFilter }: { unique?: boolean, considerDiscartedJobs?: boolean, whereFilter?: FindOptionsWhere<JobOpportunity> }) {
+    const where: FindOptionsWhere<JobOpportunity> = whereFilter;
 
     if (!considerDiscartedJobs) where.discarded = false;
 
@@ -238,8 +238,8 @@ export default class JobOpportunityController {
     return unique ? uniq(allSkills)?.sort((a, b) => a.localeCompare(b)) : allSkills;
   }
 
-  private static async getAllBenefits({ unique, considerDiscartedJobs }: { unique?: boolean, considerDiscartedJobs?: boolean }) {
-    const where: FindOptionsWhere<JobOpportunity> = {}
+  private static async getAllBenefits({ unique, considerDiscartedJobs, whereFilter }: { unique?: boolean, considerDiscartedJobs?: boolean, whereFilter?: FindOptionsWhere<JobOpportunity> }) {
+    const where: FindOptionsWhere<JobOpportunity> = whereFilter;
 
     if (!considerDiscartedJobs) where.discarded = false;
 
@@ -249,8 +249,8 @@ export default class JobOpportunityController {
     return unique ? uniq(allBenefits)?.sort((a, b) => a.localeCompare(b)) : allBenefits;
   }
 
-  private static async getAllPlatforms({ unique, considerDiscartedJobs }: { unique?: boolean, considerDiscartedJobs?: boolean }) {
-    const where: FindOptionsWhere<JobOpportunity> = {}
+  private static async getAllPlatforms({ unique, considerDiscartedJobs, whereFilter }: { unique?: boolean, considerDiscartedJobs?: boolean, whereFilter?: FindOptionsWhere<JobOpportunity> }) {
+    const where: FindOptionsWhere<JobOpportunity> = whereFilter;
 
     if (!considerDiscartedJobs) where.discarded = false;
 
