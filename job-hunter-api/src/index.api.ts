@@ -34,6 +34,7 @@ AppDataSource.initialize().then(async () => {
     const skillFilter = params.get('skillFilter');
     const benefitRegimeFilter = params.get('benefitRegimeFilter');
     const showOnlyDiscarded = params.get('showOnlyDiscarded');
+    const showOnlyRecused = params.get('showOnlyRecused');
     const showOnlyNewJobs = params.get('showOnlyNewJobs');
     const orderByField = params.get('orderByField');
     const orderByOrder = params.get('orderByOrder');
@@ -55,6 +56,7 @@ AppDataSource.initialize().then(async () => {
       skillFilter: skillFilter ? decodeURI(skillFilter) : undefined,
       benefitRegimeFilter: benefitRegimeFilter ? decodeURI(benefitRegimeFilter) : undefined,
       showOnlyDiscarded: showOnlyDiscarded ? decodeURI(showOnlyDiscarded) : undefined,
+      showOnlyRecused: showOnlyRecused ? decodeURI(showOnlyRecused) : undefined,
       showOnlyNewJobs: showOnlyNewJobs ? decodeURI(showOnlyNewJobs) : undefined,
       orderByField: orderByField ? decodeURI(orderByField) : undefined,
       orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,

@@ -1,4 +1,4 @@
-import { BarChartOutlined, ClockCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
+import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Alert, Button, Divider, Space, Tooltip } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { CreateJobModal } from "../components/CreateJobModal";
@@ -13,6 +13,7 @@ export const Root = () => {
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
+  const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -35,6 +36,7 @@ export const Root = () => {
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allSkills, setAllSkills] = useState<string[]>([]);
   const [allBenefits, setAllBenefits] = useState<string[]>([]);
+  const [allPlatforms, setAllPlatforms] = useState<string[]>([]);
   const [allRatings, setAllRatings] = useState<number[]>([]);
 
   const handleError = (message: string) => setErrorMessage(message);
@@ -53,6 +55,7 @@ export const Root = () => {
         benefitFilter,
         orderBy,
         showOnlyDiscarded,
+        showOnlyRecused,
         showOnlyNewJobs,
       });
       if (response) {
@@ -60,6 +63,7 @@ export const Root = () => {
         setTotalOfJobs(response?.totalOfJobs);
         setAllSkills(response?.allSkills);
         setAllBenefits(response?.allBenefits);
+        setAllPlatforms(response?.allPlatforms);
         setAllRatings(response?.allRatings);
         setData(response?.data);
       }
@@ -67,7 +71,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyNewJobs, benefitFilter, skillFilter])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, benefitFilter, skillFilter])
 
   useEffect(() => {
     handleFetchData();
@@ -106,6 +110,15 @@ export const Root = () => {
           loading={loading}
         >
           Mostrar apenas vagas {showOnlyDiscarded ? "não descartadas" : "descartadas"}
+        </Button>
+        <Button
+          block
+          type={showOnlyRecused ? "primary" : "default"}
+          icon={showOnlyRecused ? <EyeOutlined /> : <CloseCircleOutlined />}
+          onClick={() => setShowOnlyRecused(!showOnlyRecused)}
+          loading={loading}
+        >
+          Mostrar apenas vagas {showOnlyRecused ? "não recusadas" : "recusadas"}
         </Button>
         <Tooltip title={showOnlyNewJobs ? "Exibe todas as vagas" : "Exibe apenas as vagas dos 2 últimos dias"}>
           <Button
@@ -147,6 +160,7 @@ export const Root = () => {
         allSkills={allSkills}
         allBenefits={allBenefits}
         allRatings={allRatings}
+        allPlatforms={allPlatforms}
         page={page}
         onChangePage={(newPage) => setPage(newPage)}
         limit={limit}

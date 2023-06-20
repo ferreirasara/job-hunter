@@ -14,6 +14,10 @@ type StatsResponse = {
   totalOfJobs: number
   totalOfAppliedJobs: number
   totalOfDiscardedJobs: number
+  totalOfRecusedJobs: number
+  totalOfRecusedJobsWithoutEnterview: number
+  medianOfInterviews: number
+  medianOfTests: number
   skillsContType: ContType[]
   benefitsContType: ContType[]
 }
@@ -53,6 +57,10 @@ export const Stats = () => {
               <List.Item><strong>Total de vagas:</strong> {data?.totalOfJobs}</List.Item>
               <List.Item><strong>Vagas aplicadas:</strong> {data?.totalOfAppliedJobs}</List.Item>
               <List.Item><strong>Vagas descartadas:</strong> {data?.totalOfDiscardedJobs}</List.Item>
+              <List.Item><strong>Vagas recusadas:</strong> {data?.totalOfRecusedJobs}</List.Item>
+              <List.Item><strong>Vagas recusadas sem nenhuma entrevista:</strong> {data?.totalOfRecusedJobsWithoutEnterview}</List.Item>
+              <List.Item><strong>Média de entrevistas:</strong> {data?.medianOfInterviews?.toPrecision(2)}</List.Item>
+              <List.Item><strong>Média de testes:</strong> {data?.medianOfTests?.toPrecision(2)}</List.Item>
             </List>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Contagem de skills</strong>} key="skillsContType">

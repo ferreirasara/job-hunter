@@ -1,7 +1,7 @@
-import { Button, Space, Table, Typography } from "antd"
+import { Button, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
-import { CheckSquareTwoTone, CloseSquareTwoTone, MehOutlined, ZoomInOutlined } from "@ant-design/icons";
+import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
@@ -58,6 +58,7 @@ export type JobsResponse = {
   allSkills: string[],
   allBenefits: string[],
   allRatings: number[],
+  allPlatforms: string[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -69,6 +70,7 @@ type JobsTableProps = {
   allSkills: string[]
   allBenefits: string[]
   allRatings: number[]
+  allPlatforms: string[]
   page: number
   onChangePage: (page: number) => void
   limit: number
@@ -90,6 +92,7 @@ export const JobsTable = ({
   allSkills,
   allBenefits,
   allRatings,
+  allPlatforms,
   page,
   onChangePage,
   limit,
@@ -103,7 +106,6 @@ export const JobsTable = ({
   onChangeSkillFilter,
   handleSeeDetails,
 }: JobsTableProps) => {
-  const platformOptions = Object.keys(Platform);
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const columns: ColumnsType<JobsTableData> = [
@@ -123,7 +125,7 @@ export const JobsTable = ({
       width: 130,
       sorter: () => 0,
       align: 'center',
-      filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
+      filters: allPlatforms.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
     },
     {
@@ -140,12 +142,12 @@ export const JobsTable = ({
       key: 'title',
       ellipsis: true,
       sorter: () => 0,
-      render: (title, record) => <Typography.Link
+      render: (title, record) => record.url ? <Typography.Link
         href={record.url}
         target="_blank"
       >
         {title}
-      </Typography.Link>
+      </Typography.Link> : <Typography.Text>{title}</Typography.Text>
     },
     {
       title: "Tipo",

@@ -83,6 +83,18 @@ AppDataSource.initialize().then(async () => {
       await JobOpportunityController.updateHiringRegime(job.uuid, hiringRegime);
     }
     console.log(`[update-hiring-regime] End`);
+  } else if (functionToCall === 'update-description') {
+    console.log(`[update-description] Start`);
+    const allJobs = await JobOpportunityController.getAllJobs();
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      console.log(`[update-description] Updating job ${i + 1} of ${allJobsLength}`);
+      const description = job?.description?.replace(/\\n+/g, '\n');
+
+      await JobOpportunityController.updateDescription(job.uuid, description);
+    }
+    console.log(`[update-description] End`);
   }
 
 }).catch(error => console.log(error))
