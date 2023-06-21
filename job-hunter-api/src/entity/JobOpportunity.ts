@@ -36,9 +36,6 @@ export class JobOpportunity {
   hiringRegime: string
 
   @Column({ nullable: true })
-  salaryRange: string
-
-  @Column({ nullable: true })
   country: string
 
   @Column({ nullable: true })

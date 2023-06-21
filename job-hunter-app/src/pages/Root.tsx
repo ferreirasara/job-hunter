@@ -1,7 +1,7 @@
 import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Alert, Button, Divider, Space, Tooltip } from "antd"
 import { useCallback, useEffect, useState } from "react";
-import { CreateJobModal } from "../components/CreateJobModal";
+// import { CreateJobModal } from "../components/CreateJobModal";
 import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
@@ -11,7 +11,7 @@ export const Root = () => {
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
-  const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
+  // const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
   const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
@@ -131,14 +131,14 @@ export const Root = () => {
             Mostrar {showOnlyNewJobs ? "todas as vagas" : "apenas vagas novas"}
           </Button>
         </Tooltip>
-        <Button
+        {/* <Button
           block
           icon={<PlusOutlined />}
           onClick={() => setCreateModalOpen(true)}
           loading={loading}
         >
           Adicionar vaga
-        </Button>
+        </Button> */}
         <Button
           block
           icon={<BarChartOutlined />}
@@ -175,11 +175,11 @@ export const Root = () => {
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />
     </Space>
-    <CreateJobModal
+    {/* <CreateJobModal
       open={createModalOpen}
       onCancel={() => setCreateModalOpen(false)}
       fetchData={handleFetchData}
-    />
+    /> */}
     <DetailsDrawer
       open={detailsDrawerOpen}
       onClose={onCloseDrawer}

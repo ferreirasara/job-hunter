@@ -59,7 +59,6 @@ export default class TramposScraper extends ScraperInterface {
         const company = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[0]);
         const address: string = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[1]);
         const description = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
-        const salaryRange = await page?.$eval('div.value > span.blog-description', (el) => el?.innerText);
         const type = this.getType(address, description);
         const skills = getSkillsBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
@@ -72,7 +71,6 @@ export default class TramposScraper extends ScraperInterface {
           description: description.replace(/\n+/g, '\n'),
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
-          salaryRange,
           city: address?.split(' - ')?.[1]?.split(', ')?.[0],
           state: address?.split(' - ')?.[1]?.split(', ')?.[1],
           type,

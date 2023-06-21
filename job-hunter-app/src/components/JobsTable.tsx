@@ -42,7 +42,6 @@ export type JobsTableData = {
   createdAt: Date
   type: JobType
   hiringRegime: JobHiringRegime
-  salaryRange: string
   skills: string
   benefits: string
   skillsRating: number

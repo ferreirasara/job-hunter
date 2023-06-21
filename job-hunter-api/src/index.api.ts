@@ -90,7 +90,6 @@ AppDataSource.initialize().then(async () => {
       benefits: body?.benefits,
       city: body?.city,
       country: body?.country,
-      salaryRange: body?.salaryRange,
       skills: body?.skills,
       state: body?.state,
       type: body?.type,

@@ -28,7 +28,6 @@ export const renderListItems = (selectedJob?: JobsTableData) => {
       <span><strong>TotalRating:</strong> {selectedJob?.totalRating || 0}</span>
     </Space>
   </List.Item>)
-  if (selectedJob?.salaryRange) items.push(<List.Item><strong>Faixa salarial:</strong> {selectedJob?.salaryRange}</List.Item>)
   if (selectedJob?.skills) items.push(<List.Item><strong>Skills:</strong> {renderMultipleTags(selectedJob?.skills)}</List.Item>)
   if (selectedJob?.benefits) items.push(<List.Item><strong>Benefícios:</strong> {renderMultipleTags(selectedJob?.benefits)}</List.Item>)
 

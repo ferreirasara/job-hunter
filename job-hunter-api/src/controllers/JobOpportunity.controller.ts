@@ -21,7 +21,6 @@ export type JobInput = {
   idInPlatform?: string
   skills?: string
   benefits?: string
-  salaryRange?: string
   type?: JobType
   hiringRegime?: HiringRegime
   skillsRating?: number
@@ -38,7 +37,6 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "title") return { title: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "type") return { type: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "hiringRegime") return { hiringRegime: orderByOrder === "ascend" ? "ASC" : "DESC" }
-  if (orderByField === "salaryRange") return { salaryRange: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skills") return { skills: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "applied") return { applied: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skillsRating") return { skillsRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
@@ -70,7 +68,6 @@ export default class JobOpportunityController {
       newJob.url = jobInput.url;
       newJob.skills = jobInput.skills;
       newJob.benefits = jobInput.benefits;
-      newJob.salaryRange = jobInput.salaryRange;
       newJob.type = jobInput.type;
       newJob.hiringRegime = jobInput.hiringRegime;
       newJob.skillsRating = jobInput.skillsRating;

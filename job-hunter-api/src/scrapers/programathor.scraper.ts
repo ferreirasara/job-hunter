@@ -10,7 +10,6 @@ type ProgramathorJob = {
   description: string,
   url: string,
   idInPlatform: string,
-  salaryRange?: string,
   type: JobType,
 }
 
@@ -70,7 +69,6 @@ export default class ProgramathorScraper extends ScraperInterface {
         const normalizedSkills = programathorSkills?.map(cur => getProgramathorNormalizedSkill(cur));
         const skills = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
         const infoArray: string[] = await page?.$$eval('div.col-md-7.col-md-9 > div.row > div', (el) => el?.map(cur => cur?.innerText));
-        const salaryRange = infoArray?.find(cur => cur?.toLowerCase()?.includes("salário"))?.split('Salário: ')?.[1];
         const homeOffice = infoArray?.find(cur => cur?.toLowerCase()?.includes("home office"));
         const type: JobType = !!homeOffice ? "REMOTE" : getTypeBasedOnDescription({ description });
         const benefits = getBenefitsBasedOnDescription({ description });
@@ -83,7 +81,6 @@ export default class ProgramathorScraper extends ScraperInterface {
           description: description.replace(/\n+/g, '\n'),
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
-          salaryRange,
           type,
           platform: this.platform,
           skills: skills?.join(', '),

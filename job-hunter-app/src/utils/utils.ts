@@ -115,7 +115,6 @@ export const createNewJob = async (body: {
   idInPlatform?: string
   skills?: string
   benefits?: string
-  salaryRange?: string
   type?: JobType
 }): Promise<{ success: boolean, message?: string, uuid?: string }> => {
   const newJobResponse = await fetch("http://localhost:8080/job/", {

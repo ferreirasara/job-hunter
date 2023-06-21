@@ -141,7 +141,6 @@ export const CreateJobModal = ({ onCancel, open, fetchData }: CreateJobModalProp
       <Form.Item name="city" label="Cidade"><Input /></Form.Item>
       <Form.Item name="state" label="Estado"><Input /></Form.Item>
       <Form.Item name="country" label="País"><Input /></Form.Item>
-      <Form.Item name="salaryRange" label="Faixa salarial"><Input /></Form.Item>
       <Form.Item name="type" label="Tipo" rules={[{ required: true }]}>
         <Select>
           {typeOptions?.map(cur => <Select.Option value={cur}>{cur}</Select.Option>)}
