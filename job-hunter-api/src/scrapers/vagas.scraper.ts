@@ -32,10 +32,13 @@ export default class VagasScraper extends ScraperInterface {
       await page.goto("https://www.vagas.com.br/vagas-de-frontend?m%5B%5D=100%25+Home+Office");
       const frontendUrls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map(cur => cur?.href));
 
+      await page.goto("https://www.vagas.com.br/vagas-de-front%20end?m%5B%5D=100%25+Home+Office");
+      const frontend2Urls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map(cur => cur?.href));
+
       await page.goto("https://www.vagas.com.br/vagas-de-react?m%5B%5D=100%25+Home+Office");
       const reactUrls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map(cur => cur?.href));
 
-      const allUrls = [...frontendUrls, ...reactUrls];
+      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
       const urls = uniq(allUrls);
 
       const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('vagas/')?.[1]?.split('/')?.[0] }));

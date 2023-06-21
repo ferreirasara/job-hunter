@@ -32,10 +32,13 @@ export default class RemotarScraper extends ScraperInterface {
       await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle0" });
       const frontendUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
+      await page.goto("https://remotar.com.br/search/jobs?q=front%20end", { waitUntil: "networkidle0" });
+      const frontend2Urls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
+
       await page.goto("https://remotar.com.br/search/jobs?q=react", { waitUntil: "networkidle0" });
       const reactUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
-      const allUrls = [...frontendUrls, ...reactUrls];
+      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
       const urls = uniq(allUrls);
 
       const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0] }));

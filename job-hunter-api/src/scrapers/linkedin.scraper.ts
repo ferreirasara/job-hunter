@@ -6,6 +6,12 @@ import { sleep } from "../utils/utils";
 
 const platform: JobPlatform = "LINKEDIN"
 
+const LINKEDIN_URLS = [
+  'https://www.linkedin.com/jobs/search/?keywords=Frontend%20Pleno&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
+  'https://www.linkedin.com/jobs/search/?keywords=Frontend&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
+  'https://www.linkedin.com/jobs/search/?keywords=React&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
+]
+
 export default class LinkedinScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
@@ -28,29 +34,31 @@ export default class LinkedinScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page) {
-    try {
-      // const urls = LINKEDIN_URLS;
-      await page.goto("https://www.linkedin.com/jobs/search/?keywords=Frontend%20Pleno&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0");
-      const totalOfJobs = await page?.$eval('span.results-context-header__job-count', (el) => parseInt(el?.innerText));
+    const result: JobInitialData[] = []
+    for (const url of LINKEDIN_URLS) {
+      try {
+        await page.goto("https://www.linkedin.com/jobs/search/?keywords=Frontend%20Pleno&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0");
+        const totalOfJobs = await page?.$eval('span.results-context-header__job-count', (el) => parseInt(el?.innerText));
 
-      for (let i = 0; i < (totalOfJobs / 25); i++) {
-        await sleep(500);
-        for (let keyPressed = 0; keyPressed <= 10; keyPressed++) {
-          await page?.keyboard?.press('PageDown');
+        for (let i = 0; i < (totalOfJobs / 25); i++) {
+          await sleep(500);
+          for (let keyPressed = 0; keyPressed <= 10; keyPressed++) {
+            await page?.keyboard?.press('PageDown');
+          }
+          await page?.waitForNetworkIdle();
         }
-        await page?.waitForNetworkIdle();
-      }
 
-      const urls: string[] = await page?.$$eval('a.base-card__full-link', (el) => el?.map(cur => cur?.href));
-      const result: JobInitialData[] = urls?.map(url => {
-        const urlSplit = url?.split('?')?.[0]?.split('-');
-        return ({ url, idInPlatform: urlSplit?.[urlSplit?.length - 1] })
-      });
-      return result;
-    } catch (e) {
-      this.logError(e);
-      return [];
+        const urls: string[] = await page?.$$eval('a.base-card__full-link', (el) => el?.map(cur => cur?.href));
+        result?.push(...urls?.map(url => {
+          const urlSplit = url?.split('?')?.[0]?.split('-');
+          return ({ url, idInPlatform: urlSplit?.[urlSplit?.length - 1] })
+        }));
+      } catch (e) {
+        this.logError(e);
+        continue;
+      }
     }
+    return result;
   }
 
   private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {
