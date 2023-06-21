@@ -1,11 +1,11 @@
-import { List, Space } from "antd";
+import { List, Space, Typography } from "antd";
 import { JobsTableData } from "./JobsTable";
 import { renderMultipleTags } from "./renderMultipleTags";
 
 export const renderListItems = (selectedJob?: JobsTableData) => {
   const items = [
     <List.Item><strong>Empresa:</strong> {selectedJob?.company}</List.Item>,
-    <List.Item><strong>uuid:</strong> {selectedJob?.uuid}</List.Item>,
+    <List.Item><strong>uuid:</strong> <Typography.Text copyable>{selectedJob?.uuid}</Typography.Text></List.Item>,
     <List.Item>
       <Space style={{ width: '100%' }}>
         <span><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</span>
