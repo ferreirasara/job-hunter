@@ -1,11 +1,11 @@
 import { Page } from "puppeteer";
-import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { analyzeDescription } from "../analyzer/analyzer";
 import { uniq } from "lodash";
+import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
-const platform: JobPlatform = "VAGAS"
-
+const platform: JobPlatform = JobPlatform.VAGAS
 export default class VagasScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
@@ -59,32 +59,22 @@ export default class VagasScraper extends ScraperInterface {
         await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
         const title = await page?.$eval('h1.job-shortdescription__title', (el) => el?.innerText);
         const company = await page?.$eval('h2.job-shortdescription__company', (el) => el?.innerText);
-        const descriptionOriginal = await page?.$eval('article.vaga.job-group', (el) => el?.innerText);
-        let description = descriptionOriginal;
-
-        const skillsResponse = getSkillsBasedOnDescription({ description });
-        description = skillsResponse?.description;
-
-        const benefitsResponse = getBenefitsBasedOnDescription({ description });
-        description = benefitsResponse?.description;
-
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
-        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
-        const type: JobType = getTypeBasedOnDescription({ description });
+        const descriptionOriginal = await page?.$eval('#JobContent', (el) => el?.innerText);
+        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
 
         jobs?.push({
           title,
           company,
-          description: description.replace(/\n+/g, '\n'),
+          description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
-          type,
+          type: analyzerResponse?.type,
           platform: this.platform,
-          skills: skillsResponse?.skills?.join(', '),
-          benefits: benefitsResponse?.benefits?.join(', '),
-          benefitsRating,
-          skillsRating,
-          hiringRegime,
+          skills: analyzerResponse?.skills?.join(', '),
+          benefits: analyzerResponse?.benefits?.join(', '),
+          benefitsRating: analyzerResponse?.benefitsRating,
+          skillsRating: analyzerResponse?.skillsRating,
+          hiringRegime: analyzerResponse?.hiringRegime,
         });
       } catch (e) {
         this.logError(e);

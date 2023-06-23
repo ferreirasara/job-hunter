@@ -2,34 +2,8 @@ import { FindOptionsOrder, FindOptionsWhere, ILike, In, MoreThanOrEqual } from "
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten, uniq } from "lodash";
-import { calcContType, convertStrToArray } from "../utils/utils";
-
-export type JobPlatform = "GUPY" | "PROGRAMATHOR" | "TRAMPOS" | "VAGAS" | "REMOTAR" | "LINKEDIN"
-export type JobType = "REMOTE" | "HYBRID" | "FACE_TO_FACE"
-export type HiringRegime = "CLT" | "PJ"
-export type JobInitialData = { url: string, idInPlatform: string }
-
-export type JobInput = {
-  company: string
-  platform: JobPlatform
-  title: string
-  description: string
-  url: string
-  country?: string
-  state?: string
-  city?: string
-  idInPlatform?: string
-  skills?: string
-  benefits?: string
-  type?: JobType
-  hiringRegime?: HiringRegime
-  skillsRating?: number
-  benefitsRating?: number
-  applied?: boolean
-  discarded?: boolean
-}
-
-export type OrderBy = { field: string, order: "ascend" | "descend" }
+import { calcContType, convertStrToArray, sendMessageToTelegram } from "../utils/utils";
+import { JobInput, JobPlatform } from "../@types/types";
 
 const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrder<JobOpportunity> => {
   if (orderByField === "createdAt") return { createdAt: orderByOrder === "ascend" ? "ASC" : "DESC" }
@@ -56,7 +30,7 @@ export default class JobOpportunityController {
       }
     });
 
-    if (!existentJob) {
+    if (!existentJob || (existentJob?.platform === jobInput?.platform && existentJob?.idInPlatform !== jobInput?.idInPlatform)) {
       const newJob = new JobOpportunity();
       newJob.company = jobInput.company;
       newJob.description = jobInput.description;
@@ -85,6 +59,10 @@ export default class JobOpportunityController {
         return null;
       }
     } else {
+      const replyMarkup = {
+        inline_keyboard: [[{ text: jobInput?.title, url: jobInput?.url }]]
+      }
+      await sendMessageToTelegram(`⚠️ Duplicated:\n\n*Title*: \`${jobInput?.title}\`\n*Company*: \`${jobInput?.company}\`\n*Platform*: \`${jobInput?.platform}\`\n*idInPlatform*: \`${jobInput.idInPlatform}\``, replyMarkup);
       return { success: false, message: 'Duplicated' };
     }
   }

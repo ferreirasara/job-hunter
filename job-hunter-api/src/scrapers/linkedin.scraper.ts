@@ -1,17 +1,12 @@
 import { Page } from "puppeteer";
-import JobOpportunityController, { JobInitialData, JobInput, JobPlatform, JobType } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { analyzeDescription } from "../analyzer/analyzer";
 import { sleep } from "../utils/utils";
+import { LINKEDIN_URLS } from "../urls/linkedinUrls";
+import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
-const platform: JobPlatform = "LINKEDIN"
-
-const LINKEDIN_URLS = [
-  'https://www.linkedin.com/jobs/search/?keywords=Frontend%20Pleno&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
-  'https://www.linkedin.com/jobs/search/?keywords=Frontend&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
-  'https://www.linkedin.com/jobs/search/?keywords=React&location=Brasil&locationId=&geoId=106057199&f_TPR=r604800&f_WT=2&position=1&pageNum=0',
-]
-
+const platform: JobPlatform = JobPlatform.LINKEDIN;
 export default class LinkedinScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
@@ -73,31 +68,21 @@ export default class LinkedinScraper extends ScraperInterface {
         const company: string = await page?.$eval('span.topcard__flavor', (el) => el?.innerText);
         if (company?.toLowerCase() === 'programathor') continue;
         const descriptionOriginal: string = await page?.$$eval('div.description__text', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        let description = descriptionOriginal;
-
-        const skillsResponse = getSkillsBasedOnDescription({ description });
-        description = skillsResponse?.description;
-
-        const benefitsResponse = getBenefitsBasedOnDescription({ description });
-        description = benefitsResponse?.description;
-
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
-        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
-        const type: JobType = getTypeBasedOnDescription({ description });
+        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
 
         jobs?.push({
           title,
           company: company?.trim(),
-          description: description.replace(/\n+/g, '\n'),
+          description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
-          type,
+          type: analyzerResponse?.type,
           platform: this.platform,
-          skills: skillsResponse?.skills?.join(', '),
-          benefits: benefitsResponse?.benefits?.join(', '),
-          benefitsRating,
-          skillsRating,
-          hiringRegime,
+          skills: analyzerResponse?.skills?.join(', '),
+          benefits: analyzerResponse?.benefits?.join(', '),
+          benefitsRating: analyzerResponse?.benefitsRating,
+          skillsRating: analyzerResponse?.skillsRating,
+          hiringRegime: analyzerResponse?.hiringRegime,
         });
       } catch (e) {
         if (!String(e)?.includes('failed to find element')) this.logError(e);

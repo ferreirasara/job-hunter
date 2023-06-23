@@ -1,5 +1,6 @@
 import { isArray, uniq } from "lodash";
 import { HTTPRequest } from "puppeteer";
+import fetch from "node-fetch";
 
 export type ContType = {
   name: string
@@ -113,4 +114,8 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
     }
   }
   return newString;
+}
+
+export const sendMessageToTelegram = async (messageToSend: string, replyMarkup?: any) => {
+  await fetch(`https://api.telegram.org/bot6281487370:AAEo9IQ6p1Ai2mArBu2tDm4vXsjNKt4JzYU/sendMessage?chat_id=364508175&parse_mode=Markdown&text=${encodeURIComponent(messageToSend)}&reply_markup=${encodeURIComponent(JSON.stringify(replyMarkup))}`);
 }

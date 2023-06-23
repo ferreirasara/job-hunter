@@ -1,37 +1,11 @@
 import { uniqBy } from "lodash";
 import fetch from "node-fetch";
-import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { analyzeDescription } from "../analyzer/analyzer";
+import { GupyData, GupyResponse, JobInput, JobPlatform, JobType } from "../@types/types";
 
-type GupyResponse = {
-  data: GupyData[]
-}
-type GupyData = {
-  id: number,
-  companyId: number,
-  name: string,
-  description: string,
-  careerPageId: number,
-  careerPageName: string,
-  careerPageLogo: string,
-  type: string,
-  publishedDate: string,
-  applicationDeadline: any,
-  isRemoteWork: boolean,
-  city: string,
-  state: string,
-  country: string,
-  jobUrl: string,
-  badges: {
-    friendlyBadge: boolean,
-  },
-  disabilities: boolean,
-  careerPageUrl: string,
-}
-
-const platform: JobPlatform = "GUPY"
-
+const platform: JobPlatform = JobPlatform.GUPY
 export default class GupyScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
@@ -76,13 +50,7 @@ export default class GupyScraper extends ScraperInterface {
       try {
         await page.goto(job?.jobUrl);
         const descriptionOriginal = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        let description = descriptionOriginal;
-        const skillsResponse = getSkillsBasedOnDescription({ description });
-        description = skillsResponse?.description;
-        const benefitsResponse = getBenefitsBasedOnDescription({ description });
-        description = benefitsResponse?.description;
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
-        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
+        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
 
         jobsWithDescription.push({
           company: job.careerPageName,
@@ -93,13 +61,13 @@ export default class GupyScraper extends ScraperInterface {
           country: job.country,
           idInPlatform: job.id.toString(),
           state: job.state,
-          type: job.isRemoteWork ? "REMOTE" : getTypeBasedOnDescription({ description }),
-          description: description.replace(/\n+/g, '\n'),
-          skills: skillsResponse?.skills?.join(', '),
-          benefits: benefitsResponse?.benefits?.join(', '),
-          benefitsRating,
-          skillsRating,
-          hiringRegime,
+          type: job.isRemoteWork ? JobType.REMOTE : analyzerResponse?.type,
+          description: analyzerResponse?.description,
+          skills: analyzerResponse?.skills?.join(', '),
+          benefits: analyzerResponse?.benefits?.join(', '),
+          benefitsRating: analyzerResponse?.benefitsRating,
+          skillsRating: analyzerResponse?.skillsRating,
+          hiringRegime: analyzerResponse?.hiringRegime,
         });
       } catch (e) {
         this.logError(e);

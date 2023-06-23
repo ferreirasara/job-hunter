@@ -2,15 +2,8 @@ import express = require("express")
 import cors = require("cors")
 import morgan = require("morgan")
 import { AppDataSource } from "./data-source"
-import JobOpportunityController, { JobInput } from "./controllers/JobOpportunity.controller"
-
-type UpdateJobBody = {
-  applied?: boolean
-  discarded?: boolean
-  recused?: boolean
-  numberOfInterviews?: number
-  numberOfTests?: number
-}
+import JobOpportunityController from "./controllers/JobOpportunity.controller"
+import { UpdateJobBody } from "./@types/types"
 
 AppDataSource.initialize().then(async () => {
   const PORT = 8080
@@ -77,25 +70,6 @@ AppDataSource.initialize().then(async () => {
     if (body?.numberOfTests) updated = await JobOpportunityController.updateNumberOfTests(uuid, body?.numberOfTests);
 
     res.send({ updated });
-  })
-
-  app.post('/job', async (req, res) => {
-    const body: JobInput = req.body;
-    const result = await JobOpportunityController.insert({
-      company: body?.company,
-      description: body?.description,
-      platform: body?.platform,
-      title: body?.title,
-      url: body?.url,
-      benefits: body?.benefits,
-      city: body?.city,
-      country: body?.country,
-      skills: body?.skills,
-      state: body?.state,
-      type: body?.type,
-      hiringRegime: body.hiringRegime,
-    })
-    res.send(result);
   })
 
   app.get('/stats', async (req, res) => {

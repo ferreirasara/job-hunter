@@ -1,9 +1,10 @@
 import { Page } from "puppeteer";
-import JobOpportunityController, { JobInitialData, JobInput, JobType, JobPlatform } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { getBenefitsBasedOnDescription, getHiringRegimeBasedOnDescription, getRatingsBasedOnSkillsAndBenefits, getSkillsBasedOnDescription, getTypeBasedOnDescription } from "../analyzer/analyzer";
+import { analyzeDescription } from "../analyzer/analyzer";
+import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
-const platform: JobPlatform = "TRAMPOS"
+const platform: JobPlatform = JobPlatform.TRAMPOS
 
 export default class TramposScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
@@ -59,34 +60,24 @@ export default class TramposScraper extends ScraperInterface {
         const company = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[0]);
         const address: string = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[1]);
         const descriptionOriginal = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
-        let description = descriptionOriginal;
-        const type = this.getType(address, description);
-
-        const skillsResponse = getSkillsBasedOnDescription({ description });
-        description = skillsResponse?.description;
-
-        const benefitsResponse = getBenefitsBasedOnDescription({ description });
-        description = benefitsResponse?.description;
-
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
-        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
-
+        const moreInfo = await page?.$eval('div.opportunity > div.numbers', (el) => el?.innerText);
+        const analyzerResponse = analyzeDescription({ description: moreInfo + "\n" + descriptionOriginal });
 
         jobs?.push({
           title,
           company,
-          description: description.replace(/\n+/g, '\n'),
+          description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
           city: address?.split(' - ')?.[1]?.split(', ')?.[0],
           state: address?.split(' - ')?.[1]?.split(', ')?.[1],
-          type,
+          type: analyzerResponse?.type,
           platform: this.platform,
-          skills: skillsResponse?.skills?.join(', '),
-          benefits: benefitsResponse?.benefits?.join(', '),
-          benefitsRating,
-          skillsRating,
-          hiringRegime,
+          skills: analyzerResponse?.skills?.join(', '),
+          benefits: analyzerResponse?.benefits?.join(', '),
+          benefitsRating: analyzerResponse?.benefitsRating,
+          skillsRating: analyzerResponse?.skillsRating,
+          hiringRegime: analyzerResponse?.hiringRegime,
         });
       } catch (e) {
         this.logError(e);
@@ -95,12 +86,5 @@ export default class TramposScraper extends ScraperInterface {
     }
 
     return jobs;
-  }
-
-  private getType(address: string, description: string): JobType {
-    if (address?.toLowerCase()?.includes('home office')) return "REMOTE";
-    if (address?.toLowerCase()?.includes('remoto')) return "REMOTE";
-    if (address?.toLowerCase()?.includes('hibrido')) return "HYBRID";
-    return getTypeBasedOnDescription({ description });
   }
 }

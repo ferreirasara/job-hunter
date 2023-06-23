@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
-import JobOpportunityController, { JobInput, JobPlatform } from "../controllers/JobOpportunity.controller";
+import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import { interceptRequest } from "../utils/utils";
+import { JobInput, JobPlatform } from "../@types/types";
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform
