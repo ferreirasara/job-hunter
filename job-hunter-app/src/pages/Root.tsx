@@ -1,9 +1,9 @@
-import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
-import { Alert, Button, Divider, Input, Space, Tooltip } from "antd"
+import { Alert, Divider, Space } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
+import { FilterButtons } from "../components/FilterButtons";
 
 export const Root = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -95,70 +95,20 @@ export const Root = () => {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
-      <Space>
-        <Button
-          block
-          icon={<ReloadOutlined />}
-          onClick={handleFetchData}
-          loading={loading}
-        >
-          {data?.length ? "Recarregar" : "Carregar"} dados
-        </Button>
-        <Input.Search
-          placeholder="Filtrar por empresa"
-          loading={loading}
-          onSearch={(value) => setCompanyFilter(value)}
-          style={{ width: 200 }}
-        />
-        <Input.Search
-          placeholder="Filtrar por título"
-          loading={loading}
-          onSearch={(value) => setTitleFilter(value)}
-          style={{ width: 200 }}
-        />
-        <Button
-          block
-          type={showOnlyDiscarded ? "primary" : "default"}
-          icon={showOnlyDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
-          onClick={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
-          loading={loading}
-        >
-          {showOnlyDiscarded ? "Não descartadas" : "Descartadas"}
-        </Button>
-        <Button
-          block
-          type={showOnlyRecused ? "primary" : "default"}
-          icon={showOnlyRecused ? <EyeOutlined /> : <CloseCircleOutlined />}
-          onClick={() => setShowOnlyRecused(!showOnlyRecused)}
-          loading={loading}
-        >
-          {showOnlyRecused ? "Não recusadas" : "Recusadas"}
-        </Button>
-        <Tooltip title={showOnlyNewJobs ? "Exibe todas as vagas" : "Exibe apenas as vagas dos 2 últimos dias"}>
-          <Button
-            block
-            type={showOnlyNewJobs ? "primary" : "default"}
-            icon={showOnlyNewJobs ? <ClockCircleOutlined /> : <StarOutlined />}
-            onClick={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
-            loading={loading}
-          >
-            {showOnlyNewJobs ? "Todas" : "Novas"}
-          </Button>
-        </Tooltip>
-        <Button
-          block
-          icon={<BarChartOutlined />}
-          href="/stats"
-        >
-          Ver estatísticas
-        </Button>
-      </Space>
-      {errorMessage ? <Alert
-        type="error"
-        description={errorMessage}
-        showIcon
-        message="Error"
-      /> : null}
+      <FilterButtons
+        handleFetchData={handleFetchData}
+        loading={loading}
+        showOnlyDiscarded={showOnlyDiscarded}
+        showOnlyNewJobs={showOnlyNewJobs}
+        showOnlyRecused={showOnlyRecused}
+        dataLength={data?.length}
+        onChangeCompanyFilter={(value) => setCompanyFilter(value)}
+        onChangeTitleFilter={(value) => setTitleFilter(value)}
+        onChangeShowOnlyDiscarded={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
+        onChangeShowOnlyRecused={() => setShowOnlyRecused(!showOnlyRecused)}
+        onChangeShowOnlyNewJobs={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
+      />
+      {errorMessage ? <Alert type="error" description={errorMessage} showIcon message="Error" /> : null}
       <JobsTable
         loading={loading}
         data={data}
