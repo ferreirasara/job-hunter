@@ -76,42 +76,44 @@ export default class JobOpportunityController {
     hiringRegimeFilter?: string,
     skillFilter?: string,
     benefitRegimeFilter?: string,
+    titleFilter?: string,
+    companyFilter?: string,
     orderByField?: string,
     orderByOrder?: string,
     showOnlyDiscarded?: string
     showOnlyRecused?: string
     showOnlyNewJobs?: string
   }) {
-    const { limit, page, appliedFilter, orderByField, orderByOrder, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs } = args;
-
     const where: FindOptionsWhere<JobOpportunity> = {}
 
-    where.discarded = showOnlyDiscarded === 'true' || false
-    where.recused = showOnlyRecused === 'true' || false
+    where.discarded = args?.showOnlyDiscarded === 'true' || false
+    where.recused = args?.showOnlyRecused === 'true' || false
 
-    if (appliedFilter) where.applied = In(appliedFilter?.split(','));
-    if (platformFilter) where.platform = In(platformFilter?.split(','));
-    if (typeFilter) where.type = In(typeFilter?.split(','));
-    if (hiringRegimeFilter) where.hiringRegime = In(hiringRegimeFilter?.split(','));
-    if (skillFilter) {
-      const skills = skillFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
+    if (args?.appliedFilter) where.applied = In(args?.appliedFilter?.split(','));
+    if (args?.platformFilter) where.platform = In(args?.platformFilter?.split(','));
+    if (args?.typeFilter) where.type = In(args?.typeFilter?.split(','));
+    if (args?.hiringRegimeFilter) where.hiringRegime = In(args?.hiringRegimeFilter?.split(','));
+    if (args?.skillFilter) {
+      const skills = args?.skillFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
       where.skills = ILike(`%${skills?.join("%")}%`);
     }
-    if (benefitRegimeFilter) {
-      const benefits = benefitRegimeFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
+    if (args?.benefitRegimeFilter) {
+      const benefits = args?.benefitRegimeFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
       where.benefits = ILike(`%${benefits?.join("%")}%`);
     }
-    if (showOnlyNewJobs) {
+    if (args?.titleFilter) where.title = ILike(`%${args?.titleFilter}%`);
+    if (args?.companyFilter) where.company = ILike(`%${args?.companyFilter}%`);
+    if (args?.showOnlyNewJobs) {
       const date = new Date();
       date.setDate(date.getDate() - 2);
       where.createdAt = MoreThanOrEqual(date);
     }
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
-      skip: page * limit,
-      take: limit,
+      skip: args?.page * args?.limit,
+      take: args?.limit,
       where,
-      order: getOrderBy(orderByField, orderByOrder)
+      order: getOrderBy(args?.orderByField, args?.orderByOrder)
     });
 
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where });

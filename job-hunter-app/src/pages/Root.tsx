@@ -1,5 +1,5 @@
-import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
-import { Alert, Button, Divider, Space, Tooltip } from "antd"
+import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
+import { Alert, Button, Divider, Input, Space, Tooltip } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
@@ -28,6 +28,8 @@ export const Root = () => {
   const [skillFilter, setSkillFilter] = useState<string[]>();
   const [benefitFilter, setBenefitFilter] = useState<string[]>();
   const [appliedFilter, setAppliedFilter] = useState<string[]>();
+  const [titleFilter, setTitleFilter] = useState<string>();
+  const [companyFilter, setCompanyFilter] = useState<string>();
 
   const [orderBy, setOrderBy] = useState<OrderBy>();
 
@@ -51,6 +53,8 @@ export const Root = () => {
         hiringRegimeFilter,
         skillFilter,
         benefitFilter,
+        titleFilter,
+        companyFilter,
         orderBy,
         showOnlyDiscarded,
         showOnlyRecused,
@@ -69,7 +73,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, benefitFilter, skillFilter])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, benefitFilter, skillFilter])
 
   useEffect(() => {
     handleFetchData();
@@ -91,7 +95,7 @@ export const Root = () => {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
-      <Space.Compact>
+      <Space>
         <Button
           block
           icon={<ReloadOutlined />}
@@ -100,6 +104,18 @@ export const Root = () => {
         >
           {data?.length ? "Recarregar" : "Carregar"} dados
         </Button>
+        <Input.Search
+          placeholder="Filtrar por empresa"
+          loading={loading}
+          onSearch={(value) => setCompanyFilter(value)}
+          style={{ width: 200 }}
+        />
+        <Input.Search
+          placeholder="Filtrar por título"
+          loading={loading}
+          onSearch={(value) => setTitleFilter(value)}
+          style={{ width: 200 }}
+        />
         <Button
           block
           type={showOnlyDiscarded ? "primary" : "default"}
@@ -136,7 +152,7 @@ export const Root = () => {
         >
           Ver estatísticas
         </Button>
-      </Space.Compact>
+      </Space>
       {errorMessage ? <Alert
         type="error"
         description={errorMessage}
