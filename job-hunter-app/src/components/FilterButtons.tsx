@@ -1,32 +1,18 @@
 import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Button, Input, Space, Tooltip } from "antd"
+import { useFilterStateValues } from "../state/filter.state"
+import { useShowOnlyStateValues } from "../state/showOnly.state"
+import { useDataStateValues } from "../state/data.state"
 
-type FilterButtonsProps = {
-  loading: boolean
-  showOnlyDiscarded: boolean
-  showOnlyRecused: boolean
-  showOnlyNewJobs: boolean
-  dataLength?: number
-  handleFetchData: () => Promise<void>
-  onChangeCompanyFilter: (value: string) => void
-  onChangeTitleFilter: (value: string) => void
-  onChangeShowOnlyDiscarded: () => void
-  onChangeShowOnlyRecused: () => void
-  onChangeShowOnlyNewJobs: () => void
-}
-export const FilterButtons = ({
-  loading,
-  showOnlyDiscarded,
-  showOnlyRecused,
-  showOnlyNewJobs,
-  handleFetchData,
-  onChangeCompanyFilter,
-  onChangeTitleFilter,
-  onChangeShowOnlyDiscarded,
-  onChangeShowOnlyNewJobs,
-  onChangeShowOnlyRecused,
-  dataLength
-}: FilterButtonsProps) => {
+type FilterButtonsProps = { handleFetchData: () => Promise<void> }
+export const FilterButtons = ({ handleFetchData }: FilterButtonsProps) => {
+  const { loading, dataLength } = useDataStateValues();
+  const { setTitleFilter, setCompanyFilter } = useFilterStateValues();
+  const {
+    setShowOnlyDiscarded, setShowOnlyNewJobs, setShowOnlyRecused,
+    showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused
+  } = useShowOnlyStateValues();
+
   return <Space>
     <Button
       block
@@ -39,20 +25,20 @@ export const FilterButtons = ({
     <Input.Search
       placeholder="Filtrar por empresa"
       loading={loading}
-      onSearch={(value) => onChangeCompanyFilter(value)}
+      onSearch={(value) => setCompanyFilter(value)}
       style={{ width: 200 }}
     />
     <Input.Search
       placeholder="Filtrar por título"
       loading={loading}
-      onSearch={(value) => onChangeTitleFilter(value)}
+      onSearch={(value) => setTitleFilter(value)}
       style={{ width: 200 }}
     />
     <Button
       block
       type={showOnlyDiscarded ? "primary" : "default"}
       icon={showOnlyDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
-      onClick={onChangeShowOnlyDiscarded}
+      onClick={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
       loading={loading}
     >
       {showOnlyDiscarded ? "Não descartadas" : "Descartadas"}
@@ -61,7 +47,7 @@ export const FilterButtons = ({
       block
       type={showOnlyRecused ? "primary" : "default"}
       icon={showOnlyRecused ? <EyeOutlined /> : <CloseCircleOutlined />}
-      onClick={onChangeShowOnlyRecused}
+      onClick={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
       loading={loading}
     >
       {showOnlyRecused ? "Não recusadas" : "Recusadas"}
@@ -71,7 +57,7 @@ export const FilterButtons = ({
         block
         type={showOnlyNewJobs ? "primary" : "default"}
         icon={showOnlyNewJobs ? <ClockCircleOutlined /> : <StarOutlined />}
-        onClick={onChangeShowOnlyNewJobs}
+        onClick={() => setShowOnlyRecused(!showOnlyRecused)}
         loading={loading}
       >
         {showOnlyNewJobs ? "Todas" : "Novas"}
