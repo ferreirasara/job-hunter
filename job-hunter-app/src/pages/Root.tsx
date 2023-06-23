@@ -1,7 +1,6 @@
 import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Alert, Button, Divider, Space, Tooltip } from "antd"
 import { useCallback, useEffect, useState } from "react";
-// import { CreateJobModal } from "../components/CreateJobModal";
 import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
@@ -11,7 +10,6 @@ export const Root = () => {
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
-  // const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
   const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
@@ -109,7 +107,7 @@ export const Root = () => {
           onClick={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
           loading={loading}
         >
-          Mostrar apenas vagas {showOnlyDiscarded ? "não descartadas" : "descartadas"}
+          {showOnlyDiscarded ? "Não descartadas" : "Descartadas"}
         </Button>
         <Button
           block
@@ -118,7 +116,7 @@ export const Root = () => {
           onClick={() => setShowOnlyRecused(!showOnlyRecused)}
           loading={loading}
         >
-          Mostrar apenas vagas {showOnlyRecused ? "não recusadas" : "recusadas"}
+          {showOnlyRecused ? "Não recusadas" : "Recusadas"}
         </Button>
         <Tooltip title={showOnlyNewJobs ? "Exibe todas as vagas" : "Exibe apenas as vagas dos 2 últimos dias"}>
           <Button
@@ -128,17 +126,9 @@ export const Root = () => {
             onClick={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
             loading={loading}
           >
-            Mostrar {showOnlyNewJobs ? "todas as vagas" : "apenas vagas novas"}
+            {showOnlyNewJobs ? "Todas" : "Novas"}
           </Button>
         </Tooltip>
-        {/* <Button
-          block
-          icon={<PlusOutlined />}
-          onClick={() => setCreateModalOpen(true)}
-          loading={loading}
-        >
-          Adicionar vaga
-        </Button> */}
         <Button
           block
           icon={<BarChartOutlined />}
@@ -175,11 +165,6 @@ export const Root = () => {
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />
     </Space>
-    {/* <CreateJobModal
-      open={createModalOpen}
-      onCancel={() => setCreateModalOpen(false)}
-      fetchData={handleFetchData}
-    /> */}
     <DetailsDrawer
       open={detailsDrawerOpen}
       onClose={onCloseDrawer}
