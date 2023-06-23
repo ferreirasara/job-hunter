@@ -63,17 +63,23 @@ export default class ProgramathorScraper extends ScraperInterface {
         } catch { }
 
         const title = await page?.$eval('div.container > h1', (el) => el?.innerText);
-        const description = await page?.$$eval('div.line-height-2-4', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
         const programathorSkills = await page?.$$eval('div.container > a > span', (el) => el?.map(cur => cur?.innerText));
         const normalizedSkills = programathorSkills?.map(cur => getProgramathorNormalizedSkill(cur));
-        const skills = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
+        const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
+        const descriptionOriginal = await page?.$$eval('div.line-height-2-4', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        let description = descriptionOriginal;
+
+        const skillsResponse = getSkillsBasedOnDescription({ description, skills: normalizedSkills });
+        description = skillsResponse?.description;
+
+        const benefitsResponse = getBenefitsBasedOnDescription({ description });
+        description = benefitsResponse?.description;
+
+        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
+        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
         const infoArray: string[] = await page?.$$eval('div.col-md-7.col-md-9 > div.row > div', (el) => el?.map(cur => cur?.innerText));
         const homeOffice = infoArray?.find(cur => cur?.toLowerCase()?.includes("home office"));
         const type: JobType = !!homeOffice ? "REMOTE" : getTypeBasedOnDescription({ description });
-        const benefits = getBenefitsBasedOnDescription({ description });
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
-        const hiringRegime = getHiringRegimeBasedOnDescription({ description });
 
         jobs?.push({
           title,
@@ -83,8 +89,8 @@ export default class ProgramathorScraper extends ScraperInterface {
           idInPlatform: obj?.idInPlatform,
           type,
           platform: this.platform,
-          skills: skills?.join(', '),
-          benefits: benefits?.join(', '),
+          skills: skillsResponse?.skills?.join(', '),
+          benefits: benefitsResponse?.benefits?.join(', '),
           benefitsRating,
           skillsRating,
           hiringRegime,

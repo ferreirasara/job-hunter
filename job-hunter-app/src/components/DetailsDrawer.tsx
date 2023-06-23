@@ -7,6 +7,7 @@ import { RecusedButton } from "./RecusedButton"
 import { NumberOfInterviewsInput } from "./NumberOfInterviewsInput"
 import { NumberOfTestsInput } from "./NumberOfTestsInput"
 import { LinkOutlined } from "@ant-design/icons"
+import ReactMarkdown from "react-markdown"
 
 type DetailsDrawerProps = {
   open: boolean
@@ -51,7 +52,11 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
     </List>
     <Typography.Title level={2}>Descrição</Typography.Title>
     <div style={{ flex: 1, overflowY: 'auto' }}>
-      {description?.map(cur => <Typography.Paragraph>{cur}</Typography.Paragraph>)}
+      {description?.map(cur => <Typography.Paragraph>
+        <ReactMarkdown>
+          {cur}
+        </ReactMarkdown>
+      </Typography.Paragraph>)}
     </div>
   </Drawer>
 }

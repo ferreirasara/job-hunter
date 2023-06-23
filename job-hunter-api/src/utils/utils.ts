@@ -65,3 +65,52 @@ export function orderObjectsByField<T extends Record<string, any>>(objs: T[], fi
 export const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export const removeAccent = (str: string) => {
+  const accentMap = {
+    'á': 'a',
+    'à': 'a',
+    'ã': 'a',
+    'â': 'a',
+    'é': 'e',
+    'ê': 'e',
+    'í': 'i',
+    'ó': 'o',
+    'ô': 'o',
+    'õ': 'o',
+    'ú': 'u',
+    'ü': 'u',
+    'ç': 'c',
+    'Á': 'A',
+    'À': 'A',
+    'Ã': 'A',
+    'Â': 'A',
+    'É': 'E',
+    'Ê': 'E',
+    'Í': 'I',
+    'Ó': 'O',
+    'Ô': 'O',
+    'Õ': 'O',
+    'Ú': 'U',
+    'Ü': 'U',
+    'Ç': 'C'
+  };
+
+  return str.replace(/[áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ]/g, function (char) {
+    return accentMap[char];
+  });
+}
+
+export const addMarkdown = (str: string, toMark: RegExp[]) => {
+  let newString = str;
+  for (let i = 0; i < toMark.length; i++) {
+    const regex = toMark[i];
+    const res = regex.exec(newString);
+    if (res) {
+      const strFound = res?.[0]?.replace(/[^\w\s]/gi, '');
+      const replaceRegex = new RegExp(strFound, 'gi')
+      newString = newString?.replace(replaceRegex, `\`${strFound}\``)
+    }
+  }
+  return newString;
+}

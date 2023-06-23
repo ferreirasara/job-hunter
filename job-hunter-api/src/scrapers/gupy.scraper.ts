@@ -75,10 +75,13 @@ export default class GupyScraper extends ScraperInterface {
       const job = jobs[i];
       try {
         await page.goto(job?.jobUrl);
-        const description = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const skills = getSkillsBasedOnDescription({ description });
-        const benefits = getBenefitsBasedOnDescription({ description });
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
+        const descriptionOriginal = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        let description = descriptionOriginal;
+        const skillsResponse = getSkillsBasedOnDescription({ description });
+        description = skillsResponse?.description;
+        const benefitsResponse = getBenefitsBasedOnDescription({ description });
+        description = benefitsResponse?.description;
+        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
         const hiringRegime = getHiringRegimeBasedOnDescription({ description });
 
         jobsWithDescription.push({
@@ -92,8 +95,8 @@ export default class GupyScraper extends ScraperInterface {
           state: job.state,
           type: job.isRemoteWork ? "REMOTE" : getTypeBasedOnDescription({ description }),
           description: description.replace(/\n+/g, '\n'),
-          skills: skills?.join(', '),
-          benefits: benefits?.join(', '),
+          skills: skillsResponse?.skills?.join(', '),
+          benefits: benefitsResponse?.benefits?.join(', '),
           benefitsRating,
           skillsRating,
           hiringRegime,

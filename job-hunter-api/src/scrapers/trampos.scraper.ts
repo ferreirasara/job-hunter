@@ -58,12 +58,19 @@ export default class TramposScraper extends ScraperInterface {
         const title = await page?.$eval('div.opportunity > h1.name', (el) => el?.innerText);
         const company = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[0]);
         const address: string = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[1]);
-        const description = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
+        const descriptionOriginal = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
+        let description = descriptionOriginal;
         const type = this.getType(address, description);
-        const skills = getSkillsBasedOnDescription({ description });
-        const benefits = getBenefitsBasedOnDescription({ description });
-        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
+
+        const skillsResponse = getSkillsBasedOnDescription({ description });
+        description = skillsResponse?.description;
+
+        const benefitsResponse = getBenefitsBasedOnDescription({ description });
+        description = benefitsResponse?.description;
+
+        const { benefitsRating, skillsRating } = getRatingsBasedOnSkillsAndBenefits({ skills: skillsResponse?.skills, benefits: benefitsResponse?.benefits });
         const hiringRegime = getHiringRegimeBasedOnDescription({ description });
+
 
         jobs?.push({
           title,
@@ -75,8 +82,8 @@ export default class TramposScraper extends ScraperInterface {
           state: address?.split(' - ')?.[1]?.split(', ')?.[1],
           type,
           platform: this.platform,
-          skills: skills?.join(', '),
-          benefits: benefits?.join(', '),
+          skills: skillsResponse?.skills?.join(', '),
+          benefits: benefitsResponse?.benefits?.join(', '),
           benefitsRating,
           skillsRating,
           hiringRegime,
