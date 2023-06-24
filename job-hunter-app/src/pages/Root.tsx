@@ -1,35 +1,65 @@
 import { Alert, Divider, Space } from "antd"
 import { useCallback, useEffect, useState } from "react";
-import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
+import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import { FilterButtons } from "../components/FilterButtons";
-import { useFilterStateValues } from "../state/filter.state";
-import { useShowOnlyStateValues } from "../state/showOnly.state";
-import { useDataStateValues } from "../state/data.state";
-import { usePaginationStateValues } from "../state/pagination.state";
 
 export const Root = () => {
-  const { companyFilter, titleFilter, platformFilter, appliedFilter, benefitFilter, hiringRegimeFilter, skillFilter, typeFilter } = useFilterStateValues();
-  const { showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useShowOnlyStateValues();
-  const { data, setData, setLoading, setAllBenefits, setAllPlatforms, setAllRatings, setAllSkills, setTotalOfJobs } = useDataStateValues();
-  const { limit, orderBy, page } = usePaginationStateValues();
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
+  const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
+  const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
+  const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const windowHeight = window.innerHeight;
+  const tableMaxSixe = windowHeight - 280;
+  const maxRows = Math.ceil(tableMaxSixe / 43);
+
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(maxRows);
+
+  const [platformFilter, setPlatformFilter] = useState<string[]>();
+  const [typeFilter, setTypeFilter] = useState<string[]>();
+  const [hiringRegimeFilter, setHiringRegimeFilter] = useState<string[]>();
+  const [skillFilter, setSkillFilter] = useState<string[]>();
+  const [benefitFilter, setBenefitFilter] = useState<string[]>();
+  const [appliedFilter, setAppliedFilter] = useState<string[]>();
+  const [titleFilter, setTitleFilter] = useState<string>();
+  const [companyFilter, setCompanyFilter] = useState<string>();
+
+  const [orderBy, setOrderBy] = useState<OrderBy>();
+
+  const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
+  const [allSkills, setAllSkills] = useState<string[]>([]);
+  const [allBenefits, setAllBenefits] = useState<string[]>([]);
+  const [allPlatforms, setAllPlatforms] = useState<string[]>([]);
+  const [allRatings, setAllRatings] = useState<number[]>([]);
 
   const handleError = (message: string) => setErrorMessage(message);
 
-  const getJobsFromAPIArgs = {
-    limit, page, orderBy,
-    platformFilter, appliedFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter,
-    showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs,
-  }
   const handleFetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response: JobsResponse = await getJobsFromAPI(getJobsFromAPIArgs);
+      const response: JobsResponse = await getJobsFromAPI({
+        limit,
+        page,
+        platformFilter,
+        appliedFilter,
+        typeFilter,
+        hiringRegimeFilter,
+        skillFilter,
+        benefitFilter,
+        titleFilter,
+        companyFilter,
+        orderBy,
+        showOnlyDiscarded,
+        showOnlyRecused,
+        showOnlyNewJobs,
+      });
       if (response) {
         setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
@@ -43,11 +73,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [
-    limit, page, orderBy,
-    platformFilter, appliedFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter,
-    showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs,
-  ])
+  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, benefitFilter, skillFilter])
 
   useEffect(() => {
     handleFetchData();
@@ -69,9 +95,41 @@ export const Root = () => {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
-      <FilterButtons handleFetchData={handleFetchData} />
+      <FilterButtons
+        handleFetchData={handleFetchData}
+        loading={loading}
+        showOnlyDiscarded={showOnlyDiscarded}
+        showOnlyNewJobs={showOnlyNewJobs}
+        showOnlyRecused={showOnlyRecused}
+        dataLength={data?.length}
+        onChangeCompanyFilter={(value) => setCompanyFilter(value)}
+        onChangeTitleFilter={(value) => setTitleFilter(value)}
+        onChangeShowOnlyDiscarded={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
+        onChangeShowOnlyRecused={() => setShowOnlyRecused(!showOnlyRecused)}
+        onChangeShowOnlyNewJobs={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
+      />
       {errorMessage ? <Alert type="error" description={errorMessage} showIcon message="Error" /> : null}
-      <JobsTable handleSeeDetails={(uuid) => handleSeeDetails(uuid)} />
+      <JobsTable
+        loading={loading}
+        data={data}
+        totalOfJobs={totalOfJobs}
+        allSkills={allSkills}
+        allBenefits={allBenefits}
+        allRatings={allRatings}
+        allPlatforms={allPlatforms}
+        page={page}
+        onChangePage={(newPage) => setPage(newPage)}
+        limit={limit}
+        onChangeLimit={(newLimit) => setLimit(newLimit)}
+        onChangeOrderBy={({ field, order }) => setOrderBy({ field, order })}
+        onChangePlatformFilter={(filter) => setPlatformFilter(filter)}
+        onChangeTypeFilter={(filter) => setTypeFilter(filter)}
+        onChangeHiringRegimeFilter={(filter) => setHiringRegimeFilter(filter)}
+        onChangeSkillFilter={(filter) => setSkillFilter(filter)}
+        onChangeBenefitFilter={(filter) => setBenefitFilter(filter)}
+        onChangeAppliedFilter={(filter) => setAppliedFilter(filter)}
+        handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
+      />
     </Space>
     <DetailsDrawer
       open={detailsDrawerOpen}

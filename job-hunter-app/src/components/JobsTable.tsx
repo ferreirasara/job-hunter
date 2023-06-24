@@ -6,9 +6,6 @@ import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
-import { useFilterStateValues } from "../state/filter.state";
-import { useDataStateValues } from "../state/data.state";
-import { usePaginationStateValues } from "../state/pagination.state";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -65,16 +62,49 @@ export type JobsResponse = {
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
 
-type JobsTableProps = { handleSeeDetails: (uuid: string) => void }
-export const JobsTable = ({ handleSeeDetails }: JobsTableProps) => {
-  const { setPlatformFilter, setAppliedFilter, setTypeFilter, setHiringRegimeFilter, setSkillFilter, setBenefitFilter } = useFilterStateValues();
-  const { data, loading, allBenefits, allPlatforms, allRatings, allSkills, totalOfJobs } = useDataStateValues();
-  const { limit, page, setLimit, setOrderBy, setPage } = usePaginationStateValues();
+type JobsTableProps = {
+  loading: boolean
+  data: JobsTableData[]
+  totalOfJobs?: number
+  allSkills: string[]
+  allBenefits: string[]
+  allRatings: number[]
+  allPlatforms: string[]
+  page: number
+  onChangePage: (page: number) => void
+  limit: number
+  onChangeLimit: (limit: number) => void
+  onChangeOrderBy: ({ field, order }: { field: string, order: "descend" | "ascend" }) => void
+  onChangePlatformFilter: (filter: string[]) => void
+  onChangeAppliedFilter: (filter: string[]) => void
+  onChangeTypeFilter: (filter: string[]) => void
+  onChangeHiringRegimeFilter: (filter: string[]) => void
+  onChangeSkillFilter: (filter: string[]) => void
+  onChangeBenefitFilter: (filter: string[]) => void
+  handleSeeDetails: (uuid: string) => void
+}
 
-  const onChangePage = (newPage: number) => setPage(newPage)
-  const onChangeLimit = (newLimit: number) => setLimit(newLimit)
-  const onChangeOrderBy = (orderBy: OrderBy) => setOrderBy(orderBy)
-
+export const JobsTable = ({
+  loading,
+  data,
+  totalOfJobs,
+  allSkills,
+  allBenefits,
+  allRatings,
+  allPlatforms,
+  page,
+  onChangePage,
+  limit,
+  onChangeLimit,
+  onChangeOrderBy,
+  onChangePlatformFilter,
+  onChangeAppliedFilter,
+  onChangeTypeFilter,
+  onChangeHiringRegimeFilter,
+  onChangeBenefitFilter,
+  onChangeSkillFilter,
+  handleSeeDetails,
+}: JobsTableProps) => {
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const columns: ColumnsType<JobsTableData> = [
@@ -204,16 +234,16 @@ export const JobsTable = ({ handleSeeDetails }: JobsTableProps) => {
       current: page + 1,
       pageSize: limit,
     }}
-    onChange={(_, filters, sorter) => {
+    onChange={(pagination, filters, sorter) => {
       const sorter2 = sorter && castArray(sorter)[0];
       if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
-      setPlatformFilter(filters?.platform as string[]);
-      setAppliedFilter(filters?.applied as string[]);
-      setTypeFilter(filters?.type as string[]);
-      setHiringRegimeFilter(filters?.hiringRegime as string[]);
-      setSkillFilter(filters?.skills as string[]);
-      setBenefitFilter(filters?.benefits as string[]);
+      onChangePlatformFilter(filters?.platform as string[]);
+      onChangeAppliedFilter(filters?.applied as string[]);
+      onChangeTypeFilter(filters?.type as string[]);
+      onChangeHiringRegimeFilter(filters?.hiringRegime as string[]);
+      onChangeSkillFilter(filters?.skills as string[]);
+      onChangeBenefitFilter(filters?.benefits as string[]);
     }}
   />
 }

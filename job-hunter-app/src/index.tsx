@@ -4,7 +4,6 @@ import reportWebVitals from './reportWebVitals';
 import { Root } from './pages/Root';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Stats } from './pages/Stats';
-import { RecoilRoot } from 'recoil';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,9 +25,7 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <RouterProvider router={router} />
-    </RecoilRoot>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
