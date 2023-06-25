@@ -87,9 +87,9 @@ export const getHiringRegimeBasedOnDescription = (job: { description: string }):
 }
 
 export const getTypeBasedOnDescription = (job: { description: string }): JobType => {
-  if (stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
-  if (stringContainsAny(job.description, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
   if (stringContainsAny(job.description, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
+  if (stringContainsAny(job.description, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
+  if (stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
 
   return JobType.REMOTE;
 }
