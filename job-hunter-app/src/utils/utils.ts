@@ -4,7 +4,6 @@ export const getJobsFromAPI = async (args: {
   page?: number,
   limit?: number,
   platformFilter?: string[],
-  appliedFilter?: string[],
   typeFilter?: string[],
   hiringRegimeFilter?: string[],
   skillFilter?: string[],
@@ -16,14 +15,14 @@ export const getJobsFromAPI = async (args: {
   showOnlyDiscarded?: boolean
   showOnlyRecused?: boolean
   showOnlyNewJobs?: boolean
+  showOnlyApplied?: boolean
 }) => {
-  const { limit = 10, page = 0, appliedFilter, orderBy, platformFilter, skillsFilter, typeFilter, companyFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs } = args;
+  const { limit = 10, page = 0, orderBy, platformFilter, skillsFilter, typeFilter, companyFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied } = args;
   const searchParams: any = {};
 
   if (limit) searchParams.limit = limit?.toString();
   if (page || page === 0) searchParams.page = page?.toString();
   if (platformFilter) searchParams.platformFilter = platformFilter;
-  if (appliedFilter) searchParams.appliedFilter = appliedFilter;
   if (skillsFilter) searchParams.skillsFilter = skillsFilter;
   if (typeFilter) searchParams.typeFilter = typeFilter;
   if (hiringRegimeFilter) searchParams.hiringRegimeFilter = hiringRegimeFilter;
@@ -34,6 +33,7 @@ export const getJobsFromAPI = async (args: {
   if (showOnlyDiscarded) searchParams.showOnlyDiscarded = showOnlyDiscarded;
   if (showOnlyRecused) searchParams.showOnlyRecused = showOnlyRecused;
   if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;
+  if (showOnlyApplied) searchParams.showOnlyApplied = showOnlyApplied;
   if (orderBy?.field && orderBy?.order) {
     searchParams.orderByField = orderBy?.field;
     searchParams.orderByOrder = orderBy?.order;

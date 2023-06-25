@@ -71,7 +71,6 @@ export default class JobOpportunityController {
     limit?: number,
     page?: number,
     platformFilter?: string,
-    appliedFilter?: string,
     typeFilter?: string,
     hiringRegimeFilter?: string,
     skillFilter?: string,
@@ -83,13 +82,14 @@ export default class JobOpportunityController {
     showOnlyDiscarded?: string
     showOnlyRecused?: string
     showOnlyNewJobs?: string
+    showOnlyApplied?: string
   }) {
     const where: FindOptionsWhere<JobOpportunity> = {}
 
     where.discarded = args?.showOnlyDiscarded === 'true' || false
     where.recused = args?.showOnlyRecused === 'true' || false
+    where.applied = args?.showOnlyApplied === 'true' || false
 
-    if (args?.appliedFilter) where.applied = In(args?.appliedFilter?.split(','));
     if (args?.platformFilter) where.platform = In(args?.platformFilter?.split(','));
     if (args?.typeFilter) where.type = In(args?.typeFilter?.split(','));
     if (args?.hiringRegimeFilter) where.hiringRegime = In(args?.hiringRegimeFilter?.split(','));

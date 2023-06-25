@@ -76,7 +76,6 @@ type JobsTableProps = {
   onChangeLimit: (limit: number) => void
   onChangeOrderBy: ({ field, order }: { field: string, order: "descend" | "ascend" }) => void
   onChangePlatformFilter: (filter: string[]) => void
-  onChangeAppliedFilter: (filter: string[]) => void
   onChangeTypeFilter: (filter: string[]) => void
   onChangeHiringRegimeFilter: (filter: string[]) => void
   onChangeSkillFilter: (filter: string[]) => void
@@ -98,7 +97,6 @@ export const JobsTable = ({
   onChangeLimit,
   onChangeOrderBy,
   onChangePlatformFilter,
-  onChangeAppliedFilter,
   onChangeTypeFilter,
   onChangeHiringRegimeFilter,
   onChangeBenefitFilter,
@@ -198,17 +196,6 @@ export const JobsTable = ({
       sorter: () => 0,
     },
     {
-      title: "Aplicada?",
-      dataIndex: 'applied',
-      key: 'applied',
-      width: 110,
-      align: 'center',
-      render: (applied) => applied ? <CheckSquareTwoTone twoToneColor="#52c41a" /> : <CloseSquareTwoTone twoToneColor="#eb2f96" />,
-      filters: [{ text: "Sim", value: true }, { text: "Não", value: false }],
-      filterSearch: true,
-      sorter: () => 0,
-    },
-    {
       title: "",
       dataIndex: 'uuid',
       key: 'uuid',
@@ -239,7 +226,6 @@ export const JobsTable = ({
       if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
       onChangePlatformFilter(filters?.platform as string[]);
-      onChangeAppliedFilter(filters?.applied as string[]);
       onChangeTypeFilter(filters?.type as string[]);
       onChangeHiringRegimeFilter(filters?.hiringRegime as string[]);
       onChangeSkillFilter(filters?.skills as string[]);

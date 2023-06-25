@@ -13,6 +13,7 @@ export const Root = () => {
   const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
   const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
   const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
+  const [showOnlyApplied, setShowOnlyApplied] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const windowHeight = window.innerHeight;
@@ -27,7 +28,6 @@ export const Root = () => {
   const [hiringRegimeFilter, setHiringRegimeFilter] = useState<string[]>();
   const [skillFilter, setSkillFilter] = useState<string[]>();
   const [benefitFilter, setBenefitFilter] = useState<string[]>();
-  const [appliedFilter, setAppliedFilter] = useState<string[]>();
   const [titleFilter, setTitleFilter] = useState<string>();
   const [companyFilter, setCompanyFilter] = useState<string>();
 
@@ -48,7 +48,6 @@ export const Root = () => {
         limit,
         page,
         platformFilter,
-        appliedFilter,
         typeFilter,
         hiringRegimeFilter,
         skillFilter,
@@ -59,6 +58,7 @@ export const Root = () => {
         showOnlyDiscarded,
         showOnlyRecused,
         showOnlyNewJobs,
+        showOnlyApplied,
       });
       if (response) {
         setErrorMessage("");
@@ -73,7 +73,7 @@ export const Root = () => {
       handleError(e?.toString() || "");
     }
     setLoading(false);
-  }, [appliedFilter, limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, benefitFilter, skillFilter])
+  }, [limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, benefitFilter, skillFilter])
 
   useEffect(() => {
     handleFetchData();
@@ -100,6 +100,7 @@ export const Root = () => {
         loading={loading}
         showOnlyDiscarded={showOnlyDiscarded}
         showOnlyNewJobs={showOnlyNewJobs}
+        showOnlyApplied={showOnlyApplied}
         showOnlyRecused={showOnlyRecused}
         dataLength={data?.length}
         onChangeCompanyFilter={(value) => setCompanyFilter(value)}
@@ -107,6 +108,7 @@ export const Root = () => {
         onChangeShowOnlyDiscarded={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
         onChangeShowOnlyRecused={() => setShowOnlyRecused(!showOnlyRecused)}
         onChangeShowOnlyNewJobs={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
+        onChangeShowOnlyApplied={() => setShowOnlyApplied(!showOnlyApplied)}
       />
       {errorMessage ? <Alert type="error" description={errorMessage} showIcon message="Error" /> : null}
       <JobsTable
@@ -127,7 +129,6 @@ export const Root = () => {
         onChangeHiringRegimeFilter={(filter) => setHiringRegimeFilter(filter)}
         onChangeSkillFilter={(filter) => setSkillFilter(filter)}
         onChangeBenefitFilter={(filter) => setBenefitFilter(filter)}
-        onChangeAppliedFilter={(filter) => setAppliedFilter(filter)}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />
     </Space>

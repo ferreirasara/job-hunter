@@ -1,4 +1,4 @@
-import { BarChartOutlined, ClockCircleOutlined, CloseCircleOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
+import { BarChartOutlined, CheckSquareOutlined, ClockCircleOutlined, CloseCircleOutlined, CloseSquareOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Button, Input, Space, Tooltip } from "antd"
 
 type FilterButtonsProps = {
@@ -6,6 +6,7 @@ type FilterButtonsProps = {
   showOnlyDiscarded: boolean
   showOnlyRecused: boolean
   showOnlyNewJobs: boolean
+  showOnlyApplied: boolean
   dataLength?: number
   handleFetchData: () => Promise<void>
   onChangeCompanyFilter: (value: string) => void
@@ -13,18 +14,21 @@ type FilterButtonsProps = {
   onChangeShowOnlyDiscarded: () => void
   onChangeShowOnlyRecused: () => void
   onChangeShowOnlyNewJobs: () => void
+  onChangeShowOnlyApplied: () => void
 }
 export const FilterButtons = ({
   loading,
   showOnlyDiscarded,
   showOnlyRecused,
   showOnlyNewJobs,
+  showOnlyApplied,
   handleFetchData,
   onChangeCompanyFilter,
   onChangeTitleFilter,
   onChangeShowOnlyDiscarded,
   onChangeShowOnlyNewJobs,
   onChangeShowOnlyRecused,
+  onChangeShowOnlyApplied,
   dataLength
 }: FilterButtonsProps) => {
   return <Space>
@@ -50,14 +54,23 @@ export const FilterButtons = ({
     />
     <Button
       block
+      type={showOnlyApplied ? "primary" : "default"}
+      icon={showOnlyApplied ? <CloseSquareOutlined /> : <CheckSquareOutlined />}
+      onClick={onChangeShowOnlyApplied}
+      loading={loading}
+    >
+      {showOnlyApplied ? "Não aplicadas" : "Aplicadas"}
+    </Button>
+    {!showOnlyApplied ? <Button
+      block
       type={showOnlyDiscarded ? "primary" : "default"}
       icon={showOnlyDiscarded ? <EyeOutlined /> : <DeleteOutlined />}
       onClick={onChangeShowOnlyDiscarded}
       loading={loading}
     >
       {showOnlyDiscarded ? "Não descartadas" : "Descartadas"}
-    </Button>
-    <Button
+    </Button> : null}
+    {showOnlyApplied ? <Button
       block
       type={showOnlyRecused ? "primary" : "default"}
       icon={showOnlyRecused ? <EyeOutlined /> : <CloseCircleOutlined />}
@@ -65,7 +78,7 @@ export const FilterButtons = ({
       loading={loading}
     >
       {showOnlyRecused ? "Não recusadas" : "Recusadas"}
-    </Button>
+    </Button> : null}
     <Tooltip title={showOnlyNewJobs ? "Exibe todas as vagas" : "Exibe apenas as vagas dos 2 últimos dias"}>
       <Button
         block
