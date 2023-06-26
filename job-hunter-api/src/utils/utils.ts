@@ -104,7 +104,7 @@ export const removeAccent = (str: string) => {
 
 export const addMarkdown = (str: string, toMark: RegExp[]) => {
   let newString = str;
-  for (let i = 0; i < toMark.length; i++) {
+  for (let i = 0; i < toMark?.length; i++) {
     const regex = toMark[i];
     const res = regex.exec(newString);
     if (res) {

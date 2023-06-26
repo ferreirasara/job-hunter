@@ -36,6 +36,17 @@ AppDataSource.initialize().then(async () => {
       await JobOpportunityController.updateSkills(job.uuid, newSkills?.join(','));
     }
     console.log(`[normalize-programathor-skills] End`);
+  } else if (functionToCall === 'normalize-description') {
+    console.log(`[normalize-description] Start`);
+    const allJobs = await JobOpportunityController.getAllJobs();
+    const allJobsLength = allJobs?.length;
+    for (let i = 0; i < allJobsLength; i++) {
+      const job = allJobs[i];
+      if (i % 50 === 0) console.log(`[normalize-description] Updating job ${i + 1} of ${allJobsLength}`);
+      const newDescription = job?.description?.replace(/\`/ig, "")?.replace(/\;/ig, ";\n");
+      await JobOpportunityController.updateDescription(job.uuid, newDescription);
+    }
+    console.log(`[normalize-description] End`);
   }
 
 }).catch(error => console.log(error))
