@@ -70,31 +70,28 @@ export const SKILLS_REGEX = {
 }
 
 export const BENEFITS_REGEX = {
-  ANUAL_BONUS: [/bonus anual/i, /bonus per year/i, /bonificacao anual/i, /annual bonus/i],
-  BIRTHDAY_DAYOFF: [/day off de aniversario/i, /day off/i, /day-off/i, /dia de folga na semana do seu aniversario/i, /dayOff no mes do aniversario/i],
+  ANUAL_BONUS: [/(anual\s)?bonus(\sanual|per year)?/i, /bonificacao anual/i],
+  BIRTHDAY_DAYOFF: [/(day(-|\s)?off|dia de folga)(( de| n(a|o) (semana|mes) do seu) aniversario)?/i],
   COURSE_HELP: [
-    /curso de aperfeiçoamento profissional/i, /learning and development support/i, /investimento em cursos/i, /incentivo a estudos/i, /programa de capacitacao/i,
-    /alura/i, /acesso a cursos/i, /curso de/i, /aquisicao de livros e cursos/i, /subsidio para estudo/i, /auxilio educacao/i, /auxilio educacao/i,
-    / incentivo para educacao/i
+    /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
+    /alura/i, /acesso a cursos/i, /aquisicao de livros e cursos/i,
+    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i
   ],
-  FLEXIBLE_HOURS: [/horarios flexiveis/i, /horario flexivel/i, /flexible hours/i, /flexibilidade de horario/i, /flexible schedule/i, /flexible working schedules/i],
-  GYMPASS: [/gympass/i, /academia/i, /gym pass/i, /auxilio academia/i, /totalpass/i],
+  FLEXIBLE_HOURS: [/horario(s)? flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de horario/i],
+  GYMPASS: [/gym(-|\s)?pass/i, /(auxilio\s)?academia/i, /totalpass/i],
   HEALTH_OR_DENTAL_PLAN: [
-    /plano odontologico/i, /convenio odontologico/i, /convenio medico e odontologico/i,
-    /plano de saude e odontologico/i, /assistencia medica e odontologica/i, /dental/i, /assistencia odontologica/i,
-    /assistencias medica e odontologica/i,
-    /plano de saude/i, /convenio saude/i, /convenio medico e odontologico/i, /plano de saude e odontologico/i, /assistencia medica e odontologica/i,
-    /health care/i, /assistencia medica/i, /convenio medico/i, /health insurance/i, /health plan/i, /health and dental plan/, /assistencias medica e odontologica/i
+    /(plano|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
+    /dental/i, /(plano de|convenio) saude/i, /health (and dental )?(insurance|plan|care)/i
   ],
-  HOME_OFFICE_VOUCHER: [/auxilio home office/i, /subsidio para trabalho remoto/i, /auxilio home-office/i, /auxilio para atuacao em home office/i, /remote work allowance/i, /auxilio para trabalho remoto/i],
+  HOME_OFFICE_VOUCHER: [/(auxilio|subsidio) (para\s)?(atuacao em\s)?(home(-|\s)?office|trabalho remoto)/i, /remote work allowance/i],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
-  MEAL_VOUCHER: [/alimentacao/i, /refeicao/i, /caju/i, /\bva\b/i, /\bvr\b/i, /flex food/i, /to use with food/i],
-  PAID_VACATIONS: [/ferias remuneradas/i, /ferias anuais remuneradas/i, /descanso anual/i, /descanso remunerado/i, /paid annual leave/i, /interrupcao remunerada do contrato/i, /ferias remunerada/i, /ferias e feriados remunerados/i],
+  MEAL_VOUCHER: [/vale (alimentacao|refeicao)/i, /caju/i, /\bva\b/i, /\bvr\b/i, /(to use with|flex) food/i],
+  PAID_VACATIONS: [/ferias ((anuais|e feriados)\s)?remunerad(a|o)(s)?/i, /descanso (anual|remunerado)/i, /paid annual leave/i],
   PRIVATE_PENSION: [/previdencia privada/i],
-  PSYCHOLOGICAL_HELP: [/auxilio psicologico/i, /apoio psicologico/i, /mental health/i, /apoio à saude mental/i, /cuidado com saude mental/i, /auxilio saude emocional/i, /auxilio bem estar/i, /suporte social e psicologico/i],
-  REFERRAL_BONUS: [/bônus indicacao/i, /program of indication/i, /indicacao premiada/i, /bônus por indicacao de talentos/i],
+  PSYCHOLOGICAL_HELP: [/(auxilio|apoio|cuidado com|suporte social e) (psicologico|bem estar|(a\s)?saude (mental|emocional))/i, /mental health/i],
+  REFERRAL_BONUS: [/bonus (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i],
   STOCK_OPTIONS: [/stock options/i],
-  TRANSPORTATION_VOUCHER: [/vale transporte/i],
+  TRANSPORTATION_VOUCHER: [/vale transporte/i, /\bvt\b/i],
   USD_SALARY: [/salary in usd/i],
 }
 
@@ -104,7 +101,7 @@ export const HIRING_REGIMES_REGEX = {
 }
 
 export const TYPES_REGEX = {
-  REMOTE: [/home(-| )?office/i, /\bremoto\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i],
+  REMOTE: [/home(-| )?(office|work)/i, /\bremoto\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i],
   HYBRID: [/hibrido/i, /hybrid/i],
   FACE_TO_FACE: [/presencial/i],
 }

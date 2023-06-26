@@ -1,5 +1,5 @@
 import { stringContainsAny } from "../utils/utils"
-import { SKILLS_REGEX } from "./regex";
+import { BENEFITS_REGEX, SKILLS_REGEX } from "./regex";
 
 describe("test SKILLS_REGEX", () => {
   it("should identify AGILE cases", () => {
@@ -200,6 +200,79 @@ describe("test SKILLS_REGEX", () => {
     const correctStrings = ["webhook", "webhooks", "web hook", "web hooks"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.WEB_HOOKS)).toBeTruthy();
+    }
+  });
+})
+
+describe("test BENEFITS_REGEX", () => {
+  it("should identify ANUAL_BONUS cases", () => {
+    const correctStrings = ["bonus anual", "annual bonus", "bonus per year"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.ANUAL_BONUS)).toBeTruthy();
+    }
+  });
+  it("should identify BIRTHDAY_DAYOFF cases", () => {
+    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.BIRTHDAY_DAYOFF)).toBeTruthy();
+    }
+  });
+  it("should identify COURSE_HELP cases", () => {
+    const correctStrings = ["incentivo para educacao", "auxilio educacao", "incentivo a estudos", "investimento em cursos", "subsidio para estudo"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.COURSE_HELP)).toBeTruthy();
+    }
+  });
+  it("should identify FLEXIBLE_HOURS cases", () => {
+    const correctStrings = ["flexible working schedules", "horario flexivel", "horarios flexiveis", "flexible hours", "flexible schedule"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.FLEXIBLE_HOURS)).toBeTruthy();
+    }
+  });
+  it("should identify GYMPASS cases", () => {
+    const correctStrings = ["gym pass", "gympass", "auxilio academia"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.GYMPASS)).toBeTruthy();
+    }
+  });
+  it("should identify HEALTH_OR_DENTAL_PLAN cases", () => {
+    const correctStrings = [
+      "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico", "assistencia medica e odontologica",
+      "assistencias medica e odontologica", "assistencia odontologica", "health insurance", "health plan", "health and dental plan", "health care",
+      "assistencia medica", "convenio medico"
+    ];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
+    }
+  });
+  it("should identify HOME_OFFICE_VOUCHER cases", () => {
+    const correctStrings = ["auxilio home office", "subsidio para trabalho remoto", "auxilio home-office", "auxilio para atuacao em home office", "remote work allowance", "auxilio para trabalho remoto"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.HOME_OFFICE_VOUCHER)).toBeTruthy();
+    }
+  });
+  it("should identify MEAL_VOUCHER cases", () => {
+    const correctStrings = ["vale alimentacao", "vale refeicao", "flex food", "to use with food", "va", "vr", "va/vr"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.MEAL_VOUCHER)).toBeTruthy();
+    }
+  });
+  it("should identify PAID_VACATIONS cases", () => {
+    const correctStrings = ["ferias remuneradas", "ferias anuais remuneradas", "descanso anual", "descanso remunerado", "paid annual leave", "ferias remunerada", "ferias e feriados remunerados"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.PAID_VACATIONS)).toBeTruthy();
+    }
+  });
+  it("should identify PSYCHOLOGICAL_HELP cases", () => {
+    const correctStrings = ["auxilio psicologico", "apoio psicologico", "mental health", "apoio a saude mental", "cuidado com saude mental", "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.PSYCHOLOGICAL_HELP)).toBeTruthy();
+    }
+  });
+  it("should identify REFERRAL_BONUS cases", () => {
+    const correctStrings = ["bonus indicacao", "program of indication", "indicacao premiada", "bonus por indicacao de talentos"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.REFERRAL_BONUS)).toBeTruthy();
     }
   });
 })
