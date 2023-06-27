@@ -57,7 +57,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify DEV_OPS cases", () => {
-    const correctStrings = ["ci/cd", "ci-cd", "ci cd", "cicd", "github actions", "git hub actions", "git-hub actions", "git actions"];
+    const correctStrings = ["ci/cd", "ci-cd", "ci cd", "cicd", "github actions", "git hub actions", "git-hub actions", "git actions", "git flow"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.DEV_OPS)).toBeTruthy();
     }
@@ -82,7 +82,7 @@ describe("test SKILLS_REGEX", () => {
   });
   it("should identify JAVA cases", () => {
     const correctStrings = ["java"];
-    const wrongStrings = ["javascript"];
+    const wrongStrings = ["javascript", "java script"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.JAVA)).toBeTruthy();
     }
@@ -91,7 +91,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify JAVASCRIPT cases", () => {
-    const correctStrings = ["javascript", "java script", "java-script", "js", "es6"];
+    const correctStrings = ["javascript", "java script", "java-script", "js", "es6", "js/Node"];
     const wrongStrings = ["next.js", "react-js", "java"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.JAVASCRIPT)).toBeTruthy();
@@ -101,7 +101,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify MATERIAL_UI cases", () => {
-    const correctStrings = ["mui", "materialui", "material ui", "material-ui"];
+    const correctStrings = ["mui", "materialui", "material ui", "material-ui", "Material Design"];
     const wrongStrings = ["muito"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeTruthy();
@@ -152,6 +152,12 @@ describe("test SKILLS_REGEX", () => {
       expect(stringContainsAny(str, SKILLS_REGEX.RUBY)).toBeTruthy();
     }
   });
+  it("should identify STATE_MANAGEMENT cases", () => {
+    const correctStrings = ["Gerenciamento de estados"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.STATE_MANAGEMENT)).toBeTruthy();
+    }
+  });
   it("should identify STYLED_COMPONENTS cases", () => {
     const correctStrings = ["styled component", "styled-component", "styledcomponent", "styled components", "styled-components", "styledcomponents"];
     for (const str of correctStrings) {
@@ -168,7 +174,7 @@ describe("test SKILLS_REGEX", () => {
     const correctStrings = [
       "teste unitario", "testes unitarios", "teste functional", "testes functionais", "teste functional automatizado",
       "testes functionais automatizados", "teste automatizado", "testes automatizados", "testes de unidade",
-      "testes de integracao", "testes de software", "testes de performance", "testes de depuracao"
+      "testes de integracao", "testes de software", "testes de performance", "testes de depuracao", "testing library"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.TEST)).toBeTruthy();
@@ -176,7 +182,7 @@ describe("test SKILLS_REGEX", () => {
   });
   it("should identify TYPESCRIPT cases", () => {
     const correctStrings = ["typescript", "type script", "type-script", "ts"];
-    const wrongStrings = ["requirements"];
+    const wrongStrings = ["requirements", "EvenTS", "EnvironmenTS"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.TYPESCRIPT)).toBeTruthy();
     }
@@ -212,7 +218,7 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify BIRTHDAY_DAYOFF cases", () => {
-    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario"];
+    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario", "Folga no aniversario"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.BIRTHDAY_DAYOFF)).toBeTruthy();
     }
@@ -246,13 +252,19 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify HOME_OFFICE_VOUCHER cases", () => {
-    const correctStrings = ["auxilio home office", "subsidio para trabalho remoto", "auxilio home-office", "auxilio para atuacao em home office", "remote work allowance", "auxilio para trabalho remoto"];
+    const correctStrings = [
+      "auxilio home office", "subsidio para trabalho remoto", "auxilio home-office", "auxilio para atuacao em home office",
+      "remote work allowance", "auxilio para trabalho remoto", "Ajuda de custo para Home Office"
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.HOME_OFFICE_VOUCHER)).toBeTruthy();
     }
   });
   it("should identify MEAL_VOUCHER cases", () => {
-    const correctStrings = ["vale alimentacao", "vale refeicao", "flex food", "to use with food", "va", "vr", "va/vr"];
+    const correctStrings = [
+      "vale alimentacao", "vale refeicao", "flex food", "to use with food",
+      "va", "vr", "va/vr", "Ajuda de custo para alimentacao", "v.a.", "v.r."
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.MEAL_VOUCHER)).toBeTruthy();
     }

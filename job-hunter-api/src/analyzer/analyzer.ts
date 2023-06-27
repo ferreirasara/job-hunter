@@ -117,5 +117,7 @@ export const analyzeDescription = (job: { description: string, skills?: string[]
   newDescription = addMarkdown(newDescription, TYPES_REGEX?.[type]);
   newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
 
+  newDescription = newDescription?.replace(/\`+/ig, '\`');
+
   return { skills, benefits, skillsRating, benefitsRating, type, hiringRegime, description: newDescription.replace(/\n+/g, '\n') };
 }

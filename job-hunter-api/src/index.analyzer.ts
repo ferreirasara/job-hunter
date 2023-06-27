@@ -43,7 +43,7 @@ AppDataSource.initialize().then(async () => {
     for (let i = 0; i < allJobsLength; i++) {
       const job = allJobs[i];
       if (i % 50 === 0) console.log(`[normalize-description] Updating job ${i + 1} of ${allJobsLength}`);
-      const newDescription = job?.description?.replace(/\`/ig, "")?.replace(/\;/ig, ";\n");
+      const newDescription = job?.description?.toLowerCase()?.replace(/\`/ig, "")?.replace(/\;/ig, ";\n")?.replace(/\n+/ig, '\n');
       await JobOpportunityController.updateDescription(job.uuid, newDescription);
     }
     console.log(`[normalize-description] End`);
