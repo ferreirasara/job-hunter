@@ -45,12 +45,14 @@ export const FilterButtons = ({
       loading={loading}
       onSearch={(value) => onChangeCompanyFilter(value)}
       style={{ width: 200 }}
+      allowClear
     />
     <Input.Search
       placeholder="Filtrar por título"
       loading={loading}
       onSearch={(value) => onChangeTitleFilter(value)}
       style={{ width: 200 }}
+      allowClear
     />
     <Button
       block

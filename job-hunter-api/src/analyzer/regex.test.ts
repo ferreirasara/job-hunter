@@ -16,7 +16,7 @@ describe("test SKILLS_REGEX", () => {
   });
   it("should identify API cases", () => {
     const correctStrings = ["api", "apis", "api rest", "apis rest", "api restful", "apis restful", "rest api", "rest apis", "restful api", "restful apis", "rest", "restful"];
-    const wrongStrings = ["apiario"];
+    const wrongStrings = ["apiario", "PREST. DE SERVICO"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.API)).toBeTruthy();
     }
@@ -130,8 +130,12 @@ describe("test SKILLS_REGEX", () => {
   });
   it("should identify REACT cases", () => {
     const correctStrings = ["react", "react.js", "react-js", "react js"];
+    const wrongStrings = ["react native", "react hooks"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.REACT)).toBeTruthy();
+    }
+    for (const str of wrongStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.REACT)).toBeFalsy();
     }
   });
   it("should identify REACT_NATIVE cases", () => {
@@ -141,7 +145,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify RESPONSIVE_DESIGN cases", () => {
-    const correctStrings = ["site responsivo", "sites responsivos"];
+    const correctStrings = ["site responsivo", "sites responsivos", "aplicacoes responsivas"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.RESPONSIVE_DESIGN)).toBeTruthy();
     }
@@ -263,7 +267,8 @@ describe("test BENEFITS_REGEX", () => {
   it("should identify MEAL_VOUCHER cases", () => {
     const correctStrings = [
       "vale alimentacao", "vale refeicao", "flex food", "to use with food",
-      "va", "vr", "va/vr", "Ajuda de custo para alimentacao", "v.a.", "v.r."
+      "va", "vr", "va/vr", "Ajuda de custo para alimentacao", "v.a.", "v.r.",
+      "vale refeicao/vale alimentacao",
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.MEAL_VOUCHER)).toBeTruthy();
