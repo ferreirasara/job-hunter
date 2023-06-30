@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-type TShowOnlyContextContext = {
+type TShowOnlyContext = {
   showOnlyDiscarded: boolean
   showOnlyRecused: boolean
   showOnlyNewJobs: boolean
@@ -11,7 +11,7 @@ type TShowOnlyContextContext = {
   onChangeShowOnlyApplied: () => void,
 }
 
-export const ShowOnlyContext = createContext<TShowOnlyContextContext>({
+export const ShowOnlyContext = createContext<TShowOnlyContext>({
   showOnlyDiscarded: false,
   showOnlyRecused: false,
   showOnlyNewJobs: false,
