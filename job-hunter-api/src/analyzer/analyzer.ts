@@ -55,6 +55,10 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'scrum': return JobSkill.AGILE;
     case 'sql': return JobSkill.DB;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
+    case 'styled - components': return JobSkill.STYLED_COMPONENTS;
+    case 'testes automatizados': return JobSkill.TEST;
+    case 'testes de regressão': return JobSkill.TEST;
+    case 'testes funcionais': return JobSkill.TEST;
     case 'typescript': return JobSkill.TYPESCRIPT;
     case 'vue.js': return JobSkill.VUE;
     case 'wordpress': return JobSkill.WORDPRESS;
