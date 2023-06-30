@@ -97,7 +97,7 @@ export const getTypeBasedOnDescription = (job: { description: string }): JobType
 export const analyzeDescription = (job: { description: string, skills?: string[], benefits?: string[] }) => {
   const oldSkills = job.skills;
   const oldBenefits = job.benefits;
-  const description = removeAccent(job.description)?.replace(/ /ig, ' ');
+  const description = removeAccent(job.description)?.replace(/\`/ig, "")?.replace(/ /ig, ' ');
 
   const skills = getSkillsBasedOnDescription({ description, skills: oldSkills });
   const benefits = getBenefitsBasedOnDescription({ description, benefits: oldBenefits });

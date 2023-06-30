@@ -1,5 +1,5 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useState } from "react";
 import { setJobAsRecused } from "../utils/utils";
 
@@ -10,6 +10,7 @@ type RecusedButtonProps = {
   onFinish: () => void
 }
 export const RecusedButton = ({ uuid, disabled, fetchData, onFinish }: RecusedButtonProps) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSetAsRecused = async () => {
@@ -17,17 +18,21 @@ export const RecusedButton = ({ uuid, disabled, fetchData, onFinish }: RecusedBu
     if (uuid) await setJobAsRecused(uuid);
     await fetchData();
     setLoading(false);
+    messageApi.open({ content: "Vaga recusada!", type: "success", duration: 10 });
     onFinish();
   }
 
-  return <Button
-    block
-    size="small"
-    icon={<CloseCircleOutlined />}
-    onClick={handleSetAsRecused}
-    loading={loading}
-    disabled={disabled}
-  >
-    Marcar como recusada
-  </Button>
+  return <>
+    {contextHolder}
+    <Button
+      block
+      size="small"
+      icon={<CloseCircleOutlined />}
+      onClick={handleSetAsRecused}
+      loading={loading}
+      disabled={disabled}
+    >
+      Marcar como recusada
+    </Button>
+  </>
 }

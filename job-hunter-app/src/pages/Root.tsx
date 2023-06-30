@@ -130,6 +130,8 @@ export const Root = () => {
         onChangeSkillFilter={(filter) => setSkillFilter(filter)}
         onChangeBenefitFilter={(filter) => setBenefitFilter(filter)}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
+        fetchData={handleFetchData}
+        onClose={onCloseDrawer}
       />
     </Space>
     <DetailsDrawer

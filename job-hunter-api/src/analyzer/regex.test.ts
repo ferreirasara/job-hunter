@@ -110,20 +110,26 @@ describe("test SKILLS_REGEX", () => {
       expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeFalsy();
     }
   });
+  it("should identify NEST cases", () => {
+    const correctStrings = ["nest", "nest.js", "nest-js", "nest js", "nestjs"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.NEST)).toBeTruthy();
+    }
+  });
   it("should identify NEXT cases", () => {
-    const correctStrings = ["next", "next.js", "next-js", "next js"];
+    const correctStrings = ["next", "next.js", "next-js", "next js", "nextjs"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.NEXT)).toBeTruthy();
     }
   });
   it("should identify NUXT cases", () => {
-    const correctStrings = ["nuxt", "nuxt.js", "nuxt-js", "nuxt js"];
+    const correctStrings = ["nuxt", "nuxt.js", "nuxt-js", "nuxt js", "nuxtjs"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.NUXT)).toBeTruthy();
     }
   });
   it("should identify NODE cases", () => {
-    const correctStrings = ["node", "node.js", "node-js", "node js"];
+    const correctStrings = ["node", "Node.js", "node-js", "node js", "nodejs"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.NODE)).toBeTruthy();
     }
@@ -222,7 +228,7 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify BIRTHDAY_DAYOFF cases", () => {
-    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario", "Folga no aniversario"];
+    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario", "Folga no aniversario", "day off de aniversario"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.BIRTHDAY_DAYOFF)).toBeTruthy();
     }
@@ -249,7 +255,7 @@ describe("test BENEFITS_REGEX", () => {
     const correctStrings = [
       "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico", "assistencia medica e odontologica",
       "assistencias medica e odontologica", "assistencia odontologica", "health insurance", "health plan", "health and dental plan", "health care",
-      "assistencia medica", "convenio medico"
+      "assistencia medica", "convenio medico", "servicos de telemedicina"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
@@ -275,7 +281,10 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify PAID_VACATIONS cases", () => {
-    const correctStrings = ["ferias remuneradas", "ferias anuais remuneradas", "descanso anual", "descanso remunerado", "paid annual leave", "ferias remunerada", "ferias e feriados remunerados"];
+    const correctStrings = [
+      "ferias remuneradas", "ferias anuais remuneradas", "descanso anual", "descanso remunerado", "paid annual leave", "ferias remunerada",
+      "ferias e feriados remunerados", "Ferias de 12 dias uteis remuneradas."
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.PAID_VACATIONS)).toBeTruthy();
     }

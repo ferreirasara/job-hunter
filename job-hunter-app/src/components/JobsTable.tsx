@@ -1,11 +1,12 @@
-import { Button, Table, Typography } from "antd"
+import { Button, Space, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
-import { CheckSquareTwoTone, CloseSquareTwoTone, ZoomInOutlined } from "@ant-design/icons";
+import { ZoomInOutlined } from "@ant-design/icons";
 import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
+import { DiscardedButton } from "./DiscardedButton";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -81,6 +82,8 @@ type JobsTableProps = {
   onChangeSkillFilter: (filter: string[]) => void
   onChangeBenefitFilter: (filter: string[]) => void
   handleSeeDetails: (uuid: string) => void
+  onClose: () => void
+  fetchData: () => Promise<void>
 }
 
 export const JobsTable = ({
@@ -102,6 +105,8 @@ export const JobsTable = ({
   onChangeBenefitFilter,
   onChangeSkillFilter,
   handleSeeDetails,
+  fetchData,
+  onClose
 }: JobsTableProps) => {
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
@@ -137,6 +142,7 @@ export const JobsTable = ({
       title: "Título",
       dataIndex: 'title',
       key: 'title',
+      width: 400,
       ellipsis: true,
       sorter: () => 0,
       render: (title, record) => record.url ? <Typography.Link
@@ -199,9 +205,12 @@ export const JobsTable = ({
       title: "",
       dataIndex: 'uuid',
       key: 'uuid',
-      width: 56,
+      width: 80,
       align: 'center',
-      render: (uuid) => <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
+      render: (uuid, record) => <Space>
+        <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
+        <DiscardedButton onlyIcon uuid={uuid} disabled={!!record?.discarded} fetchData={fetchData} onFinish={onClose} />
+      </Space>
     },
   ]
 

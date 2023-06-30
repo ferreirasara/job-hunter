@@ -43,6 +43,7 @@ export const SKILL_RATING = {
   "MACHINE_LEARNING": -1,
   "MATERIAL_UI": 1,
   "MENSAGERIA": -1,
+  "NEST": 0,
   "NEXT": 1,
   "NUXT": -1,
   "NODE": 1,

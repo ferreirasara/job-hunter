@@ -38,7 +38,7 @@ export const FilterButtons = ({
       onClick={handleFetchData}
       loading={loading}
     >
-      {dataLength ? "Recarregar" : "Carregar"} dados
+      {dataLength ? "Recarregar" : "Carregar"}
     </Button>
     <Input.Search
       placeholder="Filtrar por empresa"

@@ -108,7 +108,7 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
     const regex = toMark[i];
     const res = regex.exec(newString);
     if (res) {
-      const strFound = res?.[0]?.replace(/[^\w\s]/gi, '');
+      const strFound = res?.[0]?.replace(/\./ig, '\\.')?.replace(/\(/ig, '\\(')?.replace(/\)/ig, '\\)')?.replace(/\\/ig, '\\\\');
       const replaceRegex = new RegExp(strFound, 'gi')
       newString = newString?.replace(replaceRegex, `\`${strFound}\``)
     }
