@@ -243,6 +243,8 @@ export default class JobOpportunityController {
     const jobsPerPlatform: { platform: string, count: string }[] = await AppDataSource.manager.query("SELECT platform, COUNT(uuid) FROM job_opportunity GROUP BY platform");
     const jobsPerCompany: { company: string, count: string }[] = await AppDataSource.manager.query("SELECT company, COUNT(uuid) FROM job_opportunity GROUP BY company");
     const jobsPerRating: { totalRating: number, count: string }[] = await AppDataSource.manager.query('SELECT "totalRating", COUNT(uuid) FROM job_opportunity GROUP BY "totalRating"');
+    const jobsPerType: { type: string, count: string }[] = await AppDataSource.manager.query("SELECT type, COUNT(uuid) FROM job_opportunity GROUP BY type");
+    const jobsPerHiringRegime: { hiringRegime: string, count: string }[] = await AppDataSource.manager.query('SELECT "hiringRegime", COUNT(uuid) FROM job_opportunity GROUP BY "hiringRegime"');
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true } });
     const totalOfAppliedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { applied: true } });
     const totalOfDiscardedJobs = await AppDataSource.manager.count(JobOpportunity, { select: { uuid: true }, where: { discarded: true } });
@@ -257,6 +259,8 @@ export default class JobOpportunityController {
       jobsPerPlatform: jobsPerPlatform?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
       jobsPerCompany: jobsPerCompany?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
       jobsPerRating: jobsPerRating?.map(cur => ({ ...cur, count: parseInt(cur?.count) })),
+      jobsPerType: jobsPerType?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
+      jobsPerHiringRegime: jobsPerHiringRegime?.map(cur => ({ ...cur, count: parseInt(cur?.count) }))?.sort((a, b) => b.count - a.count),
       totalOfJobs,
       totalOfAppliedJobs,
       totalOfDiscardedJobs,

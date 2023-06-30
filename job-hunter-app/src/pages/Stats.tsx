@@ -11,6 +11,8 @@ type StatsResponse = {
   jobsPerPlatform: { platform: string; count: number }[]
   jobsPerCompany: { company: string; count: number }[]
   jobsPerRating: { totalRating: string; count: number }[]
+  jobsPerType: { type: string; count: number }[]
+  jobsPerHiringRegime: { hiringRegime: string; count: number }[]
   totalOfJobs: number
   totalOfAppliedJobs: number
   totalOfDiscardedJobs: number
@@ -75,6 +77,20 @@ export const Stats = () => {
               size="small"
               dataSource={data?.benefitsContType}
               renderItem={(item) => <List.Item><strong>{item?.name}:</strong> {item?.cont}</List.Item>}
+            />
+          </Collapse.Panel>
+          <Collapse.Panel header={<strong>Vagas por tipo</strong>} key="jobsPerType">
+            <List
+              size="small"
+              dataSource={data?.jobsPerType}
+              renderItem={(item) => <List.Item><strong>{item?.type}:</strong> {item?.count}</List.Item>}
+            />
+          </Collapse.Panel>
+          <Collapse.Panel header={<strong>Vagas por regime de contrato</strong>} key="jobsPerHiringRegime">
+            <List
+              size="small"
+              dataSource={data?.jobsPerHiringRegime}
+              renderItem={(item) => <List.Item><strong>{item?.hiringRegime}:</strong> {item?.count}</List.Item>}
             />
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por plataforma</strong>} key="jobsPerPlatform">
