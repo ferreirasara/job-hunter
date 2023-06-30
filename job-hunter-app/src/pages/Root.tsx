@@ -5,17 +5,15 @@ import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import { FilterButtons } from "../components/FilterButtons";
 import { FiltersContext } from "../context/FiltersContext";
+import { ShowOnlyContext } from "../context/ShowOnlyContext";
 
 export const Root = () => {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
+  const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
-  const [showOnlyDiscarded, setShowOnlyDiscarded] = useState<boolean>(false);
-  const [showOnlyRecused, setShowOnlyRecused] = useState<boolean>(false);
-  const [showOnlyNewJobs, setShowOnlyNewJobs] = useState<boolean>(false);
-  const [showOnlyApplied, setShowOnlyApplied] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const windowHeight = window.innerHeight;
@@ -92,15 +90,7 @@ export const Root = () => {
       <FilterButtons
         handleFetchData={handleFetchData}
         loading={loading}
-        showOnlyDiscarded={showOnlyDiscarded}
-        showOnlyNewJobs={showOnlyNewJobs}
-        showOnlyApplied={showOnlyApplied}
-        showOnlyRecused={showOnlyRecused}
         dataLength={data?.length}
-        onChangeShowOnlyDiscarded={() => setShowOnlyDiscarded(!showOnlyDiscarded)}
-        onChangeShowOnlyRecused={() => setShowOnlyRecused(!showOnlyRecused)}
-        onChangeShowOnlyNewJobs={() => setShowOnlyNewJobs(!showOnlyNewJobs)}
-        onChangeShowOnlyApplied={() => setShowOnlyApplied(!showOnlyApplied)}
       />
       {errorMessage ? <Alert type="error" description={errorMessage} showIcon message="Error" /> : null}
       <JobsTable

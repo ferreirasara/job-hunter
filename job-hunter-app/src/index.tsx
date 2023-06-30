@@ -5,6 +5,7 @@ import { Root } from './pages/Root';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Stats } from './pages/Stats';
 import { FiltersContextProvider } from './context/FiltersContext';
+import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,7 +28,9 @@ const router = createBrowserRouter([
 root.render(
   <React.StrictMode>
     <FiltersContextProvider>
-      <RouterProvider router={router} />
+      <ShowOnlyContextProvider>
+        <RouterProvider router={router} />
+      </ShowOnlyContextProvider>
     </FiltersContextProvider>
   </React.StrictMode>
 );

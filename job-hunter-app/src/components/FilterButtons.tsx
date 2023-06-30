@@ -2,34 +2,23 @@ import { BarChartOutlined, CheckSquareOutlined, ClockCircleOutlined, CloseCircle
 import { Button, Input, Space, Tooltip } from "antd"
 import { useContext } from "react"
 import { FiltersContext } from "../context/FiltersContext"
+import { ShowOnlyContext } from "../context/ShowOnlyContext"
 
 type FilterButtonsProps = {
   loading: boolean
-  showOnlyDiscarded: boolean
-  showOnlyRecused: boolean
-  showOnlyNewJobs: boolean
-  showOnlyApplied: boolean
   dataLength?: number
   handleFetchData: () => Promise<void>
-  onChangeShowOnlyDiscarded: () => void
-  onChangeShowOnlyRecused: () => void
-  onChangeShowOnlyNewJobs: () => void
-  onChangeShowOnlyApplied: () => void
 }
 export const FilterButtons = ({
   loading,
-  showOnlyDiscarded,
-  showOnlyRecused,
-  showOnlyNewJobs,
-  showOnlyApplied,
   handleFetchData,
-  onChangeShowOnlyDiscarded,
-  onChangeShowOnlyNewJobs,
-  onChangeShowOnlyRecused,
-  onChangeShowOnlyApplied,
   dataLength
 }: FilterButtonsProps) => {
   const { onChangeCompanyFilter, onChangeTitleFilter } = useContext(FiltersContext);
+  const {
+    showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused,
+    onChangeShowOnlyApplied, onChangeShowOnlyDiscarded, onChangeShowOnlyNewJobs, onChangeShowOnlyRecused
+  } = useContext(ShowOnlyContext);
 
   return <Space>
     <Button
