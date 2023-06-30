@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Stats } from './pages/Stats';
 import { FiltersContextProvider } from './context/FiltersContext';
 import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
+import { PaginationContextProvider } from './context/PaginationContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -29,7 +30,9 @@ root.render(
   <React.StrictMode>
     <FiltersContextProvider>
       <ShowOnlyContextProvider>
-        <RouterProvider router={router} />
+        <PaginationContextProvider>
+          <RouterProvider router={router} />
+        </PaginationContextProvider>
       </ShowOnlyContextProvider>
     </FiltersContextProvider>
   </React.StrictMode>

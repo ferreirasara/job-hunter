@@ -9,6 +9,7 @@ import { renderRating } from "./renderRating";
 import { DiscardedButton } from "./DiscardedButton";
 import { useContext } from "react";
 import { FiltersContext } from "../context/FiltersContext";
+import { PaginationContext } from "../context/PaginationContext";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -73,11 +74,6 @@ type JobsTableProps = {
   allBenefits: string[]
   allRatings: number[]
   allPlatforms: string[]
-  page: number
-  onChangePage: (page: number) => void
-  limit: number
-  onChangeLimit: (limit: number) => void
-  onChangeOrderBy: ({ field, order }: { field: string, order: "descend" | "ascend" }) => void
   handleSeeDetails: (uuid: string) => void
   onClose: () => void
   fetchData: () => Promise<void>
@@ -91,16 +87,12 @@ export const JobsTable = ({
   allBenefits,
   allRatings,
   allPlatforms,
-  page,
-  onChangePage,
-  limit,
-  onChangeLimit,
-  onChangeOrderBy,
   handleSeeDetails,
   fetchData,
   onClose
 }: JobsTableProps) => {
   const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter } = useContext(FiltersContext);
+  const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);

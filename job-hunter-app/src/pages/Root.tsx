@@ -1,29 +1,22 @@
 import { Alert, Divider, Space } from "antd"
 import { useCallback, useContext, useEffect, useState } from "react";
-import { JobsResponse, JobsTable, JobsTableData, OrderBy } from "../components/JobsTable";
+import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import { FilterButtons } from "../components/FilterButtons";
 import { FiltersContext } from "../context/FiltersContext";
 import { ShowOnlyContext } from "../context/ShowOnlyContext";
+import { PaginationContext } from "../context/PaginationContext";
 
 export const Root = () => {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
   const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
+  const { page, limit, orderBy } = useContext(PaginationContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const windowHeight = window.innerHeight;
-  const tableMaxSixe = windowHeight - 280;
-  const maxRows = Math.ceil(tableMaxSixe / 43);
-
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(maxRows);
-
-  const [orderBy, setOrderBy] = useState<OrderBy>();
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allSkills, setAllSkills] = useState<string[]>([]);
@@ -101,11 +94,6 @@ export const Root = () => {
         allBenefits={allBenefits}
         allRatings={allRatings}
         allPlatforms={allPlatforms}
-        page={page}
-        onChangePage={(newPage) => setPage(newPage)}
-        limit={limit}
-        onChangeLimit={(newLimit) => setLimit(newLimit)}
-        onChangeOrderBy={({ field, order }) => setOrderBy({ field, order })}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
         fetchData={handleFetchData}
         onClose={onCloseDrawer}
