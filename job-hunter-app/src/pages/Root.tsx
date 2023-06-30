@@ -12,6 +12,7 @@ export const Root = () => {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
   const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
   const { page, limit, orderBy } = useContext(PaginationContext);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();

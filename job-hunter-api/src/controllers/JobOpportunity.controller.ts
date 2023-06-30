@@ -74,7 +74,7 @@ export default class JobOpportunityController {
     typeFilter?: string,
     hiringRegimeFilter?: string,
     skillFilter?: string,
-    benefitRegimeFilter?: string,
+    benefitFilter?: string,
     titleFilter?: string,
     companyFilter?: string,
     orderByField?: string,
@@ -97,8 +97,8 @@ export default class JobOpportunityController {
       const skills = args?.skillFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
       where.skills = ILike(`%${skills?.join("%")}%`);
     }
-    if (args?.benefitRegimeFilter) {
-      const benefits = args?.benefitRegimeFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
+    if (args?.benefitFilter) {
+      const benefits = args?.benefitFilter?.split(',')?.sort((a, b) => a.localeCompare(b));
       where.benefits = ILike(`%${benefits?.join("%")}%`);
     }
     if (args?.titleFilter) where.title = ILike(`%${args?.titleFilter}%`);
