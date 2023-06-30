@@ -105,12 +105,16 @@ export const removeAccent = (str: string) => {
 export const addMarkdown = (str: string, toMark: RegExp[]) => {
   let newString = str;
   for (let i = 0; i < toMark?.length; i++) {
-    const regex = toMark[i];
-    const res = regex.exec(newString);
-    if (res) {
-      const strFound = res?.[0]?.replace(/\./ig, '\\.')?.replace(/\(/ig, '\\(')?.replace(/\)/ig, '\\)')?.replace(/\\/ig, '\\\\');
-      const replaceRegex = new RegExp(strFound, 'gi')
-      newString = newString?.replace(replaceRegex, `\`${strFound}\``)
+    try {
+      const regex = toMark[i];
+      const res = regex.exec(newString);
+      if (res) {
+        const strFound = res?.[0]?.replace(/\./ig, '\\.')?.replace(/\(/ig, '\\(')?.replace(/\)/ig, '\\)')?.replace(/\\/ig, '\\\\');
+        const replaceRegex = new RegExp(strFound, 'gi')
+        newString = newString?.replace(replaceRegex, `\`${strFound}\``)
+      }
+    } catch (e) {
+      continue;
     }
   }
   return newString;
@@ -118,4 +122,11 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
 
 export const sendMessageToTelegram = async (messageToSend: string, replyMarkup?: any) => {
   await fetch(`https://api.telegram.org/bot6281487370:AAEo9IQ6p1Ai2mArBu2tDm4vXsjNKt4JzYU/sendMessage?chat_id=364508175&parse_mode=Markdown&text=${encodeURIComponent(messageToSend)}&reply_markup=${encodeURIComponent(JSON.stringify(replyMarkup))}`);
+}
+
+export const normalizeDescription = (description: string) => {
+  return removeAccent(description)
+    ?.replace(/\`/ig, "")
+    ?.replace(/ /ig, " ")
+    ?.replace(/\n+/ig, "\n");
 }

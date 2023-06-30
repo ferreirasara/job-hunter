@@ -1,5 +1,5 @@
 import { uniq } from "lodash";
-import { addMarkdown, removeAccent, stringContainsAny } from "../utils/utils";
+import { addMarkdown, normalizeDescription, stringContainsAny } from "../utils/utils";
 import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SKILLS_REGEX, TYPES_REGEX } from "./regex";
 import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
 import { JobBenefit, JobHiringRegime, JobSkill, JobType } from "../@types/types";
@@ -101,7 +101,7 @@ export const getTypeBasedOnDescription = (job: { description: string }): JobType
 export const analyzeDescription = (job: { description: string, skills?: string[], benefits?: string[] }) => {
   const oldSkills = job.skills;
   const oldBenefits = job.benefits;
-  const description = removeAccent(job.description)?.replace(/\`/ig, "")?.replace(/ /ig, ' ');
+  const description = normalizeDescription(job.description);
 
   const skills = getSkillsBasedOnDescription({ description, skills: oldSkills });
   const benefits = getBenefitsBasedOnDescription({ description, benefits: oldBenefits });
@@ -111,17 +111,10 @@ export const analyzeDescription = (job: { description: string, skills?: string[]
 
   let newDescription = description;
 
-  for (const skill of skills) {
-    newDescription = addMarkdown(newDescription, SKILLS_REGEX?.[skill]);
-  }
-
-  for (const benefit of benefits) {
-    newDescription = addMarkdown(newDescription, BENEFITS_REGEX?.[benefit]);
-  }
+  for (const skill of skills) newDescription = addMarkdown(newDescription, SKILLS_REGEX?.[skill]);
+  for (const benefit of benefits) newDescription = addMarkdown(newDescription, BENEFITS_REGEX?.[benefit]);
   newDescription = addMarkdown(newDescription, TYPES_REGEX?.[type]);
   newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
-
-  newDescription = newDescription?.replace(/\`+/ig, '\`');
 
   return { skills, benefits, skillsRating, benefitsRating, type, hiringRegime, description: newDescription.replace(/\n+/g, '\n') };
 }

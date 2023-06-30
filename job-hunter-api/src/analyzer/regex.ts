@@ -74,13 +74,15 @@ export const SKILLS_REGEX = {
   TECH_LEAD: [/tech(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /gerenciamento de projetos/i],
   TEST: [
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
-    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado)(s)?/i,
+    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado)(s)?/i, /ferramenta(s)? de teste/i,
     /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao)/i, /(react\s)?testing(-| )(library|practices)/i,
     /(unit|integration)( and integration)? testing/i, /testar (sistemas|apis e servicos)/i, /automated test(s)?/i
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
   TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i],
-  VANILLA: [/((javascript|js) )?vanilla(.|-| )?(js|javascript)?/i],
+  UI: [/\buI\b/i],
+  UX: [/\bux\b/i],
+  VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VUE: [/\bvue((.|-| )?js)?\b/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
   WORDPRESS: [/wordpress/i],
@@ -92,10 +94,10 @@ export const BENEFITS_REGEX = {
   COURSE_HELP: [
     /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
     /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto em cursos/i,
-    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i,
+    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i, /reembolso educacao/i,
     /desconto em universidades e cursos/i, /acesso a plataformas de ensino/i, /parcerias educacionais/i
   ],
-  FLEXIBLE_HOURS: [/(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i],
+  FLEXIBLE_HOURS: [/(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i, /nosso horario e flexivel/i],
   GYMPASS: [/gym(-|\s)?pass/i, /(auxilio\s)?academia/i, /totalpass/i],
   HEALTH_OR_DENTAL_PLAN: [
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
@@ -104,7 +106,7 @@ export const BENEFITS_REGEX = {
   ],
   HOME_OFFICE_VOUCHER: [
     /(auxilio|subsidio|ajuda de custo) (para\s)?(atuacao em\s)?(home(-|\s)?office|trabalho remoto|montagem do seu escritorio)/i,
-    /remote work allowance/i, /voucher home office/i, /equipamento/i
+    /remote work allowance/i, /voucher (home(-|\s)office|para kit setup)/i, /equipamento/i,
   ],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
   MEAL_VOUCHER: [/(vale|ajuda de custo para|auxilio)(-|\s)(alimentacao|refeicao)/i, /(caju|flash)/i, /\bv(\.)?a(\.)?\b/i, /\bv(\.)?r(\.)?\b/i, /(to use with|flex) food/i],
@@ -113,17 +115,18 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i,
   ],
+  PLR: [/\bplr\b/i, /lucros e resultados/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
-    /(atendimento|auxilio|apoio|cuidado com|suporte social e) (psicologico|bem estar|(a\s)?saude (mental|emocional))/i,
-    /mental health/i, /sessoes de terapia/i
+    /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
+    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i,
   ],
   REFERRAL_BONUS: [
     /bonus (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i, /(premio|programa de) indicac(ao|oes)/i,
     /indique um colega e ganhe bonus/i
   ],
   STOCK_OPTIONS: [/stock option(s)?/i],
-  TRANSPORTATION_VOUCHER: [/(vale|auxilio)(-|\s)transporte/i, /\bv(\.)?t(\.)?\b/i],
+  TRANSPORTATION_VOUCHER: [/(vale|auxilio)(-|\s)(transporte|combustivel)/i, /\bv(\.)?t(\.)?\b/i],
   USD_SALARY: [/salary in usd/i, /pagamento em moeda estrangeira/i],
 }
 

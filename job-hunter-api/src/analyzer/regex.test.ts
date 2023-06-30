@@ -201,7 +201,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify VANILLA cases", () => {
-    const correctStrings = ["javascript vanilla", "js vanilla", "vanilla", "vanilla.js", "vanilla-js", "vanilla js"];
+    const correctStrings = ["javascript vanilla", "js vanilla", "vanilla", "vanilla.js", "vanilla-js", "vanilla js", "(vanilla)"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.VANILLA)).toBeTruthy();
     }
@@ -240,7 +240,7 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify FLEXIBLE_HOURS cases", () => {
-    const correctStrings = ["flexible working schedules", "horario flexivel", "horarios flexiveis", "flexible hours", "flexible schedule"];
+    const correctStrings = ["flexible working schedules", "horario flexivel", "horarios flexiveis", "flexible hours", "flexible schedule", "nosso horario e flexivel"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.FLEXIBLE_HOURS)).toBeTruthy();
     }
