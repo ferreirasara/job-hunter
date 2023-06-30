@@ -133,7 +133,7 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { discarded: false, applied: false } });
+    const jobs = await AppDataSource.manager.find(JobOpportunity);
     return jobs;
   }
 

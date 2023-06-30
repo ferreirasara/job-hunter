@@ -245,6 +245,12 @@ describe("test BENEFITS_REGEX", () => {
       expect(stringContainsAny(str, BENEFITS_REGEX.FLEXIBLE_HOURS)).toBeTruthy();
     }
   });
+  it("should identify FOURTEENTH_SALARY cases", () => {
+    const correctStrings = ["14º salario"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, BENEFITS_REGEX.FOURTEENTH_SALARY)).toBeTruthy();
+    }
+  });
   it("should identify GYMPASS cases", () => {
     const correctStrings = ["gym pass", "gympass", "auxilio academia"];
     for (const str of correctStrings) {
@@ -290,7 +296,10 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify PSYCHOLOGICAL_HELP cases", () => {
-    const correctStrings = ["auxilio psicologico", "apoio psicologico", "mental health", "apoio a saude mental", "cuidado com saude mental", "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico"];
+    const correctStrings = [
+      "auxilio psicologico", "apoio psicologico", "mental health", "apoio a saude mental", "cuidado com saude mental",
+      "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico", "bem estar psicologico"
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.PSYCHOLOGICAL_HELP)).toBeTruthy();
     }

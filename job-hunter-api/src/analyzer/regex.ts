@@ -80,8 +80,8 @@ export const SKILLS_REGEX = {
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
   TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i],
-  UI: [/\buI\b/i],
-  UX: [/\bux\b/i],
+  UI: [/\buI\b/i, /uiux/i],
+  UX: [/\bux\b/i, /uiux/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VUE: [/\bvue((.|-| )?js)?\b/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
@@ -98,6 +98,7 @@ export const BENEFITS_REGEX = {
     /desconto em universidades e cursos/i, /acesso a plataformas de ensino/i, /parcerias educacionais/i
   ],
   FLEXIBLE_HOURS: [/(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i, /nosso horario e flexivel/i],
+  FOURTEENTH_SALARY: [/14. salario/i],
   GYMPASS: [/gym(-|\s)?pass/i, /(auxilio\s)?academia/i, /totalpass/i],
   HEALTH_OR_DENTAL_PLAN: [
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
@@ -115,10 +116,10 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i,
   ],
-  PLR: [/\bplr\b/i, /lucros e resultados/i],
+  PLR: [/\bplr\b/i, /lucros e resultados/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
-    /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
+    /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
     /mental health/i, /sessoes de terapia/i, /psicoterapia online/i,
   ],
   REFERRAL_BONUS: [
@@ -126,6 +127,7 @@ export const BENEFITS_REGEX = {
     /indique um colega e ganhe bonus/i
   ],
   STOCK_OPTIONS: [/stock option(s)?/i],
+  THIRTEENTH_SALARY: [/13. salario/i],
   TRANSPORTATION_VOUCHER: [/(vale|auxilio)(-|\s)(transporte|combustivel)/i, /\bv(\.)?t(\.)?\b/i],
   USD_SALARY: [/salary in usd/i, /pagamento em moeda estrangeira/i],
 }
