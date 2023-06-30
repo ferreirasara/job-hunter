@@ -1,5 +1,7 @@
 import { BarChartOutlined, CheckSquareOutlined, ClockCircleOutlined, CloseCircleOutlined, CloseSquareOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
 import { Button, Input, Space, Tooltip } from "antd"
+import { useContext } from "react"
+import { FiltersContext } from "../context/FiltersContext"
 
 type FilterButtonsProps = {
   loading: boolean
@@ -9,8 +11,6 @@ type FilterButtonsProps = {
   showOnlyApplied: boolean
   dataLength?: number
   handleFetchData: () => Promise<void>
-  onChangeCompanyFilter: (value: string) => void
-  onChangeTitleFilter: (value: string) => void
   onChangeShowOnlyDiscarded: () => void
   onChangeShowOnlyRecused: () => void
   onChangeShowOnlyNewJobs: () => void
@@ -23,14 +23,14 @@ export const FilterButtons = ({
   showOnlyNewJobs,
   showOnlyApplied,
   handleFetchData,
-  onChangeCompanyFilter,
-  onChangeTitleFilter,
   onChangeShowOnlyDiscarded,
   onChangeShowOnlyNewJobs,
   onChangeShowOnlyRecused,
   onChangeShowOnlyApplied,
   dataLength
 }: FilterButtonsProps) => {
+  const { onChangeCompanyFilter, onChangeTitleFilter } = useContext(FiltersContext);
+
   return <Space>
     <Button
       block

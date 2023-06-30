@@ -7,6 +7,8 @@ import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
 import { DiscardedButton } from "./DiscardedButton";
+import { useContext } from "react";
+import { FiltersContext } from "../context/FiltersContext";
 
 export enum Platform {
   GUPY = "GUPY",
@@ -76,11 +78,6 @@ type JobsTableProps = {
   limit: number
   onChangeLimit: (limit: number) => void
   onChangeOrderBy: ({ field, order }: { field: string, order: "descend" | "ascend" }) => void
-  onChangePlatformFilter: (filter: string[]) => void
-  onChangeTypeFilter: (filter: string[]) => void
-  onChangeHiringRegimeFilter: (filter: string[]) => void
-  onChangeSkillFilter: (filter: string[]) => void
-  onChangeBenefitFilter: (filter: string[]) => void
   handleSeeDetails: (uuid: string) => void
   onClose: () => void
   fetchData: () => Promise<void>
@@ -99,15 +96,12 @@ export const JobsTable = ({
   limit,
   onChangeLimit,
   onChangeOrderBy,
-  onChangePlatformFilter,
-  onChangeTypeFilter,
-  onChangeHiringRegimeFilter,
-  onChangeBenefitFilter,
-  onChangeSkillFilter,
   handleSeeDetails,
   fetchData,
   onClose
 }: JobsTableProps) => {
+  const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter } = useContext(FiltersContext);
+
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const columns: ColumnsType<JobsTableData> = [

@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import { Root } from './pages/Root';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Stats } from './pages/Stats';
+import { FiltersContextProvider } from './context/FiltersContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <FiltersContextProvider>
+      <RouterProvider router={router} />
+    </FiltersContextProvider>
   </React.StrictMode>
 );
 
