@@ -27,7 +27,7 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
   }
 
   return <Drawer
-    title={<Typography.Link href={selectedJob?.url} target="_blank">{selectedJob?.title} <LinkOutlined /></Typography.Link>}
+    title={<Typography.Link href={selectedJob?.url} target="_blank" copyable>{selectedJob?.title}</Typography.Link>}
     placement="right"
     onClose={onClose}
     open={open}
