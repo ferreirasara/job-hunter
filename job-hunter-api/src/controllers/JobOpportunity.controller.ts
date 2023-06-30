@@ -214,7 +214,7 @@ export default class JobOpportunityController {
     const allSkillStrs = await AppDataSource.manager.find(JobOpportunity, { where, select: { skills: true } });
     const allSkills = flatten(allSkillStrs?.map(cur => convertStrToArray(cur?.skills)));
 
-    return unique ? uniq(allSkills)?.sort((a, b) => a.localeCompare(b)) : allSkills;
+    return unique ? uniq(allSkills?.filter(cur => !!cur))?.sort((a, b) => a.localeCompare(b)) : allSkills;
   }
 
   private static async getAllBenefits({ unique, considerDiscartedJobs, whereFilter }: { unique?: boolean, considerDiscartedJobs?: boolean, whereFilter?: FindOptionsWhere<JobOpportunity> }) {
@@ -225,7 +225,7 @@ export default class JobOpportunityController {
     const allBeneftStrs = await AppDataSource.manager.find(JobOpportunity, { where, select: { benefits: true } });
     const allBenefits = flatten(allBeneftStrs?.map(cur => convertStrToArray(cur?.benefits)));
 
-    return unique ? uniq(allBenefits)?.sort((a, b) => a.localeCompare(b)) : allBenefits;
+    return unique ? uniq(allBenefits?.filter(cur => !!cur))?.sort((a, b) => a.localeCompare(b)) : allBenefits;
   }
 
   private static async getAllPlatforms({ unique, considerDiscartedJobs, whereFilter }: { unique?: boolean, considerDiscartedJobs?: boolean, whereFilter?: FindOptionsWhere<JobOpportunity> }) {
@@ -236,7 +236,7 @@ export default class JobOpportunityController {
     const allPlatformStrs = await AppDataSource.manager.find(JobOpportunity, { where, select: { platform: true } });
     const allPlatforms = flatten(allPlatformStrs?.map(cur => convertStrToArray(cur?.platform)));
 
-    return unique ? uniq(allPlatforms)?.sort((a, b) => a.localeCompare(b)) : allPlatforms;
+    return unique ? uniq(allPlatforms?.filter(cur => !!cur))?.sort((a, b) => a.localeCompare(b)) : allPlatforms;
   }
 
   public static async getStats() {
