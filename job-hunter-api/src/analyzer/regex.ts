@@ -31,7 +31,7 @@ export const SKILLS_REGEX = {
   ENGLISH: [/ingles/i, /english/i],
   FIGMA: [/figma/i],
   FLUTTER: [/flutter/i],
-  FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\bnpm\b/i, /\byarn\b/i],
+  FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite\b/i],
   FULL_STACK: [/full(-| )?stack/i, /back(-|\s)?end e fron(-|\s)?tend/i],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -46,6 +46,7 @@ export const SKILLS_REGEX = {
   MACHINE_LEARNING: [/machine learning/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
   MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
+  MOBILE_DEVELOPMENT: [/desenvolvimento mobile/i],
   NEST: [/\bnest((.|-| )?js)?\b/i],
   NEXT: [/\bnext((.|-| )?js)?\b/i],
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
@@ -97,9 +98,9 @@ export const BENEFITS_REGEX = {
   FLEXIBLE_HOURS: [/(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i],
   GYMPASS: [/gym(-|\s)?pass/i, /(auxilio\s)?academia/i, /totalpass/i],
   HEALTH_OR_DENTAL_PLAN: [
-    /(plano|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
+    /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
     /dental/i, /(plano( de)?|convenio) (saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
-    /servico(s)? de telemedicina/i
+    /(servico(s)? de )?telemedicina/i
   ],
   HOME_OFFICE_VOUCHER: [
     /(auxilio|subsidio|ajuda de custo) (para\s)?(atuacao em\s)?(home(-|\s)?office|trabalho remoto|montagem do seu escritorio)/i,

@@ -255,7 +255,7 @@ describe("test BENEFITS_REGEX", () => {
     const correctStrings = [
       "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico", "assistencia medica e odontologica",
       "assistencias medica e odontologica", "assistencia odontologica", "health insurance", "health plan", "health and dental plan", "health care",
-      "assistencia medica", "convenio medico", "servicos de telemedicina"
+      "assistencia medica", "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico",
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
