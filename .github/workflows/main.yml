@@ -18,9 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
+        working-directory: ./job-hunter-api
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      working-directory: ./job-hunter-api
       - run: npm install
       - run: npm test
