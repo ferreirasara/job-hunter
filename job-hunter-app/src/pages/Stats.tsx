@@ -24,7 +24,7 @@ type StatsResponse = {
   benefitsContType: ContType[]
 }
 
-export const Stats = () => {
+export default function Stats() {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<StatsResponse>();
   const [errorMessage, setErrorMessage] = useState<string>("");

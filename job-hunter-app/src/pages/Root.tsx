@@ -8,7 +8,7 @@ import { FiltersContext } from "../context/FiltersContext";
 import { ShowOnlyContext } from "../context/ShowOnlyContext";
 import { PaginationContext } from "../context/PaginationContext";
 
-export const Root = () => {
+export default function Root() {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
   const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
   const { page, limit, orderBy } = useContext(PaginationContext);
