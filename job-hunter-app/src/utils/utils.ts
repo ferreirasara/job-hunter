@@ -1,4 +1,4 @@
-import { JobType, JobsResponse, JobsTableData, OrderBy, Platform } from "../components/JobsTable";
+import { JobsResponse, OrderBy } from "../components/JobsTable";
 
 export const getJobsFromAPI = async (args: {
   page?: number,
@@ -107,50 +107,7 @@ export const getStatsFromAPI = async () => {
   return statsResponseJson;
 }
 
-export const createNewJob = async (body: {
-  company: string
-  platform: Platform
-  title: string
-  description: string
-  url: string
-  country?: string
-  state?: string
-  city?: string
-  idInPlatform?: string
-  skills?: string
-  benefits?: string
-  type?: JobType
-}): Promise<{ success: boolean, message?: string, uuid?: string }> => {
-  const newJobResponse = await fetch("http://localhost:8080/job/", {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const newJobResponseJson = await newJobResponse?.json();
-  return newJobResponseJson;
-}
-
 export const formatDateHour = (date: string): string => {
   const dateObj = new Date(date);
   return dateObj?.toLocaleString('pt-br', { day: '2-digit', month: '2-digit', year: '2-digit' });
-}
-
-export const isNewJob = (job: JobsTableData): boolean => {
-  const now = new Date();
-  const jobDate = new Date(job.createdAt);
-
-  if (
-    jobDate.getDate() === now.getDate() &&
-    jobDate.getMonth() === now.getMonth() &&
-    jobDate.getFullYear() === now.getFullYear() &&
-    !job?.applied
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-export const isUpperCase = (str: string): boolean => {
-  return str === str?.toUpperCase();
 }

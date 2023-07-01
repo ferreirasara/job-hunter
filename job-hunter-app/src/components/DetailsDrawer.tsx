@@ -6,7 +6,6 @@ import { renderListItems } from "./renderListItems"
 import { RecusedButton } from "./RecusedButton"
 import { NumberOfInterviewsInput } from "./NumberOfInterviewsInput"
 import { NumberOfTestsInput } from "./NumberOfTestsInput"
-import { LinkOutlined } from "@ant-design/icons"
 import ReactMarkdown from "react-markdown"
 
 type DetailsDrawerProps = {
@@ -36,24 +35,24 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
   >
     <List size="small">
       {renderListItems(selectedJob)}
-      <List.Item>
-        <Space>
+      <List.Item key="buttons">
+        <Space >
           <AppliedButton {...commomProps} disabled={!!selectedJob?.applied} />
           <DiscardedButton {...commomProps} disabled={!!selectedJob?.discarded} />
           {selectedJob?.applied ? <RecusedButton {...commomProps} disabled={!!selectedJob?.recused} /> : null}
         </Space>
       </List.Item>
-      {selectedJob?.applied ? <List.Item>
+      {selectedJob?.applied ? <List.Item key="inputs">
         <Space>
-          <NumberOfInterviewsInput {...commomProps} numberOfInterviews={selectedJob?.numberOfInterviews} />
-          <NumberOfTestsInput {...commomProps} numberOfTests={selectedJob?.numberOfTests} />
+          <NumberOfInterviewsInput  {...commomProps} numberOfInterviews={selectedJob?.numberOfInterviews} />
+          <NumberOfTestsInput  {...commomProps} numberOfTests={selectedJob?.numberOfTests} />
         </Space>
       </List.Item> : null}
     </List>
     <Typography.Title level={2}>Descrição</Typography.Title>
     <div style={{ flex: 1, overflowY: 'auto' }}>
-      {description?.map(cur => <Typography.Paragraph>
-        <ReactMarkdown>
+      {description?.map((cur, index) => <Typography.Paragraph key={'paragraph_' + index}>
+        <ReactMarkdown key={'markdown_' + index}>
           {cur}
         </ReactMarkdown>
       </Typography.Paragraph>)}

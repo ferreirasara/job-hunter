@@ -96,8 +96,6 @@ export const Root = () => {
         allRatings={allRatings}
         allPlatforms={allPlatforms}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
-        fetchData={handleFetchData}
-        onClose={onCloseDrawer}
       />
     </Space>
     <DetailsDrawer

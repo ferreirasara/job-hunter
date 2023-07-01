@@ -1,12 +1,10 @@
-import { Button, Space, Table, Typography } from "antd"
+import { Button, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
 import { ZoomInOutlined } from "@ant-design/icons";
-import "../style/JobsTable.css"
 import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
-import { DiscardedButton } from "./DiscardedButton";
 import { useContext } from "react";
 import { FiltersContext } from "../context/FiltersContext";
 import { PaginationContext } from "../context/PaginationContext";
@@ -75,8 +73,6 @@ type JobsTableProps = {
   allRatings: number[]
   allPlatforms: string[]
   handleSeeDetails: (uuid: string) => void
-  onClose: () => void
-  fetchData: () => Promise<void>
 }
 
 export const JobsTable = ({
@@ -88,8 +84,6 @@ export const JobsTable = ({
   allRatings,
   allPlatforms,
   handleSeeDetails,
-  fetchData,
-  onClose
 }: JobsTableProps) => {
   const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter } = useContext(FiltersContext);
   const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
@@ -193,10 +187,7 @@ export const JobsTable = ({
       key: 'uuid',
       width: 80,
       align: 'center',
-      render: (uuid, record) => <Space>
-        <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
-        <DiscardedButton onlyIcon uuid={uuid} disabled={!!record?.discarded} fetchData={fetchData} onFinish={onClose} />
-      </Space>
+      render: (uuid) => <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
     },
   ]
 
