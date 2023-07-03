@@ -6,7 +6,9 @@ export const SKILLS_REGEX = {
   API: [/((\bapi(s)?\b )|\b)rest(ful|\b)(?!.)?( api(s)?)?/i, /\bapi(s)?\b/i, /soap/i, /graphql/, /\bexpress((.|-| )?js)?\b/i],
   APOLLO: [/apollo/i],
   BACHELORS_DEGREE: [/bachelor's degree/i, /computer science/i, /bacharelado/i, /ciencia(s)? da computacao/i, /(gradua(do|cao)|superior) complet(a|o)/i, /(ensino|formacao) superior/i, /possuir formacao/i],
+  BLAZOR: [/blazor/i],
   BOOTSTRAP: [/bootstrap/i, /biblioteca(s)? de ui/i],
+  CERTIFICATIONS: [/certificac(ao|oes)/i, /certification(s)?/i],
   COBOL: [/cobol/i],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CODE_VERSIONING: [/\bgit((-| )?(hub|lab)?)?\b/i, /bitbucket/i, /\bsvn\b/i, /controle de vers(ionamento|ao)/i, /version control/i],
@@ -33,6 +35,7 @@ export const SKILLS_REGEX = {
   FLUTTER: [/flutter/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite\b/i],
   FULL_STACK: [/full(-| )?stack/i, /back(-|\s)?end e fron(-|\s)?tend/i],
+  GOOD_PRACTICES: [/clean code/i, /\bdry\b/i, /boas praticas de desenvolvimento/i, /orientacao a objetos/i, /padroes de desenvolvimento/i],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
   HTML: [/html(5)?/i],
@@ -43,6 +46,7 @@ export const SKILLS_REGEX = {
   KOTLIN: [/kotlin/i],
   LIGHTHOUSE: [/lighthouse/i],
   LINUX: [/linux/i],
+  LOW_CODE: [/low(-|\s)code/i, /no(-|\s)code/i, /cronapp/i],
   MACHINE_LEARNING: [/machine learning/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
   MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
@@ -60,14 +64,18 @@ export const SKILLS_REGEX = {
   REACT_HOOKS: [/react hook(s)?/i],
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
-  RESPONSIVE_DESIGN: [/(design|desenvolvimento) responsivo/i, /(site(s)?|aplicacoes) responsiv(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)first/i],
+  RESPONSIVE_DESIGN: [
+    /(design|desenvolvimento) responsivo/i, /(site(s)?|aplicac(oes|ao)|layout(s)?) responsiv(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
+  ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
   SASS: [/\bsass\b/i],
   SALESFORCE: [/salesforce/i],
   SCALA: [/\bscala\b/i],
+  SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [/redux/i, /mobx/i, /ngrx/i, /rxjs/i, /state management/i, /(bibliotecas de )?gerencia(mento|dor) de estado(s)?/i, /recoil/i, /zustand/i],
   STORYBOOK: [/storybook/i, /documentacao de componentes/i],
+  STRAPI: [/\bstrapi\b/i],
   STYLED_COMPONENTS: [/styled(-| )?component(s)?/i],
   SWIFT: [/\bswift\b/i],
   TAILWIND: [/\btailwind(-| )?(css)?\b/i],
@@ -95,7 +103,7 @@ export const BENEFITS_REGEX = {
     /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
     /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto em cursos/i,
     /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i, /reembolso educacao/i,
-    /desconto em universidades e cursos/i, /acesso a plataformas de ensino/i, /parcerias educacionais/i
+    /desconto em universidades e cursos/i, /acesso a plataformas de ensino/i, /parcerias educacionais/i, /parceria com instituicoes de ensino/i
   ],
   FLEXIBLE_HOURS: [/(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i, /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i, /nosso horario e flexivel/i],
   FOURTEENTH_SALARY: [/14. salario/i],
@@ -120,7 +128,7 @@ export const BENEFITS_REGEX = {
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
-    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i,
+    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i
   ],
   REFERRAL_BONUS: [
     /bonus (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i, /(premio|programa de) indicac(ao|oes)/i,
@@ -134,7 +142,7 @@ export const BENEFITS_REGEX = {
 
 export const HIRING_REGIMES_REGEX = {
   CLT: [/\bclt\b/i],
-  PJ: [/\bpj\b/i, /pessoa juridica/i, /prest\. de servico/i],
+  PJ: [/\bpj\b/i, /pessoa juridica/i, /prest\. de servico/i, /cooperado/i],
 }
 
 export const TYPES_REGEX = {

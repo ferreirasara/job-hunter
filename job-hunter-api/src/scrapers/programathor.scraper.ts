@@ -3,6 +3,7 @@ import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
 import { analyzeDescription, getProgramathorNormalizedSkill } from "../analyzer/analyzer";
 import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { PROGRAMATHOR_URLS } from "../urls/urls";
 
 const platform: JobPlatform = JobPlatform.PROGRAMATHOR
 export default class ProgramathorScraper extends ScraperInterface {
@@ -28,14 +29,17 @@ export default class ProgramathorScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page): Promise<JobInitialData[]> {
-    try {
-      await page.goto("https://programathor.com.br/jobs-front-end");
-      const urls: string[] = await page?.$$eval('div.cell-list > a', (el) => el?.map(cur => cur?.href));
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0] }));
-      return result;
-    } catch (e) {
-      this.logError(e);
-      return [];
+    const result: JobInitialData[] = []
+    for (const url of PROGRAMATHOR_URLS) {
+      try {
+        await page.goto(url);
+        const urls: string[] = await page?.$$eval('div.cell-list > a', (el) => el?.map(cur => cur?.href));
+        result?.push(...urls?.map(url => ({ url, idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0] })));
+        return result;
+      } catch (e) {
+        this.logError(e);
+        return [];
+      }
     }
   }
 

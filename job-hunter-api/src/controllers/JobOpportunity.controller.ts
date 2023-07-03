@@ -13,9 +13,6 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "type") return { type: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "hiringRegime") return { hiringRegime: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skills") return { skills: orderByOrder === "ascend" ? "ASC" : "DESC" }
-  if (orderByField === "applied") return { applied: orderByOrder === "ascend" ? "ASC" : "DESC" }
-  if (orderByField === "skillsRating") return { skillsRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
-  if (orderByField === "benefitsRating") return { benefitsRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "totalRating") return { totalRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
 
   return { createdAt: "DESC" }
@@ -30,7 +27,7 @@ export default class JobOpportunityController {
       }
     });
 
-    if (!existentJob || (existentJob?.platform === jobInput?.platform && existentJob?.idInPlatform !== jobInput?.idInPlatform)) {
+    if (!existentJob || (existentJob?.platform !== "LINKEDIN" && existentJob?.platform === jobInput?.platform && existentJob?.idInPlatform !== jobInput?.idInPlatform)) {
       const newJob = new JobOpportunity();
       newJob.company = jobInput.company;
       newJob.description = jobInput.description;
@@ -133,7 +130,7 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity);
+    const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { discarded: false } });
     return jobs;
   }
 

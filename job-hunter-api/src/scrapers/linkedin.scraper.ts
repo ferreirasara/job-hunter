@@ -3,7 +3,7 @@ import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
 import { analyzeDescription } from "../analyzer/analyzer";
 import { sleep } from "../utils/utils";
-import { LINKEDIN_URLS } from "../urls/linkedinUrls";
+import { LINKEDIN_URLS } from "../urls/urls";
 import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
 const platform: JobPlatform = JobPlatform.LINKEDIN;

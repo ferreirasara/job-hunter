@@ -103,8 +103,12 @@ export const analyzeDescription = (job: { description: string, skills?: string[]
   const oldBenefits = job.benefits;
   const description = normalizeDescription(job.description);
 
-  const skills = getSkillsBasedOnDescription({ description, skills: oldSkills });
-  const benefits = getBenefitsBasedOnDescription({ description, benefits: oldBenefits });
+  let skills = getSkillsBasedOnDescription({ description, skills: oldSkills });
+  skills = skills?.filter(cur => !!cur);
+
+  let benefits = getBenefitsBasedOnDescription({ description, benefits: oldBenefits });
+  benefits = benefits?.filter(cur => !!cur);
+
   const type = getTypeBasedOnDescription({ description });
   const hiringRegime = getHiringRegimeBasedOnDescription({ description });
   const { skillsRating, benefitsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
