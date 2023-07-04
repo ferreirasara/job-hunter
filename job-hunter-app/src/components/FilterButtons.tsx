@@ -1,5 +1,5 @@
 import { BarChartOutlined, CheckSquareOutlined, ClockCircleOutlined, CloseCircleOutlined, CloseSquareOutlined, DeleteOutlined, EyeOutlined, ReloadOutlined, StarOutlined } from "@ant-design/icons"
-import { Button, Grid, Input, Space, Tooltip } from "antd"
+import { Button, Grid, Input, Tooltip } from "antd"
 import { useContext } from "react"
 import { FiltersContext } from "../context/FiltersContext"
 import { ShowOnlyContext } from "../context/ShowOnlyContext"
@@ -23,13 +23,6 @@ export const FilterButtons = ({
   } = useContext(ShowOnlyContext);
 
   return <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
-    <Button
-      icon={<ReloadOutlined />}
-      onClick={handleFetchData}
-      loading={loading}
-    >
-      {dataLength ? "Recarregar" : "Carregar"}
-    </Button>
     <Input.Search
       placeholder="Filtrar por empresa"
       loading={loading}
@@ -78,6 +71,13 @@ export const FilterButtons = ({
         {showOnlyNewJobs ? "Todas" : "Novas"}
       </Button>
     </Tooltip>
+    <Button
+      icon={<ReloadOutlined />}
+      onClick={handleFetchData}
+      loading={loading}
+    >
+      {dataLength ? "Recarregar" : "Carregar"}
+    </Button>
     <Button
       icon={<BarChartOutlined />}
       href="/stats"
