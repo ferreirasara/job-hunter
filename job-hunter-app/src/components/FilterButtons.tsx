@@ -3,6 +3,7 @@ import { Button, Grid, Input, Tooltip } from "antd"
 import { useContext } from "react"
 import { FiltersContext } from "../context/FiltersContext"
 import { ShowOnlyContext } from "../context/ShowOnlyContext"
+import { NavLink } from "react-router-dom"
 
 type FilterButtonsProps = {
   loading: boolean
@@ -78,11 +79,10 @@ export const FilterButtons = ({
     >
       {dataLength ? "Recarregar" : "Carregar"}
     </Button>
-    <Button
-      icon={<BarChartOutlined />}
-      href="/stats"
-    >
-      Ver estatísticas
-    </Button>
+    <NavLink to="/stats">
+      <Button icon={<BarChartOutlined />}>
+        Ver estatísticas
+      </Button>
+    </NavLink>
   </div>
 }
