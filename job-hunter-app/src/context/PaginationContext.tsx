@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import { OrderBy } from "../components/JobsTable";
+import { Grid } from "antd";
 
 export const ORDER_BY_DEFAULT: OrderBy = { field: "createdAt", order: "descend" }
 
@@ -22,8 +23,11 @@ export const PaginationContext = createContext<TPaginationContext>({
 });
 
 export const PaginationContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+
   const windowHeight = window.innerHeight;
-  const tableMaxSixe = windowHeight - 280;
+  const tableMaxSixe = windowHeight - (screens?.xl ? 280 : 385);
   const maxRows = Math.ceil(tableMaxSixe / 43);
 
   const [page, setPage] = useState<number>(0);

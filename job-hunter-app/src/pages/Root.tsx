@@ -20,9 +20,6 @@ export default function Root() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
-  const [allSkills, setAllSkills] = useState<string[]>([]);
-  const [allBenefits, setAllBenefits] = useState<string[]>([]);
-  const [allPlatforms, setAllPlatforms] = useState<string[]>([]);
   const [allRatings, setAllRatings] = useState<number[]>([]);
 
   const handleError = (message: string) => setErrorMessage(message);
@@ -49,9 +46,6 @@ export default function Root() {
       if (response) {
         setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
-        setAllSkills(response?.allSkills);
-        setAllBenefits(response?.allBenefits);
-        setAllPlatforms(response?.allPlatforms);
         setAllRatings(response?.allRatings);
         setData(response?.data);
       }
@@ -77,7 +71,7 @@ export default function Root() {
   }
 
   return <div>
-    <Space direction="vertical" style={{ padding: '0 64px' }}>
+    <Space direction="vertical" style={{ padding: '0 32px' }}>
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
@@ -91,10 +85,7 @@ export default function Root() {
         loading={loading}
         data={data}
         totalOfJobs={totalOfJobs}
-        allSkills={allSkills}
-        allBenefits={allBenefits}
         allRatings={allRatings}
-        allPlatforms={allPlatforms}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
       />
     </Space>

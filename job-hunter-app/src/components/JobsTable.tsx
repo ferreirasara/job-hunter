@@ -1,4 +1,4 @@
-import { Button, Table, Typography } from "antd"
+import { Button, Grid, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
 import { ZoomInOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { FiltersContext } from "../context/FiltersContext";
 import { PaginationContext } from "../context/PaginationContext";
 
-export enum Platform {
+export enum JobPlatform {
   GUPY = "GUPY",
   PROGRAMATHOR = "PROGRAMATHOR",
   TRAMPOS = "TRAMPOS",
@@ -26,12 +26,118 @@ enum JobHiringRegime {
   PJ = "PJ",
   CLT = "CLT",
 }
+export enum JobSkill {
+  AGILE = "AGILE",
+  ANGULAR = "ANGULAR",
+  ANTD = "ANTD",
+  AJAX = "AJAX",
+  API = "API",
+  APOLLO = "APOLLO",
+  BACHELORS_DEGREE = "BACHELORS_DEGREE",
+  BLAZOR = "BLAZOR",
+  BOOTSTRAP = "BOOTSTRAP",
+  CERTIFICATIONS = "CERTIFICATIONS",
+  COBOL = "COBOL",
+  CODE_MAINTAINABILITY = "CODE_MAINTAINABILITY",
+  CODE_VERSIONING = "CODE_VERSIONING",
+  CPLUSPLUS = "CPLUSPLUS",
+  CSS = "CSS",
+  CSHARP = "CSHARP",
+  DART = "DART",
+  DB = "DB",
+  DELPHI = "DELPHI",
+  DESIGN_PATTERNS = "DESIGN_PATTERNS",
+  DESIGN_SYSTEM = "DESIGN_SYSTEM",
+  DEV_OPS = "DEV_OPS",
+  DJANGO = "DJANGO",
+  DOT_NET = "DOT_NET",
+  DRUPAL = "DRUPAL",
+  ECOMMERCE = "ECOMMERCE",
+  ENGLISH = "ENGLISH",
+  FIGMA = "FIGMA",
+  FLUTTER = "FLUTTER",
+  FRONTEND_BUILD_TOOLS = "FRONTEND_BUILD_TOOLS",
+  FULL_STACK = "FULL_STACK",
+  GOOD_PRACTICES = "GOOD_PRACTICES",
+  GOLANG = "GOLANG",
+  GRAPHQL = "GRAPHQL",
+  HTML = "HTML",
+  IONIC = "IONIC",
+  JAVA = "JAVA",
+  JAVASCRIPT = "JAVASCRIPT",
+  JQUERY = "JQUERY",
+  KOTLIN = "KOTLIN",
+  LIGHTHOUSE = "LIGHTHOUSE",
+  LINUX = "LINUX",
+  LOW_CODE = "LOW_CODE",
+  MACHINE_LEARNING = "MACHINE_LEARNING",
+  MATERIAL_UI = "MATERIAL_UI",
+  MENSAGERIA = "MENSAGERIA",
+  MOBILE_DEVELOPMENT = "MOBILE_DEVELOPMENT",
+  NEST = "NEST",
+  NEXT = "NEXT",
+  NUXT = "NUXT",
+  NODE = "NODE",
+  OBJECTIVE_C = "OBJECTIVE_C",
+  PHP = "PHP",
+  POWER_BI = "POWER_BI",
+  PYTHON = "PYTHON",
+  PWA = "PWA",
+  REACT = "REACT",
+  REACT_HOOKS = "REACT_HOOKS",
+  REACT_NATIVE = "REACT_NATIVE",
+  REACT_ROUTER = "REACT_ROUTER",
+  RESPONSIVE_DESIGN = "RESPONSIVE_DESIGN",
+  RUBY = "RUBY",
+  RUST = "RUST",
+  SASS = "SASS",
+  SALESFORCE = "SALESFORCE",
+  SCALA = "SCALA",
+  SPANISH = "SPANISH",
+  STATE_MANAGEMENT = "STATE_MANAGEMENT",
+  STORYBOOK = "STORYBOOK",
+  STRAPI = "STRAPI",
+  STYLED_COMPONENTS = "STYLED_COMPONENTS",
+  SWIFT = "SWIFT",
+  TAILWIND = "TAILWIND",
+  TECH_LEAD = "TECH_LEAD",
+  TEST = "TEST",
+  TOMCAT = "TOMCAT",
+  TYPESCRIPT = "TYPESCRIPT",
+  UI = "UI",
+  UX = "UX",
+  VANILLA = "VANILLA",
+  VUE = "VUE",
+  WEB_HOOKS = "WEB_HOOKS",
+  WORDPRESS = "WORDPRESS",
+}
+export enum JobBenefit {
+  ANUAL_BONUS = "ANUAL_BONUS",
+  BIRTHDAY_DAYOFF = "BIRTHDAY_DAYOFF",
+  COURSE_HELP = "COURSE_HELP",
+  FLEXIBLE_HOURS = "FLEXIBLE_HOURS",
+  FOURTEENTH_SALARY = "FOURTEENTH_SALARY",
+  GYMPASS = "GYMPASS",
+  HEALTH_OR_DENTAL_PLAN = "HEALTH_OR_DENTAL_PLAN",
+  HOME_OFFICE_VOUCHER = "HOME_OFFICE_VOUCHER",
+  LIFE_INSURANCE = "LIFE_INSURANCE",
+  MEAL_VOUCHER = "MEAL_VOUCHER",
+  PAID_VACATIONS = "PAID_VACATIONS",
+  PLR = "PLR",
+  PRIVATE_PENSION = "PRIVATE_PENSION",
+  PSYCHOLOGICAL_HELP = "PSYCHOLOGICAL_HELP",
+  REFERRAL_BONUS = "REFERRAL_BONUS",
+  STOCK_OPTIONS = "STOCK_OPTIONS",
+  THIRTEENTH_SALARY = "THIRTEENTH_SALARY",
+  TRANSPORTATION_VOUCHER = "TRANSPORTATION_VOUCHER",
+  USD_SALARY = "USD_SALARY",
+}
 
 export type JobsTableData = {
   uuid: string
   idInPlatform: string
   company: string
-  platform: Platform
+  platform: JobPlatform
   title: string
   description: string
   url: string
@@ -56,10 +162,7 @@ export type JobsTableData = {
 export type JobsResponse = {
   totalOfJobs: number,
   data: JobsTableData[],
-  allSkills: string[],
-  allBenefits: string[],
   allRatings: number[],
-  allPlatforms: string[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -68,10 +171,7 @@ type JobsTableProps = {
   loading: boolean
   data: JobsTableData[]
   totalOfJobs?: number
-  allSkills: string[]
-  allBenefits: string[]
   allRatings: number[]
-  allPlatforms: string[]
   handleSeeDetails: (uuid: string) => void
 }
 
@@ -79,52 +179,63 @@ export const JobsTable = ({
   loading,
   data,
   totalOfJobs,
-  allSkills,
-  allBenefits,
   allRatings,
-  allPlatforms,
   handleSeeDetails,
 }: JobsTableProps) => {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
   const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter } = useContext(FiltersContext);
   const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
+  const skillOptions = Object.keys(JobSkill);
+  const benefitOptions = Object.keys(JobBenefit);
+  const platformOptions = Object.keys(JobPlatform);
+
   const columns: ColumnsType<JobsTableData> = [
     {
       title: "Criada em",
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt) => formatDateHour(createdAt),
-      width: 100,
+      width: screens?.xl ? 100 : undefined,
       align: 'center',
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Plataforma",
       dataIndex: 'platform',
       key: 'platform',
-      width: 130,
-      sorter: () => 0,
+      width: screens?.xl ? 130 : undefined,
+      sorter: true,
+      showSorterTooltip: false,
       align: 'center',
-      filters: allPlatforms.map((cur) => ({ text: cur, value: cur })),
+      filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
+      filterMultiple: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Empresa",
       dataIndex: 'company',
       key: 'company',
-      width: 170,
+      width: screens?.xl ? 170 : undefined,
       ellipsis: true,
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Título",
       dataIndex: 'title',
       key: 'title',
-      width: 400,
+      width: screens?.xl ? 400 : undefined,
       ellipsis: true,
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
       render: (title, record) => record.url ? <Typography.Link
         href={record.url}
         target="_blank"
@@ -138,10 +249,12 @@ export const JobsTable = ({
       key: 'type',
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
-      width: 110,
+      width: screens?.xl ? 110 : undefined,
       align: 'center',
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Contratação",
@@ -149,10 +262,12 @@ export const JobsTable = ({
       key: 'hiringRegime',
       filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
-      width: 130,
+      width: screens?.xl ? 130 : undefined,
       align: 'center',
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Skills",
@@ -160,8 +275,10 @@ export const JobsTable = ({
       key: 'skills',
       ellipsis: true,
       render: (skills: string) => renderMultipleTags(skills),
-      filters: allSkills?.map((cur) => ({ text: cur, value: cur })),
+      filters: skillOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
+      filterMultiple: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Benefícios",
@@ -169,23 +286,27 @@ export const JobsTable = ({
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
-      filters: allBenefits?.map((cur) => ({ text: cur, value: cur })),
+      filters: benefitOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
+      filterMultiple: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Rating",
       dataIndex: 'totalRating',
       key: 'totalRating',
-      width: 90,
+      width: screens?.xl ? 90 : undefined,
       align: 'center',
       render: (rating) => renderRating(rating, allRatings?.indexOf(rating), allRatings?.length),
-      sorter: () => 0,
+      sorter: true,
+      showSorterTooltip: false,
+      responsive: ['xl', 'xxl']
     },
     {
       title: "",
       dataIndex: 'uuid',
       key: 'uuid',
-      width: 80,
+      width: 56,
       align: 'center',
       render: (uuid) => <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
     },
@@ -199,6 +320,7 @@ export const JobsTable = ({
     rowKey={'uuid'}
     size="small"
     pagination={{
+      position: ["bottomCenter"],
       onChange: (page, pageSize) => {
         onChangePage(page - 1);
         onChangeLimit(pageSize);

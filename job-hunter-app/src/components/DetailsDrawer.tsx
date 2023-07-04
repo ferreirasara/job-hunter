@@ -1,4 +1,4 @@
-import { Drawer, List, Space, Typography } from "antd"
+import { Divider, Drawer, Grid, List, Space, Typography } from "antd"
 import { JobsTableData } from "./JobsTable"
 import { AppliedButton } from "./AppliedButton"
 import { DiscardedButton } from "./DiscardedButton"
@@ -16,6 +16,8 @@ type DetailsDrawerProps = {
 }
 
 export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: DetailsDrawerProps) => {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
   const descriptionSplit = selectedJob?.description?.split('\n');
   const description = descriptionSplit?.filter(cur => !!cur);
 
@@ -30,13 +32,21 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
     placement="right"
     onClose={onClose}
     open={open}
-    width={700}
-    bodyStyle={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '0px 24px 12px' }}
+    width={screens?.xl ? 700 : '100%'}
+    bodyStyle={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      paddingTop: 0,
+      paddingBottom: 12,
+      paddingLeft: screens?.xl ? 24 : 12,
+      paddingRight: screens?.xl ? 24 : 12,
+    }}
   >
     <List size="small">
       {renderListItems(selectedJob)}
       <List.Item key="buttons">
-        <Space >
+        <Space>
           <AppliedButton {...commomProps} disabled={!!selectedJob?.applied} />
           <DiscardedButton {...commomProps} disabled={!!selectedJob?.discarded} />
           {selectedJob?.applied ? <RecusedButton {...commomProps} disabled={!!selectedJob?.recused} /> : null}
@@ -49,7 +59,9 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
         </Space>
       </List.Item> : null}
     </List>
-    <Typography.Title level={2}>Descrição</Typography.Title>
+    <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+      Descrição
+    </Divider>
     <div style={{ flex: 1, overflowY: 'auto' }}>
       {description?.map((cur, index) => <Typography.Paragraph key={'paragraph_' + index}>
         <ReactMarkdown key={'markdown_' + index}>
