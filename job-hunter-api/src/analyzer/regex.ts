@@ -65,7 +65,7 @@ export const SKILLS_REGEX = {
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
   RESPONSIVE_DESIGN: [
-    /(design|desenvolvimento) responsivo/i, /(site(s)?|aplicac(oes|ao)|layout(s)?) responsiv(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
+    /(design|desenvolvimento) responsivo/i, /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?) responsiv(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
   ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
