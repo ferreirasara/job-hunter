@@ -32,10 +32,13 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
 
   const lowerCaseSkill = skill?.toLowerCase();
   switch (lowerCaseSkill) {
+    case '.net': return JobSkill.DOT_NET;
     case 'angular': return JobSkill.ANGULAR;
     case 'bootstrap': return JobSkill.CSS;
+    case 'c#': return JobSkill.CSHARP;
     case 'css': return JobSkill.CSS;
     case 'docker': return JobSkill.DEV_OPS;
+    case 'express': return JobSkill.API;
     case 'flutter': return JobSkill.FLUTTER;
     case 'git': return JobSkill.CODE_VERSIONING;
     case 'google cloud': return JobSkill.DEV_OPS;
@@ -44,15 +47,20 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'ionic': return JobSkill.IONIC;
     case 'java': return JobSkill.JAVA;
     case 'javascript': return JobSkill.JAVASCRIPT;
+    case 'javaScript': return JobSkill.JAVASCRIPT;
+    case 'jquery': return JobSkill.JQUERY;
+    case 'laravel': return JobSkill.PHP;
     case 'mongodb': return JobSkill.DB;
+    case 'mysql': return JobSkill.DB;
     case 'nextjs': return JobSkill.NEXT;
     case 'node.js': return JobSkill.NODE;
-    case 'javaScript': return JobSkill.JAVASCRIPT;
+    case 'postgresql': return JobSkill.DB;
     case 'reactjs': return JobSkill.REACT;
     case 'react native': return JobSkill.REACT_NATIVE;
     case 'restful': return JobSkill.API;
     case 'sass': return JobSkill.SASS;
     case 'scrum': return JobSkill.AGILE;
+    case 'spring boot': return JobSkill.JAVA;
     case 'sql': return JobSkill.DB;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
