@@ -2,12 +2,14 @@ import { Alert, Collapse, Divider, List, Space, Spin } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { getStatsFromAPI } from "../utils/utils";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
+import { Navigate } from "react-router-dom";
 
 type ContType = {
   name: string
   cont: number
 }
 type StatsResponse = {
+  message?: string
   jobsPerPlatform: { platform: string; count: number }[]
   jobsPerCompany: { company: string; count: number }[]
   jobsPerRating: { totalRating: string; count: number }[]
@@ -29,15 +31,17 @@ export default function Stats() {
   const [data, setData] = useState<StatsResponse>();
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleError = (message: string) => setErrorMessage(message);
-
   const handleFetchData = useCallback(async () => {
     setLoading(true);
     try {
       const response: StatsResponse = await getStatsFromAPI();
-      if (response) setData(response);
+      if (response?.message) {
+        setErrorMessage(response?.message)
+      } else {
+        setData(response);
+      }
     } catch (e) {
-      handleError(e?.toString() || "");
+      setErrorMessage(e?.toString() || "");
     }
     setLoading(false);
   }, [])
@@ -46,11 +50,14 @@ export default function Stats() {
     handleFetchData();
   }, [handleFetchData]);
 
+  const secretToken = localStorage?.getItem('secret_token');
+  if (!secretToken) return <Navigate to="/login" replace={true} />
+
   return <Space direction="vertical" style={{ display: 'flex', flexDirection: 'column', padding: '0 64px', width: 'calc(100% - 128px)' }}>
     <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
       Job Hunter - Estatísticas
     </Divider>
-    {errorMessage ? <Alert type="error" description={errorMessage} /> : null}
+    {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
     <div style={{ width: '100%', display: 'flex', flexDirection: "column" }}>
       {loading ? <Spin /> : <Space direction="vertical">
         <Collapse defaultActiveKey={"geralStats"}>

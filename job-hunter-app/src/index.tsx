@@ -16,6 +16,7 @@ document.body.style.height = "100%";
 
 const Root = React.lazy(() => import("./pages/Root"));
 const Stats = React.lazy(() => import("./pages/Stats"));
+const Login = React.lazy(() => import("./pages/Login"));
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/stats",
     element: <Stats />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

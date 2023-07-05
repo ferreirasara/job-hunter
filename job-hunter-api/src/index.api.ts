@@ -16,6 +16,12 @@ AppDataSource.initialize().then(async () => {
   app.use(express.urlencoded({ limit: '50mb', extended: false }));
 
   app.get('/jobs', async (req, res) => {
+    const secretToken = req?.get('authorization');
+    if (secretToken !== process.env.SECRET_TOKEN) {
+      res.send({ message: "Invalid Token" });
+      return;
+    }
+
     const url = new URL(req.url, `${HOSTNAME}:${PORT}`);
 
     const params = url.searchParams;
@@ -37,8 +43,8 @@ AppDataSource.initialize().then(async () => {
     const page = params.get('page');
 
     if (!limit || !page) {
-      res.send({ totalOfJobs: 0, data: [] })
-      return
+      res.send({ message: "Invalid params" });
+      return;
     }
 
     const result = await JobOpportunityController.getAllJobsWithFilter({
@@ -62,6 +68,12 @@ AppDataSource.initialize().then(async () => {
   })
 
   app.post('/job/:uuid', async (req, res) => {
+    const secretToken = req?.get('authorization');
+    if (secretToken !== process.env.SECRET_TOKEN) {
+      res.send({ message: "Invalid Token" });
+      return;
+    }
+
     const uuid = req.params.uuid;
     const body: UpdateJobBody = req.body;
 
@@ -77,8 +89,25 @@ AppDataSource.initialize().then(async () => {
   })
 
   app.get('/stats', async (req, res) => {
+    const secretToken = req?.get('authorization');
+    if (secretToken !== process.env.SECRET_TOKEN) {
+      res.send({ message: "Invalid Token" });
+      return;
+    }
+
     const result = await JobOpportunityController.getStats();
     res.send(result);
+  })
+
+  app.post('/validate', async (req, res) => {
+    const secretToken = req?.get('authorization');
+    if (secretToken !== process.env.SECRET_TOKEN) {
+      res.send({ message: "Invalid Token", success: false });
+      return;
+    } else {
+      res.send({ success: true });
+      return;
+    }
   })
 
   app.listen(PORT, () => {

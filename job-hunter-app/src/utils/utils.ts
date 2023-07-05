@@ -41,16 +41,18 @@ export const getJobsFromAPI = async (args: {
 
   const qs = new URLSearchParams(searchParams);
 
-  const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?${qs.toString()}`));
+  const secretToken = localStorage?.getItem('secret_token');
+  const jobsResponse = await fetch(encodeURI(`http://localhost:8080/jobs?${qs.toString()}`), { headers: { "Authorization": secretToken || "" } });
   const jobsResponseJson: JobsResponse = await jobsResponse?.json();
   return jobsResponseJson;
 }
 
 export const setJobAsApplied = async (uuid: string) => {
+  const secretToken = localStorage?.getItem('secret_token');
   const body = { applied: true }
   const jobAppliedResponse = await fetch("http://localhost:8080/job/" + uuid, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
   });
   const jobAppliedResponseJson = await jobAppliedResponse?.json();
@@ -58,10 +60,11 @@ export const setJobAsApplied = async (uuid: string) => {
 }
 
 export const setJobAsDiscarded = async (uuid: string) => {
+  const secretToken = localStorage?.getItem('secret_token');
   const body = { discarded: true }
   const jobDiscardedResponse = await fetch("http://localhost:8080/job/" + uuid, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
   });
   const jobDiscardedResponseJson = await jobDiscardedResponse?.json();
@@ -69,10 +72,11 @@ export const setJobAsDiscarded = async (uuid: string) => {
 }
 
 export const setJobAsRecused = async (uuid: string) => {
+  const secretToken = localStorage?.getItem('secret_token');
   const body = { recused: true }
   const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
   });
   const jobRecusedResponseJson = await jobRecusedResponse?.json();
@@ -80,10 +84,11 @@ export const setJobAsRecused = async (uuid: string) => {
 }
 
 export const updateNumberOfInterviews = async (uuid: string, numberOfInterviews: number) => {
+  const secretToken = localStorage?.getItem('secret_token');
   const body = { numberOfInterviews }
   const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
   });
   const jobRecusedResponseJson = await jobRecusedResponse?.json();
@@ -91,10 +96,11 @@ export const updateNumberOfInterviews = async (uuid: string, numberOfInterviews:
 }
 
 export const updateNumberOfTests = async (uuid: string, numberOfTests: number) => {
+  const secretToken = localStorage?.getItem('secret_token');
   const body = { numberOfTests }
   const jobRecusedResponse = await fetch("http://localhost:8080/job/" + uuid, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
   });
   const jobRecusedResponseJson = await jobRecusedResponse?.json();
@@ -102,7 +108,8 @@ export const updateNumberOfTests = async (uuid: string, numberOfTests: number) =
 }
 
 export const getStatsFromAPI = async () => {
-  const statsResponse = await fetch(encodeURI(`http://localhost:8080/stats`));
+  const secretToken = localStorage?.getItem('secret_token');
+  const statsResponse = await fetch(encodeURI(`http://localhost:8080/stats`), { headers: { "Content-Type": "application/json", "Authorization": secretToken || "" } });
   const statsResponseJson = await statsResponse?.json();
   return statsResponseJson;
 }
@@ -110,4 +117,13 @@ export const getStatsFromAPI = async () => {
 export const formatDateHour = (date: string): string => {
   const dateObj = new Date(date);
   return dateObj?.toLocaleString('pt-br', { day: '2-digit', month: '2-digit', year: '2-digit' });
+}
+
+export const validateSecretToken = async (token: string) => {
+  const validadeTokenResponse = await fetch("http://localhost:8080/validate", {
+    method: 'POST',
+    headers: { "Authorization": token },
+  });
+  const validadeTokenResponseJson = await validadeTokenResponse?.json();
+  return validadeTokenResponseJson;
 }

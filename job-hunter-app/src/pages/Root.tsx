@@ -7,6 +7,7 @@ import { FilterButtons } from "../components/FilterButtons";
 import { FiltersContext } from "../context/FiltersContext";
 import { ShowOnlyContext } from "../context/ShowOnlyContext";
 import { PaginationContext } from "../context/PaginationContext";
+import { Navigate } from "react-router-dom";
 
 export default function Root() {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
@@ -21,8 +22,6 @@ export default function Root() {
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allRatings, setAllRatings] = useState<number[]>([]);
-
-  const handleError = (message: string) => setErrorMessage(message);
 
   const handleFetchData = useCallback(async () => {
     setLoading(true);
@@ -43,14 +42,16 @@ export default function Root() {
         showOnlyNewJobs,
         showOnlyApplied,
       });
-      if (response) {
+      if (response?.message) {
+        setErrorMessage(response?.message);
+      } else {
         setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
         setAllRatings(response?.allRatings);
         setData(response?.data);
       }
     } catch (e) {
-      handleError(e?.toString() || "");
+      setErrorMessage(e?.toString() || "");
     }
     setLoading(false);
   }, [limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, benefitFilter, skillFilter])
@@ -70,6 +71,9 @@ export default function Root() {
     setSelectedJob(undefined);
   }
 
+  const secretToken = localStorage?.getItem('secret_token');
+  if (!secretToken) return <Navigate to="/login" replace={true} />
+
   return <div>
     <Space direction="vertical" style={{ padding: '0 32px' }}>
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
@@ -80,7 +84,7 @@ export default function Root() {
         loading={loading}
         dataLength={data?.length}
       />
-      {errorMessage ? <Alert type="error" description={errorMessage} showIcon message="Error" /> : null}
+      {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
       <JobsTable
         loading={loading}
         data={data}

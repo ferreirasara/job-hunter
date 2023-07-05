@@ -160,6 +160,7 @@ export type JobsTableData = {
 }
 
 export type JobsResponse = {
+  message?: string
   totalOfJobs: number,
   data: JobsTableData[],
   allRatings: number[],
