@@ -10,7 +10,8 @@ export const renderListItems = (selectedJob?: JobsTableData) => {
       <Space style={{ width: '100%' }} size={'small'}>
         <span><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</span>
         <span><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</span>
-        <span><strong>Regime de contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</span>
+        <span><strong>Contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</span>
+        <span><strong>Senioridade:</strong> {renderMultipleTags(selectedJob?.seniority)}</span>
       </Space>
     </List.Item>,
   ];
