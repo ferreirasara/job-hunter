@@ -153,3 +153,9 @@ export const TYPES_REGEX = {
   HYBRID: [/hibrido/i, /hybrid/i],
   FACE_TO_FACE: [/presencial/i],
 }
+
+export const SENIORITY_REGEX = {
+  JUNIOR: [/junior/i],
+  MID_LEVEL: [/pleno/i],
+  SENIOR: [/senior/i],
+}

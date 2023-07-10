@@ -61,7 +61,7 @@ export default class RemotarScraper extends ScraperInterface {
         const title = await page?.$eval('h1.job-title', (el) => el?.innerText);
         const company = await page?.$eval('p.h2', (el) => el?.innerText);
         const descriptionOriginal = await page?.$$eval('div.job-info-box', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
+        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({
           title,
@@ -76,6 +76,7 @@ export default class RemotarScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         this.logError(e);

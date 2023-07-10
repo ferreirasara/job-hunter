@@ -35,6 +35,9 @@ export class JobOpportunity {
   @Column({ enum: ["CLT", "PJ"], nullable: true })
   hiringRegime: string
 
+  @Column({ enum: ["JUNIOR", "MID_LEVEL", "SENIOR"], nullable: true })
+  seniority: string
+
   @Column({ nullable: true })
   country: string
 

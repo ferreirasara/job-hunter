@@ -14,6 +14,7 @@ const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrde
   if (orderByField === "hiringRegime") return { hiringRegime: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "skills") return { skills: orderByOrder === "ascend" ? "ASC" : "DESC" }
   if (orderByField === "totalRating") return { totalRating: orderByOrder === "ascend" ? "ASC" : "DESC" }
+  if (orderByField === "seniority") return { seniority: orderByOrder === "ascend" ? "ASC" : "DESC" }
 
   return { createdAt: "DESC" }
 }
@@ -74,6 +75,7 @@ export default class JobOpportunityController {
     benefitFilter?: string,
     titleFilter?: string,
     companyFilter?: string,
+    seniorityFilter?: string,
     orderByField?: string,
     orderByOrder?: string,
     showOnlyDiscarded?: string
@@ -94,6 +96,7 @@ export default class JobOpportunityController {
     if (args?.benefitFilter) where.benefits = ILike(`%${args?.benefitFilter}%`);
     if (args?.titleFilter) where.title = ILike(`%${args?.titleFilter}%`);
     if (args?.companyFilter) where.company = ILike(`%${args?.companyFilter}%`);
+    if (args?.seniorityFilter) where.seniority = ILike(`%${args?.seniorityFilter}%`);
     if (args?.showOnlyNewJobs) {
       const date = new Date();
       date.setDate(date.getDate() - 2);
@@ -118,7 +121,7 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { discarded: false } });
+    const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { discarded: false, applied: false } });
     return jobs;
   }
 
@@ -178,6 +181,11 @@ export default class JobOpportunityController {
 
   public static async updateHiringRegime(uuid: string, hiringRegime: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, { hiringRegime });
+    return response?.affected > 0;
+  }
+
+  public static async updateSeniority(uuid: string, seniority: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, { seniority });
     return response?.affected > 0;
   }
 

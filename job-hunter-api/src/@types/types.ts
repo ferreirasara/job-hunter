@@ -117,6 +117,12 @@ export enum JobType {
   FACE_TO_FACE = "FACE_TO_FACE",
 }
 
+export enum JobSeniority {
+  JUNIOR = "JUNIOR",
+  MID_LEVEL = "MID_LEVEL",
+  SENIOR = "SENIOR",
+}
+
 export enum JobPlatform {
   GUPY = "GUPY",
   PROGRAMATHOR = "PROGRAMATHOR",
@@ -172,6 +178,7 @@ export type JobInput = {
   benefitsRating?: number
   applied?: boolean
   discarded?: boolean
+  seniority?: JobSeniority
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }

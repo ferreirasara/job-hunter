@@ -60,7 +60,7 @@ export default class VagasScraper extends ScraperInterface {
         const title = await page?.$eval('h1.job-shortdescription__title', (el) => el?.innerText);
         const company = await page?.$eval('h2.job-shortdescription__company', (el) => el?.innerText);
         const descriptionOriginal = await page?.$eval('#JobContent', (el) => el?.innerText);
-        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
+        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({
           title,
@@ -75,6 +75,7 @@ export default class VagasScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         this.logError(e);

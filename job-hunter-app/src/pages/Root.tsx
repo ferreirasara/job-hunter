@@ -10,7 +10,7 @@ import { PaginationContext } from "../context/PaginationContext";
 import { Navigate } from "react-router-dom";
 
 export default function Root() {
-  const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter } = useContext(FiltersContext);
+  const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter, seniorityFilter } = useContext(FiltersContext);
   const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
   const { page, limit, orderBy } = useContext(PaginationContext);
 
@@ -36,6 +36,7 @@ export default function Root() {
         benefitFilter,
         titleFilter,
         companyFilter,
+        seniorityFilter,
         orderBy,
         showOnlyDiscarded,
         showOnlyRecused,

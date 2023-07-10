@@ -145,5 +145,9 @@ const getTagColor = (tag: string) => {
   if (tag === "HYBRID") return "red";
   if (tag === "FACE_TO_FACE") return "red";
 
+  if (tag === "JUNIOR") return "red";
+  if (tag === "MID_LEVEL") return "green";
+  if (tag === "SENIOR") return "orange";
+
   return "default";
 }

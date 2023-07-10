@@ -50,7 +50,7 @@ export default class GupyScraper extends ScraperInterface {
       try {
         await page.goto(job?.jobUrl);
         const descriptionOriginal = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
+        const analyzerResponse = analyzeDescription({ title: job.name, description: descriptionOriginal });
 
         jobsWithDescription.push({
           company: job.careerPageName,
@@ -68,6 +68,7 @@ export default class GupyScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         this.logError(e);

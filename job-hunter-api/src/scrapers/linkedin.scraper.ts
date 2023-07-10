@@ -68,7 +68,7 @@ export default class LinkedinScraper extends ScraperInterface {
         const company: string = await page?.$eval('span.topcard__flavor', (el) => el?.innerText);
         if (company?.toLowerCase() === 'programathor' || company?.toLowerCase() === 'geekuunter') continue;
         const descriptionOriginal: string = await page?.$$eval('div.description__text', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ description: descriptionOriginal });
+        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({
           title,
@@ -83,6 +83,7 @@ export default class LinkedinScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         if (!String(e)?.includes('failed to find element')) this.logError(e);

@@ -62,7 +62,7 @@ export default class ProgramathorScraper extends ScraperInterface {
         const company = await page?.$eval('div.wrapper-content-job-show > h2', (el) => el?.innerText);
         const infoArray: string[] = await page?.$$eval('div.wrapper-content-job-show', (el) => el?.map(cur => cur?.innerText));
         const descriptionOriginal = await page?.$$eval('div.line-height-2-4', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ description: infoArray?.join('\n') + descriptionOriginal, skills: normalizedSkills });
+        const analyzerResponse = analyzeDescription({ title, description: infoArray?.join('\n') + descriptionOriginal, skills: normalizedSkills });
 
         jobs?.push({
           title,
@@ -77,6 +77,7 @@ export default class ProgramathorScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         this.logError(e);

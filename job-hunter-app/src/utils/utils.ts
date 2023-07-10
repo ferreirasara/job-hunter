@@ -3,21 +3,22 @@ import { JobsResponse, OrderBy } from "../components/JobsTable";
 export const getJobsFromAPI = async (args: {
   page?: number,
   limit?: number,
-  platformFilter?: string[],
-  typeFilter?: string[],
-  hiringRegimeFilter?: string[],
-  skillFilter?: string[],
-  benefitFilter?: string[],
-  skillsFilter?: string[],
+  platformFilter?: string,
+  typeFilter?: string,
+  hiringRegimeFilter?: string,
+  skillFilter?: string,
+  benefitFilter?: string,
+  skillsFilter?: string,
   titleFilter?: string,
   companyFilter?: string,
+  seniorityFilter?: string,
   orderBy?: OrderBy,
   showOnlyDiscarded?: boolean
   showOnlyRecused?: boolean
   showOnlyNewJobs?: boolean
   showOnlyApplied?: boolean
 }) => {
-  const { limit = 10, page = 0, orderBy, platformFilter, skillsFilter, typeFilter, companyFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied } = args;
+  const { limit = 10, page = 0, orderBy, platformFilter, skillsFilter, typeFilter, companyFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, seniorityFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied } = args;
   const searchParams: any = {};
 
   if (limit) searchParams.limit = limit?.toString();
@@ -30,6 +31,7 @@ export const getJobsFromAPI = async (args: {
   if (benefitFilter) searchParams.benefitFilter = benefitFilter;
   if (titleFilter) searchParams.titleFilter = titleFilter;
   if (companyFilter) searchParams.companyFilter = companyFilter;
+  if (seniorityFilter) searchParams.seniorityFilter = seniorityFilter;
   if (showOnlyDiscarded) searchParams.showOnlyDiscarded = showOnlyDiscarded;
   if (showOnlyRecused) searchParams.showOnlyRecused = showOnlyRecused;
   if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;

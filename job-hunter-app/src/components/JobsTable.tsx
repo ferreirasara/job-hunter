@@ -132,6 +132,11 @@ export enum JobBenefit {
   TRANSPORTATION_VOUCHER = "TRANSPORTATION_VOUCHER",
   USD_SALARY = "USD_SALARY",
 }
+export enum JobSeniority {
+  JUNIOR = "JUNIOR",
+  MID_LEVEL = "MID_LEVEL",
+  SENIOR = "SENIOR",
+}
 
 export type JobsTableData = {
   uuid: string
@@ -157,6 +162,7 @@ export type JobsTableData = {
   totalRating: number
   numberOfInterviews: number
   numberOfTests: number
+  seniority: JobSeniority
 }
 
 export type JobsResponse = {
@@ -185,11 +191,12 @@ export const JobsTable = ({
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter } = useContext(FiltersContext);
+  const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter, onChangeSeniorityFilter } = useContext(FiltersContext);
   const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
+  const seniorityOptions = Object.keys(JobSeniority);
   const skillOptions = Object.keys(JobSkill);
   const benefitOptions = Object.keys(JobBenefit);
   const platformOptions = Object.keys(JobPlatform);
@@ -250,6 +257,7 @@ export const JobsTable = ({
       key: 'type',
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
+      filterMultiple: false,
       width: screens?.xl ? 110 : undefined,
       align: 'center',
       sorter: true,
@@ -263,6 +271,21 @@ export const JobsTable = ({
       key: 'hiringRegime',
       filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
+      filterMultiple: false,
+      width: screens?.xl ? 130 : undefined,
+      align: 'center',
+      sorter: true,
+      showSorterTooltip: false,
+      render: (type: string) => renderMultipleTags(type),
+      responsive: ['xl', 'xxl']
+    },
+    {
+      title: "Senioridade",
+      dataIndex: 'seniority',
+      key: 'seniority',
+      filters: seniorityOptions?.map((cur) => ({ text: cur, value: cur })),
+      filterSearch: true,
+      filterMultiple: false,
       width: screens?.xl ? 130 : undefined,
       align: 'center',
       sorter: true,
@@ -334,11 +357,13 @@ export const JobsTable = ({
       const sorter2 = sorter && castArray(sorter)[0];
       if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
 
-      onChangePlatformFilter(filters?.platform as string[]);
-      onChangeTypeFilter(filters?.type as string[]);
-      onChangeHiringRegimeFilter(filters?.hiringRegime as string[]);
-      onChangeSkillFilter(filters?.skills as string[]);
-      onChangeBenefitFilter(filters?.benefits as string[]);
+      onChangePlatformFilter(filters?.platform as unknown as string);
+      onChangeTypeFilter(filters?.type as unknown as string);
+      onChangeHiringRegimeFilter(filters?.hiringRegime as unknown as string);
+      onChangeSkillFilter(filters?.skills as unknown as string);
+      onChangeBenefitFilter(filters?.benefits as unknown as string);
+      onChangeBenefitFilter(filters?.benefits as unknown as string);
+      onChangeSeniorityFilter(filters?.seniority as unknown as string);
     }}
   />
 }

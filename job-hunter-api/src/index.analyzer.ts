@@ -14,13 +14,15 @@ AppDataSource.initialize().then(async () => {
     for (let i = 0; i < allJobsLength; i++) {
       const job = allJobs[i];
       if (i % 50 === 0) console.log(`[update-jobs] Updating job ${i + 1} of ${allJobsLength}`);
-      const analyzerResponse = analyzeDescription({ description: job?.description });
+      const newDescription = normalizeDescription(job?.description);
+      const analyzerResponse = analyzeDescription({ title: job?.title, description: newDescription });
 
       await JobOpportunityController.updateSkills(job.uuid, analyzerResponse?.skills?.join(','));
       await JobOpportunityController.updateBenefits(job.uuid, analyzerResponse?.benefits?.join(','));
       await JobOpportunityController.updateDescription(job.uuid, analyzerResponse?.description);
       await JobOpportunityController.updateHiringRegime(job.uuid, analyzerResponse?.hiringRegime);
       await JobOpportunityController.updateType(job.uuid, analyzerResponse?.type);
+      await JobOpportunityController.updateSeniority(job.uuid, analyzerResponse?.seniority);
       await JobOpportunityController.updateRatings(job.uuid, { skillsRating: analyzerResponse?.skillsRating, benefitsRating: analyzerResponse?.benefitsRating });
     }
     console.log(`[update-jobs] End`);

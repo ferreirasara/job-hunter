@@ -811,5 +811,6 @@ export const normalizeDescription = (description: string) => {
   return removeAccent(description)
     ?.replace(/\`/ig, "")
     ?.replace(/ /ig, " ")
-    ?.replace(/\n+/ig, "\n");
+    ?.replace(/\n+/ig, "\n")
+    ?.toLowerCase();
 }

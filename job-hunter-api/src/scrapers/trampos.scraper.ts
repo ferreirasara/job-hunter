@@ -61,7 +61,7 @@ export default class TramposScraper extends ScraperInterface {
         const address: string = await page?.$eval('div.opportunity > p.address', (el) => el?.innerText?.split(' | ')?.[1]);
         const descriptionOriginal = await page?.$eval('div.opportunity > div.description', (el) => el?.innerText);
         const moreInfo = await page?.$eval('div.opportunity > div.numbers', (el) => el?.innerText);
-        const analyzerResponse = analyzeDescription({ description: moreInfo + "\n" + descriptionOriginal });
+        const analyzerResponse = analyzeDescription({ title, description: moreInfo + "\n" + descriptionOriginal });
 
         jobs?.push({
           title,
@@ -78,6 +78,7 @@ export default class TramposScraper extends ScraperInterface {
           benefitsRating: analyzerResponse?.benefitsRating,
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
+          seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
         this.logError(e);

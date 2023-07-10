@@ -1,25 +1,27 @@
 import { uniq } from "lodash";
-import { addMarkdown, normalizeDescription, stringContainsAny } from "../utils/utils";
-import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SKILLS_REGEX, TYPES_REGEX } from "./regex";
+import { addMarkdown, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX } from "./regex";
 import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
-import { JobBenefit, JobHiringRegime, JobSkill, JobType } from "../@types/types";
+import { JobBenefit, JobHiringRegime, JobSeniority, JobSkill, JobType } from "../@types/types";
 
-export const getSkillsBasedOnDescription = (job: { skills?: string[], description: string }): JobSkill[] => {
+export const getSkillsBasedOnDescription = (job: { title: string, skills?: string[], description: string }): JobSkill[] => {
   const existentSkills = job.skills;
   const skills: JobSkill[] = existentSkills?.length ? [...existentSkills as JobSkill[]] : [];
 
   for (const skill of Object.keys(SKILLS_REGEX)) {
+    if (stringContainsAny(job.title, SKILLS_REGEX?.[skill])) skills.push(JobSkill?.[skill]);
     if (stringContainsAny(job.description, SKILLS_REGEX?.[skill])) skills.push(JobSkill?.[skill]);
   }
 
   return uniq(skills)?.sort((a, b) => a.localeCompare(b));
 }
 
-export const getBenefitsBasedOnDescription = (job: { benefits?: string[], description: string }): JobBenefit[] => {
+export const getBenefitsBasedOnDescription = (job: { title: string, benefits?: string[], description: string }): JobBenefit[] => {
   const existentBenefits = job.benefits;
   const benefits: JobBenefit[] = existentBenefits?.length ? [...existentBenefits as JobBenefit[]] : [];
 
   for (const benefit of Object.keys(BENEFITS_REGEX)) {
+    if (stringContainsAny(job.title, BENEFITS_REGEX?.[benefit])) benefits.push(JobBenefit?.[benefit]);
     if (stringContainsAny(job.description, BENEFITS_REGEX?.[benefit])) benefits.push(JobBenefit?.[benefit]);
   }
 
@@ -91,14 +93,19 @@ export const getRatingsBasedOnSkillsAndBenefits = (job: { skills?: string[], ben
   };
 }
 
-export const getHiringRegimeBasedOnDescription = (job: { description: string }): JobHiringRegime => {
+export const getHiringRegimeBasedOnDescription = (job: { title: string, description: string }): JobHiringRegime => {
+  if (stringContainsAny(job.title, HIRING_REGIMES_REGEX.CLT)) return JobHiringRegime.CLT;
+  if (stringContainsAny(job.title, HIRING_REGIMES_REGEX.PJ)) return JobHiringRegime.PJ;
   if (stringContainsAny(job.description, HIRING_REGIMES_REGEX.CLT)) return JobHiringRegime.CLT;
   if (stringContainsAny(job.description, HIRING_REGIMES_REGEX.PJ)) return JobHiringRegime.PJ;
 
   return JobHiringRegime.PJ;
 }
 
-export const getTypeBasedOnDescription = (job: { description: string }): JobType => {
+export const getTypeBasedOnDescription = (job: { title: string, description: string }): JobType => {
+  if (stringContainsAny(job.title, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
+  if (stringContainsAny(job.title, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
+  if (stringContainsAny(job.title, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
   if (stringContainsAny(job.description, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
   if (stringContainsAny(job.description, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
   if (stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
@@ -106,19 +113,33 @@ export const getTypeBasedOnDescription = (job: { description: string }): JobType
   return JobType.REMOTE;
 }
 
-export const analyzeDescription = (job: { description: string, skills?: string[], benefits?: string[] }) => {
+export const getSeniorityBasedOnDescription = (job: { title: string, description: string }): JobSeniority => {
+  if (stringContainsAny(job.title, SENIORITY_REGEX.JUNIOR)) return JobSeniority.JUNIOR;
+  if (stringContainsAny(job.title, SENIORITY_REGEX.MID_LEVEL)) return JobSeniority.MID_LEVEL;
+  if (stringContainsAny(job.title, SENIORITY_REGEX.SENIOR)) return JobSeniority.SENIOR;
+  if (stringContainsAny(job.description, SENIORITY_REGEX.JUNIOR)) return JobSeniority.JUNIOR;
+  if (stringContainsAny(job.description, SENIORITY_REGEX.MID_LEVEL)) return JobSeniority.MID_LEVEL;
+  if (stringContainsAny(job.description, SENIORITY_REGEX.SENIOR)) return JobSeniority.SENIOR;
+
+  return JobSeniority.SENIOR;
+}
+
+export const analyzeDescription = (job: { title: string, description: string, skills?: string[], benefits?: string[] }) => {
   const oldSkills = job.skills;
   const oldBenefits = job.benefits;
   const description = normalizeDescription(job.description);
+  const title = removeAccent(job.title);
 
-  let skills = getSkillsBasedOnDescription({ description, skills: oldSkills });
+  let skills = getSkillsBasedOnDescription({ title, description, skills: oldSkills });
   skills = skills?.filter(cur => !!cur);
 
-  let benefits = getBenefitsBasedOnDescription({ description, benefits: oldBenefits });
+  let benefits = getBenefitsBasedOnDescription({ title, description, benefits: oldBenefits });
   benefits = benefits?.filter(cur => !!cur);
 
-  const type = getTypeBasedOnDescription({ description });
-  const hiringRegime = getHiringRegimeBasedOnDescription({ description });
+  const type = getTypeBasedOnDescription({ title, description });
+  const hiringRegime = getHiringRegimeBasedOnDescription({ title, description });
+  const seniority = getSeniorityBasedOnDescription({ title, description });
+
   const { skillsRating, benefitsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
 
   let newDescription = description;
@@ -127,6 +148,7 @@ export const analyzeDescription = (job: { description: string, skills?: string[]
   for (const benefit of benefits) newDescription = addMarkdown(newDescription, BENEFITS_REGEX?.[benefit]);
   newDescription = addMarkdown(newDescription, TYPES_REGEX?.[type]);
   newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
+  newDescription = addMarkdown(newDescription, SENIORITY_REGEX?.[seniority]);
 
-  return { skills, benefits, skillsRating, benefitsRating, type, hiringRegime, description: newDescription.replace(/\n+/g, '\n') };
+  return { skills, benefits, skillsRating, benefitsRating, type, hiringRegime, seniority, description: newDescription.replace(/\n+/g, '\n') };
 }

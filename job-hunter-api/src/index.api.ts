@@ -33,6 +33,7 @@ AppDataSource.initialize().then(async () => {
     const benefitFilter = params.get('benefitFilter');
     const titleFilter = params.get('titleFilter');
     const companyFilter = params.get('companyFilter');
+    const seniorityFilter = params.get('seniorityFilter');
     const showOnlyDiscarded = params.get('showOnlyDiscarded');
     const showOnlyRecused = params.get('showOnlyRecused');
     const showOnlyNewJobs = params.get('showOnlyNewJobs');
@@ -57,6 +58,7 @@ AppDataSource.initialize().then(async () => {
       benefitFilter: benefitFilter ? decodeURI(benefitFilter) : undefined,
       titleFilter: titleFilter ? decodeURI(titleFilter) : undefined,
       companyFilter: companyFilter ? decodeURI(companyFilter) : undefined,
+      seniorityFilter: seniorityFilter ? decodeURI(seniorityFilter) : undefined,
       showOnlyDiscarded: showOnlyDiscarded ? decodeURI(showOnlyDiscarded) : undefined,
       showOnlyRecused: showOnlyRecused ? decodeURI(showOnlyRecused) : undefined,
       showOnlyNewJobs: showOnlyNewJobs ? decodeURI(showOnlyNewJobs) : undefined,
