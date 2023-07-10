@@ -55,7 +55,7 @@ export default function Root() {
       setErrorMessage(e?.toString() || "");
     }
     setLoading(false);
-  }, [limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, benefitFilter, skillFilter])
+  }, [limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, benefitFilter, skillFilter, seniorityFilter])
 
   useEffect(() => {
     handleFetchData();
