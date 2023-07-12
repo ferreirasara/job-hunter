@@ -2,58 +2,46 @@ import { Page } from "puppeteer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
 import { analyzeDescription } from "../analyzer/analyzer";
-import { sleep } from "../utils/utils";
-import { LINKEDIN_URLS } from "../urls/urls";
 import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { JOBATUS_URLS } from "../urls/urls";
+import { uniqBy } from "lodash";
 
-const platform: JobPlatform = JobPlatform.LINKEDIN;
-export default class LinkedinScraper extends ScraperInterface {
+const platform: JobPlatform = JobPlatform.JOBATUS
+export default class JObatusScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ abortScript: false, abortStyle: false });
+    const { browser, page } = await this.getBrowser({});
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(platform);
     const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
     const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
 
-    const jobs = await this.getDetails(page, filteredUrls);
+    const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
+
     await browser.close();
 
     this.logMessage("End");
     return jobs;
   }
 
-  private async getUrls(page: Page) {
+  private async getUrls(page: Page): Promise<JobInitialData[]> {
     const result: JobInitialData[] = []
-    for (const url of LINKEDIN_URLS) {
+    for (const url of JOBATUS_URLS) {
       try {
         await page.goto(url);
-        const totalOfJobs = await page?.$eval('span.results-context-header__job-count', (el) => parseInt(el?.innerText));
-
-        for (let i = 0; i < (totalOfJobs / 25); i++) {
-          await sleep(500);
-          for (let keyPressed = 0; keyPressed <= 10; keyPressed++) {
-            await page?.keyboard?.press('PageDown');
-          }
-          await page?.waitForNetworkIdle();
-        }
-
-        const urls: string[] = await page?.$$eval('a.base-card__full-link', (el) => el?.map(cur => cur?.href));
-        result?.push(...urls?.map(url => {
-          const urlSplit = url?.split('?')?.[0]?.split('-');
-          return ({ url, idInPlatform: urlSplit?.[urlSplit?.length - 1] })
-        }));
+        const urls: string[] = await page?.$$eval('p.jobtitle > a', (el) => el?.map(cur => cur?.href));
+        result?.push(...urls?.map(url => ({ url, idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1] })));
       } catch (e) {
         this.logError(e);
         continue;
       }
     }
-    return result;
+    return uniqBy(result, 'idInPlatform');
   }
 
   private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {
@@ -61,18 +49,22 @@ export default class LinkedinScraper extends ScraperInterface {
     const jobs: JobInput[] = [];
     for (let i = 0; i < urlsLength; i++) {
       try {
-        const obj = urls[i];
-        await sleep(500);
-        await page.goto(obj?.url, { waitUntil: "networkidle0" });
-        const title: string = await page?.$eval('h1.top-card-layout__title', (el) => el?.innerText);
-        const company: string = await page?.$eval('span.topcard__flavor', (el) => el?.innerText);
-        if (company?.toLowerCase() === 'programathor' || company?.toLowerCase() === 'geekuunter') continue;
-        const descriptionOriginal: string = await page?.$$eval('div.description__text', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        const obj = urls[i]
+        await page.goto(obj?.url);
+
+        const title = await page?.$eval('#offer_title', (el) => el?.innerText);
+        const infoArray: string[] = await page?.$$eval('span.detail_body', (el) => el?.map(cur => cur?.innerText));
+        const company = infoArray?.[0];
+        const city = infoArray?.[0]?.split('-')?.[0]?.trim();
+        const state = infoArray?.[0]?.split('-')?.[1]?.trim();
+        const descriptionOriginal = await page?.$eval('#description_body', (el) => el?.innerText);
         const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({
           title,
-          company: company?.trim(),
+          company,
+          city,
+          state,
           description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
@@ -86,11 +78,12 @@ export default class LinkedinScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        if (!String(e)?.includes('failed to find element')) this.logError(e);
+        this.logError(e);
         continue;
       }
     }
 
     return jobs;
   }
+
 }

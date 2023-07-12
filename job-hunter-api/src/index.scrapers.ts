@@ -1,5 +1,6 @@
 import { AppDataSource } from "./data-source"
 import GupyScraper from "./scrapers/gupy.scraper";
+import JObatusScraper from "./scrapers/jobatus.scraper";
 import LinkedinScraper from "./scrapers/linkedin.scraper";
 import ProgramathorScraper from "./scrapers/programathor.scraper";
 import RemotarScraper from "./scrapers/remotar.scraper";
@@ -26,6 +27,9 @@ AppDataSource.initialize().then(async () => {
 
   const vagasScraper = new VagasScraper({ filterExistentsJobs: true })
   numberOfNewJobs += await vagasScraper.saveJobs();
+
+  const jobatusScraper = new JObatusScraper({ filterExistentsJobs: true })
+  numberOfNewJobs += await jobatusScraper.saveJobs();
 
   console.log(`Number of new jobs: ${numberOfNewJobs}`);
 }).catch(error => console.log(error))

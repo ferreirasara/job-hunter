@@ -35,12 +35,12 @@ export default class ProgramathorScraper extends ScraperInterface {
         await page.goto(url);
         const urls: string[] = await page?.$$eval('div.cell-list > a', (el) => el?.map(cur => cur?.href));
         result?.push(...urls?.map(url => ({ url, idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0] })));
-        return result;
       } catch (e) {
         this.logError(e);
-        return [];
+        continue;
       }
     }
+    return result;
   }
 
   private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {

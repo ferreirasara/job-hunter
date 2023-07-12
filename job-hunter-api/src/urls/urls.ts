@@ -8,3 +8,9 @@ export const PROGRAMATHOR_URLS = [
   'https://programathor.com.br/jobs-react',
   "https://programathor.com.br/jobs-front-end",
 ]
+
+export const JOBATUS_URLS = [
+  'https://www.jobatus.com.br/emprego?q=frontend+developer&l=&jb=all',
+  'https://www.jobatus.com.br/emprego?q=frontend&l=',
+  'https://www.jobatus.com.br/emprego?q=react&l=',
+]

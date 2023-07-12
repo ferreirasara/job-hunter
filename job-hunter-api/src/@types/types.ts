@@ -130,6 +130,7 @@ export enum JobPlatform {
   VAGAS = "VAGAS",
   REMOTAR = "REMOTAR",
   LINKEDIN = "LINKEDIN",
+  JOBATUS = "JOBATUS",
 }
 
 export type GupyResponse = {
