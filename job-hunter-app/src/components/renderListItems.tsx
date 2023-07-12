@@ -8,7 +8,7 @@ export const renderListItems = (selectedJob?: JobsTableData) => {
     <List.Item key="uuid"><strong>uuid:</strong> <Typography.Text copyable>{selectedJob?.uuid}</Typography.Text></List.Item>,
     <List.Item key="platform_type_hiringRegime">
       <Space style={{ width: '100%' }} size={'small'}>
-        <span><strong>Plataforma:</strong> {selectedJob?.platform} ({selectedJob?.idInPlatform})</span>
+        <span><strong>Plataforma:</strong> {selectedJob?.platform}</span>
         <span><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</span>
         <span><strong>Contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</span>
         <span><strong>Senioridade:</strong> {renderMultipleTags(selectedJob?.seniority)}</span>
