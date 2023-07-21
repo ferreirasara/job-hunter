@@ -25,7 +25,6 @@ export const RecusedButton = ({ uuid, disabled, fetchData, onFinish }: RecusedBu
   return <>
     {contextHolder}
     <Button
-      block
       size="small"
       icon={<CloseCircleOutlined />}
       onClick={handleSetAsRecused}

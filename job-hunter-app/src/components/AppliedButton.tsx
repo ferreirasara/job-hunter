@@ -25,7 +25,6 @@ export const AppliedButton = ({ uuid, disabled, fetchData, onFinish }: AppliedBu
   return <>
     {contextHolder}
     <Button
-      block
       size="small"
       icon={<FormOutlined />}
       onClick={handleSetAsApplied}

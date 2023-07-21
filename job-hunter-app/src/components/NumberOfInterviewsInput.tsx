@@ -22,6 +22,7 @@ export const NumberOfInterviewsInput = ({ fetchData, numberOfInterviews, uuid }:
   return <Space.Compact>
     <InputNumber
       size="small"
+      style={{ width: 250 }}
       disabled={loading}
       value={newNumberOfInterviews}
       onChange={(value) => setNewNumberOfInterviews(value || 0)}

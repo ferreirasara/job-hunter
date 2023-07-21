@@ -26,7 +26,6 @@ export const DiscardedButton = ({ uuid, disabled, fetchData, onFinish, onlyIcon 
   return <>
     {contextHolder}
     <Button
-      block
       size="small"
       icon={<DeleteOutlined />}
       onClick={handleSetAsDiscarded}

@@ -22,6 +22,7 @@ export const NumberOfTestsInput = ({ fetchData, numberOfTests, uuid }: NumberOfT
   return <Space.Compact>
     <InputNumber
       size="small"
+      style={{ width: 250 }}
       disabled={loading}
       value={newNumberOfTests}
       onChange={(value) => setNewNumberOfTests(value || 0)}
