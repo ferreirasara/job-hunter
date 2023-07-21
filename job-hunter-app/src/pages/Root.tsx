@@ -1,4 +1,4 @@
-import { Alert, Divider, Space } from "antd"
+import { Alert, Divider, Grid, Space } from "antd"
 import { useCallback, useContext, useEffect, useState } from "react";
 import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
 import { getJobsFromAPI } from "../utils/utils";
@@ -12,8 +12,10 @@ import { Navigate } from "react-router-dom";
 export default function Root() {
   const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter, seniorityFilter } = useContext(FiltersContext);
   const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
-  const { page, limit, orderBy } = useContext(PaginationContext);
+  const { page, limit, orderBy, onChangeLimit } = useContext(PaginationContext);
 
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
@@ -22,6 +24,12 @@ export default function Root() {
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allRatings, setAllRatings] = useState<number[]>([]);
+
+  const windowHeight = window.innerHeight;
+  const tableMaxSixe = windowHeight - (screens?.xl ? 280 : 385);
+  const maxRows = Math.ceil(tableMaxSixe / 43);
+
+  onChangeLimit(maxRows);
 
   const handleFetchData = useCallback(async () => {
     setLoading(true);
@@ -76,7 +84,7 @@ export default function Root() {
   if (!secretToken) return <Navigate to="/login" replace={true} />
 
   return <div>
-    <Space direction="vertical" style={{ padding: '0 32px' }}>
+    <Space direction="vertical" style={{ padding: '0 16px' }}>
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>

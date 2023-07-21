@@ -207,7 +207,7 @@ export const JobsTable = ({
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt) => formatDateHour(createdAt),
-      width: screens?.xl ? 100 : undefined,
+      width: screens?.xl ? 98 : undefined,
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
@@ -217,7 +217,7 @@ export const JobsTable = ({
       title: "Plataforma",
       dataIndex: 'platform',
       key: 'platform',
-      width: screens?.xl ? 130 : undefined,
+      width: screens?.xl ? 120 : undefined,
       sorter: true,
       showSorterTooltip: false,
       align: 'center',
@@ -240,7 +240,7 @@ export const JobsTable = ({
       title: "Título",
       dataIndex: 'title',
       key: 'title',
-      width: screens?.xl ? 400 : undefined,
+      width: screens?.xxl ? 400 : undefined,
       ellipsis: true,
       sorter: true,
       showSorterTooltip: false,
@@ -258,12 +258,12 @@ export const JobsTable = ({
       filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       filterMultiple: false,
-      width: screens?.xl ? 110 : undefined,
+      width: screens?.xxl ? 110 : undefined,
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
-      responsive: ['xl', 'xxl']
+      responsive: ['xxl']
     },
     {
       title: "Contratação",
@@ -272,12 +272,12 @@ export const JobsTable = ({
       filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       filterMultiple: false,
-      width: screens?.xl ? 130 : undefined,
+      width: screens?.xxl ? 130 : undefined,
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
-      responsive: ['xl', 'xxl']
+      responsive: ['xxl']
     },
     {
       title: "Senioridade",
@@ -286,12 +286,12 @@ export const JobsTable = ({
       filters: seniorityOptions?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       filterMultiple: false,
-      width: screens?.xl ? 130 : undefined,
+      width: screens?.xxl ? 130 : undefined,
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
-      responsive: ['xl', 'xxl']
+      responsive: ['xxl']
     },
     {
       title: "Skills",
@@ -319,7 +319,7 @@ export const JobsTable = ({
       title: "Rating",
       dataIndex: 'totalRating',
       key: 'totalRating',
-      width: screens?.xl ? 90 : undefined,
+      width: screens?.xl ? 75 : undefined,
       align: 'center',
       render: (rating) => renderRating(rating, allRatings?.indexOf(rating), allRatings?.length),
       sorter: true,

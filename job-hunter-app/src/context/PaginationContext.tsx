@@ -23,15 +23,9 @@ export const PaginationContext = createContext<TPaginationContext>({
 });
 
 export const PaginationContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
-
-  const windowHeight = window.innerHeight;
-  const tableMaxSixe = windowHeight - (screens?.xl ? 280 : 385);
-  const maxRows = Math.ceil(tableMaxSixe / 43);
 
   const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(maxRows || 10);
+  const [limit, setLimit] = useState<number>(10);
   const [orderBy, setOrderBy] = useState<OrderBy>(ORDER_BY_DEFAULT);
 
   return <PaginationContext.Provider value={{

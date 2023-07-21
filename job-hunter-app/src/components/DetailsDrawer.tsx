@@ -59,7 +59,7 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
         </Space>
       </List.Item> : null}
     </List>
-    <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+    <Divider style={{ fontSize: '20px', fontWeight: '600', marginTop: 8, marginBottom: 8 }}>
       Descrição
     </Divider>
     <div style={{ flex: 1, overflowY: 'auto' }}>
