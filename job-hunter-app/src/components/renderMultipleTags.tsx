@@ -43,6 +43,7 @@ const SKILL_RATING = {
   "ELASTIC_SEARCH": -1,
   "ENGLISH": 0,
   "FIGMA": 1,
+  "FLASK": -1,
   "FLUTTER": -1,
   "FRONTEND_BUILD_TOOLS": 1,
   "FULL_STACK": 0,
@@ -87,6 +88,7 @@ const SKILL_RATING = {
   "STORYBOOK": 1,
   "STRAPI": -1,
   "STYLED_COMPONENTS": 1,
+  "SWAGGER": -1,
   "SWIFT": -1,
   "TAILWIND": 0,
   "TECH_LEAD": -1,
@@ -98,6 +100,7 @@ const SKILL_RATING = {
   "VANILLA": -1,
   "VUE": -1,
   "WEB_HOOKS": 1,
+  "WINDOWS_FORMS": -1,
   "WORDPRESS": -1,
 }
 

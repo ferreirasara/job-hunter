@@ -36,11 +36,14 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
   switch (lowerCaseSkill) {
     case '.net': return JobSkill.DOT_NET;
     case 'angular': return JobSkill.ANGULAR;
+    case 'aws s3': return JobSkill.DEV_OPS;
     case 'bootstrap': return JobSkill.CSS;
     case 'c#': return JobSkill.CSHARP;
     case 'css': return JobSkill.CSS;
+    case 'django': return JobSkill.DJANGO;
     case 'docker': return JobSkill.DEV_OPS;
     case 'express': return JobSkill.API;
+    case 'flask': return JobSkill.FLASK;
     case 'flutter': return JobSkill.FLUTTER;
     case 'git': return JobSkill.CODE_VERSIONING;
     case 'google cloud': return JobSkill.DEV_OPS;
@@ -57,6 +60,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'nextjs': return JobSkill.NEXT;
     case 'node.js': return JobSkill.NODE;
     case 'postgresql': return JobSkill.DB;
+    case 'python': return JobSkill.PYTHON;
     case 'reactjs': return JobSkill.REACT;
     case 'react native': return JobSkill.REACT_NATIVE;
     case 'restful': return JobSkill.API;

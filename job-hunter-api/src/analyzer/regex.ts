@@ -33,6 +33,7 @@ export const SKILLS_REGEX = {
   ELASTIC_SEARCH: [/elastic search/i],
   ENGLISH: [/ingles/i, /english/i],
   FIGMA: [/figma/i],
+  FLASK: [/flask/i],
   FLUTTER: [/flutter/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite\b/i],
   FULL_STACK: [/full(-| )?stack/i, /back(-|\s)?end e fron(-|\s)?tend/i],
@@ -58,7 +59,7 @@ export const SKILLS_REGEX = {
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
   NODE: [/\bnode((.|-| )?js)?\b/i],
   OBJECTIVE_C: [/objective(-|\s)c/i],
-  PHP: [/php/i, /laravel/i, /symfony/i],
+  PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i],
   POWER_BI: [/power( )?bi/i],
   PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
@@ -67,7 +68,7 @@ export const SKILLS_REGEX = {
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
   RESPONSIVE_DESIGN: [
-    /(design|desenvolvimento) (respons|adaptat)ivo/i, /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?) (responsiv|adaptativ)(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
+    /(design|desenvolvimento) (respons|adaptat)ivo/i, /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?(de usuario)?) (responsiv|adaptativ)(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
   ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
@@ -79,6 +80,7 @@ export const SKILLS_REGEX = {
   STORYBOOK: [/storybook/i, /documentacao de componentes/i],
   STRAPI: [/\bstrapi\b/i],
   STYLED_COMPONENTS: [/styled(-| )?component(s)?/i],
+  SWAGGER: [/swagger/i],
   SWIFT: [/\bswift\b/i],
   TAILWIND: [/\btailwind(-| )?(css)?\b/i],
   TECH_LEAD: [/tech(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /gerenciamento de projetos/i],
@@ -95,6 +97,7 @@ export const SKILLS_REGEX = {
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VUE: [/\bvue((.|-| )?js)?\b/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
+  WINDOWS_FORMS: [/windows forms/i],
   WORDPRESS: [/wordpress/i],
 }
 
