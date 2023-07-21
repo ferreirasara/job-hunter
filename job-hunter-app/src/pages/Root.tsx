@@ -24,6 +24,8 @@ export default function Root() {
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allRatings, setAllRatings] = useState<number[]>([]);
+  const [allSkills, setAllSkills] = useState<string[]>([]);
+  const [allBenefits, setAllBenefits] = useState<string[]>([]);
 
   const windowHeight = window.innerHeight;
   const tableMaxSixe = windowHeight - (screens?.xl ? 280 : 385);
@@ -57,6 +59,8 @@ export default function Root() {
         setErrorMessage("");
         setTotalOfJobs(response?.totalOfJobs);
         setAllRatings(response?.allRatings);
+        setAllSkills(response?.allSkills);
+        setAllBenefits(response?.allBenefits);
         setData(response?.data);
       }
     } catch (e) {
@@ -100,6 +104,8 @@ export default function Root() {
         totalOfJobs={totalOfJobs}
         allRatings={allRatings}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
+        allSkills={allSkills}
+        allBenefits={allBenefits}
       />
     </Space>
     <DetailsDrawer

@@ -170,6 +170,8 @@ export type JobsResponse = {
   totalOfJobs: number,
   data: JobsTableData[],
   allRatings: number[],
+  allSkills: string[],
+  allBenefits: string[],
 }
 
 export type OrderBy = { field: string, order: "ascend" | "descend" }
@@ -180,6 +182,8 @@ type JobsTableProps = {
   totalOfJobs?: number
   allRatings: number[]
   handleSeeDetails: (uuid: string) => void
+  allSkills: string[]
+  allBenefits: string[]
 }
 
 export const JobsTable = ({
@@ -188,6 +192,8 @@ export const JobsTable = ({
   totalOfJobs,
   allRatings,
   handleSeeDetails,
+  allSkills,
+  allBenefits,
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
@@ -197,8 +203,8 @@ export const JobsTable = ({
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const seniorityOptions = Object.keys(JobSeniority);
-  const skillOptions = Object.keys(JobSkill);
-  const benefitOptions = Object.keys(JobBenefit);
+  // const skillOptions = Object.keys(JobSkill);
+  // const benefitOptions = Object.keys(JobBenefit);
   const platformOptions = Object.keys(JobPlatform);
 
   const columns: ColumnsType<JobsTableData> = [
@@ -217,7 +223,8 @@ export const JobsTable = ({
       title: "Plataforma",
       dataIndex: 'platform',
       key: 'platform',
-      width: screens?.xl ? 120 : undefined,
+      width: screens?.xl ? 125 : undefined,
+      ellipsis: true,
       sorter: true,
       showSorterTooltip: false,
       align: 'center',
@@ -299,7 +306,7 @@ export const JobsTable = ({
       key: 'skills',
       ellipsis: true,
       render: (skills: string) => renderMultipleTags(skills),
-      filters: skillOptions?.map((cur) => ({ text: cur, value: cur })),
+      filters: allSkills?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       filterMultiple: false,
       responsive: ['xl', 'xxl']
@@ -310,7 +317,7 @@ export const JobsTable = ({
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
-      filters: benefitOptions?.map((cur) => ({ text: cur, value: cur })),
+      filters: allBenefits?.map((cur) => ({ text: cur, value: cur })),
       filterSearch: true,
       filterMultiple: false,
       responsive: ['xl', 'xxl']
