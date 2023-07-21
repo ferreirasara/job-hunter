@@ -792,9 +792,8 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
       const regex = toMark[i];
       const res = regex.exec(newString);
       if (res) {
-        const strFound = res?.[0]?.replace(/\./ig, '\\.')?.replace(/\(/ig, '\\(')?.replace(/\)/ig, '\\)')?.replace(/\\/ig, '\\\\');
-        const replaceRegex = new RegExp(strFound, 'gi')
-        newString = newString?.replace(replaceRegex, `\`${strFound}\``)
+        const strFound = res?.[0];
+        newString = newString?.replace(regex, `\`${strFound}\``)
       }
     } catch (e) {
       continue;
@@ -811,6 +810,10 @@ export const normalizeDescription = (description: string) => {
   return removeAccent(description)
     ?.replace(/\`/ig, "")
     ?.replace(/ /ig, " ")
+    ?.replace(/\\n-/ig, "-")
+    ?.replace(/-[^\w]/ig, "\n-")
+    ?.replace(/;/ig, ";\n")
+    ?.replace(//ig, "-")
     ?.replace(/\n+/ig, "\n")
     ?.toLowerCase();
 }

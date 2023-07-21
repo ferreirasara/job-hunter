@@ -110,6 +110,12 @@ describe("test SKILLS_REGEX", () => {
       expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeFalsy();
     }
   });
+  it("should identify MICRO_SERVICES cases", () => {
+    const correctStrings = ["microservices"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.MICRO_SERVICES)).toBeTruthy();
+    }
+  });
   it("should identify NEST cases", () => {
     const correctStrings = ["nest", "nest.js", "nest-js", "nest js", "nestjs"];
     for (const str of correctStrings) {

@@ -48,6 +48,7 @@ export default class JobOpportunityController {
       newJob.totalRating = jobInput.skillsRating + jobInput.benefitsRating;
       newJob.applied = jobInput.applied;
       newJob.discarded = jobInput.discarded;
+      newJob.seniority = jobInput.seniority;
 
       try {
         const res = await AppDataSource.manager.save(newJob);
@@ -121,7 +122,7 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity, { where: { discarded: false, applied: false } });
+    const jobs = await AppDataSource.manager.find(JobOpportunity);
     return jobs;
   }
 

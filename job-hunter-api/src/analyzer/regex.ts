@@ -15,21 +15,22 @@ export const SKILLS_REGEX = {
   C: [/\bc\b/i],
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i],
-  CSHARP: [/c#/i],
+  CSHARP: [/c#/i, /csharp/i],
   CSS: [/\b(s)?css(3)?\b/i],
   DART: [/dart/i],
-  DB: [/banco de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /postgre(s)?/i, /my( )?sql/i, /firebase/i, /redis/i, /no( )?sql/i, /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i],
+  DB: [/banco de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /postgre(s)?/i, /\bmy( )?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i],
   DELPHI: [/delphi/i],
   DESIGN_PATTERNS: [/design patterns/i],
   DESIGN_SYSTEM: [/design system/i],
   DEV_OPS: [
-    /docker/i, /\baws\b/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /ci(\/|-|\s|\\|\se\s)?cd/i,
+    /docker/i, /\baws\b/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /maven/i
   ],
   DJANGO: [/django/i],
   DOT_NET: [/\.net/i],
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /\blinx\b/i, /\btray(corp)?\b/i, /\bvtex\b/i, /(oracle|sap) commerce/i, /magento/i],
+  ELASTIC_SEARCH: [/elastic search/i],
   ENGLISH: [/ingles/i, /english/i],
   FIGMA: [/figma/i],
   FLUTTER: [/flutter/i],
@@ -50,6 +51,7 @@ export const SKILLS_REGEX = {
   MACHINE_LEARNING: [/machine learning/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
   MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
+  MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [/desenvolvimento mobile/i],
   NEST: [/\bnest((.|-| )?js)?\b/i],
   NEXT: [/\bnext((.|-| )?js)?\b/i],
@@ -65,7 +67,7 @@ export const SKILLS_REGEX = {
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
   RESPONSIVE_DESIGN: [
-    /(design|desenvolvimento) responsivo/i, /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?) responsiv(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
+    /(design|desenvolvimento) (respons|adaptat)ivo/i, /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?) (responsiv|adaptativ)(o|a)(s?)/i, /responsividade/i, /mobile(-|\s)(first|friendly)/i
   ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
@@ -124,14 +126,14 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i,
   ],
-  PLR: [/\bplr\b/i, /lucros e resultados/i, /\bppr\b/i],
+  PLR: [/\bplr\b/i, /lucros (e|ou) resultados/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
     /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i
   ],
   REFERRAL_BONUS: [
-    /bonus (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i, /(premio|programa de) indicac(ao|oes)/i,
+    /(bonus|premiacao) (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i, /(premio|programa de) indicac(ao|oes)/i,
     /indique um colega e ganhe bonus/i
   ],
   STOCK_OPTIONS: [/stock option(s)?/i],
@@ -151,11 +153,11 @@ export const TYPES_REGEX = {
     /100\% home/i
   ],
   HYBRID: [/hibrido/i, /hybrid/i],
-  FACE_TO_FACE: [/presencial/i],
+  FACE_TO_FACE: [/presencial(mente)?/i],
 }
 
 export const SENIORITY_REGEX = {
-  JUNIOR: [/junior/i],
+  JUNIOR: [/junior/i, /estagiario/i, /estagio/i],
   MID_LEVEL: [/pleno/i],
   SENIOR: [/senior/i],
 }
