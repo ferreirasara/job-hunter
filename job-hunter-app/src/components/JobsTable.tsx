@@ -16,6 +16,7 @@ export enum JobPlatform {
   VAGAS = "VAGAS",
   REMOTAR = "REMOTAR",
   LINKEDIN = "LINKEDIN",
+  JOBATUS = "JOBATUS",
 }
 export enum JobType {
   REMOTE = "REMOTE",

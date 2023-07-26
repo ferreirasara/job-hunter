@@ -41,7 +41,7 @@ export default abstract class ScraperInterface {
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
-      const response = await JobOpportunityController.insert({ ...job, discarded: job?.title?.toLowerCase()?.includes('banco de talentos') });
+      const response = await JobOpportunityController.insert({ ...job, discarded: job?.title?.toLowerCase()?.includes('banco de talentos') || job?.title?.toLowerCase()?.includes('talent pool') });
       if (!!response?.success) jobsSavedCount++
     }
 
