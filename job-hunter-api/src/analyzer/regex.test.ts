@@ -190,7 +190,8 @@ describe("test SKILLS_REGEX", () => {
     const correctStrings = [
       "teste unitario", "testes unitarios", "teste functional", "testes functionais", "teste functional automatizado",
       "testes functionais automatizados", "teste automatizado", "testes automatizados", "testes de unidade",
-      "testes de integracao", "testes de software", "testes de performance", "testes de depuracao", "testing library"
+      "testes de integracao", "testes de software", "testes de performance", "testes de depuracao", "testing library",
+      "automated unit-testing and test",
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.TEST)).toBeTruthy();
