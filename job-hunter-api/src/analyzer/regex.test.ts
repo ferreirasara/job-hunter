@@ -68,10 +68,18 @@ describe("test SKILLS_REGEX", () => {
       expect(stringContainsAny(str, SKILLS_REGEX.ECOMMERCE)).toBeTruthy();
     }
   });
-  it("should identify FULL_STACK cases", () => {
-    const correctStrings = ["full stack", "full-stack", "fullstack"];
+  it("should identify GOOD_PRACTICES cases", () => {
+    const correctStrings = [
+      "full stack", "full-stack", "fullstack", "back-end, front-end", "front e back-end", "back e frontend"
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.FULL_STACK)).toBeTruthy();
+    }
+  });
+  it("should identify GOOD_PRACTICES cases", () => {
+    const correctStrings = ["boas praticas"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.GOOD_PRACTICES)).toBeTruthy();
     }
   });
   it("should identify HTML cases", () => {
