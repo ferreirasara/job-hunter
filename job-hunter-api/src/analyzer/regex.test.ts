@@ -1,5 +1,5 @@
 import { stringContainsAny } from "../utils/utils"
-import { BENEFITS_REGEX, SKILLS_REGEX } from "./regex";
+import { BENEFITS_REGEX, SKILLS_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 
 describe("test SKILLS_REGEX", () => {
   it("should identify AGILE cases", () => {
@@ -165,7 +165,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify RESPONSIVE_DESIGN cases", () => {
-    const correctStrings = ["site responsivo", "sites responsivos", "aplicacoes responsivas"];
+    const correctStrings = ["site responsivo", "sites responsivos", "aplicacoes responsivas", "projetos responsivos"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.RESPONSIVE_DESIGN)).toBeTruthy();
     }
@@ -276,7 +276,7 @@ describe("test BENEFITS_REGEX", () => {
     const correctStrings = [
       "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico", "assistencia medica e odontologica",
       "assistencias medica e odontologica", "assistencia odontologica", "health insurance", "health plan", "health and dental plan", "health care",
-      "assistencia medica", "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico",
+      "assistencia medica", "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico", "convenio de saude"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
@@ -313,7 +313,8 @@ describe("test BENEFITS_REGEX", () => {
   it("should identify PSYCHOLOGICAL_HELP cases", () => {
     const correctStrings = [
       "auxilio psicologico", "apoio psicologico", "mental health", "apoio a saude mental", "cuidado com saude mental",
-      "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico", "bem estar psicologico"
+      "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico", "bem estar psicologico",
+      "desconto com psicoterapia"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.PSYCHOLOGICAL_HELP)).toBeTruthy();
@@ -323,6 +324,17 @@ describe("test BENEFITS_REGEX", () => {
     const correctStrings = ["bonus indicacao", "program of indication", "indicacao premiada", "bonus por indicacao de talentos"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.REFERRAL_BONUS)).toBeTruthy();
+    }
+  });
+})
+
+describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
+  it("should identify YEARS_OF_EXPERIENCE_REGEX cases", () => {
+    const correctStrings = [
+      "experiencia profissional minima de 3 anos"
+    ];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();
     }
   });
 })

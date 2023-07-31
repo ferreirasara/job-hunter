@@ -790,7 +790,7 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
   for (let i = 0; i < toMark?.length; i++) {
     try {
       const regex = toMark[i];
-      const res = regex.exec(newString);
+      const res = str?.match(regex);
       if (res) {
         const strFound = res?.[0];
         const regexGlobal = new RegExp(regex, 'g');

@@ -103,7 +103,7 @@ export const SKILLS_REGEX = {
   REACT_ROUTER: [/react router/i],
   RESPONSIVE_DESIGN: [
     /(design|desenvolvimento) (respons|adaptat)ivo/i,
-    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?(de usuario)?) (interativas e )?(responsiv|adaptativ)(o|a)(s?)/i,
+    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?(de usuario)?|projeto(s)?) (interativas e )?(responsiv|adaptativ)(o|a)(s?)/i,
     /responsividade/i, /mobile(-|\s)(first|friendly)/i, /diferentes dimensoes de dispositivos/i,
     /altamente responsivas/i
   ],
@@ -129,7 +129,7 @@ export const SKILLS_REGEX = {
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
     /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado)(s)?/i, /ferramenta(s)? de teste/i,
     /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?)/i,
-    /(react\s)?testing(-| )(library|practices)/i, /(unit|integration)( and integration)? test(ing)?/i,
+    /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
@@ -157,7 +157,7 @@ export const BENEFITS_REGEX = {
     /parceria com instituicoes de ensino/i
   ],
   FLEXIBLE_HOURS: [
-    /(horario(s)?|carga horaria) (de trabalho )?flexive(is|l)/i,
+    /(horario(s)?|carga horaria|jornada) (de trabalho )?flexive(is|l)/i,
     /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i,
     /nosso horario e flexivel/i
   ],
@@ -165,7 +165,7 @@ export const BENEFITS_REGEX = {
   GYMPASS: [/(gym|total)(-|\s)?pass/i, /(auxilio\s)?academia/i],
   HEALTH_OR_DENTAL_PLAN: [
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
-    /dental/i, /(plano( de)?|convenio) (saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
+    /dental/i, /(plano( de)?|convenio) (de )?(saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
     /(servico(s)? de )?telemedicina/i
   ],
   HOME_OFFICE_VOUCHER: [
@@ -185,8 +185,8 @@ export const BENEFITS_REGEX = {
   PLR: [/\bplr\b/i, /lucros (e|ou) resultados/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
-    /(atendimento|auxilio|apoio|cuidado com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|(a\s)?saude (mental|emocional))/i,
-    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i
+    /(atendimento|auxilio|apoio|(cuidado|desconto) com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|psicoterapia|(a\s)?saude (mental|emocional))/i,
+    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i, /psicologia viva/i
   ],
   REFERRAL_BONUS: [
     /(bonus|premiacao) (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i,
@@ -194,7 +194,7 @@ export const BENEFITS_REGEX = {
   ],
   STOCK_OPTIONS: [/stock option(s)?/i],
   THIRTEENTH_SALARY: [/13. salario/i],
-  TRANSPORTATION_VOUCHER: [/(vale|auxilio)(-|\s)(transporte|combustivel)/i, /\bv(\.)?t(\.)?\b/i],
+  TRANSPORTATION_VOUCHER: [/(vale|auxilio)(-|\s)(transporte|combustivel|estacionamento)/i, /\bv(\.)?t(\.)?\b/i],
   USD_SALARY: [/salary in usd/i, /pagamento em moeda estrangeira/i],
 }
 
@@ -214,8 +214,12 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [/junior/i, /estagiario/i, /estagio/i],
-  MID_LEVEL: [/pleno(?! conhecimento)/i],
+  MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i],
   SENIOR: [/senior/i],
 }
 
-export const YEARS_OF_EXPERIENCE_REGEX = [/experiencia (minima )?de \d+ anos/i]
+export const YEARS_OF_EXPERIENCE_REGEX = [
+  /experiencia (profissional )?(minima )?de \d+ anos/i, /at least \d+ years of experience/i,
+  /experiencia (com desenvolvimento )?(ha|de) pelo menos \d+ anos/i,
+  /\d+ anos de experiencia/i
+]
