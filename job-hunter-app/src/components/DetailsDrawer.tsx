@@ -1,4 +1,4 @@
-import { Button, Collapse, Divider, Drawer, Grid, List, Space, Tabs, TabsProps, Typography } from "antd"
+import { Button, Divider, Drawer, Grid, List, Typography } from "antd"
 import { JobsTableData } from "./JobsTable"
 import { AppliedButton } from "./AppliedButton"
 import { DiscardedButton } from "./DiscardedButton"
@@ -40,11 +40,15 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
     onFinish: onClose,
   }
 
-  const skillTags = renderMultipleTags(selectedJob?.skills) || [];
-  const skillTagsToShow = useMemo(() => showAllSkills ? skillTags : skillTags?.slice(0, 5), [showAllSkills, skillTags]);
+  const skillTagsToShow = useMemo(() => {
+    const skillTags = renderMultipleTags(selectedJob?.skills) || [];
+    return showAllSkills ? skillTags : skillTags?.slice(0, 5)
+  }, [showAllSkills, selectedJob?.skills]);
 
-  const benefitTags = renderMultipleTags(selectedJob?.benefits) || [];
-  const benefitTagsToShow = useMemo(() => showAllBenefits ? benefitTags : benefitTags?.slice(0, 3), [showAllBenefits, benefitTags]);
+  const benefitTagsToShow = useMemo(() => {
+    const benefitTags = renderMultipleTags(selectedJob?.benefits) || [];
+    return showAllBenefits ? benefitTags : benefitTags?.slice(0, 3)
+  }, [showAllBenefits, selectedJob?.benefits]);
 
   return <Drawer
     title={<Typography.Link href={selectedJob?.url} target="_blank" copyable>{selectedJob?.title}</Typography.Link>}
