@@ -45,7 +45,7 @@ export const SKILLS_REGEX = {
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i
   ],
   DJANGO: [/django/i],
-  DOT_NET: [/asp(.\s|\s.)net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i],
+  DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i],
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /\blinx\b/i, /\btray(corp)?\b/i, /\bvtex\b/i, /(oracle|sap) commerce/i, /magento/i],
   ELASTIC_SEARCH: [/elastic search/i],
@@ -156,6 +156,7 @@ export const BENEFITS_REGEX = {
     /acesso a plataformas de ensino/i, /parcerias educacionais/i,
     /parceria com instituicoes de ensino/i
   ],
+  CHRISTMAS_BASKET: [/cesta de natal/i],
   FLEXIBLE_HOURS: [
     /(horario(s)?|carga horaria|jornada) (de trabalho )?flexive(is|l)/i,
     /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i,
@@ -165,7 +166,7 @@ export const BENEFITS_REGEX = {
   GYMPASS: [/(gym|total)(-|\s)?pass/i, /(auxilio\s)?academia/i],
   HEALTH_OR_DENTAL_PLAN: [
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
-    /dental/i, /(plano( de)?|convenio) (de )?(saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
+    /dental/i, /(plano( de)?|convenio|beneficio) (de )?(saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
     /(servico(s)? de )?telemedicina/i
   ],
   HOME_OFFICE_VOUCHER: [
@@ -178,7 +179,7 @@ export const BENEFITS_REGEX = {
     /(caju|flash)/i, /\bv(\.)?a(\.)?\b/i, /\bv(\.)?r(\.)?\b/i, /(to use with|flex) food/i
   ],
   PAID_VACATIONS: [
-    /ferias ((anuais|e feriados)\s)?remunerad(a|o)(s)?/i, /descanso (anual|remunerado)/i,
+    /ferias ((anuais|e feriados)\s)?remunerad(a|o)(s)?/i, /(descanso|recesso) (anual|remunerado)/i,
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i,
   ],
@@ -186,7 +187,8 @@ export const BENEFITS_REGEX = {
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|(cuidado|desconto) com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|psicoterapia|(a\s)?saude (mental|emocional))/i,
-    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i, /psicologia viva/i
+    /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i,
+    /psicologia viva/i, /moodar/i
   ],
   REFERRAL_BONUS: [
     /(bonus|premiacao) (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i,
@@ -205,21 +207,21 @@ export const HIRING_REGIMES_REGEX = {
 
 export const TYPES_REGEX = {
   REMOTE: [
-    /home(-| )?(office|work)/i, /\bremoto\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
-    /100\% home/i
+    /home(-| )?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
+    /100\% home/i, /teletrabalho/i
   ],
   HYBRID: [/hibrido/i, /hybrid/i, /disponibilidade para mudanca/i],
   FACE_TO_FACE: [/presencial(mente)?/i],
 }
 
 export const SENIORITY_REGEX = {
-  JUNIOR: [/junior/i, /estagiario/i, /estagio/i],
+  JUNIOR: [/junior/i, /estagiario/i, /estagio/i, /\bjn\b/i],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i],
-  SENIOR: [/senior/i],
+  SENIOR: [/senior/i, /\sr\b/],
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (profissional )?(minima )?de \d+ anos/i, /at least \d+ years of experience/i,
   /experiencia (com desenvolvimento )?(ha|de) pelo menos \d+ anos/i,
-  /\d+ anos de experiencia/i
+  /\d+ anos de experiencia/i, /no minimo \d+ anos/i
 ]

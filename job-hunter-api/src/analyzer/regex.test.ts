@@ -1,5 +1,5 @@
 import { stringContainsAny } from "../utils/utils"
-import { BENEFITS_REGEX, SKILLS_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
+import { BENEFITS_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 
 describe("test SKILLS_REGEX", () => {
   it("should identify AGILE cases", () => {
@@ -274,9 +274,11 @@ describe("test BENEFITS_REGEX", () => {
   });
   it("should identify HEALTH_OR_DENTAL_PLAN cases", () => {
     const correctStrings = [
-      "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico", "assistencia medica e odontologica",
-      "assistencias medica e odontologica", "assistencia odontologica", "health insurance", "health plan", "health and dental plan", "health care",
-      "assistencia medica", "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico", "convenio de saude"
+      "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico",
+      "assistencia medica e odontologica", "assistencias medica e odontologica", "assistencia odontologica",
+      "health insurance", "health plan", "health and dental plan", "health care", "assistencia medica",
+      "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico", "convenio de saude",
+      "beneficio saude", "beneficio odontologico"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
@@ -324,6 +326,17 @@ describe("test BENEFITS_REGEX", () => {
     const correctStrings = ["bonus indicacao", "program of indication", "indicacao premiada", "bonus por indicacao de talentos"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.REFERRAL_BONUS)).toBeTruthy();
+    }
+  });
+})
+
+describe("test TYPES_REGEX", () => {
+  it("should identify REMOTE cases", () => {
+    const wrongStrings = [
+      "remoto: nao"
+    ];
+    for (const str of wrongStrings) {
+      expect(stringContainsAny(str, TYPES_REGEX.REMOTE)).toBeFalsy();
     }
   });
 })

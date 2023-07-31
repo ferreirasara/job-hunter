@@ -165,6 +165,7 @@ export const analyzeDescription = (job: { title: string, description: string, sk
   newDescription = addMarkdown(newDescription, TYPES_REGEX?.[type]);
   newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
   newDescription = addMarkdown(newDescription, SENIORITY_REGEX?.[seniority]);
+  newDescription = addMarkdown(newDescription, YEARS_OF_EXPERIENCE_REGEX);
 
   return {
     skills, benefits,
