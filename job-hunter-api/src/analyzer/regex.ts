@@ -19,7 +19,7 @@ export const SKILLS_REGEX = {
   BACKBONE: [/backbone/i],
   BLAZOR: [/blazor/i],
   BOOTSTRAP: [/bootstrap/i, /biblioteca(s)? de ui/i],
-  CERTIFICATIONS: [/certificac(ao|oes)/i, /certification(s)?/i],
+  CERTIFICATIONS: [/\b(?!reembolso por )certificações\b/i, /certification(s)?/i],
   COBOL: [/cobol/i],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CODE_VERSIONING: [
@@ -34,7 +34,7 @@ export const SKILLS_REGEX = {
   DART: [/dart/i],
   DB: [
     /banco de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i,
-    /postgre(s)?/i, /\bmy( )?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i,
+    /postgres?(ql)?/i, /\bmy( )?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
@@ -45,7 +45,7 @@ export const SKILLS_REGEX = {
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i
   ],
   DJANGO: [/django/i],
-  DOT_NET: [/asp(.\s|\s.)net/i, /\.net/i],
+  DOT_NET: [/asp(.\s|\s.)net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i],
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /\blinx\b/i, /\btray(corp)?\b/i, /\bvtex\b/i, /(oracle|sap) commerce/i, /magento/i],
   ELASTIC_SEARCH: [/elastic search/i],
@@ -59,7 +59,7 @@ export const SKILLS_REGEX = {
   GOOD_PRACTICES: [
     /clean (code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
-    /codigo limpo/i, /design patterns/i, /solid/i
+    /codigo limpo/i, /design patterns/i, /solid\b/i
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -91,6 +91,7 @@ export const SKILLS_REGEX = {
   ],
   PHONEGAP: [/phonegap/i],
   PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i],
+  POSTMAN: [/postman/i],
   POWER_BI: [/power(-|\s)?bi/i],
   PRISMA: [/prisma/i],
   PYTHON: [/python/i, /phyton/i],
@@ -141,7 +142,7 @@ export const SKILLS_REGEX = {
   VUE: [/\bvue((.|-| )?js)?\b/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
   WINDOWS_FORMS: [/(windows|web) forms/i],
-  WORDPRESS: [/wordpress/i],
+  WORDPRESS: [/word(-|\s)?press/i],
 }
 
 export const BENEFITS_REGEX = {
@@ -150,8 +151,9 @@ export const BENEFITS_REGEX = {
   COURSE_HELP: [
     /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
     /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto em cursos/i,
-    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i, /reembolso educacao/i,
-    /desconto em universidades e cursos/i, /acesso a plataformas de ensino/i, /parcerias educacionais/i,
+    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i,
+    /reembolso (educacao|por certificac(ao|oes))/i, /desconto em universidades e cursos/i,
+    /acesso a plataformas de ensino/i, /parcerias educacionais/i,
     /parceria com instituicoes de ensino/i
   ],
   FLEXIBLE_HOURS: [

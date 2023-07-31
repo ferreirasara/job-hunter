@@ -63,6 +63,7 @@ export const SKILL_RATING = {
   "PERFORMANCE_OPTIMIZATION": 1,
   "PHONEGAP": -1,
   "PHP": -1,
+  "POSTMAN": 1,
   "POWER_BI": -1,
   "PRISMA": -1,
   "PYTHON": 0,
