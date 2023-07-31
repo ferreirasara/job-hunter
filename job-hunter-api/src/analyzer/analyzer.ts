@@ -1,6 +1,6 @@
 import { uniq } from "lodash";
 import { addMarkdown, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
-import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX } from "./regex";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
 import { JobBenefit, JobHiringRegime, JobSeniority, JobSkill, JobType } from "../@types/types";
 
@@ -128,6 +128,17 @@ export const getSeniorityBasedOnDescription = (job: { title: string, description
   return JobSeniority.SENIOR;
 }
 
+export const getYearOfExperienceBasedOnDescription = (job: { description: string }): number => {
+  for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
+    const res = regex.exec(job.description);
+    if (res) {
+      const years = res?.[0]?.replace(/[^0-9]/g, '');
+      return parseInt(years);
+    }
+  }
+  return null;
+}
+
 export const analyzeDescription = (job: { title: string, description: string, skills?: string[], benefits?: string[] }) => {
   const oldSkills = job.skills;
   const oldBenefits = job.benefits;
@@ -143,6 +154,7 @@ export const analyzeDescription = (job: { title: string, description: string, sk
   const type = getTypeBasedOnDescription({ title, description });
   const hiringRegime = getHiringRegimeBasedOnDescription({ title, description });
   const seniority = getSeniorityBasedOnDescription({ title, description });
+  const yearsOfExperience = getYearOfExperienceBasedOnDescription({ description });
 
   const { skillsRating, benefitsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
 
@@ -154,5 +166,13 @@ export const analyzeDescription = (job: { title: string, description: string, sk
   newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
   newDescription = addMarkdown(newDescription, SENIORITY_REGEX?.[seniority]);
 
-  return { skills, benefits, skillsRating, benefitsRating, type, hiringRegime, seniority, description: newDescription.replace(/\n+/g, '\n') };
+  return {
+    skills, benefits,
+    skillsRating, benefitsRating,
+    type,
+    hiringRegime,
+    seniority,
+    yearsOfExperience,
+    description: newDescription.replace(/\n+/g, '\n')
+  };
 }

@@ -58,6 +58,7 @@ export type JobsTableData = {
   numberOfInterviews: number
   numberOfTests: number
   seniority: JobSeniority
+  yearsOfExperience: number
 }
 
 export type JobsResponse = {
@@ -192,6 +193,16 @@ export const JobsTable = ({
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
       responsive: ['xxl']
+    },
+    {
+      title: "Experiência",
+      dataIndex: 'yearsOfExperience',
+      key: 'yearsOfExperience',
+      width: screens?.xl ? 105 : undefined,
+      align: 'center',
+      sorter: true,
+      showSorterTooltip: false,
+      // responsive: ['xl', 'xxl']
     },
     {
       title: "Skills",

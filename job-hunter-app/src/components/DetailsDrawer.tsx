@@ -39,6 +39,7 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
             <span><strong>Tipo:</strong> {renderMultipleTags(selectedJob?.type)}</span>
             <span><strong>Contratação:</strong> {renderMultipleTags(selectedJob?.hiringRegime)}</span>
             <span><strong>Senioridade:</strong> {renderMultipleTags(selectedJob?.seniority)}</span>
+            <span><strong>Anos de experiencia:</strong> {selectedJob?.yearsOfExperience}</span>
           </Space>
         </List.Item>
         <List.Item key="ratings">

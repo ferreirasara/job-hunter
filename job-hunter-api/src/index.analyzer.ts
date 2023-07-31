@@ -23,6 +23,7 @@ AppDataSource.initialize().then(async () => {
       await JobOpportunityController.updateHiringRegime(job.uuid, analyzerResponse?.hiringRegime);
       await JobOpportunityController.updateType(job.uuid, analyzerResponse?.type);
       await JobOpportunityController.updateSeniority(job.uuid, analyzerResponse?.seniority);
+      if (analyzerResponse?.yearsOfExperience) await JobOpportunityController.updateYearsOfExperience(job.uuid, analyzerResponse?.yearsOfExperience);
       await JobOpportunityController.updateRatings(job.uuid, { skillsRating: analyzerResponse?.skillsRating, benefitsRating: analyzerResponse?.benefitsRating });
     }
     console.log(`[update-jobs] End`);

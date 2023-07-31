@@ -217,3 +217,5 @@ export const SENIORITY_REGEX = {
   MID_LEVEL: [/pleno(?! conhecimento)/i],
   SENIOR: [/senior/i],
 }
+
+export const YEARS_OF_EXPERIENCE_REGEX = [/experiencia (minima )?de \d+ anos/i]
