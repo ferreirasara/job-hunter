@@ -223,5 +223,5 @@ export const SENIORITY_REGEX = {
 export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (profissional )?(minima )?de \d+ anos/i, /at least \d+ years of experience/i,
   /experiencia (com desenvolvimento )?(ha|de) pelo menos \d+ anos/i,
-  /\d+ anos de experiencia/i, /no minimo \d+ anos/i
+  /\d+ anos de experiencia/i, /no minimo \d+ anos/i, /\d+\+ years(’)? of experience/i
 ]
