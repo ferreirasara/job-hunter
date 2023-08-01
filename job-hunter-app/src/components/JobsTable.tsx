@@ -202,7 +202,7 @@ export const JobsTable = ({
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
-      // responsive: ['xl', 'xxl']
+      responsive: ['xl', 'xxl']
     },
     {
       title: "Skills",
