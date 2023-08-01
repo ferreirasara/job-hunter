@@ -128,12 +128,13 @@ export const getSeniorityBasedOnDescription = (job: { title: string, description
   return JobSeniority.SENIOR;
 }
 
-export const getYearOfExperienceBasedOnDescription = (job: { description: string }): number => {
+export const getYearOfExperienceBasedOnDescription = async (job: { description: string }): Promise<number> => {
   for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
     const res = regex.exec(job.description);
     if (res) {
-      const years = res?.[0]?.replace(/[^0-9]/g, '');
-      return parseInt(years);
+      const yearsStr = res?.[0]?.replace(/[^0-9]/g, '');
+      const years = parseInt(yearsStr);
+      if (years < 10) return years;
     }
   }
   return null;
@@ -174,6 +175,6 @@ export const analyzeDescription = (job: { title: string, description: string, sk
     hiringRegime,
     seniority,
     yearsOfExperience,
-    description: newDescription.replace(/\n+/g, '\n')
+    description: newDescription?.replace(/\n+/g, '\n')?.replace(/`+/g, '`')
   };
 }

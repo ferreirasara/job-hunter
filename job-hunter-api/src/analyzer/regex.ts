@@ -8,7 +8,7 @@ export const SKILLS_REGEX = {
   AJAX: [/\bajax\b/i],
   API: [
     /((\bapi(s)?\b )|\b)rest(ful|\b)(?!.)?( api(s)?)?/i, /\bapi(s)?\b/i, /soap/i,
-    /graphql/, /\bexpress((.|-| )?js)?\b/i
+    /graphql/, /\bexpress((.|-| )?js)?\b/i, /fast(-|\s)?api/i
   ],
   APOLLO: [/apollo/i],
   BACHELORS_DEGREE: [
@@ -24,20 +24,21 @@ export const SKILLS_REGEX = {
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CODE_VERSIONING: [
     /\bgit((-| )?(hub|lab)?)?\b/i, /bitbucket/i, /\bsvn\b/i, /(controle|padrao) de vers(ionamento|ao)/i,
-    /version control/i
+    /version control/i, /versionamento de codigo(s)?/i
   ],
   C: [/\bc\b/i],
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i],
   CSHARP: [/c#/i, /csharp/i],
-  CSS: [/\b(s)?css(3)?\b/i],
+  CSS: [/\b(s)?css(3)?\b/i, /flexbox/i, /\bless\b/i],
   DART: [/dart/i],
   DB: [
-    /banco de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i,
+    /(banco|base) de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i,
     /postgres?(ql)?/i, /\bmy( )?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
+  DESIGN: [/design de interfaces/i, /photoshop/i, /illustrator/i, /sketch/i],
   DESIGN_SYSTEM: [/design system/i],
   DEV_OPS: [
     /docker/i, /\baws\b/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
@@ -59,7 +60,7 @@ export const SKILLS_REGEX = {
   GOOD_PRACTICES: [
     /clean (code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
-    /codigo limpo/i, /design patterns/i, /solid\b/i
+    /codigo (limpo|seguro)/i, /design patterns/i, /solid\b/i, /documentacao/i
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -76,14 +77,15 @@ export const SKILLS_REGEX = {
   MACHINE_LEARNING: [/machine learning/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
   MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
-  MICRO_FRONTENDS: [/micro(-|\s|s)?frontend(s)?/i],
+  MICRO_FRONTENDS: [/micro(-|\s|s)?front(-|\s)?end(s)?/i],
   MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
-  MOBILE_DEVELOPMENT: [/(desenvolvimento|conhecimento em) mobile/i, /mobile development/i],
+  MOBILE_DEVELOPMENT: [/(desenvolvimento|conhecimento em) mobile/i, /mobile (development|nativo)/i],
   NEST: [/\bnest((.|-| )?js)?\b/i],
   NEXT: [/\bnext((.|-| )?js)?\b/i],
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
   NODE: [/\bnode((.|-| )?js)?\b/i],
   OBJECTIVE_C: [/objective(-|\s)c/i],
+  PACKAGE_MANAGER: [/\bnpm\b/i, /\byarn\b/i],
   PENTEST: [/burp( suite)?/i, /checkmarx/i, /pentest/i],
   PERFORMANCE_OPTIMIZATION: [
     /code(-|\s)splitting/i, /lazy(-|\s)loading/i, /optimize applications/i, /baixa latencia/i,
@@ -101,9 +103,10 @@ export const SKILLS_REGEX = {
   REACT_HOOKS: [/react hook(s)?/i],
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
+  REASONML: [/reasonml/i],
   RESPONSIVE_DESIGN: [
     /(design|desenvolvimento) (respons|adaptat)ivo/i,
-    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?(de usuario)?|projeto(s)?) (interativas e )?(responsiv|adaptativ)(o|a)(s?)/i,
+    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?( de usuario)?|projeto(s)?) (interativas e )?(responsiv|adaptativ)(o|a)(s?)/i,
     /responsividade/i, /mobile(-|\s)(first|friendly)/i, /diferentes dimensoes de dispositivos/i,
     /altamente responsivas/i
   ],
@@ -127,7 +130,7 @@ export const SKILLS_REGEX = {
   TECH_LEAD: [/tech(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /gerenciamento de projetos/i],
   TEST: [
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
-    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado)(s)?/i, /ferramenta(s)? de teste/i,
+    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i, /ferramenta(s)? de teste/i,
     /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?)/i,
     /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
@@ -141,7 +144,7 @@ export const SKILLS_REGEX = {
   VITE: [/vite/i],
   VUE: [/\bvue((.|-| )?js)?\b/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
-  WINDOWS_FORMS: [/(windows|web) forms/i],
+  WINDOWS_FORMS: [/(windows|web)(-|\s)?forms/i],
   WORDPRESS: [/word(-|\s)?press/i],
 }
 
@@ -183,7 +186,7 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i,
   ],
-  PLR: [/\bplr\b/i, /lucros (e|ou) resultados/i, /\bppr\b/i],
+  PLR: [/\bplr\b/i, /(lucros|participaxao) (e|ou|nos) resultados/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|(cuidado|desconto) com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|psicoterapia|(a\s)?saude (mental|emocional))/i,
@@ -207,7 +210,7 @@ export const HIRING_REGIMES_REGEX = {
 
 export const TYPES_REGEX = {
   REMOTE: [
-    /home(-| )?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
+    /(home|anywhere)(-| )?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
     /100\% home/i, /teletrabalho/i
   ],
   HYBRID: [/hibrido/i, /hybrid/i, /disponibilidade para mudanca/i],
@@ -216,12 +219,13 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [/junior/i, /estagiario/i, /estagio/i, /\bjn\b/i],
-  MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i],
-  SENIOR: [/senior/i, /\sr\b/],
+  MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
+  SENIOR: [/senior/i, /\bsr\b/],
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (profissional )?(minima )?de \d+ anos/i, /at least \d+ years of experience/i,
   /experiencia (com desenvolvimento )?(ha|de) pelo menos \d+ anos/i,
-  /\d+ anos de experiencia/i, /no minimo \d+ anos/i, /\d+\+ years(’)? of experience/i
+  /(temos ((aproximadamente )?)?!)\d+ anos de experiencia/i, /(no minimo|pelo menos) \d+ anos/i,
+  /\d+\+ years(’)? of experience/i, /\d+\+ de experiencia/i
 ]

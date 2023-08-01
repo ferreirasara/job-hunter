@@ -60,10 +60,10 @@ export default class JobOpportunityController {
         return null;
       }
     } else {
-      const replyMarkup = {
-        inline_keyboard: [[{ text: jobInput?.title, url: jobInput?.url }]]
-      }
-      await sendMessageToTelegram(`⚠️ Duplicated:\n\n*Title*: \`${jobInput?.title}\`\n*Company*: \`${jobInput?.company}\`\n*Platform*: \`${jobInput?.platform}\`\n*idInPlatform*: \`${jobInput.idInPlatform}\``, replyMarkup);
+      // const replyMarkup = {
+      //   inline_keyboard: [[{ text: jobInput?.title, url: jobInput?.url }]]
+      // }
+      // await sendMessageToTelegram(`⚠️ Duplicated:\n\n*Title*: \`${jobInput?.title}\`\n*Company*: \`${jobInput?.company}\`\n*Platform*: \`${jobInput?.platform}\`\n*idInPlatform*: \`${jobInput.idInPlatform}\``, replyMarkup);
       return { success: false, message: 'Duplicated' };
     }
   }

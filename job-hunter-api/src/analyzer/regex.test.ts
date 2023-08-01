@@ -165,7 +165,10 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify RESPONSIVE_DESIGN cases", () => {
-    const correctStrings = ["site responsivo", "sites responsivos", "aplicacoes responsivas", "projetos responsivos"];
+    const correctStrings = [
+      "site responsivo", "sites responsivos", "aplicacoes responsivas", "projetos responsivos",
+      "interfaces de usuario interativas e responsivas"
+    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.RESPONSIVE_DESIGN)).toBeTruthy();
     }
@@ -344,10 +347,17 @@ describe("test TYPES_REGEX", () => {
 describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
   it("should identify YEARS_OF_EXPERIENCE_REGEX cases", () => {
     const correctStrings = [
-      "experiencia profissional minima de 3 anos"
+      "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia"
+    ];
+    const wrongStrings = [
+      "temos aproximadamente 28 anos de experiencia no mercado",
+      "temos 28 anos de experiencia no mercado",
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();
+    }
+    for (const str of wrongStrings) {
+      expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeFalsy();
     }
   });
 })
