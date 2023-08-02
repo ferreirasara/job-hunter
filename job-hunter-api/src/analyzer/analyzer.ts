@@ -1,5 +1,5 @@
 import { uniq } from "lodash";
-import { addMarkdown, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
+import { addMarkdown, getNumberFromString, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
 import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
 import { JobBenefit, JobHiringRegime, JobSeniority, JobSkill, JobType } from "../@types/types";
@@ -128,13 +128,14 @@ export const getSeniorityBasedOnDescription = (job: { title: string, description
   return JobSeniority.SENIOR;
 }
 
-export const getYearOfExperienceBasedOnDescription = async (job: { description: string }): Promise<number> => {
+export const getYearOfExperienceBasedOnDescription = (job: { description: string }): number => {
   for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
     const res = regex.exec(job.description);
     if (res) {
       const yearsStr = res?.[0]?.replace(/[^0-9]/g, '');
       const years = parseInt(yearsStr);
       if (years < 10) return years;
+      if (!years) return getNumberFromString(res?.[0]);
     }
   }
   return null;

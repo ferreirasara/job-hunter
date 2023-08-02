@@ -79,7 +79,10 @@ export const SKILLS_REGEX = {
   MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
   MICRO_FRONTENDS: [/micro(-|\s|s)?front(-|\s)?end(s)?/i],
   MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
-  MOBILE_DEVELOPMENT: [/(desenvolvimento|conhecimento em) mobile/i, /mobile (development|nativo)/i],
+  MOBILE_DEVELOPMENT: [
+    /(desenvolvimento|conhecimento em) (de aplicativos )?mobile/i, /mobile (development|nativo)/i,
+    /\bios\b/i, /\bandroid\b/i
+  ],
   NEST: [/\bnest((.|-| )?js)?\b/i],
   NEXT: [/\bnext((.|-| )?js)?\b/i],
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
@@ -224,8 +227,8 @@ export const SENIORITY_REGEX = {
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
-  /experiencia (profissional )?(minima )?de \d+ anos/i, /at least \d+ years of experience/i,
-  /experiencia (com desenvolvimento )?(ha|de) pelo menos \d+ anos/i,
-  /(temos ((aproximadamente )?)?!)\d+ anos de experiencia/i, /(no minimo|pelo menos) \d+ anos/i,
-  /\d+\+ years(’)? of experience/i, /\d+\+ de experiencia/i
+  /experiencia (profissional )?(minima )?de (\d+|\w+) anos/i, /at least (\d+|\w+) years of experience/i,
+  /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) anos/i,
+  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i, /(no minimo|pelo menos) (\d+|\w+) anos/i,
+  /(\d+|\w+)\+ years(’)? of experience/i, /(\d+|\w+)\+ (anos )?de experiencia/i
 ]
