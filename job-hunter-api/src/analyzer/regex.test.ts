@@ -348,7 +348,7 @@ describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
   it("should identify YEARS_OF_EXPERIENCE_REGEX cases", () => {
     const correctStrings = [
       "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia",
-      "pelo menos dois anos de experiencia"
+      "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando"
     ];
     const wrongStrings = [
       "temos aproximadamente 28 anos de experiencia no mercado",

@@ -35,13 +35,19 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
   const lowerCaseSkill = skill?.toLowerCase();
   switch (lowerCaseSkill) {
     case '.net': return JobSkill.DOT_NET;
+    case 'agilephp': return JobSkill.PHP;
     case 'angular': return JobSkill.ANGULAR;
     case 'aws s3': return JobSkill.DEV_OPS;
+    case 'aws ec2 (elastic compute cloud)': return JobSkill.DEV_OPS;
+    case 'backbone.js': return JobSkill.BACKBONE;
     case 'bootstrap': return JobSkill.CSS;
     case 'c#': return JobSkill.CSHARP;
     case 'css': return JobSkill.CSS;
+    case 'design pattern': return JobSkill.GOOD_PRACTICES;
+    case 'devops': return JobSkill.DEV_OPS;
     case 'django': return JobSkill.DJANGO;
     case 'docker': return JobSkill.DEV_OPS;
+    case 'elasticsearch': return JobSkill.ELASTIC_SEARCH;
     case 'express': return JobSkill.API;
     case 'flask': return JobSkill.FLASK;
     case 'flutter': return JobSkill.FLUTTER;
@@ -55,6 +61,8 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'javaScript': return JobSkill.JAVASCRIPT;
     case 'jquery': return JobSkill.JQUERY;
     case 'laravel': return JobSkill.PHP;
+    case 'lean': return JobSkill.LEAN;
+    case 'magento': return JobSkill.MAGENTO;
     case 'mongodb': return JobSkill.DB;
     case 'mysql': return JobSkill.DB;
     case 'nextjs': return JobSkill.NEXT;
@@ -63,11 +71,15 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'python': return JobSkill.PYTHON;
     case 'reactjs': return JobSkill.REACT;
     case 'react native': return JobSkill.REACT_NATIVE;
+    case 'realbasic': return JobSkill.BASIC;
+    case 'redux': return JobSkill.STATE_MANAGEMENT;
     case 'restful': return JobSkill.API;
+    case 'sas': return JobSkill.SAS;
     case 'sass': return JobSkill.SASS;
     case 'scrum': return JobSkill.AGILE;
     case 'spring boot': return JobSkill.JAVA;
     case 'sql': return JobSkill.DB;
+    case 'sql server': return JobSkill.DB;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
     case 'testes automatizados': return JobSkill.TEST;
@@ -132,8 +144,10 @@ export const getYearOfExperienceBasedOnDescription = (job: { description: string
   for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
     const res = regex.exec(job.description);
     if (res) {
-      const yearsStr = res?.[0]?.replace(/[^0-9]/g, '');
-      const years = parseInt(yearsStr);
+      const yearsStr = res?.[0]?.replace(/[^0-9]/g, ' ')?.trim();
+      const yearsSplit = yearsStr?.split(' ')?.filter(cur => !!cur);
+      if (!yearsSplit.length) return null;
+      const years = parseInt(yearsSplit?.[0]);
       if (years < 10) return years;
       if (!years) return getNumberFromString(res?.[0]);
     }

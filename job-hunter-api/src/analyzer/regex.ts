@@ -1,6 +1,6 @@
 export const SKILLS_REGEX = {
   AGILE: [
-    /agile/i, /scrum/i, /jira/i, /trello/i, /kanban/i, /pair programming/i,
+    /agile/i, /scrum/i, /jira/i, /trello/i, /kanban/i, /pair programming/i, /praticas ageis/i,
     /clean architectures/i, /(metodo(logia(s)?)?|desenvolvimento|cultura) ag(eis|il)/i
   ],
   ANGULAR: [/\bangular((.|-| )?js)?\b/i],
@@ -11,30 +11,33 @@ export const SKILLS_REGEX = {
     /graphql/, /\bexpress((.|-| )?js)?\b/i, /fast(-|\s)?api/i
   ],
   APOLLO: [/apollo/i],
+  ARTIFICIAL_INTELLIGENCE: [/inteligencia artificial/i, /artificial intelligence/i, /\bnlp\b/i, /watson/i],
   BACHELORS_DEGREE: [
     /bachelor's degree/i, /computer science/i, /bacharelado/i, /ciencia(s)? da computacao/i,
     /(gradua(do|cao)|superior)(\s|\s-\s)complet(a|o)/i, /(ensino|formacao) (superior| na area de tecnologia)/i,
-    /possuir formacao/i
+    /possuir formacao/i, /grau de cs/i
   ],
   BACKBONE: [/backbone/i],
+  BASIC: [/real(-|\s)?basic/i, /\bbasic\b/i],
   BLAZOR: [/blazor/i],
   BOOTSTRAP: [/bootstrap/i, /biblioteca(s)? de ui/i],
-  CERTIFICATIONS: [/\b(?!reembolso por )certificações\b/i, /certification(s)?/i],
+  CERTIFICATIONS: [/\b(?!reembolso por )certificações\b/i, /certification(s)?/i, /certificacoes relevantes/i],
   COBOL: [/cobol/i],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
+  CODE_REVIEW: [/code(-|\s)review/i],
   CODE_VERSIONING: [
     /\bgit((-| )?(hub|lab)?)?\b/i, /bitbucket/i, /\bsvn\b/i, /(controle|padrao) de vers(ionamento|ao)/i,
-    /version control/i, /versionamento de codigo(s)?/i
+    /version control/i, /versionamento de codigo(s)?/i, /versionamento/i
   ],
   C: [/\bc\b/i],
   CLEAN_CODE: [/clean code/i],
-  CPLUSPLUS: [/c\+\+/i],
-  CSHARP: [/c#/i, /csharp/i],
+  CPLUSPLUS: [/c\+\+/i, /c(\s|-)?plus(\s|-)?plus/i],
+  CSHARP: [/c#/i, /csharp/i, /\blinq\b/i],
   CSS: [/\b(s)?css(3)?\b/i, /flexbox/i, /\bless\b/i],
   DART: [/dart/i],
   DB: [
-    /(banco|base) de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i,
-    /postgres?(ql)?/i, /\bmy( )?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i,
+    /(banco|base) de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /conteinerizacao/i,
+    / postgres?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
@@ -43,13 +46,15 @@ export const SKILLS_REGEX = {
   DEV_OPS: [
     /docker/i, /\baws\b/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
-    /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i
+    /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i,
+    /websphere/i, /\btfs\b/i
   ],
   DJANGO: [/django/i],
-  DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i],
+  DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i, /\basp\b/i],
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /\blinx\b/i, /\btray(corp)?\b/i, /\bvtex\b/i, /(oracle|sap) commerce/i, /magento/i],
-  ELASTIC_SEARCH: [/elastic search/i],
+  ELASTIC_SEARCH: [/elastic(\s)?search/i],
+  ELIXIR: [/elixir/i],
   EMBER: [/ember/i],
   ENGLISH: [/ingles/i, /english/i],
   FIGMA: [/figma/i],
@@ -60,27 +65,29 @@ export const SKILLS_REGEX = {
   GOOD_PRACTICES: [
     /clean (code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
-    /codigo (limpo|seguro)/i, /design patterns/i, /solid\b/i, /documentacao/i
+    /codigo (limpo|seguro)/i, /design patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
   HTML: [/html(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
   IONIC: [/ionic/i],
-  JAVA: [/\bjava\b(?! script)/i, /spring boot/i, /eclipse/i],
+  JAVA: [/\bjava\b(?! script)/i, /spring boot/i, /eclipse/i, /\bstruts\b/i, /springboot/i],
   JAVASCRIPT: [/java( |-)?script/i, /^(.|-)?js\b/i, /\bes(6|7)\b/i, /\bjs(6|7)\b/i],
   JQUERY: [/jquery/i],
   KOTLIN: [/kotlin/i],
   LIGHTHOUSE: [/lighthouse/i],
   LINUX: [/linux/i],
   LOW_CODE: [/low(-|\s)code/i, /no(-|\s)code/i, /cronapp/i],
+  LEAN: [/\blean\b/i],
   MACHINE_LEARNING: [/machine learning/i],
+  MAGENTO: [/magento/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
-  MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i],
+  MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i, /pub(\/|-|\s)?sub/i],
   MICRO_FRONTENDS: [/micro(-|\s|s)?front(-|\s)?end(s)?/i],
   MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [
-    /(desenvolvimento|conhecimento em) (de aplicativos )?mobile/i, /mobile (development|nativo)/i,
+    /(desenvolvimento|conhecimento em) (de aplicativos )?mobile/i, /(mobile|programacao) (development|nativ(o|a))/i,
     /\bios\b/i, /\bandroid\b/i
   ],
   NEST: [/\bnest((.|-| )?js)?\b/i],
@@ -92,7 +99,7 @@ export const SKILLS_REGEX = {
   PENTEST: [/burp( suite)?/i, /checkmarx/i, /pentest/i],
   PERFORMANCE_OPTIMIZATION: [
     /code(-|\s)splitting/i, /lazy(-|\s)loading/i, /optimize applications/i, /baixa latencia/i,
-    /alta disponibilidade e desempenho/i, /solucoes (consistentes )?em performance/i
+    /(alta disponibilidade|otimizacao) (d)?e desempenho/i, /solucoes (consistentes )?em performance/i
   ],
   PHONEGAP: [/phonegap/i],
   PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i],
@@ -108,15 +115,16 @@ export const SKILLS_REGEX = {
   REACT_ROUTER: [/react router/i],
   REASONML: [/reasonml/i],
   RESPONSIVE_DESIGN: [
-    /(design|desenvolvimento) (respons|adaptat)ivo/i,
-    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?( de usuario)?|projeto(s)?) (interativas e )?(responsiv|adaptativ)(o|a)(s?)/i,
+    /(design|desenvolvimento) (respons|adaptat)ivo/i, /responsive design/i,
+    /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?( de usuario)?|projeto(s)?|) (interativas e |web )?(responsiv|adaptativ)(o|a)(s?)/i,
     /responsividade/i, /mobile(-|\s)(first|friendly)/i, /diferentes dimensoes de dispositivos/i,
-    /altamente responsivas/i
+    /altamente responsivas/i, /responsivas/i
   ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
   SALESFORCE: [/salesforce/i],
   SAP: [/\bsap\b/i, /\bhybris\b/i],
+  SAS: [/\bsas\b/i],
   SASS: [/\bsass\b/i],
   SCALA: [/\bscala\b/i],
   SPANISH: [/espanhol/i, /spanish/i],
@@ -139,10 +147,10 @@ export const SKILLS_REGEX = {
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
-  TOTVS: [/totvs/i],
+  TOTVS: [/totvs/i, /advpl/i, /protheus/i],
   TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i],
-  UI: [/\bui\b/i, /uiux/i, /uxui/i],
-  UX: [/\bux\b/i, /uiux/i, /uxui/i],
+  UI: [/\bui\b/i, /uiux/i, /uxui/i, /user interface/i],
+  UX: [/\bux\b/i, /uiux/i, /uxui/i, /usabilidade/i, /user experience/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VITE: [/vite/i],
   VUE: [/\bvue((.|-| )?js)?\b/i],
@@ -160,7 +168,7 @@ export const BENEFITS_REGEX = {
     /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i,
     /reembolso (educacao|por certificac(ao|oes))/i, /desconto em universidades e cursos/i,
     /acesso a plataformas de ensino/i, /parcerias educacionais/i,
-    /parceria com instituicoes de ensino/i
+    /parceria com (instituicoes de ensino|universidades)/i
   ],
   CHRISTMAS_BASKET: [/cesta de natal/i],
   FLEXIBLE_HOURS: [
@@ -214,14 +222,14 @@ export const HIRING_REGIMES_REGEX = {
 export const TYPES_REGEX = {
   REMOTE: [
     /(home|anywhere)(-| )?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
-    /100\% home/i, /teletrabalho/i
+    /100\% home/i, /teletrabalho/i, /trabalho digital/i
   ],
   HYBRID: [/hibrido/i, /hybrid/i, /disponibilidade para mudanca/i],
-  FACE_TO_FACE: [/presencial(mente)?/i],
+  FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i],
 }
 
 export const SENIORITY_REGEX = {
-  JUNIOR: [/junior/i, /estagiario/i, /estagio/i, /\bjn\b/i],
+  JUNIOR: [/junior/i, /estagiario/i, /estagio/i, /\bjn\b/i, /\bjr\b/i],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
   SENIOR: [/senior/i, /\bsr\b/],
 }
@@ -229,6 +237,8 @@ export const SENIORITY_REGEX = {
 export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (profissional )?(minima )?de (\d+|\w+) anos/i, /at least (\d+|\w+) years of experience/i,
   /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) anos/i,
-  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i, /(no minimo|pelo menos) (\d+|\w+) anos/i,
-  /(\d+|\w+)\+ years(’)? of experience/i, /(\d+|\w+)\+ (anos )?de experiencia/i
+  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i, /(no minimo|pelo menos|ao menos) (\d+|\w+) anos/i,
+  /(\d+|\w+)\+ years(’)? of experience/i, /(\d+|\w+)(\+| ou mais) (anos )?de experiencia/i,
+  /more than (\d+|\w+) years/i, /minimum (\d+|\w+) years of experience/i,
+  /profissional com (\d+|\w+) anos de experiencia/i, /experiencia de (\d+|\w+) a (\d+|\w+) anos/i
 ]

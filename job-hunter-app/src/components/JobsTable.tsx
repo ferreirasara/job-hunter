@@ -198,11 +198,11 @@ export const JobsTable = ({
       title: "Experiência",
       dataIndex: 'yearsOfExperience',
       key: 'yearsOfExperience',
-      width: screens?.xl ? 105 : undefined,
+      width: screens?.xxl ? 105 : undefined,
       align: 'center',
       sorter: true,
       showSorterTooltip: false,
-      responsive: ['xl', 'xxl']
+      responsive: ['xxl']
     },
     {
       title: "Skills",
