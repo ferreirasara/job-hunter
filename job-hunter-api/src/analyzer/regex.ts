@@ -36,18 +36,18 @@ export const SKILLS_REGEX = {
   CSS: [/\b(s)?css(3)?\b/i, /flexbox/i, /\bless\b/i],
   DART: [/dart/i],
   DB: [
-    /(banco|base) de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /conteinerizacao/i,
-    / postgres?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
+    /(banco|base)(s)? de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /conteinerizacao/i,
+    / postgre(s)?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
   DESIGN: [/design de interfaces/i, /photoshop/i, /illustrator/i, /sketch/i],
   DESIGN_SYSTEM: [/design system/i],
   DEV_OPS: [
-    /docker/i, /\baws\b/i, /kubernetes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
+    /docker/i, /\baws\b/i, /kubern(e|a)tes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i,
-    /websphere/i, /\btfs\b/i
+    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i
   ],
   DJANGO: [/django/i],
   DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i, /\basp\b/i],
@@ -63,7 +63,7 @@ export const SKILLS_REGEX = {
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite\b/i],
   FULL_STACK: [/full(-| )?stack/i, /(back|front)(-|\s)?(end)?( (e|ao|quanto o) |, )(back|front)(-|\s)?(end)?/i],
   GOOD_PRACTICES: [
-    /clean (code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
+    /clean(\s)?(code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
     /codigo (limpo|seguro)/i, /design patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i
   ],
@@ -72,7 +72,10 @@ export const SKILLS_REGEX = {
   HTML: [/html(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
   IONIC: [/ionic/i],
-  JAVA: [/\bjava\b(?! script)/i, /spring boot/i, /eclipse/i, /\bstruts\b/i, /springboot/i],
+  JAVA: [
+    /\bjava\b(?! script)/i, /java\d/i, /spring boot/i, /eclipse/i, /\bstruts\b/i, /springboot/i,
+    /mockmvc/i, /groovy/i
+  ],
   JAVASCRIPT: [/java( |-)?script/i, /^(.|-)?js\b/i, /\bes(6|7)\b/i, /\bjs(6|7)\b/i],
   JQUERY: [/jquery/i],
   KOTLIN: [/kotlin/i],
@@ -80,18 +83,22 @@ export const SKILLS_REGEX = {
   LINUX: [/linux/i],
   LOW_CODE: [/low(-|\s)code/i, /no(-|\s)code/i, /cronapp/i],
   LEAN: [/\blean\b/i],
-  MACHINE_LEARNING: [/machine learning/i],
+  MACHINE_LEARNING: [/machine learning/i, /aprendizado de maquina/i],
   MAGENTO: [/magento/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
-  MENSAGERIA: [/mensageria/i, /(spring )?kafka/i, /rabbitmq/i, /message brokers/i, /amazon sqs/i, /pub(\/|-|\s)?sub/i],
+  MENSAGERIA: [
+    /mensageria/i, /(spring )?kafka/i, /rab(b)?it(t)?mq/i, /message brokers/i, /amazon sqs/i,
+    /pub(\/|-|\s)?sub/i, /activemq/i
+  ],
   MICRO_FRONTENDS: [/micro(-|\s|s)?front(-|\s)?end(s)?/i],
   MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [
     /(desenvolvimento|conhecimento em) (de aplicativos )?mobile/i, /(mobile|programacao) (development|nativ(o|a))/i,
-    /\bios\b/i, /\bandroid\b/i
+    /\bios\b/i, /\bandroid\b/i, /mobile and web/i
   ],
   NEST: [/\bnest((.|-| )?js)?\b/i],
   NEXT: [/\bnext((.|-| )?js)?\b/i],
+  NETWORK: [/\bcpe\b/i, /\bgpon\b/i, /\bwi(-|\s|s)?fi\b/i, /\bdhcp\b/i, /\bnat\b/i],
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
   NODE: [/\bnode((.|-| )?js)?\b/i],
   OBJECTIVE_C: [/objective(-|\s)c/i],
@@ -106,6 +113,7 @@ export const SKILLS_REGEX = {
   POSTMAN: [/postman/i],
   POWER_BI: [/power(-|\s)?bi/i],
   PRISMA: [/prisma/i],
+  PRODUCT_MANAGER: [/product manager/i],
   PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
   RAZOR: [/razor/i],
@@ -135,14 +143,18 @@ export const SKILLS_REGEX = {
   STORYBOOK: [/storybook/i, /documentacao de componentes/i],
   STRAPI: [/\bstrapi\b/i],
   STYLED_COMPONENTS: [/styled(-| )?component(s)?/i],
-  SWAGGER: [/swagger/i],
+  SWAGGER: [/swag(g)?e(r)?/i],
   SWIFT: [/\bswift\b/i],
   TAILWIND: [/\btailwind(-| )?(css)?\b/i],
-  TECH_LEAD: [/tech(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /gerenciamento de projetos/i],
+  TECH_LEAD: [
+    /te(ch|am)(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /(gerenciamento|lideranca) de projetos/i,
+    /lideranca de equipe(s)?/i
+  ],
   TEST: [
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
-    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i, /ferramenta(s)? de teste/i,
-    /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?)/i,
+    /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i,
+    /(ferramenta(s)?|automa(tiza)?cao) de teste(s)?/i, /karma/i, /jasmine/i,
+    /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?)/i,
     /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
   ],
@@ -153,10 +165,10 @@ export const SKILLS_REGEX = {
   UX: [/\bux\b/i, /uiux/i, /uxui/i, /usabilidade/i, /user experience/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VITE: [/vite/i],
-  VUE: [/\bvue((.|-| )?js)?\b/i],
+  VUE: [/\bvue((.|-| )?js)?\b/i, /vuetify/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
   WINDOWS_FORMS: [/(windows|web)(-|\s)?forms/i],
-  WORDPRESS: [/word(-|\s)?press/i],
+  WORDPRESS: [/wo(r)?d(-|\s)?press/i],
 }
 
 export const BENEFITS_REGEX = {
@@ -174,13 +186,14 @@ export const BENEFITS_REGEX = {
   FLEXIBLE_HOURS: [
     /(horario(s)?|carga horaria|jornada) (de trabalho )?flexive(is|l)/i,
     /flexible (working\s)?(hours|schedule(s)?)/i, /flexibilidade de (horario|jornada)/i,
-    /nosso horario e flexivel/i
+    /nosso horario e flexivel/i, /flexibilidade/i
   ],
   FOURTEENTH_SALARY: [/14. salario/i],
-  GYMPASS: [/(gym|total)(-|\s)?pass/i, /(auxilio\s)?academia/i],
+  GYMPASS: [/(gym|total)(-|\s)?pass/i, /(auxilio )?(academia|atividade fisica)/i],
   HEALTH_OR_DENTAL_PLAN: [
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
-    /dental/i, /(plano( de)?|convenio|beneficio) (de )?(saude|odontologico)/i, /health (and dental )?(insurance|plan|care)/i,
+    /dental/i, /(plano|auxilio|convenio|beneficio) (de )?(saude|odontologico)/i,
+    /health (and dental )?(insurance|plan|care)/i,
     /(servico(s)? de )?telemedicina/i
   ],
   HOME_OFFICE_VOUCHER: [
@@ -195,7 +208,7 @@ export const BENEFITS_REGEX = {
   PAID_VACATIONS: [
     /ferias ((anuais|e feriados)\s)?remunerad(a|o)(s)?/i, /(descanso|recesso) (anual|remunerado)/i,
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
-    /feriados nacionais(e regionais)?/i,
+    /feriados nacionais(e regionais)?/i, /vacation & holidays/i
   ],
   PLR: [/\bplr\b/i, /(lucros|participaxao) (e|ou|nos) resultados/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
@@ -225,7 +238,7 @@ export const TYPES_REGEX = {
     /100\% home/i, /teletrabalho/i, /trabalho digital/i
   ],
   HYBRID: [/hibrido/i, /hybrid/i, /disponibilidade para mudanca/i],
-  FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i],
+  FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i, /residir em/i],
 }
 
 export const SENIORITY_REGEX = {
@@ -235,10 +248,19 @@ export const SENIORITY_REGEX = {
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
-  /experiencia (profissional )?(minima )?de (\d+|\w+) anos/i, /at least (\d+|\w+) years of experience/i,
+  /experiencia (profissional )?(minima )?de (\d+|\w+) anos/i,
   /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) anos/i,
-  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i, /(no minimo|pelo menos|ao menos) (\d+|\w+) anos/i,
-  /(\d+|\w+)\+ years(’)? of experience/i, /(\d+|\w+)(\+| ou mais) (anos )?de experiencia/i,
-  /more than (\d+|\w+) years/i, /minimum (\d+|\w+) years of experience/i,
-  /profissional com (\d+|\w+) anos de experiencia/i, /experiencia de (\d+|\w+) a (\d+|\w+) anos/i
+  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i,
+  /((no )?minimo|pelo menos|ao menos) (de )?(\d+|\w+) (anos|meses)/i,
+  /(\d+|\w+)(\+| ou mais) (anos )?de experiencia/i,
+  /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
+  /experiencia de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
+  /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
+  /minimo de (\d+|\w+) (anos|meses)/i,
+
+  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?experience/i,
+  /at least (\d+|\w+) years of experience/i,
+  /more than (\d+|\w+) years/i,
+  /minimum (of )?(\d+|\w+) years of (proven )?experience/i,
+  /(\d+|\w+)\+ of background/i,
 ]

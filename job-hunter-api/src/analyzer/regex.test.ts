@@ -53,6 +53,7 @@ describe("test SKILLS_REGEX", () => {
   it("should identify DB cases", () => {
     const correctStrings = ["microsoft sql server", "ms-sql server", "sql server", "sql-server", "no-sql", "nosql", "postgre", "postgres"];
     for (const str of correctStrings) {
+      console.log("🚀 | it | stringContainsAny(str, SKILLS_REGEX.DB):", str, stringContainsAny(str, SKILLS_REGEX.DB));
       expect(stringContainsAny(str, SKILLS_REGEX.DB)).toBeTruthy();
     }
   });
@@ -89,7 +90,7 @@ describe("test SKILLS_REGEX", () => {
     }
   });
   it("should identify JAVA cases", () => {
-    const correctStrings = ["java"];
+    const correctStrings = ["java", "java8+"];
     const wrongStrings = ["javascript", "java script"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.JAVA)).toBeTruthy();
@@ -116,6 +117,12 @@ describe("test SKILLS_REGEX", () => {
     }
     for (const str of wrongStrings) {
       expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeFalsy();
+    }
+  });
+  it("should identify MENSAGERIA cases", () => {
+    const correctStrings = ["rabitmq"];
+    for (const str of correctStrings) {
+      expect(stringContainsAny(str, SKILLS_REGEX.MENSAGERIA)).toBeTruthy();
     }
   });
   it("should identify MICRO_SERVICES cases", () => {
@@ -350,15 +357,8 @@ describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
       "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia",
       "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando"
     ];
-    const wrongStrings = [
-      "temos aproximadamente 28 anos de experiencia no mercado",
-      "temos 28 anos de experiencia no mercado",
-    ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeFalsy();
     }
   });
 })

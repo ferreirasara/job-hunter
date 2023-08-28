@@ -42,6 +42,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'backbone.js': return JobSkill.BACKBONE;
     case 'bootstrap': return JobSkill.CSS;
     case 'c#': return JobSkill.CSHARP;
+    case 'cloud': return JobSkill.DEV_OPS;
     case 'css': return JobSkill.CSS;
     case 'design pattern': return JobSkill.GOOD_PRACTICES;
     case 'devops': return JobSkill.DEV_OPS;
@@ -59,6 +60,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'java': return JobSkill.JAVA;
     case 'javascript': return JobSkill.JAVASCRIPT;
     case 'javaScript': return JobSkill.JAVASCRIPT;
+    case 'jest': return JobSkill.TEST;
     case 'jquery': return JobSkill.JQUERY;
     case 'laravel': return JobSkill.PHP;
     case 'lean': return JobSkill.LEAN;
@@ -68,7 +70,9 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'nextjs': return JobSkill.NEXT;
     case 'node.js': return JobSkill.NODE;
     case 'postgresql': return JobSkill.DB;
+    case 'objective-c': return JobSkill.OBJECTIVE_C;
     case 'python': return JobSkill.PYTHON;
+    case 'qa - quality assurance': return JobSkill.TEST;
     case 'reactjs': return JobSkill.REACT;
     case 'react native': return JobSkill.REACT_NATIVE;
     case 'realbasic': return JobSkill.BASIC;
@@ -81,7 +85,8 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'sql': return JobSkill.DB;
     case 'sql server': return JobSkill.DB;
     case 'styled - components': return JobSkill.STYLED_COMPONENTS;
-    case 'styled - components': return JobSkill.STYLED_COMPONENTS;
+    case 'styled-components': return JobSkill.STYLED_COMPONENTS;
+    case 'tdd': return JobSkill.TEST;
     case 'testes automatizados': return JobSkill.TEST;
     case 'testes de regressão': return JobSkill.TEST;
     case 'testes funcionais': return JobSkill.TEST;

@@ -40,15 +40,16 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
     onFinish: onClose,
   }
 
+  const skillTags = useMemo(() => renderMultipleTags(selectedJob?.skills) || [], [selectedJob?.skills]);
+  const benefitTags = useMemo(() => renderMultipleTags(selectedJob?.benefits) || [], [selectedJob?.benefits]);
+
   const skillTagsToShow = useMemo(() => {
-    const skillTags = renderMultipleTags(selectedJob?.skills) || [];
     return showAllSkills ? skillTags : skillTags?.slice(0, 5)
-  }, [showAllSkills, selectedJob?.skills]);
+  }, [showAllSkills, skillTags]);
 
   const benefitTagsToShow = useMemo(() => {
-    const benefitTags = renderMultipleTags(selectedJob?.benefits) || [];
     return showAllBenefits ? benefitTags : benefitTags?.slice(0, 3)
-  }, [showAllBenefits, selectedJob?.benefits]);
+  }, [showAllBenefits, benefitTags]);
 
   return <Drawer
     title={<Typography.Link href={selectedJob?.url} target="_blank" copyable>{selectedJob?.title}</Typography.Link>}
@@ -85,13 +86,13 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
       {skillTagsToShow?.length ? <List.Item key="skills">
         <ListItemInner title={`Skills (${selectedJob?.skillsRating})`}>
           {skillTagsToShow}
-          <Button size="small" onClick={() => setShowAllSkills(!showAllSkills)}>Ver {showAllSkills ? "menos" : "mais"}</Button>
+          {skillTags?.length > 5 ? <Button size="small" onClick={() => setShowAllSkills(!showAllSkills)}>Ver {showAllSkills ? "menos" : "mais"}</Button> : null}
         </ListItemInner>
       </List.Item> : null}
       {benefitTagsToShow?.length ? <List.Item key="benefits">
         <ListItemInner title={`Benefícios (${selectedJob?.benefitsRating})`}>
           {benefitTagsToShow}
-          <Button size="small" onClick={() => setShowAllBenefits(!showAllBenefits)}>Ver {showAllBenefits ? "menos" : "mais"}</Button>
+          {benefitTags?.length > 3 ? <Button size="small" onClick={() => setShowAllBenefits(!showAllBenefits)}>Ver {showAllBenefits ? "menos" : "mais"}</Button> : null}
         </ListItemInner>
       </List.Item> : null}
       {selectedJob?.country && selectedJob?.state && selectedJob?.city ? <List.Item key="address">
