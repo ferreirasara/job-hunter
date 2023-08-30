@@ -43,6 +43,7 @@ const SKILL_RATING = {
   "DRUPAL": -2,
   "ECOMMERCE": 1,
   "ELASTIC_SEARCH": -1,
+  "ELECTRON": -2,
   "ELIXIR": -2,
   "EMBER": -2,
   "ENGLISH": 1,

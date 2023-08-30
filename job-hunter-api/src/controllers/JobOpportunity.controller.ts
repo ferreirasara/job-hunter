@@ -2,7 +2,7 @@ import { FindOptionsOrder, FindOptionsWhere, ILike, In, MoreThanOrEqual } from "
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten, uniq } from "lodash";
-import { calcContType, convertStrToArray, sendMessageToTelegram } from "../utils/utils";
+import { calcContType, convertStrToArray } from "../utils/utils";
 import { JobInput, JobPlatform } from "../@types/types";
 
 const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrder<JobOpportunity> => {

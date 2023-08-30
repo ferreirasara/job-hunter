@@ -54,6 +54,7 @@ export const SKILLS_REGEX = {
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /\blinx\b/i, /\btray(corp)?\b/i, /\bvtex\b/i, /(oracle|sap) commerce/i, /magento/i],
   ELASTIC_SEARCH: [/elastic(\s)?search/i],
+  ELECTRON: [/electron/i],
   ELIXIR: [/elixir/i],
   EMBER: [/ember/i],
   ENGLISH: [/ingles/i, /english/i],
@@ -109,7 +110,7 @@ export const SKILLS_REGEX = {
     /(alta disponibilidade|otimizacao) (d)?e desempenho/i, /solucoes (consistentes )?em performance/i
   ],
   PHONEGAP: [/phonegap/i],
-  PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i],
+  PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i, /twig/i],
   POSTMAN: [/postman/i],
   POWER_BI: [/power(-|\s)?bi/i],
   PRISMA: [/prisma/i],
@@ -147,7 +148,7 @@ export const SKILLS_REGEX = {
   SWIFT: [/\bswift\b/i],
   TAILWIND: [/\btailwind(-| )?(css)?\b/i],
   TECH_LEAD: [
-    /te(ch|am)(\s|-)lead/i, /(gerenciar|coordenar) a equipe/i, /(gerenciamento|lideranca) de projetos/i,
+    /te(ch|am)(\s|-)lead/i, /(gerenciar|coordenar) (a )?equipe/i, /(gerenciamento|lideranca) de projetos/i,
     /lideranca de equipe(s)?/i
   ],
   TEST: [
@@ -263,4 +264,5 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /more than (\d+|\w+) years/i,
   /minimum (of )?(\d+|\w+) years of (proven )?experience/i,
   /(\d+|\w+)\+ of background/i,
+  /(\d+|\w+)-(\d+|\w+) years of experience/i
 ]
