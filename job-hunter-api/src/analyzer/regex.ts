@@ -66,7 +66,7 @@ export const SKILLS_REGEX = {
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
-    /codigo (limpo|seguro)/i, /design patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i
+    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -161,7 +161,7 @@ export const SKILLS_REGEX = {
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
   TOTVS: [/totvs/i, /advpl/i, /protheus/i],
-  TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i],
+  TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i, /typeschipt/i],
   UI: [/\bui\b/i, /uiux/i, /uxui/i, /user interface/i],
   UX: [/\bux\b/i, /uiux/i, /uxui/i, /usabilidade/i, /user experience/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
