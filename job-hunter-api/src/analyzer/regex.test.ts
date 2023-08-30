@@ -53,7 +53,6 @@ describe("test SKILLS_REGEX", () => {
   it("should identify DB cases", () => {
     const correctStrings = ["microsoft sql server", "ms-sql server", "sql server", "sql-server", "no-sql", "nosql", "postgre", "postgres"];
     for (const str of correctStrings) {
-      console.log("🚀 | it | stringContainsAny(str, SKILLS_REGEX.DB):", str, stringContainsAny(str, SKILLS_REGEX.DB));
       expect(stringContainsAny(str, SKILLS_REGEX.DB)).toBeTruthy();
     }
   });

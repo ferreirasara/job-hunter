@@ -37,7 +37,7 @@ export const SKILLS_REGEX = {
   DART: [/dart/i],
   DB: [
     /(banco|base)(s)? de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /conteinerizacao/i,
-    / postgre(s)?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
+    /postgre(s)?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
