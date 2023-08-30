@@ -95,11 +95,11 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
           {benefitTags?.length > 3 ? <Button size="small" onClick={() => setShowAllBenefits(!showAllBenefits)}>Ver {showAllBenefits ? "menos" : "mais"}</Button> : null}
         </ListItemInner>
       </List.Item> : null}
-      {selectedJob?.country && selectedJob?.state && selectedJob?.city ? <List.Item key="address">
+      {selectedJob?.country || selectedJob?.state || selectedJob?.city ? <List.Item key="address">
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <ListItemInner title="País">{selectedJob?.country}</ListItemInner>
-          <ListItemInner title="Estado">{selectedJob?.state}</ListItemInner>
-          <ListItemInner title="Cidade">{selectedJob?.city}</ListItemInner>
+          {selectedJob?.country ? <ListItemInner title="País">{selectedJob?.country}</ListItemInner> : null}
+          {selectedJob?.state ? <ListItemInner title="Estado">{selectedJob?.state}</ListItemInner> : null}
+          {selectedJob?.city ? <ListItemInner title="Cidade">{selectedJob?.city}</ListItemInner> : null}
         </div>
       </List.Item> : null}
       <List.Item>
