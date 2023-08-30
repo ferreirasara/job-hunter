@@ -354,7 +354,8 @@ describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
   it("should identify YEARS_OF_EXPERIENCE_REGEX cases", () => {
     const correctStrings = [
       "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia",
-      "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando"
+      "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando",
+      "mais de 2 anos em contato"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();

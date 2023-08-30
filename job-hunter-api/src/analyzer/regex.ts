@@ -37,14 +37,14 @@ export const SKILLS_REGEX = {
   DART: [/dart/i],
   DB: [
     /(banco|base)(s)? de dados/i, /mongo( )?db/i, /\b(ms-|microsoft )?sql(-| )?(server)?\b/i, /conteinerizacao/i,
-    /postgre(s)?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i,
+    /postgre(s)?(ql)?/i, /\bmy(\s|-)?sql\b/i, /firebase/i, /redis/i, /\bno( )?sql\b/i, /\bmssql\b/i, /dynamodb/i,
     /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
   ],
   DELPHI: [/delphi/i],
   DESIGN: [/design de interfaces/i, /photoshop/i, /illustrator/i, /sketch/i],
   DESIGN_SYSTEM: [/design system/i],
   DEV_OPS: [
-    /docker/i, /\baws\b/i, /kubern(e|a)tes/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
+    /docker/i, /\baws\b/i, /kubern(e|a)t(e)?s/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i,
     /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i
@@ -56,7 +56,7 @@ export const SKILLS_REGEX = {
   ELASTIC_SEARCH: [/elastic(\s)?search/i],
   ELECTRON: [/electron/i],
   ELIXIR: [/elixir/i],
-  EMBER: [/ember/i],
+  EMBER: [/\bember\b/i],
   ENGLISH: [/ingles/i, /english/i],
   FIGMA: [/figma/i],
   FLASK: [/flask/i],
@@ -65,8 +65,8 @@ export const SKILLS_REGEX = {
   FULL_STACK: [/full(-| )?stack/i, /(back|front)(-|\s)?(end)?( (e|ao|quanto o) |, )(back|front)(-|\s)?(end)?/i],
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
-    /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i,
-    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i
+    /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
+    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -161,7 +161,7 @@ export const SKILLS_REGEX = {
   ],
   TOMCAT: [/tomcat(\sserver)?/i],
   TOTVS: [/totvs/i, /advpl/i, /protheus/i],
-  TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i, /typeschipt/i],
+  TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i, /typeschipt/i, /typscript/i],
   UI: [/\bui\b/i, /uiux/i, /uxui/i, /user interface/i],
   UX: [/\bux\b/i, /uiux/i, /uxui/i, /usabilidade/i, /user experience/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
@@ -249,20 +249,22 @@ export const SENIORITY_REGEX = {
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
-  /experiencia (profissional )?(minima )?de (\d+|\w+) anos/i,
-  /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) anos/i,
-  /(temos ((aproximadamente )?)?!)(\d+|\w+) anos de experiencia/i,
+  /experiencia (profissional )?(minima )?de (\d+|\w+) (anos|meses)/i,
+  /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) (anos|meses)/i,
+  /(temos ((aproximadamente )?)?!)(\d+|\w+) (anos|meses) de experiencia/i,
   /((no )?minimo|pelo menos|ao menos) (de )?(\d+|\w+) (anos|meses)/i,
-  /(\d+|\w+)(\+| ou mais) (anos )?de experiencia/i,
+  /(\d+|\w+)(\+| ou mais) ((anos|meses) )?de experiencia/i,
   /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
   /experiencia de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
   /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
-  /minimo de (\d+|\w+) (anos|meses)/i,
+  /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
+  /experiencia acima de (\d+|\w+) (anos|meses)/i,
+  /entre (\d+|\w+) e (\d+|\w+) anos/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?experience/i,
   /at least (\d+|\w+) years of experience/i,
   /more than (\d+|\w+) years/i,
-  /minimum (of )?(\d+|\w+) years of (proven )?experience/i,
+  /minimum (of )?(\d+|\w+) years/i,
   /(\d+|\w+)\+ of background/i,
   /(\d+|\w+)-(\d+|\w+) years of experience/i
 ]
