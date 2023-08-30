@@ -18,6 +18,7 @@ enum JobPlatform {
   LINKEDIN = "LINKEDIN",
   JOBATUS = "JOBATUS",
   DIVULGA_VAGAS = "DIVULGA_VAGAS",
+  COODESH = "COODESH",
 }
 enum JobType {
   REMOTE = "REMOTE",

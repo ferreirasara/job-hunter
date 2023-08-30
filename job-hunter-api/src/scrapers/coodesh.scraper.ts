@@ -2,11 +2,11 @@ import { Page } from "puppeteer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
 import { analyzeDescription } from "../analyzer/analyzer";
-import { uniq } from "lodash";
 import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
-const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS
-export default class DivulgaVagasScraper extends ScraperInterface {
+const platform: JobPlatform = JobPlatform.COODESH
+
+export default class CoodeshScraper extends ScraperInterface {
   constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
     super({ platform, filterExistentsJobs })
   }
@@ -29,28 +29,13 @@ export default class DivulgaVagasScraper extends ScraperInterface {
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'frontend');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const frontendUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.goto("https://coodesh.com/jobs?skills=reactjs", { waitUntil: "networkidle0" });
+      const urls: string[] = await page?.$$eval('a.card', (el) => el?.map(cur => cur?.href));
 
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'react');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const reactUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
-
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'desenvolvedor');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const developerUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
-
-      const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
-      const urls = uniq(allUrls);
-
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1] }));
+      const result: JobInitialData[] = urls?.map(url => {
+        const url1 = url?.split('?')?.[0];
+        return { url, idInPlatform: url1?.split('-')?.[url1?.split('-')?.length - 1] }
+      });
 
       return result;
     } catch (e) {
@@ -67,16 +52,18 @@ export default class DivulgaVagasScraper extends ScraperInterface {
         const obj = urls[i]
         await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const location: string = await page?.$eval('div.media > div > span', (el) => el?.innerText);
-        const company = await page?.$eval('div.media > div > div > span', (el) => el?.innerText);
-        const descriptionOriginal = await page?.$eval('div.row', (el) => el?.innerText);
-        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
+        const company = await page?.$eval('span.h4', (el) => el?.innerText);
+        const info: string[] = await page?.$$eval('div.media-body > span', (el) => el?.map(cur => cur?.innerText));
+        const location = info?.find(cur => cur?.includes(' em '))?.split('em')?.[1]?.split(',')
+        const descriptionOriginal = await page?.$$eval('div.styleJobDescription', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
+        const analyzerResponse = analyzeDescription({ title, description: info?.join(', ') + descriptionOriginal });
 
         jobs?.push({
           title,
           company,
-          city: location?.split('-')?.[0]?.trim(),
-          state: location?.split('-')?.[1]?.trim(),
+          city: location?.[0]?.trim(),
+          state: location?.[1]?.trim(),
+          country: location?.[2]?.trim(),
           description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,

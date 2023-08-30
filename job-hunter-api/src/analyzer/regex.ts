@@ -238,7 +238,7 @@ export const TYPES_REGEX = {
     /(home|anywhere)(-| )?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
     /100\% home/i, /teletrabalho/i, /trabalho digital/i
   ],
-  HYBRID: [/hibrido/i, /hybrid/i, /disponibilidade para mudanca/i],
+  HYBRID: [/hibrid(o|a)/i, /hybrid/i, /disponibilidade para mudanca/i],
   FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i, /residir em/i],
 }
 

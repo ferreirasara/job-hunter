@@ -162,6 +162,7 @@ export enum JobPlatform {
   LINKEDIN = "LINKEDIN",
   JOBATUS = "JOBATUS",
   DIVULGA_VAGAS = "DIVULGA_VAGAS",
+  COODESH = "COODESH",
 }
 
 export type GupyResponse = {
