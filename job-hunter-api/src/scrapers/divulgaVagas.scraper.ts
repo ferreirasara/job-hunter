@@ -35,7 +35,10 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/react");
       const reactUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
 
-      const allUrls = [...frontendUrls, ...reactUrls];
+      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/desenvolvedor");
+      const developerUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+
+      const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
       const urls = uniq(allUrls);
 
       const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1] }));
