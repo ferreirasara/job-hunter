@@ -35,6 +35,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
   const lowerCaseSkill = skill?.toLowerCase();
   switch (lowerCaseSkill) {
     case '.net': return JobSkill.DOT_NET;
+    case '.net core': return JobSkill.DOT_NET;
     case 'agilephp': return JobSkill.PHP;
     case 'angular': return JobSkill.ANGULAR;
     case 'aws s3': return JobSkill.DEV_OPS;
@@ -42,6 +43,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'backbone.js': return JobSkill.BACKBONE;
     case 'bootstrap': return JobSkill.CSS;
     case 'c#': return JobSkill.CSHARP;
+    case 'codeigniter': return JobSkill.PHP;
     case 'cloud': return JobSkill.DEV_OPS;
     case 'css': return JobSkill.CSS;
     case 'design pattern': return JobSkill.GOOD_PRACTICES;
@@ -68,6 +70,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'mongodb': return JobSkill.DB;
     case 'mysql': return JobSkill.DB;
     case 'nextjs': return JobSkill.NEXT;
+    case 'nosql': return JobSkill.DB;
     case 'node.js': return JobSkill.NODE;
     case 'postgresql': return JobSkill.DB;
     case 'objective-c': return JobSkill.OBJECTIVE_C;
@@ -78,9 +81,12 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'realbasic': return JobSkill.BASIC;
     case 'redux': return JobSkill.STATE_MANAGEMENT;
     case 'restful': return JobSkill.API;
+    case 'ruby on rails': return JobSkill.RUBY;
+    case 'rust': return JobSkill.RUST;
     case 'sas': return JobSkill.SAS;
     case 'sass': return JobSkill.SASS;
     case 'scrum': return JobSkill.AGILE;
+    case 'scss': return JobSkill.CSS;
     case 'spring boot': return JobSkill.JAVA;
     case 'sql': return JobSkill.DB;
     case 'sql server': return JobSkill.DB;

@@ -211,7 +211,7 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i, /vacation & holidays/i
   ],
-  PLR: [/\bplr\b/i, /(lucros|participaxao) (e|ou|nos) resultados/i, /\bppr\b/i],
+  PLR: [/\bplr\b/i, /(lucros|participacao) (e|ou|nos|de) (resultados|lucros)/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|(cuidado|desconto) com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|psicoterapia|(a\s)?saude (mental|emocional))/i,
@@ -255,7 +255,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /((no )?minimo|pelo menos|ao menos) (de )?(\d+|\w+) (anos|meses)/i,
   /(\d+|\w+)(\+| ou mais) ((anos|meses) )?de experiencia/i,
   /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
-  /experiencia de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
+  /(experiencia|atuacao) de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
   /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
   /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
   /experiencia acima de (\d+|\w+) (anos|meses)/i,
