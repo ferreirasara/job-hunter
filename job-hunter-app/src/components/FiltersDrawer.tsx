@@ -28,6 +28,7 @@ export const FiltersDrawer = ({ fetchData, loading, onClose, open, allBenefits, 
 
   const handleFilter = async () => {
     await fetchData(apiArgs);
+    onClose();
   }
 
   const initialValues: GetJobsFromAPIArgs = apiArgs;
