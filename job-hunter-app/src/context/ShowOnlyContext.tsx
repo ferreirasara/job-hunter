@@ -5,10 +5,10 @@ type TShowOnlyContext = {
   showOnlyRecused: boolean
   showOnlyNewJobs: boolean
   showOnlyApplied: boolean
-  onChangeShowOnlyDiscarded: () => void,
-  onChangeShowOnlyRecused: () => void,
-  onChangeShowOnlyNewJobs: () => void,
-  onChangeShowOnlyApplied: () => void,
+  onChangeShowOnlyDiscarded: (value: boolean) => void,
+  onChangeShowOnlyRecused: (value: boolean) => void,
+  onChangeShowOnlyNewJobs: (value: boolean) => void,
+  onChangeShowOnlyApplied: (value: boolean) => void,
 }
 
 export const ShowOnlyContext = createContext<TShowOnlyContext>({
@@ -33,10 +33,10 @@ export const ShowOnlyContextProvider = ({ children }: { children: React.ReactNod
     showOnlyRecused: showOnlyRecused,
     showOnlyNewJobs: showOnlyNewJobs,
     showOnlyApplied: showOnlyApplied,
-    onChangeShowOnlyDiscarded: () => setShowOnlyDiscarded(!showOnlyDiscarded),
-    onChangeShowOnlyRecused: () => setShowOnlyRecused(!showOnlyRecused),
-    onChangeShowOnlyNewJobs: () => setShowOnlyNewJobs(!showOnlyNewJobs),
-    onChangeShowOnlyApplied: () => setShowOnlyApplied(!showOnlyApplied),
+    onChangeShowOnlyDiscarded: (value) => setShowOnlyDiscarded(value),
+    onChangeShowOnlyRecused: (value) => setShowOnlyRecused(value),
+    onChangeShowOnlyNewJobs: (value) => setShowOnlyNewJobs(value),
+    onChangeShowOnlyApplied: (value) => setShowOnlyApplied(value),
   }}>
     {children}
   </ShowOnlyContext.Provider >

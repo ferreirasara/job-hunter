@@ -1,25 +1,23 @@
-import { Alert, Divider, Grid, Space } from "antd"
+import { Alert, Button, Divider, Space } from "antd"
 import { useCallback, useContext, useEffect, useState } from "react";
 import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
-import { getJobsFromAPI } from "../utils/utils";
+import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
-import { FilterButtons } from "../components/FilterButtons";
-import { FiltersContext } from "../context/FiltersContext";
-import { ShowOnlyContext } from "../context/ShowOnlyContext";
+import { NavLink, Navigate } from "react-router-dom";
+import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
+import { FiltersDrawer } from "../components/FiltersDrawer";
 import { PaginationContext } from "../context/PaginationContext";
-import { Navigate } from "react-router-dom";
 
 export default function Root() {
-  const { platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, companyFilter, seniorityFilter } = useContext(FiltersContext);
-  const { showOnlyApplied, showOnlyDiscarded, showOnlyNewJobs, showOnlyRecused } = useContext(ShowOnlyContext);
-  const { page, limit, orderBy, onChangeLimit } = useContext(PaginationContext);
-
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
+  const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
+    showOnlyApplied: false, showOnlyDiscarded: false, showOnlyNewJobs: false, showOnlyRecused: false
+  });
+  const { page, limit, orderBy } = useContext(PaginationContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
+  const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
@@ -27,32 +25,10 @@ export default function Root() {
   const [allSkills, setAllSkills] = useState<string[]>([]);
   const [allBenefits, setAllBenefits] = useState<string[]>([]);
 
-  const windowHeight = window.innerHeight;
-  const tableMaxSixe = windowHeight - (screens?.xl ? 280 : 385);
-  const maxRows = Math.ceil(tableMaxSixe / 43);
-
-  onChangeLimit(maxRows);
-
-  const handleFetchData = useCallback(async () => {
+  const handleFetchData = useCallback(async (apiArgs: GetJobsFromAPIArgs) => {
     setLoading(true);
     try {
-      const response: JobsResponse = await getJobsFromAPI({
-        limit,
-        page,
-        platformFilter,
-        typeFilter,
-        hiringRegimeFilter,
-        skillFilter,
-        benefitFilter,
-        titleFilter,
-        companyFilter,
-        seniorityFilter,
-        orderBy,
-        showOnlyDiscarded,
-        showOnlyRecused,
-        showOnlyNewJobs,
-        showOnlyApplied,
-      });
+      const response: JobsResponse = await getJobsFromAPI({ ...apiArgs, page, limit, orderBy });
       if (response?.message) {
         setErrorMessage(response?.message);
       } else {
@@ -67,10 +43,10 @@ export default function Root() {
       setErrorMessage(e?.toString() || "");
     }
     setLoading(false);
-  }, [limit, orderBy, page, platformFilter, typeFilter, titleFilter, companyFilter, hiringRegimeFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, benefitFilter, skillFilter, seniorityFilter])
+  }, [page, limit, orderBy])
 
   useEffect(() => {
-    handleFetchData();
+    handleFetchData({});
   }, [handleFetchData]);
 
   const handleSeeDetails = (uuid: string) => {
@@ -92,11 +68,16 @@ export default function Root() {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter
       </Divider>
-      <FilterButtons
-        handleFetchData={handleFetchData}
-        loading={loading}
-        dataLength={data?.length}
-      />
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
+        <Button icon={<FilterOutlined />} onClick={() => setFiltersDrawerOpen(true)}>
+          Filtrar vagas
+        </Button>
+        <NavLink to="/stats">
+          <Button icon={<BarChartOutlined />}>
+            Ver estatísticas
+          </Button>
+        </NavLink>
+      </div>
       {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
       <JobsTable
         loading={loading}
@@ -104,15 +85,24 @@ export default function Root() {
         totalOfJobs={totalOfJobs}
         allRatings={allRatings}
         handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
-        allSkills={allSkills}
-        allBenefits={allBenefits}
       />
     </Space>
     <DetailsDrawer
       open={detailsDrawerOpen}
       onClose={onCloseDrawer}
       selectedJob={selectedJob}
-      fetchData={handleFetchData}
+      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
+      apiArgs={apiArgs}
+    />
+    <FiltersDrawer
+      open={filtersDrawerOpen}
+      onClose={() => setFiltersDrawerOpen(false)}
+      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
+      allSkills={allSkills}
+      allBenefits={allBenefits}
+      loading={loading}
+      apiArgs={apiArgs}
+      onChangeApiArgs={(value: GetJobsFromAPIArgs) => setApiArgs(value)}
     />
   </div>
 }

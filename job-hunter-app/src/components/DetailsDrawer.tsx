@@ -8,12 +8,14 @@ import { NumberOfTestsInput } from "./NumberOfTestsInput"
 import ReactMarkdown from "react-markdown"
 import { renderMultipleTags } from "./renderMultipleTags"
 import { useMemo, useState } from "react"
+import { GetJobsFromAPIArgs } from "../utils/utils"
 
 type DetailsDrawerProps = {
   open: boolean
   onClose: () => void
   selectedJob?: JobsTableData
-  fetchData: () => Promise<void>
+  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
+  apiArgs: GetJobsFromAPIArgs
 }
 
 type ListItemInnerProps = {
@@ -26,7 +28,7 @@ const ListItemInner = ({ children, title }: ListItemInnerProps) => {
   </span>
 }
 
-export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: DetailsDrawerProps) => {
+export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob, apiArgs }: DetailsDrawerProps) => {
   const [showAllSkills, setShowAllSkills] = useState<boolean>(false);
   const [showAllBenefits, setShowAllBenefits] = useState<boolean>(false);
   const { useBreakpoint } = Grid;
@@ -38,6 +40,7 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob }: Details
     uuid: selectedJob?.uuid,
     fetchData: fetchData,
     onFinish: onClose,
+    apiArgs,
   }
 
   const skillTags = useMemo(() => renderMultipleTags(selectedJob?.skills) || [], [selectedJob?.skills]);

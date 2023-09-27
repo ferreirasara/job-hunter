@@ -1,6 +1,6 @@
 import { JobsResponse, OrderBy } from "../components/JobsTable";
 
-export const getJobsFromAPI = async (args: {
+export type GetJobsFromAPIArgs = {
   page?: number,
   limit?: number,
   platformFilter?: string,
@@ -17,7 +17,8 @@ export const getJobsFromAPI = async (args: {
   showOnlyRecused?: boolean
   showOnlyNewJobs?: boolean
   showOnlyApplied?: boolean
-}) => {
+}
+export const getJobsFromAPI = async (args: GetJobsFromAPIArgs) => {
   const { limit = 10, page = 0, orderBy, platformFilter, skillsFilter, typeFilter, companyFilter, hiringRegimeFilter, skillFilter, benefitFilter, titleFilter, seniorityFilter, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied } = args;
   const searchParams: any = {};
 

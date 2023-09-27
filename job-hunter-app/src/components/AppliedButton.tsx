@@ -1,22 +1,23 @@
 import { FormOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { useState } from "react";
-import { setJobAsApplied } from "../utils/utils";
+import { GetJobsFromAPIArgs, setJobAsApplied } from "../utils/utils";
 
 type AppliedButtonProps = {
   uuid?: string
   disabled?: boolean
-  fetchData: () => Promise<void>
+  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
   onFinish: () => void
+  apiArgs: GetJobsFromAPIArgs
 }
-export const AppliedButton = ({ uuid, disabled, fetchData, onFinish }: AppliedButtonProps) => {
+export const AppliedButton = ({ uuid, disabled, fetchData, onFinish, apiArgs }: AppliedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSetAsApplied = async () => {
     setLoading(true);
     if (uuid) await setJobAsApplied(uuid);
-    await fetchData();
+    await fetchData(apiArgs);
     setLoading(false);
     messageApi.open({ content: "Vaga aplicada!", type: "success", duration: 10 });
     onFinish();

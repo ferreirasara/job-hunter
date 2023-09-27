@@ -6,10 +6,9 @@ import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
 import { useContext } from "react";
-import { FiltersContext } from "../context/FiltersContext";
 import { PaginationContext } from "../context/PaginationContext";
 
-enum JobPlatform {
+export enum JobPlatform {
   GUPY = "GUPY",
   PROGRAMATHOR = "PROGRAMATHOR",
   TRAMPOS = "TRAMPOS",
@@ -20,16 +19,16 @@ enum JobPlatform {
   DIVULGA_VAGAS = "DIVULGA_VAGAS",
   COODESH = "COODESH",
 }
-enum JobType {
+export enum JobType {
   REMOTE = "REMOTE",
   HYBRID = "HYBRID",
   FACE_TO_FACE = "FACE_TO_FACE",
 }
-enum JobHiringRegime {
+export enum JobHiringRegime {
   PJ = "PJ",
   CLT = "CLT",
 }
-enum JobSeniority {
+export enum JobSeniority {
   JUNIOR = "JUNIOR",
   MID_LEVEL = "MID_LEVEL",
   SENIOR = "SENIOR",
@@ -80,8 +79,6 @@ type JobsTableProps = {
   totalOfJobs?: number
   allRatings: number[]
   handleSeeDetails: (uuid: string) => void
-  allSkills: string[]
-  allBenefits: string[]
 }
 
 export const JobsTable = ({
@@ -90,18 +87,10 @@ export const JobsTable = ({
   totalOfJobs,
   allRatings,
   handleSeeDetails,
-  allSkills,
-  allBenefits,
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { onChangePlatformFilter, onChangeTypeFilter, onChangeHiringRegimeFilter, onChangeSkillFilter, onChangeBenefitFilter, onChangeSeniorityFilter } = useContext(FiltersContext);
   const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
-
-  const typeOptions = Object.keys(JobType);
-  const hiringRegimeOptions = Object.keys(JobHiringRegime);
-  const seniorityOptions = Object.keys(JobSeniority);
-  const platformOptions = Object.keys(JobPlatform);
 
   const columns: ColumnsType<JobsTableData> = [
     {
@@ -124,9 +113,6 @@ export const JobsTable = ({
       sorter: true,
       showSorterTooltip: false,
       align: 'center',
-      filters: platformOptions.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       responsive: ['xl', 'xxl']
     },
     {
@@ -158,9 +144,6 @@ export const JobsTable = ({
       title: "Tipo",
       dataIndex: 'type',
       key: 'type',
-      filters: typeOptions?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       width: screens?.xxl ? 110 : undefined,
       align: 'center',
       sorter: true,
@@ -172,9 +155,6 @@ export const JobsTable = ({
       title: "Contratação",
       dataIndex: 'hiringRegime',
       key: 'hiringRegime',
-      filters: hiringRegimeOptions?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
       sorter: true,
@@ -186,9 +166,6 @@ export const JobsTable = ({
       title: "Senioridade",
       dataIndex: 'seniority',
       key: 'seniority',
-      filters: seniorityOptions?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
       sorter: true,
@@ -212,9 +189,6 @@ export const JobsTable = ({
       key: 'skills',
       ellipsis: true,
       render: (skills: string) => renderMultipleTags(skills),
-      filters: allSkills?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       responsive: ['xl', 'xxl']
     },
     {
@@ -223,9 +197,6 @@ export const JobsTable = ({
       key: 'benefits',
       ellipsis: true,
       render: (benefits: string) => renderMultipleTags(benefits),
-      filters: allBenefits?.map((cur) => ({ text: cur, value: cur })),
-      filterSearch: true,
-      filterMultiple: false,
       responsive: ['xl', 'xxl']
     },
     {
@@ -269,14 +240,6 @@ export const JobsTable = ({
     onChange={(pagination, filters, sorter) => {
       const sorter2 = sorter && castArray(sorter)[0];
       if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
-
-      onChangePlatformFilter(filters?.platform as unknown as string);
-      onChangeTypeFilter(filters?.type as unknown as string);
-      onChangeHiringRegimeFilter(filters?.hiringRegime as unknown as string);
-      onChangeSkillFilter(filters?.skills as unknown as string);
-      onChangeBenefitFilter(filters?.benefits as unknown as string);
-      onChangeBenefitFilter(filters?.benefits as unknown as string);
-      onChangeSeniorityFilter(filters?.seniority as unknown as string);
     }}
   />
 }

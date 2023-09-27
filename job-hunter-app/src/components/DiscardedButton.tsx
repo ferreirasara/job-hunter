@@ -1,23 +1,24 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { useState } from "react";
-import { setJobAsDiscarded } from "../utils/utils";
+import { GetJobsFromAPIArgs, setJobAsDiscarded } from "../utils/utils";
 
 type DiscardedButtonProps = {
   uuid?: string
   disabled?: boolean
-  fetchData: () => Promise<void>
+  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
   onFinish: () => void
+  apiArgs: GetJobsFromAPIArgs
   onlyIcon?: boolean
 }
-export const DiscardedButton = ({ uuid, disabled, fetchData, onFinish, onlyIcon }: DiscardedButtonProps) => {
+export const DiscardedButton = ({ uuid, disabled, fetchData, onFinish, onlyIcon, apiArgs }: DiscardedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSetAsDiscarded = async () => {
     setLoading(true);
     if (uuid) await setJobAsDiscarded(uuid);
-    await fetchData();
+    await fetchData(apiArgs);
     setLoading(false);
     messageApi.open({ content: "Vaga descartada!", type: "success", duration: 10 });
     onFinish();
