@@ -21,7 +21,9 @@ export const SKILLS_REGEX = {
   BASIC: [/real(-|\s)?basic/i, /\bbasic\b/i],
   BLAZOR: [/blazor/i],
   BOOTSTRAP: [/bootstrap/i, /biblioteca(s)? de ui/i],
+  C: [/\bc\b/i],
   CERTIFICATIONS: [/\b(?!reembolso por )certificações\b/i, /certification(s)?/i, /certificacoes relevantes/i],
+  CHARTS: [/\brecharts\b/, /\bbizcharts\b/],
   COBOL: [/cobol/i],
   CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
   CODE_REVIEW: [/code(-|\s)review/i],
@@ -29,8 +31,6 @@ export const SKILLS_REGEX = {
     /\bgit((-| )?(hub|lab)?)?\b/i, /bitbucket/i, /\bsvn\b/i, /(controle|padrao) de vers(ionamento|ao)/i,
     /version control/i, /versionamento de codigo(s)?/i, /versionamento/i
   ],
-  C: [/\bc\b/i],
-  CHARTS: [/\brecharts\b/, /\bbizcharts\b/],
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i, /c(\s|-)?plus(\s|-)?plus/i],
   CSHARP: [/c#/i, /csharp/i, /\blinq\b/i],

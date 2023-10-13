@@ -93,6 +93,7 @@ const SKILL_RATING = {
   "PRODUCT_MANAGER": -2,
   "PYTHON": -2,
   "PWA": 1,
+  "RAZOR": -2,
   "REACT": 2,
   "REACT_HOOKS": 2,
   "REACT_NATIVE": -2,
