@@ -54,6 +54,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'express': return JobSkill.API;
     case 'flask': return JobSkill.FLASK;
     case 'flutter': return JobSkill.FLUTTER;
+    case 'figma': return JobSkill.FIGMA;
     case 'git': return JobSkill.CODE_VERSIONING;
     case 'google cloud': return JobSkill.DEV_OPS;
     case 'graphql': return JobSkill.API;
@@ -87,6 +88,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'sass': return JobSkill.SASS;
     case 'scrum': return JobSkill.AGILE;
     case 'scss': return JobSkill.CSS;
+    case 'server': return JobSkill.API;
     case 'spring boot': return JobSkill.JAVA;
     case 'sql': return JobSkill.DB;
     case 'sql server': return JobSkill.DB;

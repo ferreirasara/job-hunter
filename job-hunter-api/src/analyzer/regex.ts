@@ -30,6 +30,7 @@ export const SKILLS_REGEX = {
     /version control/i, /versionamento de codigo(s)?/i, /versionamento/i
   ],
   C: [/\bc\b/i],
+  CHARTS: [/\brecharts\b/, /\bbizcharts\b/],
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i, /c(\s|-)?plus(\s|-)?plus/i],
   CSHARP: [/c#/i, /csharp/i, /\blinq\b/i],
@@ -136,6 +137,7 @@ export const SKILLS_REGEX = {
   SAS: [/\bsas\b/i],
   SASS: [/\bsass\b/i],
   SCALA: [/\bscala\b/i],
+  SCRIPT: [/\bpowershell\b/, /\bbash( script)?\b/, /automatizacao de processos/],
   SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [
     /redux/i, /mobx/i, /ngrx/i, /rxjs/i, /state management/i,
@@ -260,6 +262,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
   /experiencia acima de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
+  /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?experience/i,
   /at least (\d+|\w+) years of experience/i,
