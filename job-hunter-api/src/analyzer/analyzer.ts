@@ -45,6 +45,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'c#': return JobSkill.CSHARP;
     case 'codeigniter': return JobSkill.PHP;
     case 'cloud': return JobSkill.DEV_OPS;
+    case 'clean code': return JobSkill.GOOD_PRACTICES;
     case 'css': return JobSkill.CSS;
     case 'design pattern': return JobSkill.GOOD_PRACTICES;
     case 'devops': return JobSkill.DEV_OPS;
