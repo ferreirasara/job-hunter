@@ -1,4 +1,4 @@
-import { Alert, Collapse, Divider, List, Space, Spin } from "antd"
+import { Alert, Collapse, Descriptions, Divider, List, Space, Spin } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { getStatsFromAPI } from "../utils/utils";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
@@ -31,6 +31,9 @@ export default function Stats() {
   const [data, setData] = useState<StatsResponse>();
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const labelStyle: React.CSSProperties = { fontWeight: 600, color: 'black' }
+  const contentStyle: React.CSSProperties = { fontWeight: 300, color: 'black', fontStyle: 'oblique' }
+
   const handleFetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -62,57 +65,45 @@ export default function Stats() {
       {loading ? <Spin /> : <Space direction="vertical">
         <Collapse defaultActiveKey={"geralStats"}>
           <Collapse.Panel header={<strong>Estatísticas gerais</strong>} key="geralStats">
-            <List size="small">
-              <List.Item><strong>Total de vagas:</strong> {data?.totalOfJobs}</List.Item>
-              <List.Item><strong>Vagas aplicadas:</strong> {data?.totalOfAppliedJobs}</List.Item>
-              <List.Item><strong>Vagas descartadas:</strong> {data?.totalOfDiscardedJobs}</List.Item>
-              <List.Item><strong>Vagas recusadas:</strong> {data?.totalOfRecusedJobs}</List.Item>
-              <List.Item><strong>Vagas recusadas sem nenhuma entrevista:</strong> {data?.totalOfRecusedJobsWithoutEnterview}</List.Item>
-              <List.Item><strong>Média de entrevistas:</strong> {data?.medianOfInterviews?.toPrecision(2)}</List.Item>
-              <List.Item><strong>Média de testes:</strong> {data?.medianOfTests?.toPrecision(2)}</List.Item>
-            </List>
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              <Descriptions.Item label="Total de vagas">{data?.totalOfJobs}</Descriptions.Item>
+              <Descriptions.Item label="Vagas aplicadas">{data?.totalOfAppliedJobs}</Descriptions.Item>
+              <Descriptions.Item label="Vagas descartadas">{data?.totalOfDiscardedJobs}</Descriptions.Item>
+              <Descriptions.Item label="Vagas recusadas">{data?.totalOfRecusedJobs}</Descriptions.Item>
+              <Descriptions.Item label="Vagas recusadas sem nenhuma entrevista">{data?.totalOfRecusedJobsWithoutEnterview}</Descriptions.Item>
+              <Descriptions.Item label="Média de entrevistas">{data?.medianOfInterviews?.toPrecision(2)}</Descriptions.Item>
+              <Descriptions.Item label="Média de testes">{data?.medianOfTests?.toPrecision(2)}</Descriptions.Item>
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Contagem de skills</strong>} key="skillsContType">
-            <List
-              size="small"
-              dataSource={data?.skillsContType}
-              renderItem={(item) => <List.Item><strong>{item?.name}:</strong> {item?.cont}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.skillsContType?.map(cur => <Descriptions.Item label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Contagem de benefícios</strong>} key="benefitsContType">
-            <List
-              size="small"
-              dataSource={data?.benefitsContType}
-              renderItem={(item) => <List.Item><strong>{item?.name}:</strong> {item?.cont}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.benefitsContType?.map(cur => <Descriptions.Item label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por tipo</strong>} key="jobsPerType">
-            <List
-              size="small"
-              dataSource={data?.jobsPerType}
-              renderItem={(item) => <List.Item><strong>{item?.type}:</strong> {item?.count}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.jobsPerType?.map(cur => <Descriptions.Item label={cur?.type}>{cur?.count}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por regime de contrato</strong>} key="jobsPerHiringRegime">
-            <List
-              size="small"
-              dataSource={data?.jobsPerHiringRegime}
-              renderItem={(item) => <List.Item><strong>{item?.hiringRegime}:</strong> {item?.count}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.jobsPerHiringRegime?.map(cur => <Descriptions.Item label={cur?.hiringRegime}>{cur?.count}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por plataforma</strong>} key="jobsPerPlatform">
-            <List
-              size="small"
-              dataSource={data?.jobsPerPlatform}
-              renderItem={(item) => <List.Item><strong>{item?.platform}:</strong> {item?.count}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.jobsPerPlatform?.map(cur => <Descriptions.Item label={cur?.platform}>{cur?.count}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por empresa</strong>} key="jobsPerCompany">
-            <List
-              size="small"
-              dataSource={data?.jobsPerCompany}
-              renderItem={(item) => <List.Item><strong>{item?.company}:</strong> {item?.count}</List.Item>}
-            />
+            <Descriptions column={5} labelStyle={labelStyle} contentStyle={contentStyle}>
+              {data?.jobsPerCompany?.map(cur => <Descriptions.Item label={cur?.company}>{cur?.count}</Descriptions.Item>)}
+            </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por rating</strong>} key="jobsPerRating">
             <div style={{ display: 'flex', justifyContent: 'center' }}>
