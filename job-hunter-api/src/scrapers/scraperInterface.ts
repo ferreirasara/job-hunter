@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import { interceptRequest } from "../utils/utils";
+import { interceptRequest, removeAccent } from "../utils/utils";
 import { JobInput, JobPlatform } from "../@types/types";
 
 export default abstract class ScraperInterface {
@@ -41,15 +41,31 @@ export default abstract class ScraperInterface {
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
-      const discarded = job?.title?.toLowerCase()?.includes('banco de talentos') ||
-        job?.title?.toLowerCase()?.includes('talent pool') ||
-        job?.company?.toLowerCase()?.includes('boticário') ||
-        job?.title?.toLowerCase()?.includes('design') ||
-        job?.title?.toLowerCase()?.includes('marketing') ||
-        job?.title?.toLowerCase()?.includes('professor')
+      const title = removeAccent(job?.title?.toLowerCase())
+      const company = removeAccent(job?.company?.toLowerCase())
+      const description = removeAccent(job?.description?.toLowerCase())
 
-      const response = await JobOpportunityController.insert({ ...job, discarded });
-      if (!!response?.success) jobsSavedCount++
+      const unwantedJob = title?.includes('banco de talentos') ||
+        title?.includes('talent pool') ||
+        company?.includes('boticário') ||
+        company?.includes('stefanini') ||
+        title?.includes('design') ||
+        title?.includes('marketing') ||
+        title?.includes('professor') ||
+        title?.includes('caixa') ||
+        title?.includes('telemarketing') ||
+        description?.includes('telemarketing') ||
+        title?.includes('logistica') ||
+        title?.includes('vendedor') ||
+        title?.includes('estoquista') ||
+        title?.includes('estocagem')
+
+      if (!unwantedJob) {
+        const response = await JobOpportunityController.insert(job);
+        if (!!response?.success) jobsSavedCount++
+      } else {
+        console.log(`[${this.platform}] unwanted job: ${job.title}`)
+      }
     }
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);

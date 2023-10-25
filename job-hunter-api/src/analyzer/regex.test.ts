@@ -258,7 +258,7 @@ describe("test BENEFITS_REGEX", () => {
     }
   });
   it("should identify COURSE_HELP cases", () => {
-    const correctStrings = ["incentivo para educacao", "auxilio educacao", "incentivo a estudos", "investimento em cursos", "subsidio para estudo"];
+    const correctStrings = ["incentivo para educacao", "auxilio educacao", "incentivo a estudos", "investimento em cursos", "subsidio para estudo", "desconto com faculdades", "desconto em cursos", "incentivo a certificacoes", "subvencao a estudos"];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, BENEFITS_REGEX.COURSE_HELP)).toBeTruthy();
     }
@@ -355,8 +355,8 @@ describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
     const correctStrings = [
       "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia",
       "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando",
-      "mais de 2 anos em contato",
-      "experiencia comprovada de 4+ anos"
+      "mais de 2 anos em contato", "experiencia minima de 3 anos",
+      "experiencia comprovada de 4+ anos", "5+ years of professional"
     ];
     for (const str of correctStrings) {
       expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();

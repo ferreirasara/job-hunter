@@ -29,7 +29,7 @@ export const SKILLS_REGEX = {
   CODE_REVIEW: [/code(-|\s)review/i],
   CODE_VERSIONING: [
     /\bgit((-| )?(hub|lab)?)?\b/i, /bitbucket/i, /\bsvn\b/i, /(controle|padrao) de vers(ionamento|ao)/i,
-    /version control/i, /versionamento de codigo(s)?/i, /versionamento/i
+    /version control/i, /(versionamento|versionamiento) de codigo(s)?/i,
   ],
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i, /c(\s|-)?plus(\s|-)?plus/i],
@@ -48,7 +48,7 @@ export const SKILLS_REGEX = {
     /docker/i, /\baws\b/i, /kubern(e|a)t(e)?s/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i,
-    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i
+    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /\bfagarte\b/i, /google cloud/i,
   ],
   DJANGO: [/django/i],
   DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i, /\basp\b/i],
@@ -67,7 +67,8 @@ export const SKILLS_REGEX = {
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
-    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i
+    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
+    /componentizacao/i,
   ],
   GOLANG: [/golang/i],
   GRAPHQL: [/\bgraphql\b/i],
@@ -75,8 +76,8 @@ export const SKILLS_REGEX = {
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
   IONIC: [/ionic/i],
   JAVA: [
-    /\bjava\b(?! script)/i, /java\d/i, /spring boot/i, /eclipse/i, /\bstruts\b/i, /springboot/i,
-    /mockmvc/i, /groovy/i
+    /\bjava\b(?! script)/i, /java\d/i, /spring( boot)?/i, /eclipse/i, /\bstruts\b/i, /springboot/i,
+    /mockmvc/i, /groovy/i, /\bjasper\b/i
   ],
   JAVASCRIPT: [/java( |-)?script/i, /^(.|-)?js\b/i, /\bes(6|7)\b/i, /\bjs(6|7)\b/i],
   JQUERY: [/jquery/i],
@@ -87,6 +88,7 @@ export const SKILLS_REGEX = {
   LEAN: [/\blean\b/i],
   MACHINE_LEARNING: [/machine learning/i, /aprendizado de maquina/i],
   MAGENTO: [/magento/i],
+  MARKETING: [/google analytics/i, /google tag manager/i, /inbound marketing/i],
   MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
   MENSAGERIA: [
     /mensageria/i, /(spring )?kafka/i, /rab(b)?it(t)?mq/i, /message brokers/i, /amazon sqs/i,
@@ -104,12 +106,14 @@ export const SKILLS_REGEX = {
   NUXT: [/\bnuxt((.|-| )?js)?\b/i],
   NODE: [/\bnode((.|-| )?js)?\b/i],
   OBJECTIVE_C: [/objective(-|\s)c/i],
+  ORM: [/typeorm/i, /prisma/i],
   PACKAGE_MANAGER: [/\bnpm\b/i, /\byarn\b/i],
   PENTEST: [/burp( suite)?/i, /checkmarx/i, /pentest/i],
   PERFORMANCE_OPTIMIZATION: [
-    /code(-|\s)splitting/i, /lazy(-|\s)loading/i, /optimize applications/i, /baixa latencia/i,
-    /(alta disponibilidade|otimizacao) (d)?e desempenho/i, /solucoes (consistentes )?em performance/i
+    /code(-|\s)splitting/i, /lazy(-|\s)loading/i, /optimize applications/i, /baixa latencia/i, /\bseo\b/i,
+    /(alta disponibilidade|otimizacao) (d)?e (desempenho|performance)/i, /solucoes (consistentes )?em performance/i
   ],
+  PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
   PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i, /twig/i],
   POSTMAN: [/postman/i],
@@ -157,7 +161,7 @@ export const SKILLS_REGEX = {
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
     /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i,
     /(ferramenta(s)?|automa(tiza)?cao) de teste(s)?/i, /karma/i, /jasmine/i,
-    /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?)/i,
+    /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?|aplicac(oes|ao))/i,
     /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
   ],
@@ -171,7 +175,7 @@ export const SKILLS_REGEX = {
   VUE: [/\bvue((.|-| )?js)?\b/i, /vuetify/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
   WINDOWS_FORMS: [/(windows|web)(-|\s)?forms/i],
-  WORDPRESS: [/wo(r)?d(-|\s)?press/i],
+  WORDPRESS: [/wo(r)?d(-|\s)?press/i, /elementor/i],
 }
 
 export const BENEFITS_REGEX = {
@@ -179,11 +183,11 @@ export const BENEFITS_REGEX = {
   BIRTHDAY_DAYOFF: [/(day(-|\s)?off|(dia de )?folga)(( no| de| n(a|o) (semana|mes) do seu) aniversario)?/i],
   COURSE_HELP: [
     /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
-    /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto em cursos/i,
-    /(auxilio|incentivo|investimento|subsidio) ((para|a|em) )?(educacao|estudo(s)?|curso(s)?)/i,
+    /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto (em|com) (cursos|faculdade(s)?)/i,
+    /(auxilio|incentivo|investimento|subsidio|subvencao) ((para|a|em) )?(educacao|certificac(ao|oes)|estudo(s)?|curso(s)?)/i,
     /reembolso (educacao|por certificac(ao|oes))/i, /desconto em universidades e cursos/i,
-    /acesso a plataformas de ensino/i, /parcerias educacionais/i,
-    /parceria com (instituicoes de ensino|universidades)/i
+    /acesso a plataformas de ensino/i, /parcerias educacionais/i, /fg academy/i,
+    /parceria com (instituicoes de ensino|universidades)/i, /programa(s)? de incentivo a aprendizado(s)?/
   ],
   CHRISTMAS_BASKET: [/cesta de natal/i],
   FLEXIBLE_HOURS: [
@@ -194,7 +198,7 @@ export const BENEFITS_REGEX = {
   FOURTEENTH_SALARY: [/14. salario/i],
   GYMPASS: [/(gym|total)(-|\s)?pass/i, /(auxilio )?(academia|atividade fisica)/i],
   HEALTH_OR_DENTAL_PLAN: [
-    /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a))/i,
+    /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a)|odonto)/i,
     /dental/i, /(plano|auxilio|convenio|beneficio) (de )?(saude|odontologico)/i,
     /health (and dental )?(insurance|plan|care)/i,
     /(servico(s)? de )?telemedicina/i
@@ -204,6 +208,7 @@ export const BENEFITS_REGEX = {
     /remote work allowance/i, /voucher (home(-|\s)office|para kit setup)/i, /equipamento/i,
   ],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
+  MATERNITY_LEAVE: [/licenca maternidade/i],
   MEAL_VOUCHER: [
     /(vale|ajuda de custo para|auxilio)(-|\s)(alimentacao|refeicao)/i,
     /(caju|flash)/i, /\bv(\.)?a(\.)?\b/i, /\bv(\.)?r(\.)?\b/i, /(to use with|flex) food/i
@@ -213,6 +218,8 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i, /vacation & holidays/i
   ],
+  PET_LEAVE: [/licenca pet/i],
+  PHARMACY_AGREEMENT: [/convenio farmacia/i],
   PLR: [/\bplr\b/i, /(lucros|participacao) (e|ou|nos|de) (resultados|lucros)/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
   PSYCHOLOGICAL_HELP: [
@@ -260,11 +267,11 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /(experiencia|atuacao) de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
   /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
   /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
-  /experiencia acima de (\d+|\w+) (anos|meses)/i,
+  /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
   /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/,
 
-  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?experience/i,
+  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional)/i,
   /at least (\d+|\w+) years of experience/i,
   /more than (\d+|\w+) years/i,
   /minimum (of )?(\d+|\w+) years/i,
