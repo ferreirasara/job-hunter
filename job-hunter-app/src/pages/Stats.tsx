@@ -1,4 +1,4 @@
-import { Alert, Collapse, Descriptions, Divider, List, Space, Spin } from "antd"
+import { Alert, Collapse, Descriptions, Divider, Space, Spin } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { getStatsFromAPI } from "../utils/utils";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
