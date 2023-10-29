@@ -64,7 +64,7 @@ export default abstract class ScraperInterface {
         const response = await JobOpportunityController.insert(job);
         if (!!response?.success) jobsSavedCount++
       } else {
-        console.log(`[${this.platform}] unwanted job: ${job.title}`)
+        console.log(`[${this.platform}] unwanted job: ${job.title} (${job.company})`)
       }
     }
 

@@ -52,12 +52,12 @@ export default class JObatusScraper extends ScraperInterface {
         const obj = urls[i]
         await page.goto(obj?.url);
 
-        const title = await page?.$eval('#offer_title', (el) => el?.innerText);
+        const title = await page?.$eval('#offer_title', (el) => el?.textContent);
         const infoArray: string[] = await page?.$$eval('span.detail_body', (el) => el?.map(cur => cur?.innerText));
         const company = infoArray?.[0];
         const city = infoArray?.[0]?.split('-')?.[0]?.trim();
         const state = infoArray?.[0]?.split('-')?.[1]?.trim();
-        const descriptionOriginal = await page?.$eval('#description_body', (el) => el?.innerText);
+        const descriptionOriginal = await page?.$eval('#description_body', (el) => el?.textContent);
         const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({

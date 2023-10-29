@@ -59,7 +59,7 @@ export default class VagasScraper extends ScraperInterface {
         await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
         const title = await page?.$eval('h1.job-shortdescription__title', (el) => el?.innerText);
         const company = await page?.$eval('h2.job-shortdescription__company', (el) => el?.innerText);
-        const descriptionOriginal = await page?.$eval('#JobContent', (el) => el?.innerText);
+        const descriptionOriginal = await page?.$eval('#JobContent', (el) => el?.textContent);
         const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
 
         jobs?.push({
