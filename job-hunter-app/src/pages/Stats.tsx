@@ -113,7 +113,7 @@ export default function Stats() {
                     data={data?.jobsPerRating}
                     x="totalRating"
                     y="count"
-                    labels={({ datum }) => datum.count}
+                    labels={({ datum }: { datum: { totalRating: string, count: number } }) => datum.count}
                   />
                 </VictoryChart>
               </div>
