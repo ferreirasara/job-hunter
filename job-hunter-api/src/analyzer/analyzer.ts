@@ -47,16 +47,20 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'cloud': return JobSkill.DEV_OPS;
     case 'clean code': return JobSkill.GOOD_PRACTICES;
     case 'css': return JobSkill.CSS;
+    case 'cypress.io': return JobSkill.TEST;
     case 'design pattern': return JobSkill.GOOD_PRACTICES;
     case 'devops': return JobSkill.DEV_OPS;
     case 'django': return JobSkill.DJANGO;
     case 'docker': return JobSkill.DEV_OPS;
     case 'elasticsearch': return JobSkill.ELASTIC_SEARCH;
+    case 'es6': return JobSkill.JAVASCRIPT;
     case 'express': return JobSkill.API;
+    case 'firebase': return JobSkill.DB;
     case 'flask': return JobSkill.FLASK;
     case 'flutter': return JobSkill.FLUTTER;
     case 'figma': return JobSkill.FIGMA;
     case 'git': return JobSkill.CODE_VERSIONING;
+    case 'go': return JobSkill.GOLANG;
     case 'google cloud': return JobSkill.DEV_OPS;
     case 'graphql': return JobSkill.API;
     case 'html': return JobSkill.HTML;
@@ -66,6 +70,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'javaScript': return JobSkill.JAVASCRIPT;
     case 'jest': return JobSkill.TEST;
     case 'jquery': return JobSkill.JQUERY;
+    case 'kubernetes': return JobSkill.DEV_OPS;
     case 'laravel': return JobSkill.PHP;
     case 'lean': return JobSkill.LEAN;
     case 'magento': return JobSkill.MAGENTO;
@@ -74,15 +79,17 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'nextjs': return JobSkill.NEXT;
     case 'nosql': return JobSkill.DB;
     case 'node.js': return JobSkill.NODE;
+    case 'phpunit': return JobSkill.PHP;
     case 'postgresql': return JobSkill.DB;
     case 'objective-c': return JobSkill.OBJECTIVE_C;
-    case 'python': return JobSkill.PYTHON;
     case 'qa - quality assurance': return JobSkill.TEST;
+    case 'python': return JobSkill.PYTHON;
     case 'reactjs': return JobSkill.REACT;
     case 'react native': return JobSkill.REACT_NATIVE;
     case 'realbasic': return JobSkill.BASIC;
     case 'redux': return JobSkill.STATE_MANAGEMENT;
     case 'restful': return JobSkill.API;
+    case 'ruby': return JobSkill.RUBY;
     case 'ruby on rails': return JobSkill.RUBY;
     case 'rust': return JobSkill.RUST;
     case 'sas': return JobSkill.SAS;
@@ -101,6 +108,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'testes funcionais': return JobSkill.TEST;
     case 'typescript': return JobSkill.TYPESCRIPT;
     case 'vue.js': return JobSkill.VUE;
+    case 'yii': return JobSkill.PHP;
     case 'wordpress': return JobSkill.WORDPRESS;
 
     default: {

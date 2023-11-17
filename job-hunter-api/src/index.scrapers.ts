@@ -33,8 +33,8 @@ AppDataSource.initialize().then(async () => {
   const jobatusScraper = new JObatusScraper({ filterExistentsJobs: true })
   numberOfNewJobs += await jobatusScraper.saveJobs();
 
-  const divulgaVagasScraper = new DivulgaVagasScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await divulgaVagasScraper.saveJobs();
+  // const divulgaVagasScraper = new DivulgaVagasScraper({ filterExistentsJobs: true })
+  // numberOfNewJobs += await divulgaVagasScraper.saveJobs();
 
   const coodeshScraper = new CoodeshScraper({ filterExistentsJobs: true })
   numberOfNewJobs += await coodeshScraper.saveJobs();

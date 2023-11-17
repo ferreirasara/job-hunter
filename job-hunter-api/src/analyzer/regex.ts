@@ -4,7 +4,7 @@ export const SKILLS_REGEX = {
     /clean architectures/i, /(metodo(logia(s)?)?|desenvolvimento|cultura) ag(eis|il)/i
   ],
   ANGULAR: [/\bangular((.|-| )?js)?\b/i],
-  ANTD: [/ant( |-)?(d(esign)?)/i, /biblioteca(s)? de ui/i],
+  ANTD: [/ant( |-)?(d(esign)?)/i, /biblioteca(s)? de ui/i, /ui( |-)?kit/i],
   AJAX: [/\bajax\b/i],
   API: [
     /((\bapi(s)?\b )|\b)rest(ful|\b)(?!.)?( api(s)?)?/i, /\bapi(s)?\b/i, /soap/i,
@@ -48,7 +48,7 @@ export const SKILLS_REGEX = {
     /docker/i, /\baws\b/i, /kubern(e|a)t(e)?s/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git(-| )?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /\bkibana\b/i, /graphana/i, /apache/i, /nginx/i,
-    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /\bfagarte\b/i, /google cloud/i,
+    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /\bfagarte\b/i, /google cloud/i, /circleci/i
   ],
   DJANGO: [/django/i],
   DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot(-|\s)?net/i, /\basp\b/i],
@@ -70,7 +70,7 @@ export const SKILLS_REGEX = {
     /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
     /componentizacao/i,
   ],
-  GOLANG: [/golang/i],
+  GOLANG: [/golang/i, /\bgo\b/i],
   GRAPHQL: [/\bgraphql\b/i],
   HTML: [/html(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
@@ -89,7 +89,7 @@ export const SKILLS_REGEX = {
   MACHINE_LEARNING: [/machine learning/i, /aprendizado de maquina/i],
   MAGENTO: [/magento/i],
   MARKETING: [/google analytics/i, /google tag manager/i, /inbound marketing/i],
-  MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i],
+  MATERIAL_UI: [/\bm(aterial)?(-| )?(ui|design)\b/i, /biblioteca(s)? de ui/i, /ui( |-)?kit/i],
   MENSAGERIA: [
     /mensageria/i, /(spring )?kafka/i, /rab(b)?it(t)?mq/i, /message brokers/i, /amazon sqs/i,
     /pub(\/|-|\s)?sub/i, /activemq/i
@@ -111,7 +111,8 @@ export const SKILLS_REGEX = {
   PENTEST: [/burp( suite)?/i, /checkmarx/i, /pentest/i],
   PERFORMANCE_OPTIMIZATION: [
     /code(-|\s)splitting/i, /lazy(-|\s)loading/i, /optimize applications/i, /baixa latencia/i, /\bseo\b/i,
-    /(alta disponibilidade|otimizacao) (d)?e (desempenho|performance)/i, /solucoes (consistentes )?em performance/i
+    /(alta disponibilidade|otimizacao) (d)?e (desempenho|performance)/i, /solucoes (consistentes )?em performance/i,
+    /(seguranca e )?performance (para|na) web/i
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
@@ -123,7 +124,7 @@ export const SKILLS_REGEX = {
   PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
   RAZOR: [/razor/i],
-  REACT: [/\breact((.|-| )?js)?\b(?! native)(?! hooks)/i],
+  REACT: [/\breact((.|-| )?js)?\b(?! native)(?! hooks)/i, /reacjs/i],
   REACT_HOOKS: [/react hook(s)?/i],
   REACT_NATIVE: [/react(-| )?native/i],
   REACT_ROUTER: [/react router/i],
@@ -132,7 +133,7 @@ export const SKILLS_REGEX = {
     /(design|desenvolvimento) (respons|adaptat)ivo/i, /responsive design/i,
     /(site(s)?|aplicac(oes|ao)|pagina(s)?|layout(s)?|interface(s)?( de usuario)?|projeto(s)?|) (interativas e |web )?(responsiv|adaptativ)(o|a)(s?)/i,
     /responsividade/i, /mobile(-|\s)(first|friendly)/i, /diferentes dimensoes de dispositivos/i,
-    /altamente responsivas/i, /responsivas/i
+    /altamente responsivas/i, /responsivas/i, /responsive/i
   ],
   RUBY: [/\bruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/\brust\b/i],
@@ -144,7 +145,7 @@ export const SKILLS_REGEX = {
   SCRIPT: [/\bpowershell\b/, /\bbash( script)?\b/, /automatizacao de processos/],
   SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [
-    /redux/i, /mobx/i, /ngrx/i, /rxjs/i, /state management/i,
+    /redux/i, /mobx/i, /ngrx/i, /rxjs/i, /state management/i, /use(-| )?context/i,
     /(bibliotecas de )?gerencia(mento|dor) de estado(s)?/i, /recoil/i, /zustand/i
   ],
   STORYBOOK: [/storybook/i, /documentacao de componentes/i],
@@ -185,7 +186,7 @@ export const BENEFITS_REGEX = {
     /curso de aperfeiçoamento profissional/i, /learning and development support/i, /programa de capacitacao/i,
     /alura/i, /(acesso|bolsa(s)?) (a|de) (cursos|estudos)/i, /aquisicao de livros e cursos/i, /desconto (em|com) (cursos|faculdade(s)?)/i,
     /(auxilio|incentivo|investimento|subsidio|subvencao) ((para|a|em) )?(educacao|certificac(ao|oes)|estudo(s)?|curso(s)?)/i,
-    /reembolso (educacao|por certificac(ao|oes))/i, /desconto em universidades e cursos/i,
+    /reembolso (educacao|por certificac(ao|oes))/i, /desconto em universidades e cursos/i, /bolsa de estudo/i,
     /acesso a plataformas de ensino/i, /parcerias educacionais/i, /fg academy/i,
     /parceria com (instituicoes de ensino|universidades)/i, /programa(s)? de incentivo a aprendizado(s)?/
   ],
@@ -201,7 +202,7 @@ export const BENEFITS_REGEX = {
     /(plano(s)?|convenio|assistencia(s)?) ((medic(o|a)|de saude) e )?(odontologic(o|a)|medic(o|a)|odonto)/i,
     /dental/i, /(plano|auxilio|convenio|beneficio) (de )?(saude|odontologico)/i,
     /health (and dental )?(insurance|plan|care)/i,
-    /(servico(s)? de )?telemedicina/i
+    /(servico(s)? de )?telemedicina/i, /assist\. (medica|odontologica)/i
   ],
   HOME_OFFICE_VOUCHER: [
     /(auxilio|subsidio|ajuda de custo) (para\s)?(atuacao em\s)?(home(-|\s)?office|trabalho remoto|montagem do seu escritorio)/i,
@@ -225,7 +226,7 @@ export const BENEFITS_REGEX = {
   PSYCHOLOGICAL_HELP: [
     /(atendimento|auxilio|apoio|(cuidado|desconto) com|suporte social e|orientacao|bem estar) (psicologic(o|a)|bem estar|psicoterapia|(a\s)?saude (mental|emocional))/i,
     /mental health/i, /sessoes de terapia/i, /psicoterapia online/i, /saude mental/i, /zenklub/i, /equilibrium/i,
-    /psicologia viva/i, /moodar/i
+    /psicologia viva/i, /moodar/i, /vittude/i
   ],
   REFERRAL_BONUS: [
     /(bonus|premiacao) (por\s)?indicacao/i, /program of indication/i, /indicacao premiada/i,
@@ -248,7 +249,7 @@ export const TYPES_REGEX = {
     /100\% home/i, /teletrabalho/i, /trabalho digital/i
   ],
   HYBRID: [/hibrid(o|a)/i, /hybrid/i, /disponibilidade para mudanca/i],
-  FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i, /residir em/i],
+  FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i, /residir em/i, /vale transporte/],
 }
 
 export const SENIORITY_REGEX = {
@@ -262,14 +263,15 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) (anos|meses)/i,
   /(temos ((aproximadamente )?)?!)(\d+|\w+) (anos|meses) de experiencia/i,
   /((no )?minimo|pelo menos|ao menos) (de )?(\d+|\w+) (anos|meses)/i,
-  /(\d+|\w+)(\+| ou mais) ((anos|meses) )?de experiencia/i,
+  /(\d+|\w+)(\+| ou mais) ((anos|meses) )?(de )?(experiencia|trabalhando)/i,
   /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
   /(experiencia|atuacao) de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
   /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
   /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
-  /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/,
+  /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/i,
+  /(\d+|\w+) (anos|meses) (\+ )?trabalhando/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional)/i,
   /at least (\d+|\w+) years of experience/i,

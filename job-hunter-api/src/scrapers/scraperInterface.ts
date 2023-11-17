@@ -46,9 +46,11 @@ export default abstract class ScraperInterface {
       const description = removeAccent(job?.description?.toLowerCase())
 
       const unwantedJob = title?.includes('banco de talentos') ||
+        title?.includes('banco de oportunidades') ||
         title?.includes('talent pool') ||
         company?.includes('boticário') ||
         company?.includes('stefanini') ||
+        company?.includes('netvagas') ||
         title?.includes('design') ||
         title?.includes('marketing') ||
         title?.includes('professor') ||
