@@ -42,6 +42,7 @@ export const SKILL_RATING = {
   "FLUTTER": -2,
   "FRONTEND_BUILD_TOOLS": 1,
   "FULL_STACK": 1,
+  "GAME_ENGINE": -2,
   "GOOD_PRACTICES": 2,
   "GOLANG": -2,
   "GRAPHQL": 1,

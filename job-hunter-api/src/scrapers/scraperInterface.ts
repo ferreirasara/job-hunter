@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import { interceptRequest, removeAccent } from "../utils/utils";
-import { JobInput, JobPlatform } from "../@types/types";
+import { interceptRequest, isUnwantedJob, removeAccent } from "../utils/utils";
+import { JobInput, JobPlatform, JobSkill } from "../@types/types";
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform
@@ -45,28 +45,18 @@ export default abstract class ScraperInterface {
       const company = removeAccent(job?.company?.toLowerCase())
       const description = removeAccent(job?.description?.toLowerCase())
 
-      const unwantedJob = title?.includes('banco de talentos') ||
-        title?.includes('banco de oportunidades') ||
-        title?.includes('talent pool') ||
-        company?.includes('boticário') ||
-        company?.includes('stefanini') ||
-        company?.includes('netvagas') ||
-        title?.includes('design') ||
-        title?.includes('marketing') ||
-        title?.includes('professor') ||
-        title?.includes('caixa') ||
-        title?.includes('telemarketing') ||
-        description?.includes('telemarketing') ||
-        title?.includes('logistica') ||
-        title?.includes('vendedor') ||
-        title?.includes('estoquista') ||
-        title?.includes('estocagem')
+      const unwantedJob = isUnwantedJob({ title, company, description })
 
+      const discarded = [JobSkill.JAVA, JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS]?.some(cur => job?.skills?.includes(cur))
+
+      if (discarded && !unwantedJob) {
+        console.log(`\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`);
+      }
       if (!unwantedJob) {
-        const response = await JobOpportunityController.insert(job);
+        const response = await JobOpportunityController.insert({ discarded, ...job });
         if (!!response?.success) jobsSavedCount++
       } else {
-        console.log(`[${this.platform}] unwanted job: ${job.title} (${job.company})`)
+        console.log(`\x1b[34m[${this.platform}] unwanted job: ${job.title} (${job.company})\x1b[0m`);
       }
     }
 

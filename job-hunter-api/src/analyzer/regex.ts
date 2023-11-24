@@ -64,6 +64,7 @@ export const SKILLS_REGEX = {
   FLUTTER: [/flutter/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite\b/i],
   FULL_STACK: [/full(-| )?stack/i, /(back|front)(-|\s)?(end)?( (e|ao|quanto o) |, )(back|front)(-|\s)?(end)?/i],
+  GAME_ENGINE: [/\bunity\b/],
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /\bmvc\b/i, /\bmvvm\b/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
@@ -116,7 +117,7 @@ export const SKILLS_REGEX = {
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
-  PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i, /twig/i],
+  PHP: [/php/i, /laravel/i, /symfony/i, /codeigniter/i, /\bslim\b/i, /twig/i, /\bzend\b/],
   POSTMAN: [/postman/i],
   POWER_BI: [/power(-|\s)?bi/i],
   PRISMA: [/prisma/i],

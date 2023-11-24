@@ -836,3 +836,18 @@ export const getNumberFromString = (str: string): number => {
 
   return null;
 }
+
+export const isUnwantedJob = (args: { title: string, company: string, description: string }): boolean => {
+  const { company, description, title } = args;
+
+  const unwantedTitleKeywords = [
+    'banco de talentos', 'banco de oportunidades', 'talent pool', 'design', 'marketing',
+    'professor', 'caixa', 'telemarketing', 'logistica', 'vendedor', 'estoquista', 'estocagem'
+  ];
+  const companyTitleKeywords = ['boticário', 'stefanini', 'netvagas'];
+  const descriptionTitleKeywords = ['telemarketing'];
+
+  return unwantedTitleKeywords?.some(cur => title?.includes(cur)) ||
+    companyTitleKeywords?.some(cur => company?.includes(cur)) ||
+    descriptionTitleKeywords?.some(cur => description?.includes(cur))
+}

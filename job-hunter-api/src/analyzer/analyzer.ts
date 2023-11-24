@@ -38,8 +38,10 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case '.net core': return JobSkill.DOT_NET;
     case 'agilephp': return JobSkill.PHP;
     case 'angular': return JobSkill.ANGULAR;
+    case 'aws rds (relational database service)': return JobSkill.DEV_OPS;
     case 'aws s3': return JobSkill.DEV_OPS;
     case 'aws ec2 (elastic compute cloud)': return JobSkill.DEV_OPS;
+    case 'azure': return JobSkill.DEV_OPS;
     case 'backbone.js': return JobSkill.BACKBONE;
     case 'bootstrap': return JobSkill.CSS;
     case 'c#': return JobSkill.CSHARP;
@@ -110,6 +112,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'vue.js': return JobSkill.VUE;
     case 'yii': return JobSkill.PHP;
     case 'wordpress': return JobSkill.WORDPRESS;
+    case 'zend': return JobSkill.PHP;
 
     default: {
       console.log(`[getProgramathorNormalizedSkill] Skill not founded: ${lowerCaseSkill}`)
@@ -141,12 +144,20 @@ export const getHiringRegimeBasedOnDescription = (job: { title: string, descript
 }
 
 export const getTypeBasedOnDescription = (job: { title: string, description: string }): JobType => {
-  if (stringContainsAny(job.title, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
-  if (stringContainsAny(job.title, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
-  if (stringContainsAny(job.title, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
-  if (stringContainsAny(job.description, TYPES_REGEX.REMOTE)) return JobType.REMOTE;
-  if (stringContainsAny(job.description, TYPES_REGEX.HYBRID)) return JobType.HYBRID;
-  if (stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE)) return JobType.FACE_TO_FACE;
+  const isRemoteTitle = stringContainsAny(job.title, TYPES_REGEX.REMOTE);
+  const isHybridTitle = stringContainsAny(job.title, TYPES_REGEX.HYBRID);
+  const isFaceToFaceTitle = stringContainsAny(job.title, TYPES_REGEX.FACE_TO_FACE);
+
+  const isRemoteDescription = stringContainsAny(job.description, TYPES_REGEX.REMOTE);
+  const isHybridDescription = stringContainsAny(job.description, TYPES_REGEX.HYBRID);
+  const isFaceToFaceDescription = stringContainsAny(job.description, TYPES_REGEX.FACE_TO_FACE);
+
+  if (isRemoteTitle && (!isHybridTitle || !isFaceToFaceTitle)) return JobType.REMOTE;
+  if (isHybridTitle) return JobType.HYBRID;
+  if (isFaceToFaceTitle) return JobType.FACE_TO_FACE;
+  if (isRemoteDescription && (!isHybridDescription || !isFaceToFaceDescription)) return JobType.REMOTE;
+  if (isHybridDescription) return JobType.HYBRID;
+  if (isFaceToFaceDescription) return JobType.FACE_TO_FACE;
 
   return JobType.REMOTE;
 }

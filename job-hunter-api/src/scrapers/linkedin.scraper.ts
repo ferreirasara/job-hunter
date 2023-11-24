@@ -63,7 +63,7 @@ export default class LinkedinScraper extends ScraperInterface {
       try {
         const obj = urls[i];
         await sleep(500);
-        await page.goto(obj?.url, { waitUntil: "networkidle0" });
+        await page.goto(obj?.url, { waitUntil: "networkidle0", timeout: 2000 });
         const title: string = await page?.$eval('h1.top-card-layout__title', (el) => el?.innerText);
         const company: string = await page?.$eval('span.topcard__flavor', (el) => el?.innerText);
         if (company?.toLowerCase() === 'programathor' || company?.toLowerCase() === 'geekuunter') continue;
@@ -87,7 +87,7 @@ export default class LinkedinScraper extends ScraperInterface {
           yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
-        if (!String(e)?.includes('failed to find element')) this.logError(e);
+        if (!String(e)?.includes('failed to find element') && !String(e)?.includes('TimeoutError')) this.logError(e);
         continue;
       }
     }
