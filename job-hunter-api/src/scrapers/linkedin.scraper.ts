@@ -87,7 +87,7 @@ export default class LinkedinScraper extends ScraperInterface {
           yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
-        if (!String(e)?.includes('failed to find element') && !String(e)?.includes('TimeoutError')) this.logError(e);
+        if (!JSON.stringify(e)?.includes('failed to find element') && !JSON.stringify(e)?.includes('TimeoutError')) this.logError(e);
         continue;
       }
     }

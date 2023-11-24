@@ -272,7 +272,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
   /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/i,
-  /(\d+|\w+) (anos|meses) (\+ )?trabalhando/i,
+  /(\d+|\w+) (anos|meses) (\+ )?(trabalhando)?/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional)/i,
   /at least (\d+|\w+) years of experience/i,
