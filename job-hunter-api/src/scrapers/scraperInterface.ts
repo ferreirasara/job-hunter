@@ -36,7 +36,6 @@ export default abstract class ScraperInterface {
   public async saveJobs(): Promise<SaveJobsResponse> {
     const jobs = await this.getJobs();
     const jobsLength = jobs?.length;
-    console.log(`[${this.platform}] there are ${jobsLength} new jobs to save!`);
     let jobsSavedCount = 0;
     let jobsUnsavedCount = 0;
     let jobsDiscardedCount = 0;
