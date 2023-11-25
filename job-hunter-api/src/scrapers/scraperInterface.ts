@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import { interceptRequest, isUnwantedJob, removeAccent } from "../utils/utils";
-import { JobInput, JobPlatform, JobSkill } from "../@types/types";
+import { JobInput, JobPlatform, JobSkill, SaveJobsResponse } from "../@types/types";
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform
@@ -33,11 +33,13 @@ export default abstract class ScraperInterface {
     console.log(`[${this.platform}] ${message}`);
   }
 
-  public async saveJobs(): Promise<number> {
+  public async saveJobs(): Promise<SaveJobsResponse> {
     const jobs = await this.getJobs();
     const jobsLength = jobs?.length;
     console.log(`[${this.platform}] there are ${jobsLength} new jobs to save!`);
     let jobsSavedCount = 0;
+    let jobsUnsavedCount = 0;
+    let jobsDiscardedCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
@@ -50,17 +52,19 @@ export default abstract class ScraperInterface {
       const discarded = [JobSkill.JAVA, JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS]?.some(cur => job?.skills?.includes(cur))
 
       if (discarded && !unwantedJob) {
+        jobsDiscardedCount++;
         console.log(`\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`);
       }
       if (!unwantedJob) {
         const response = await JobOpportunityController.insert({ discarded, ...job });
         if (!!response?.success) jobsSavedCount++
       } else {
+        jobsUnsavedCount++;
         console.log(`\x1b[34m[${this.platform}] unwanted job: ${job.title} (${job.company})\x1b[0m`);
       }
     }
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);
-    return jobsSavedCount;
+    return { jobsSavedCount, jobsDiscardedCount, jobsUnsavedCount };
   }
 }

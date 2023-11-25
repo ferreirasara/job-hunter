@@ -236,3 +236,5 @@ export type UpdateJobBody = {
   numberOfInterviews?: number
   numberOfTests?: number
 }
+
+export type SaveJobsResponse = { jobsSavedCount: number, jobsDiscardedCount: number, jobsUnsavedCount: number }

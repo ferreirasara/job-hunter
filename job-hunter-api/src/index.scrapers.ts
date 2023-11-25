@@ -1,3 +1,4 @@
+import { SaveJobsResponse } from "./@types/types";
 import { AppDataSource } from "./data-source"
 import CoodeshScraper from "./scrapers/coodesh.scraper";
 import DivulgaVagasScraper from "./scrapers/divulgaVagas.scraper";
@@ -10,34 +11,53 @@ import TramposScraper from "./scrapers/trampos.scraper"
 import VagasScraper from "./scrapers/vagas.scraper";
 
 AppDataSource.initialize().then(async () => {
-  let numberOfNewJobs = 0;
+  let result: SaveJobsResponse = null
+  let jobsSavedCount = 0;
+  let jobsUnsavedCount = 0;
+  let jobsDiscardedCount = 0;
+
+  const updateCounts = (result: SaveJobsResponse) => {
+    jobsSavedCount += result.jobsSavedCount;
+    jobsUnsavedCount += result.jobsUnsavedCount;
+    jobsDiscardedCount += result.jobsDiscardedCount;
+  }
 
   const gupyScraper = new GupyScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await gupyScraper.saveJobs();
+  result = await gupyScraper.saveJobs();
+  updateCounts(result);
 
   const linkedinScraper = new LinkedinScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await linkedinScraper.saveJobs();
+  result = await linkedinScraper.saveJobs();
+  updateCounts(result);
 
   const programathorScraper = new ProgramathorScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await programathorScraper.saveJobs();
+  result = await programathorScraper.saveJobs();
+  updateCounts(result);
 
   const remotarScraper = new RemotarScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await remotarScraper.saveJobs();
+  result = await remotarScraper.saveJobs();
+  updateCounts(result);
 
   const tramposScraper = new TramposScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await tramposScraper.saveJobs();
+  result = await tramposScraper.saveJobs();
+  updateCounts(result);
 
   const vagasScraper = new VagasScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await vagasScraper.saveJobs();
+  result = await vagasScraper.saveJobs();
+  updateCounts(result);
 
   const jobatusScraper = new JObatusScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await jobatusScraper.saveJobs();
+  result = await jobatusScraper.saveJobs();
+  updateCounts(result);
 
   // const divulgaVagasScraper = new DivulgaVagasScraper({ filterExistentsJobs: true })
   // numberOfNewJobs += await divulgaVagasScraper.saveJobs();
 
   const coodeshScraper = new CoodeshScraper({ filterExistentsJobs: true })
-  numberOfNewJobs += await coodeshScraper.saveJobs();
+  result = await coodeshScraper.saveJobs();
+  updateCounts(result);
 
-  console.log(`Number of new jobs: ${numberOfNewJobs}`);
+  console.log(`\n\n\x1b[43mNumber of saved jobs: ${jobsSavedCount}     \x1b[0m`);
+  console.log(`\x1b[43mNumber of unsaved jobs: ${jobsUnsavedCount}     \x1b[0m`);
+  console.log(`\x1b[43mNumber of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
 }).catch(error => console.log(error))
