@@ -48,7 +48,7 @@ export default abstract class ScraperInterface {
 
       const unwantedJob = isUnwantedJob({ title, company, description })
 
-      const discarded = [JobSkill.JAVA, JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS]?.some(cur => job?.skills?.includes(cur))
+      const discarded = [JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS]?.some(cur => job?.skills?.includes(cur))
 
       if (discarded && !unwantedJob) {
         jobsDiscardedCount++;

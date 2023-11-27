@@ -57,7 +57,8 @@ AppDataSource.initialize().then(async () => {
   result = await coodeshScraper.saveJobs();
   updateCounts(result);
 
-  console.log(`\n\n\x1b[43mNumber of saved jobs: ${jobsSavedCount}     \x1b[0m`);
-  console.log(`\x1b[43mNumber of unsaved jobs: ${jobsUnsavedCount}     \x1b[0m`);
-  console.log(`\x1b[43mNumber of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
+  console.log(`\n\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
+  console.log(`\x1b[43m Number of unsaved jobs: ${jobsUnsavedCount} \x1b[0m`);
+  console.log(`\x1b[43m Number of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
+  console.log(`\x1b[43m Total of new jobs: ${jobsSavedCount - jobsDiscardedCount} \x1b[0m`);
 }).catch(error => console.log(error))
