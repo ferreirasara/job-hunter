@@ -2,11 +2,8 @@ import { Button, Grid, Table, Typography } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { formatDateHour } from "../utils/utils";
 import { ZoomInOutlined } from "@ant-design/icons";
-import castArray from 'lodash/castArray';
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
-import { useContext } from "react";
-import { PaginationContext } from "../context/PaginationContext";
 
 export enum JobPlatform {
   GUPY = "GUPY",
@@ -90,7 +87,6 @@ export const JobsTable = ({
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { limit, page, onChangeLimit, onChangePage, onChangeOrderBy } = useContext(PaginationContext);
 
   const columns: ColumnsType<JobsTableData> = [
     {
@@ -100,7 +96,6 @@ export const JobsTable = ({
       render: (createdAt) => formatDateHour(createdAt),
       width: screens?.xl ? 98 : undefined,
       align: 'center',
-      sorter: true,
       showSorterTooltip: false,
       responsive: ['xl', 'xxl']
     },
@@ -110,7 +105,6 @@ export const JobsTable = ({
       key: 'platform',
       width: screens?.xl ? 125 : undefined,
       ellipsis: true,
-      sorter: true,
       showSorterTooltip: false,
       align: 'center',
       responsive: ['xl', 'xxl']
@@ -121,7 +115,6 @@ export const JobsTable = ({
       key: 'company',
       width: screens?.xl ? 170 : undefined,
       ellipsis: true,
-      sorter: true,
       showSorterTooltip: false,
       responsive: ['xl', 'xxl']
     },
@@ -131,7 +124,6 @@ export const JobsTable = ({
       key: 'title',
       width: screens?.xxl ? 400 : undefined,
       ellipsis: true,
-      sorter: true,
       showSorterTooltip: false,
       render: (title, record) => record.url ? <Typography.Link
         href={record.url}
@@ -146,7 +138,6 @@ export const JobsTable = ({
       key: 'type',
       width: screens?.xxl ? 110 : undefined,
       align: 'center',
-      sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
       responsive: ['xxl']
@@ -157,7 +148,6 @@ export const JobsTable = ({
       key: 'hiringRegime',
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
-      sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
       responsive: ['xxl']
@@ -168,7 +158,6 @@ export const JobsTable = ({
       key: 'seniority',
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
-      sorter: true,
       showSorterTooltip: false,
       render: (type: string) => renderMultipleTags(type),
       responsive: ['xxl']
@@ -179,7 +168,6 @@ export const JobsTable = ({
       key: 'yearsOfExperience',
       width: screens?.xxl ? 105 : undefined,
       align: 'center',
-      sorter: true,
       showSorterTooltip: false,
       responsive: ['xxl']
     },
@@ -206,7 +194,6 @@ export const JobsTable = ({
       width: screens?.xl ? 75 : undefined,
       align: 'center',
       render: (rating) => renderRating(rating, allRatings?.indexOf(rating), allRatings?.length),
-      sorter: true,
       showSorterTooltip: false,
       responsive: ['xl', 'xxl']
     },
@@ -227,19 +214,19 @@ export const JobsTable = ({
     dataSource={data}
     rowKey={'uuid'}
     size="small"
-    pagination={{
-      position: ["bottomCenter"],
-      onChange: (page, pageSize) => {
-        onChangePage(page - 1);
-        onChangeLimit(pageSize);
-      },
-      total: totalOfJobs || 0,
-      current: page + 1,
-      pageSize: limit,
-    }}
-    onChange={(pagination, filters, sorter) => {
-      const sorter2 = sorter && castArray(sorter)[0];
-      if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
-    }}
+  // pagination={{
+  //   position: ["bottomCenter"],
+  //   onChange: (page, pageSize) => {
+  //     onChangePage(page - 1);
+  //     onChangeLimit(pageSize);
+  //   },
+  //   total: totalOfJobs || 0,
+  //   current: page + 1,
+  //   pageSize: limit,
+  // }}
+  // onChange={(pagination, filters, sorter) => {
+  //   const sorter2 = sorter && castArray(sorter)[0];
+  //   if (sorter) onChangeOrderBy({ field: sorter2?.field as string, order: sorter2?.order as "descend" | "ascend" })
+  // }}
   />
 }

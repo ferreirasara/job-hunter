@@ -6,13 +6,12 @@ import { DetailsDrawer } from "../components/DetailsDrawer";
 import { NavLink, Navigate } from "react-router-dom";
 import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
 import { FiltersDrawer } from "../components/FiltersDrawer";
-import { PaginationContext } from "../context/PaginationContext";
 
 export default function Root() {
   const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
-    showOnlyApplied: false, showOnlyDiscarded: false, showOnlyNewJobs: false, showOnlyRecused: false
+    showOnlyApplied: false, showOnlyDiscarded: false, showOnlyNewJobs: false,
+    showOnlyRecused: false, orderBy: { field: "createdAt", order: "descend" }
   });
-  const { page, limit, orderBy } = useContext(PaginationContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
@@ -28,7 +27,7 @@ export default function Root() {
   const handleFetchData = useCallback(async (apiArgs: GetJobsFromAPIArgs) => {
     setLoading(true);
     try {
-      const response: JobsResponse = await getJobsFromAPI({ ...apiArgs, page, limit, orderBy });
+      const response: JobsResponse = await getJobsFromAPI({ ...apiArgs });
       if (response?.message) {
         setErrorMessage(response?.message);
       } else {
@@ -43,7 +42,7 @@ export default function Root() {
       setErrorMessage(e?.toString() || "");
     }
     setLoading(false);
-  }, [page, limit, orderBy])
+  }, [])
 
   useEffect(() => {
     handleFetchData({});
