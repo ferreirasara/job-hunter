@@ -1,5 +1,5 @@
 import { Alert, Button, Divider, Space } from "antd"
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
 import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
 import { DetailsDrawer } from "../components/DetailsDrawer";
