@@ -5,7 +5,6 @@ import { ZoomInOutlined } from "@ant-design/icons";
 import { renderMultipleTags } from "./renderMultipleTags";
 import { renderRating } from "./renderRating";
 import { useContext } from "react";
-import { PaginationContext } from "../context/PaginationContext";
 
 export enum JobPlatform {
   GUPY = "GUPY",

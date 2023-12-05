@@ -4,7 +4,6 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { FiltersContextProvider } from './context/FiltersContext';
 import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
-import { PaginationContextProvider } from './context/PaginationContext';
 import { Spin } from 'antd';
 
 const root = ReactDOM.createRoot(
@@ -37,11 +36,9 @@ root.render(
   <React.StrictMode>
     <FiltersContextProvider>
       <ShowOnlyContextProvider>
-        <PaginationContextProvider>
-          <React.Suspense fallback={<Spin spinning />}>
-            <RouterProvider router={router} />
-          </React.Suspense>
-        </PaginationContextProvider>
+        <React.Suspense fallback={<Spin spinning />}>
+          <RouterProvider router={router} />
+        </React.Suspense>
       </ShowOnlyContextProvider>
     </FiltersContextProvider>
   </React.StrictMode>
