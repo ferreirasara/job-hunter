@@ -118,6 +118,33 @@ export const FiltersDrawer = ({ fetchData, loading, onClose, open, allBenefits, 
           {allBenefits?.map(cur => <Select.Option key={cur} value={cur}>{cur}</Select.Option>)}
         </Select>
       </Form.Item>
+      <Form.Item label="Ordenação (campo)" name="orderByField" style={formItemStyle}>
+        <Select
+          loading={loading}
+          allowClear
+          onChange={(value) => onChangeApiArgs({ ...apiArgs, orderBy: { field: value, order: apiArgs?.orderBy?.order || "descend" } })}
+        >
+          <Select.Option key={"createdAt"} value={"createdAt"}>Criada em</Select.Option>
+          <Select.Option key={"platform"} value={"platform"}>Plataforma</Select.Option>
+          <Select.Option key={"company"} value={"company"}>Empresa</Select.Option>
+          <Select.Option key={"title"} value={"title"}>Título</Select.Option>
+          <Select.Option key={"type"} value={"type"}>Tipo</Select.Option>
+          <Select.Option key={"hiringRegime"} value={"hiringRegime"}>Contratação</Select.Option>
+          <Select.Option key={"seniority"} value={"seniority"}>Senioridade</Select.Option>
+          <Select.Option key={"yearsOfExperience"} value={"yearsOfExperience"}>Experiência</Select.Option>
+          <Select.Option key={"totalRating"} value={"totalRating"}>Rating</Select.Option>
+        </Select>
+      </Form.Item>
+      <Form.Item label="Ordenação (ordem)" name="orderByOrder" style={formItemStyle}>
+        <Select
+          loading={loading}
+          allowClear
+          onChange={(value) => onChangeApiArgs({ ...apiArgs, orderBy: { field: apiArgs?.orderBy?.field || "creadeAt", order: value } })}
+        >
+          <Select.Option key={"ascend"} value={"ascend"}>Ascendente</Select.Option>
+          <Select.Option key={"descend"} value={"descend"}>Descendente</Select.Option>
+        </Select>
+      </Form.Item>
       <Form.Item name="showOnlyNewJobs" style={formItemStyle}>
         <Radio.Group onChange={(event) => onChangeApiArgs({ ...apiArgs, showOnlyNewJobs: event?.target?.value })}>
           <Radio value={true}>Novas</Radio>
