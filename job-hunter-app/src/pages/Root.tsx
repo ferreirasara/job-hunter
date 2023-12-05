@@ -6,6 +6,7 @@ import { DetailsDrawer } from "../components/DetailsDrawer";
 import { NavLink, Navigate } from "react-router-dom";
 import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
 import { FiltersDrawer } from "../components/FiltersDrawer";
+import { PaginationContext } from "../context/PaginationContext";
 
 export default function Root() {
   const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
