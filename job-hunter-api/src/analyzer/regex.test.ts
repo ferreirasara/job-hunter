@@ -1,366 +1,655 @@
+import { difference, uniq } from "lodash";
 import { stringContainsAny } from "../utils/utils"
-import { BENEFITS_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 
-describe("test SKILLS_REGEX", () => {
-  it("should identify AGILE cases", () => {
-    const correctStrings = ["metodologia agil", "metodologias ageis", "desenvolvimento agil"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.AGILE)).toBeTruthy();
-    }
-  });
-  it("should identify ANTD cases", () => {
-    const correctStrings = ["antd", "ant design", "ant-design"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.ANTD)).toBeTruthy();
-    }
-  });
-  it("should identify API cases", () => {
-    const correctStrings = ["api", "apis", "api rest", "apis rest", "api restful", "apis restful", "rest api", "rest apis", "restful api", "restful apis", "rest", "restful"];
-    const wrongStrings = ["apiario", "PREST. DE SERVICO"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.API)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.API)).toBeFalsy();
-    }
-  });
-  it("should identify BACHELORS_DEGREE cases", () => {
-    const correctStrings = ["graduacao completa", "ensino superior", "superior completo", "formacao superior"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.BACHELORS_DEGREE)).toBeTruthy();
-    }
-  });
-  it("should identify CODE_VERSIONING cases", () => {
-    const correctStrings = ["git", "github", "git-hub", "git hub", "gitlab", "git-lab", "git lab"];
-    const wrongStrings = ["digital"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.CODE_VERSIONING)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.CODE_VERSIONING)).toBeFalsy();
-    }
-  });
-  it("should identify CPLUSPLUS and CSHARP cases", () => {
-    expect(stringContainsAny("c++", SKILLS_REGEX.CPLUSPLUS)).toBeTruthy();
-    expect(stringContainsAny("c#", SKILLS_REGEX.CSHARP)).toBeTruthy();
-  });
-  it("should identify CSS cases", () => {
-    const correctStrings = ["css", "scss", "css3"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.CSS)).toBeTruthy();
-    }
-  });
-  it("should identify DB cases", () => {
-    const correctStrings = ["microsoft sql server", "ms-sql server", "sql server", "sql-server", "no-sql", "nosql", "postgre", "postgres"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.DB)).toBeTruthy();
-    }
-  });
-  it("should identify DEV_OPS cases", () => {
-    const correctStrings = ["ci/cd", "ci-cd", "ci cd", "cicd", "github actions", "git hub actions", "git-hub actions", "git actions", "git flow"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.DEV_OPS)).toBeTruthy();
-    }
-  });
-  it("should identify ECOMMERCE cases", () => {
-    const correctStrings = ["tray", "traycorp", "shopify", "shopfy"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.ECOMMERCE)).toBeTruthy();
-    }
-  });
-  it("should identify GOOD_PRACTICES cases", () => {
-    const correctStrings = [
-      "full stack", "full-stack", "fullstack", "back-end, front-end", "front e back-end", "back e frontend"
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.FULL_STACK)).toBeTruthy();
-    }
-  });
-  it("should identify GOOD_PRACTICES cases", () => {
-    const correctStrings = ["boas praticas"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.GOOD_PRACTICES)).toBeTruthy();
-    }
-  });
-  it("should identify HTML cases", () => {
-    const correctStrings = ["html", "html5"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.HTML)).toBeTruthy();
-    }
-  });
-  it("should identify JAVA cases", () => {
-    const correctStrings = ["java", "java8+"];
-    const wrongStrings = ["javascript", "java script"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.JAVA)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.JAVA)).toBeFalsy();
-    }
-  });
-  it("should identify JAVASCRIPT cases", () => {
-    const correctStrings = ["javascript", "java script", "java-script", "js", "es6", "js/Node"];
-    const wrongStrings = ["next.js", "react-js", "java"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.JAVASCRIPT)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.JAVASCRIPT)).toBeFalsy();
-    }
-  });
-  it("should identify MATERIAL_UI cases", () => {
-    const correctStrings = ["mui", "materialui", "material ui", "material-ui", "Material Design"];
-    const wrongStrings = ["muito"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.MATERIAL_UI)).toBeFalsy();
-    }
-  });
-  it("should identify MENSAGERIA cases", () => {
-    const correctStrings = ["rabitmq"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.MENSAGERIA)).toBeTruthy();
-    }
-  });
-  it("should identify MICRO_SERVICES cases", () => {
-    const correctStrings = ["microservices"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.MICRO_SERVICES)).toBeTruthy();
-    }
-  });
-  it("should identify NEST cases", () => {
-    const correctStrings = ["nest", "nest.js", "nest-js", "nest js", "nestjs"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.NEST)).toBeTruthy();
-    }
-  });
-  it("should identify NEXT cases", () => {
-    const correctStrings = ["next", "next.js", "next-js", "next js", "nextjs"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.NEXT)).toBeTruthy();
-    }
-  });
-  it("should identify NUXT cases", () => {
-    const correctStrings = ["nuxt", "nuxt.js", "nuxt-js", "nuxt js", "nuxtjs"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.NUXT)).toBeTruthy();
-    }
-  });
-  it("should identify NODE cases", () => {
-    const correctStrings = ["node", "Node.js", "node-js", "node js", "nodejs"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.NODE)).toBeTruthy();
-    }
-  });
-  it("should identify REACT cases", () => {
-    const correctStrings = ["react", "react.js", "react-js", "react js"];
-    const wrongStrings = ["react native", "react hooks"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.REACT)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.REACT)).toBeFalsy();
-    }
-  });
-  it("should identify REACT_NATIVE cases", () => {
-    const correctStrings = ["react native", "react-native"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.REACT_NATIVE)).toBeTruthy();
-    }
-  });
-  it("should identify RESPONSIVE_DESIGN cases", () => {
-    const correctStrings = [
-      "site responsivo", "sites responsivos", "aplicacoes responsivas", "projetos responsivos",
-      "interfaces de usuario interativas e responsivas"
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.RESPONSIVE_DESIGN)).toBeTruthy();
-    }
-  });
-  it("should identify RUBY cases", () => {
-    const correctStrings = ["ruby on rails", "ruby-on-rails", "ruby"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.RUBY)).toBeTruthy();
-    }
-  });
-  it("should identify STATE_MANAGEMENT cases", () => {
-    const correctStrings = ["Gerenciamento de estados"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.STATE_MANAGEMENT)).toBeTruthy();
-    }
-  });
-  it("should identify STYLED_COMPONENTS cases", () => {
-    const correctStrings = ["styled component", "styled-component", "styledcomponent", "styled components", "styled-components", "styledcomponents"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.STYLED_COMPONENTS)).toBeTruthy();
-    }
-  });
-  it("should identify TAILWIND cases", () => {
-    const correctStrings = ["tailwind", "tailwindcss", "tailwind-css", "tailwind css"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.TAILWIND)).toBeTruthy();
-    }
-  });
-  it("should identify TEST cases", () => {
-    const correctStrings = [
-      "teste unitario", "testes unitarios", "teste functional", "testes functionais", "teste functional automatizado",
-      "testes functionais automatizados", "teste automatizado", "testes automatizados", "testes de unidade",
-      "testes de integracao", "testes de software", "testes de performance", "testes de depuracao", "testing library",
-      "automated unit-testing and test",
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.TEST)).toBeTruthy();
-    }
-  });
-  it("should identify TYPESCRIPT cases", () => {
-    const correctStrings = ["typescript", "type script", "type-script", "ts"];
-    const wrongStrings = ["requirements", "EvenTS", "EnvironmenTS"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.TYPESCRIPT)).toBeTruthy();
-    }
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.TYPESCRIPT)).toBeFalsy();
-    }
-  });
-  it("should identify VANILLA cases", () => {
-    const correctStrings = ["javascript vanilla", "js vanilla", "vanilla", "vanilla.js", "vanilla-js", "vanilla js", "(vanilla)"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.VANILLA)).toBeTruthy();
-    }
-  });
-  it("should identify VUE cases", () => {
-    const correctStrings = ["vue", "vue.js", "vue-js", "vue js"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.VUE)).toBeTruthy();
-    }
-  });
-  it("should identify WEB_HOOKS cases", () => {
-    const correctStrings = ["webhook", "webhooks", "web hook", "web hooks"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, SKILLS_REGEX.WEB_HOOKS)).toBeTruthy();
-    }
-  });
+type TestCase = {
+  type: string,
+  cases: {
+    str: string,
+    regex: RegExp[],
+    toBe: boolean,
+  }[]
+}
+
+const doTestCases = (testCases: TestCase[]) => {
+  for (const testCase of testCases) {
+    it(`should identify ${testCase?.cases?.length} ${testCase?.type} cases`, () => {
+      for (const test of testCase?.cases) {
+        expect(stringContainsAny(test?.str, test?.regex)).toBe(test?.toBe);
+      }
+    })
+  }
+}
+
+describe('test SKILLS_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'AGILE',
+      cases: [
+        { str: "metodologia agil", regex: SKILLS_REGEX.AGILE, toBe: true },
+        { str: "metodologias ageis", regex: SKILLS_REGEX.AGILE, toBe: true },
+        { str: "desenvolvimento agil", regex: SKILLS_REGEX.AGILE, toBe: true },
+      ]
+    },
+    {
+      type: 'ANTD',
+      cases: [
+        { str: 'antd', regex: SKILLS_REGEX.ANTD, toBe: true },
+        { str: 'ant design', regex: SKILLS_REGEX.ANTD, toBe: true },
+        { str: 'ant-design', regex: SKILLS_REGEX.ANTD, toBe: true },
+      ]
+    },
+    {
+      type: 'API',
+      cases: [
+        { str: 'api', regex: SKILLS_REGEX.API, toBe: true },
+        { str: 'apis', regex: SKILLS_REGEX.API, toBe: true },
+        { str: 'rest', regex: SKILLS_REGEX.API, toBe: true },
+        { str: 'restful', regex: SKILLS_REGEX.API, toBe: true },
+        { str: 'apiario', regex: SKILLS_REGEX.API, toBe: false },
+        { str: 'PREST. DE SERVICO', regex: SKILLS_REGEX.API, toBe: false },
+      ]
+    },
+    {
+      type: 'BACHELORS_DEGREE',
+      cases: [
+        { str: 'graduacao completa', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
+        { str: 'ensino superior', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
+        { str: 'superior completo', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
+        { str: 'formacao superior', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
+      ]
+    },
+    {
+      type: 'CODE_VERSIONING',
+      cases: [
+        { str: 'git', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'github', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'git-hub', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'git hub', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'gitlab', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'git-lab', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'git lab', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: true },
+        { str: 'digital', regex: SKILLS_REGEX.CODE_VERSIONING, toBe: false },
+      ]
+    },
+    {
+      type: 'CPLUSPLUS',
+      cases: [
+        { str: 'c++', regex: SKILLS_REGEX.CPLUSPLUS, toBe: true },
+      ]
+    },
+    {
+      type: 'CSHARP',
+      cases: [
+        { str: 'c#', regex: SKILLS_REGEX.CSHARP, toBe: true },
+      ]
+    },
+    {
+      type: 'CSS',
+      cases: [
+        { str: 'css', regex: SKILLS_REGEX.CSS, toBe: true },
+        { str: 'scss', regex: SKILLS_REGEX.CSS, toBe: true },
+        { str: 'css3', regex: SKILLS_REGEX.CSS, toBe: true },
+      ]
+    },
+    {
+      type: 'DB',
+      cases: [
+        { str: 'microsoft sql server', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'ms-sql server', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'sql server', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'sql-server', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'no-sql', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'nosql', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'postgre', regex: SKILLS_REGEX.DB, toBe: true },
+        { str: 'postgres', regex: SKILLS_REGEX.DB, toBe: true },
+      ]
+    },
+    {
+      type: 'DEV_OPS',
+      cases: [
+        { str: "ci/cd", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "ci-cd", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "ci cd", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "cicd", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "github actions", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "git hub actions", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "git-hub actions", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "git actions", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+        { str: "git flow", regex: SKILLS_REGEX.DEV_OPS, toBe: true },
+      ]
+    },
+    {
+      type: 'ECOMMERCE',
+      cases: [
+        { str: "tray", regex: SKILLS_REGEX.ECOMMERCE, toBe: true },
+        { str: "traycorp", regex: SKILLS_REGEX.ECOMMERCE, toBe: true },
+        { str: "shopify", regex: SKILLS_REGEX.ECOMMERCE, toBe: true },
+        { str: "shopfy", regex: SKILLS_REGEX.ECOMMERCE, toBe: true },
+      ]
+    },
+    {
+      type: 'FULL_STACK',
+      cases: [
+        { str: "full stack", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: "full-stack", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: "fullstack", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: "back-end, front-end", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: "front e back-end", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: "back e frontend", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+      ]
+    },
+    {
+      type: 'GOOD_PRACTICES',
+      cases: [
+        { str: 'boas praticas', regex: SKILLS_REGEX.GOOD_PRACTICES, toBe: true },
+      ]
+    },
+    {
+      type: 'HTML',
+      cases: [
+        { str: 'html', regex: SKILLS_REGEX.HTML, toBe: true },
+        { str: 'html5', regex: SKILLS_REGEX.HTML, toBe: true },
+      ]
+    },
+    {
+      type: 'JAVA',
+      cases: [
+        { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'java8+', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'javascript', regex: SKILLS_REGEX.JAVA, toBe: false },
+        { str: 'java script', regex: SKILLS_REGEX.JAVA, toBe: false },
+      ]
+    },
+    {
+      type: 'JAVA',
+      cases: [
+        { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'java8+', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'javascript', regex: SKILLS_REGEX.JAVA, toBe: false },
+        { str: 'java script', regex: SKILLS_REGEX.JAVA, toBe: false },
+      ]
+    },
+    {
+      type: 'JAVASCRIPT',
+      cases: [
+        { str: 'javascript', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'java script', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'java-script', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'js', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'es6', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'js/Node', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
+        { str: 'next.js', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
+        { str: 'react-js', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
+        { str: 'java', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
+      ]
+    },
+    {
+      type: 'MATERIAL_UI',
+      cases: [
+        { str: 'mui', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
+        { str: 'materialui', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
+        { str: 'material ui', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
+        { str: 'material-ui', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
+        { str: 'Material Design', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
+        { str: 'muito', regex: SKILLS_REGEX.MATERIAL_UI, toBe: false },
+      ]
+    },
+    {
+      type: 'MENSAGERIA',
+      cases: [
+        { str: 'rabitmq', regex: SKILLS_REGEX.MENSAGERIA, toBe: true },
+      ]
+    },
+    {
+      type: 'JAVA',
+      cases: [
+        { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
+      ]
+    },
+    {
+      type: 'MICRO_SERVICES',
+      cases: [
+        { str: 'microservices', regex: SKILLS_REGEX.MICRO_SERVICES, toBe: true },
+      ]
+    },
+    {
+      type: 'MOBILE_DEVELOPMENT',
+      cases: [
+        { str: 'desenvolvimento nativo', regex: SKILLS_REGEX.MOBILE_DEVELOPMENT, toBe: true },
+      ]
+    },
+    {
+      type: 'NEST',
+      cases: [
+        { str: 'nest', regex: SKILLS_REGEX.NEST, toBe: true },
+        { str: 'nest.js', regex: SKILLS_REGEX.NEST, toBe: true },
+        { str: 'nest-js', regex: SKILLS_REGEX.NEST, toBe: true },
+        { str: 'nest js', regex: SKILLS_REGEX.NEST, toBe: true },
+        { str: 'nestjs', regex: SKILLS_REGEX.NEST, toBe: true },
+      ]
+    },
+    {
+      type: 'NEXT',
+      cases: [
+        { str: 'next', regex: SKILLS_REGEX.NEXT, toBe: true },
+        { str: 'next.js', regex: SKILLS_REGEX.NEXT, toBe: true },
+        { str: 'next-js', regex: SKILLS_REGEX.NEXT, toBe: true },
+        { str: 'next js', regex: SKILLS_REGEX.NEXT, toBe: true },
+        { str: 'nextjs', regex: SKILLS_REGEX.NEXT, toBe: true },
+      ]
+    },
+    {
+      type: 'NUXT',
+      cases: [
+        { str: 'nuxt', regex: SKILLS_REGEX.NUXT, toBe: true },
+        { str: 'nuxt.js', regex: SKILLS_REGEX.NUXT, toBe: true },
+        { str: 'nuxt-js', regex: SKILLS_REGEX.NUXT, toBe: true },
+        { str: 'nuxt js', regex: SKILLS_REGEX.NUXT, toBe: true },
+        { str: 'nuxtjs', regex: SKILLS_REGEX.NUXT, toBe: true },
+      ]
+    },
+    {
+      type: 'NODE',
+      cases: [
+        { str: 'node', regex: SKILLS_REGEX.NODE, toBe: true },
+        { str: 'Node.js', regex: SKILLS_REGEX.NODE, toBe: true },
+        { str: 'node-js', regex: SKILLS_REGEX.NODE, toBe: true },
+        { str: 'node js', regex: SKILLS_REGEX.NODE, toBe: true },
+        { str: 'nodejs', regex: SKILLS_REGEX.NODE, toBe: true },
+      ]
+    },
+    {
+      type: 'REACT',
+      cases: [
+        { str: 'react', regex: SKILLS_REGEX.REACT, toBe: true },
+        { str: 'react.js', regex: SKILLS_REGEX.REACT, toBe: true },
+        { str: 'react-js', regex: SKILLS_REGEX.REACT, toBe: true },
+        { str: 'react js', regex: SKILLS_REGEX.REACT, toBe: true },
+        { str: 'react native', regex: SKILLS_REGEX.REACT, toBe: false },
+        { str: 'react hooks', regex: SKILLS_REGEX.REACT, toBe: false },
+      ]
+    },
+    {
+      type: 'REACT_NATIVE',
+      cases: [
+        { str: 'react native', regex: SKILLS_REGEX.REACT_NATIVE, toBe: true },
+        { str: 'react-native', regex: SKILLS_REGEX.REACT_NATIVE, toBe: true },
+      ]
+    },
+    {
+      type: 'RESPONSIVE_DESIGN',
+      cases: [
+        { str: 'site responsivo', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },
+        { str: 'sites responsivos', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },
+        { str: 'aplicacoes responsivas', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },
+        { str: 'projetos responsivos', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },
+        { str: 'interfaces de usuario interativas e responsivas', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },
+      ]
+    },
+    {
+      type: 'RUBY',
+      cases: [
+        { str: 'ruby on rails', regex: SKILLS_REGEX.RUBY, toBe: true },
+        { str: 'ruby-on-rails', regex: SKILLS_REGEX.RUBY, toBe: true },
+        { str: 'ruby', regex: SKILLS_REGEX.RUBY, toBe: true },
+      ]
+    },
+    {
+      type: 'STATE_MANAGEMENT',
+      cases: [
+        { str: 'Gerenciamento de estados', regex: SKILLS_REGEX.STATE_MANAGEMENT, toBe: true },
+      ]
+    },
+    {
+      type: 'STYLED_COMPONENTS',
+      cases: [
+        { str: 'styled component', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+        { str: 'styled-component', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+        { str: 'styledcomponent', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+        { str: 'styled components', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+        { str: 'styled-components', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+        { str: 'styledcomponents', regex: SKILLS_REGEX.STYLED_COMPONENTS, toBe: true },
+      ]
+    },
+    {
+      type: 'TAILWIND',
+      cases: [
+        { str: 'tailwind', regex: SKILLS_REGEX.TAILWIND, toBe: true },
+        { str: 'tailwindcss', regex: SKILLS_REGEX.TAILWIND, toBe: true },
+        { str: 'tailwind-css', regex: SKILLS_REGEX.TAILWIND, toBe: true },
+        { str: 'tailwind css', regex: SKILLS_REGEX.TAILWIND, toBe: true },
+      ]
+    },
+    {
+      type: 'TEST',
+      cases: [
+        { str: 'teste unitario', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes unitarios', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'teste functional', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes functionais', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'teste functional automatizado', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes functionais automatizados', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'teste automatizado', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes automatizados', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes de unidade', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes de integracao', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes de software', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes de performance', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes de depuracao', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testing library', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'automated unit-testing and test', regex: SKILLS_REGEX.TEST, toBe: true },
+        { str: 'testes e qualidade', regex: SKILLS_REGEX.TEST, toBe: true },
+      ]
+    },
+    {
+      type: 'TYPESCRIPT',
+      cases: [
+        { str: 'typescript', regex: SKILLS_REGEX.TYPESCRIPT, toBe: true },
+        { str: 'type script', regex: SKILLS_REGEX.TYPESCRIPT, toBe: true },
+        { str: 'type-script', regex: SKILLS_REGEX.TYPESCRIPT, toBe: true },
+        { str: 'ts', regex: SKILLS_REGEX.TYPESCRIPT, toBe: true },
+        { str: 'requirements', regex: SKILLS_REGEX.TYPESCRIPT, toBe: false },
+        { str: 'EvenTS', regex: SKILLS_REGEX.TYPESCRIPT, toBe: false },
+        { str: 'EnvironmenTS', regex: SKILLS_REGEX.TYPESCRIPT, toBe: false },
+      ]
+    },
+    {
+      type: 'VANILLA',
+      cases: [
+        { str: 'javascript vanilla', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: 'js vanilla', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: 'vanilla', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: 'vanilla.js', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: 'vanilla-js', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: 'vanilla js', regex: SKILLS_REGEX.VANILLA, toBe: true },
+        { str: '(vanilla)', regex: SKILLS_REGEX.VANILLA, toBe: true },
+      ]
+    },
+    {
+      type: 'VUE',
+      cases: [
+        { str: 'vue', regex: SKILLS_REGEX.VUE, toBe: true },
+        { str: 'vue.js', regex: SKILLS_REGEX.VUE, toBe: true },
+        { str: 'vue-js', regex: SKILLS_REGEX.VUE, toBe: true },
+        { str: 'vue js', regex: SKILLS_REGEX.VUE, toBe: true },
+        { str: 'vuejs', regex: SKILLS_REGEX.VUE, toBe: true },
+      ]
+    },
+    {
+      type: 'WEB_HOOKS',
+      cases: [
+        { str: 'webhook', regex: SKILLS_REGEX.WEB_HOOKS, toBe: true },
+        { str: 'webhooks', regex: SKILLS_REGEX.WEB_HOOKS, toBe: true },
+        { str: 'web hook', regex: SKILLS_REGEX.WEB_HOOKS, toBe: true },
+        { str: 'web hooks', regex: SKILLS_REGEX.WEB_HOOKS, toBe: true },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
+
+  const allSkills = Object.keys(SKILLS_REGEX);
+  const skillsTested = uniq(testCases?.map(cur => cur?.type));
+  const skillsNotTested = difference(allSkills, skillsTested);
+  if (skillsNotTested?.length) console.log(`Skills not tested: ${skillsNotTested?.join(', ')}`);
 })
 
-describe("test BENEFITS_REGEX", () => {
-  it("should identify ANUAL_BONUS cases", () => {
-    const correctStrings = ["bonus anual", "annual bonus", "bonus per year"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.ANUAL_BONUS)).toBeTruthy();
-    }
-  });
-  it("should identify BIRTHDAY_DAYOFF cases", () => {
-    const correctStrings = ["day off no seu aniversario", "dayoff no mes do seu aniversario", "dia de folga na semana do seu aniversario", "Folga no aniversario", "day off de aniversario"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.BIRTHDAY_DAYOFF)).toBeTruthy();
-    }
-  });
-  it("should identify COURSE_HELP cases", () => {
-    const correctStrings = ["incentivo para educacao", "auxilio educacao", "incentivo a estudos", "investimento em cursos", "subsidio para estudo", "desconto com faculdades", "desconto em cursos", "incentivo a certificacoes", "subvencao a estudos"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.COURSE_HELP)).toBeTruthy();
-    }
-  });
-  it("should identify FLEXIBLE_HOURS cases", () => {
-    const correctStrings = ["flexible working schedules", "horario flexivel", "horarios flexiveis", "flexible hours", "flexible schedule", "nosso horario e flexivel"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.FLEXIBLE_HOURS)).toBeTruthy();
-    }
-  });
-  it("should identify FOURTEENTH_SALARY cases", () => {
-    const correctStrings = ["14º salario"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.FOURTEENTH_SALARY)).toBeTruthy();
-    }
-  });
-  it("should identify GYMPASS cases", () => {
-    const correctStrings = ["gym pass", "gympass", "auxilio academia"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.GYMPASS)).toBeTruthy();
-    }
-  });
-  it("should identify HEALTH_OR_DENTAL_PLAN cases", () => {
-    const correctStrings = [
-      "plano odontologico", "convenio odontologico", "convenio medico e odontologico", "plano de saude e odontologico",
-      "assistencia medica e odontologica", "assistencias medica e odontologica", "assistencia odontologica",
-      "health insurance", "health plan", "health and dental plan", "health care", "assistencia medica",
-      "convenio medico", "servicos de telemedicina", "com planos de saude e odontologico", "convenio de saude",
-      "beneficio saude", "beneficio odontologico"
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN)).toBeTruthy();
-    }
-  });
-  it("should identify HOME_OFFICE_VOUCHER cases", () => {
-    const correctStrings = [
-      "auxilio home office", "subsidio para trabalho remoto", "auxilio home-office", "auxilio para atuacao em home office",
-      "remote work allowance", "auxilio para trabalho remoto", "Ajuda de custo para Home Office"
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.HOME_OFFICE_VOUCHER)).toBeTruthy();
-    }
-  });
-  it("should identify MEAL_VOUCHER cases", () => {
-    const correctStrings = [
-      "vale alimentacao", "vale refeicao", "flex food", "to use with food",
-      "va", "vr", "va/vr", "Ajuda de custo para alimentacao", "v.a.", "v.r.",
-      "vale refeicao/vale alimentacao",
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.MEAL_VOUCHER)).toBeTruthy();
-    }
-  });
-  it("should identify PAID_VACATIONS cases", () => {
-    const correctStrings = [
-      "ferias remuneradas", "ferias anuais remuneradas", "descanso anual", "descanso remunerado", "paid annual leave", "ferias remunerada",
-      "ferias e feriados remunerados", "Ferias de 12 dias uteis remuneradas."
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.PAID_VACATIONS)).toBeTruthy();
-    }
-  });
-  it("should identify PSYCHOLOGICAL_HELP cases", () => {
-    const correctStrings = [
-      "auxilio psicologico", "apoio psicologico", "mental health", "apoio a saude mental", "cuidado com saude mental",
-      "auxilio saude emocional", "auxilio bem estar", "suporte social e psicologico", "bem estar psicologico",
-      "desconto com psicoterapia"
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.PSYCHOLOGICAL_HELP)).toBeTruthy();
-    }
-  });
-  it("should identify REFERRAL_BONUS cases", () => {
-    const correctStrings = ["bonus indicacao", "program of indication", "indicacao premiada", "bonus por indicacao de talentos"];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, BENEFITS_REGEX.REFERRAL_BONUS)).toBeTruthy();
-    }
-  });
+describe('test BENEFITS_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'ANUAL_BONUS',
+      cases: [
+        { str: 'bonus anual', regex: BENEFITS_REGEX.ANUAL_BONUS, toBe: true },
+        { str: 'annual bonus', regex: BENEFITS_REGEX.ANUAL_BONUS, toBe: true },
+        { str: 'bonus per year', regex: BENEFITS_REGEX.ANUAL_BONUS, toBe: true },
+      ]
+    },
+    {
+      type: 'BIRTHDAY_DAYOFF',
+      cases: [
+        { str: 'day off no seu aniversario', regex: BENEFITS_REGEX.BIRTHDAY_DAYOFF, toBe: true },
+        { str: 'dayoff no mes do seu aniversario', regex: BENEFITS_REGEX.BIRTHDAY_DAYOFF, toBe: true },
+        { str: 'dia de folga na semana do seu aniversario', regex: BENEFITS_REGEX.BIRTHDAY_DAYOFF, toBe: true },
+        { str: 'Folga no aniversario', regex: BENEFITS_REGEX.BIRTHDAY_DAYOFF, toBe: true },
+        { str: 'day off de aniversario', regex: BENEFITS_REGEX.BIRTHDAY_DAYOFF, toBe: true },
+      ]
+    },
+    {
+      type: 'COURSE_HELP',
+      cases: [
+        { str: 'incentivo para educacao', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'auxilio educacao', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'incentivo a estudos', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'investimento em cursos', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'subsidio para estudo', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'desconto com faculdades', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'desconto em cursos', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'incentivo a certificacoes', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+        { str: 'subvencao a estudos', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
+      ]
+    },
+    {
+      type: 'FLEXIBLE_HOURS',
+      cases: [
+        { str: 'flexible working schedules', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+        { str: 'horario flexivel', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+        { str: 'horarios flexiveis', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+        { str: 'flexible hours', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+        { str: 'flexible schedule', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+        { str: 'nosso horario e flexivel', regex: BENEFITS_REGEX.FLEXIBLE_HOURS, toBe: true },
+      ]
+    },
+    {
+      type: 'FOURTEENTH_SALARY',
+      cases: [
+        { str: '14º salario', regex: BENEFITS_REGEX.FOURTEENTH_SALARY, toBe: true },
+      ]
+    },
+    {
+      type: 'GYMPASS',
+      cases: [
+        { str: 'gym pass', regex: BENEFITS_REGEX.GYMPASS, toBe: true },
+        { str: 'gympass', regex: BENEFITS_REGEX.GYMPASS, toBe: true },
+        { str: 'auxilio academia', regex: BENEFITS_REGEX.GYMPASS, toBe: true },
+      ]
+    },
+    {
+      type: 'HEALTH_OR_DENTAL_PLAN',
+      cases: [
+        { str: 'plano odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'convenio odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'convenio medico e odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'plano de saude e odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'assistencia medica e odontologica', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'assistencias medica e odontologica', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'assistencia odontologica', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'health insurance', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'health plan', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'health and dental plan', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'health care', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'assistencia medica', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'convenio medico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'servicos de telemedicina', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'com planos de saude e odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'convenio de saude', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'beneficio saude', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+        { str: 'beneficio odontologico', regex: BENEFITS_REGEX.HEALTH_OR_DENTAL_PLAN, toBe: true },
+      ]
+    },
+    {
+      type: 'HOME_OFFICE_VOUCHER',
+      cases: [
+        { str: 'auxilio home office', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'subsidio para trabalho remoto', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'auxilio home-office', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'auxilio para atuacao em home office', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'remote work allowance', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'auxilio para trabalho remoto', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+        { str: 'Ajuda de custo para Home Office', regex: BENEFITS_REGEX.HOME_OFFICE_VOUCHER, toBe: true },
+      ]
+    },
+    {
+      type: 'MEAL_VOUCHER',
+      cases: [
+        { str: 'vale alimentacao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'vale refeicao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'flex food', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'to use with food', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'va', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'vr', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'va/vr', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'Ajuda de custo para alimentacao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'v.a.', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'v.r.', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+        { str: 'vale refeicao/vale alimentacao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
+      ]
+    },
+    {
+      type: 'PAID_VACATIONS',
+      cases: [
+        { str: 'ferias remuneradas', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'ferias anuais remuneradas', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'descanso anual', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'descanso remunerado', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'paid annual leave', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'ferias remunerada', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'ferias e feriados remunerados', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+        { str: 'Ferias de 12 dias uteis remuneradas.', regex: BENEFITS_REGEX.PAID_VACATIONS, toBe: true },
+      ]
+    },
+    {
+      type: 'PSYCHOLOGICAL_HELP',
+      cases: [
+        { str: 'auxilio psicologico', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'apoio psicologico', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'mental health', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'apoio a saude mental', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'cuidado com saude mental', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'auxilio saude emocional', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'auxilio bem estar', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'suporte social e psicologico', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'bem estar psicologico', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+        { str: 'desconto com psicoterapia', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
+      ]
+    },
+    {
+      type: 'REFERRAL_BONUS',
+      cases: [
+        { str: 'bonus indicacao', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
+        { str: 'program of indication', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
+        { str: 'indicacao premiada', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
+        { str: 'bonus por indicacao de talentos', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
+
+  const allBenefits = Object.keys(BENEFITS_REGEX);
+  const benefitsTested = uniq(testCases?.map(cur => cur?.type));
+  const benefitsNotTested = difference(allBenefits, benefitsTested);
+  if (benefitsNotTested?.length) console.log(`Benefits not tested: ${benefitsNotTested?.join(', ')}`);
 })
 
-describe("test TYPES_REGEX", () => {
-  it("should identify REMOTE cases", () => {
-    const wrongStrings = [
-      "remoto: nao"
-    ];
-    for (const str of wrongStrings) {
-      expect(stringContainsAny(str, TYPES_REGEX.REMOTE)).toBeFalsy();
-    }
-  });
+describe('test HIRING_REGIMES_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'CLT',
+      cases: [
+        { str: 'clt', regex: HIRING_REGIMES_REGEX.CLT, toBe: true },
+      ]
+    },
+    {
+      type: 'PJ',
+      cases: [
+        { str: 'pj', regex: HIRING_REGIMES_REGEX.PJ, toBe: true },
+        { str: 'pessoa juridica', regex: HIRING_REGIMES_REGEX.PJ, toBe: true },
+        { str: 'cooperado', regex: HIRING_REGIMES_REGEX.PJ, toBe: true },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
+
+  const allHiringRegimes = Object.keys(HIRING_REGIMES_REGEX);
+  const hiringRegimesTested = uniq(testCases?.map(cur => cur?.type));
+  const hiringRegimesNotTested = difference(allHiringRegimes, hiringRegimesTested);
+  if (hiringRegimesNotTested?.length) console.log(`HiringRegimes not tested: ${hiringRegimesNotTested?.join(', ')}`);
 })
 
-describe("test YEARS_OF_EXPERIENCE_REGEX", () => {
-  it("should identify YEARS_OF_EXPERIENCE_REGEX cases", () => {
-    const correctStrings = [
-      "experiencia profissional minima de 3 anos", "pelo menos 2 anos de experiencia",
-      "pelo menos dois anos de experiencia", "2 ou mais anos de experiencia trabalhando",
-      "mais de 2 anos em contato", "experiencia minima de 3 anos", "3 anos trabalhando",
-      "experiencia comprovada de 4+ anos", "5+ years of professional", "4+ anos experiencia",
-      "3 anos +",
-    ];
-    for (const str of correctStrings) {
-      expect(stringContainsAny(str, YEARS_OF_EXPERIENCE_REGEX)).toBeTruthy();
-    }
-  });
+describe('test TYPES_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'REMOTE',
+      cases: [
+        { str: 'remoto: nao', regex: TYPES_REGEX.REMOTE, toBe: false },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
+
+  const allTypes = Object.keys(TYPES_REGEX);
+  const typesTested = uniq(testCases?.map(cur => cur?.type));
+  const typesNotTested = difference(allTypes, typesTested);
+  if (typesNotTested?.length) console.log(`Types not tested: ${typesNotTested?.join(', ')}`);
+})
+
+describe('test SENIORITY_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'JUNIOR',
+      cases: [
+        { str: 'junior', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
+        { str: 'estagiario', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
+        { str: 'jr', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
+      ]
+    },
+    {
+      type: 'MID_LEVEL',
+      cases: [
+        { str: 'pleno', regex: SENIORITY_REGEX.MID_LEVEL, toBe: true },
+        { str: 'pl', regex: SENIORITY_REGEX.MID_LEVEL, toBe: true },
+        { str: 'pleno conhecimento', regex: SENIORITY_REGEX.MID_LEVEL, toBe: false },
+      ]
+    },
+    {
+      type: 'SENIOR',
+      cases: [
+        { str: 'senior', regex: SENIORITY_REGEX.SENIOR, toBe: true },
+        { str: 'sr', regex: SENIORITY_REGEX.SENIOR, toBe: true },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
+
+  const allSeniorities = Object.keys(SENIORITY_REGEX);
+  const senioritiesTested = uniq(testCases?.map(cur => cur?.type));
+  const senioritiesNotTested = difference(allSeniorities, senioritiesTested);
+  if (senioritiesNotTested?.length) console.log(`Seniorities not tested: ${senioritiesNotTested?.join(', ')}`);
+})
+
+describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
+  const testCases: TestCase[] = [
+    {
+      type: 'YEARS_OF_EXPERIENCE_REGEX',
+      cases: [
+        { str: 'experiencia profissional minima de 3 anos', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'pelo menos 2 anos de experiencia', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'pelo menos dois anos de experiencia', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '2 ou mais anos de experiencia trabalhando', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'mais de 2 anos em contato', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'experiencia minima de 3 anos', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '3 anos trabalhando', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'experiencia comprovada de 4+ anos', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '5+ years of professional', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '4+ anos experiencia', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '3 anos +', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+      ]
+    },
+  ]
+
+  doTestCases(testCases);
 })
