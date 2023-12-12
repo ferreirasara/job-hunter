@@ -221,7 +221,7 @@ export const BENEFITS_REGEX = {
     /paid (annual leave|vacation)/i, /ferias e feriados/i, /ferias de \d+ dias/i,
     /feriados nacionais(e regionais)?/i, /vacation & holidays/i
   ],
-  PET_LEAVE: [/licenca pet/i],
+  PET_HELP: [/(licenca|convenio) pet/i],
   PHARMACY_AGREEMENT: [/convenio farmacia/i],
   PLR: [/\bplr\b/i, /(lucros|participacao) (e|ou|nos|de) (resultados|lucros)/i, /\bppr\b/i],
   PRIVATE_PENSION: [/previdencia privada/i],
