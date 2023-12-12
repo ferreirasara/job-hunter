@@ -416,6 +416,12 @@ describe('test BENEFITS_REGEX cases', () => {
       ]
     },
     {
+      type: 'CHRISTMAS_BASKET',
+      cases: [
+        { str: 'cesta de natal', regex: BENEFITS_REGEX.CHRISTMAS_BASKET, toBe: true },
+      ]
+    },
+    {
       type: 'COURSE_HELP',
       cases: [
         { str: 'incentivo para educacao', regex: BENEFITS_REGEX.COURSE_HELP, toBe: true },
@@ -490,6 +496,12 @@ describe('test BENEFITS_REGEX cases', () => {
       ]
     },
     {
+      type: 'LIFE_INSURANCE',
+      cases: [
+        { str: 'seguro de vida', regex: BENEFITS_REGEX.LIFE_INSURANCE, toBe: true },
+      ]
+    },
+    {
       type: 'MEAL_VOUCHER',
       cases: [
         { str: 'vale alimentacao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
@@ -542,6 +554,13 @@ describe('test BENEFITS_REGEX cases', () => {
         { str: 'bonus por indicacao de talentos', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
       ]
     },
+    {
+      type: 'USD_SALARY',
+      cases: [
+        { str: 'salary in usd', regex: BENEFITS_REGEX.USD_SALARY, toBe: true },
+        { str: 'pagamento em moeda estrangeira', regex: BENEFITS_REGEX.USD_SALARY, toBe: true },
+      ]
+    },
   ]
 
   doTestCases(testCases);
@@ -581,8 +600,25 @@ describe('test HIRING_REGIMES_REGEX cases', () => {
 describe('test TYPES_REGEX cases', () => {
   const testCases: TestCase[] = [
     {
+      type: 'FACE_TO_FACE',
+      cases: [
+        { str: 'presencial', regex: TYPES_REGEX.FACE_TO_FACE, toBe: true },
+        { str: 'presencialmente', regex: TYPES_REGEX.FACE_TO_FACE, toBe: true },
+      ]
+    },
+    {
+      type: 'HYBRID',
+      cases: [
+        { str: 'hibrido', regex: TYPES_REGEX.HYBRID, toBe: true },
+      ]
+    },
+    {
       type: 'REMOTE',
       cases: [
+        { str: 'home office', regex: TYPES_REGEX.REMOTE, toBe: true },
+        { str: 'anywhere office', regex: TYPES_REGEX.REMOTE, toBe: true },
+        { str: 'teletrabalho', regex: TYPES_REGEX.REMOTE, toBe: true },
+        { str: '100% remoto', regex: TYPES_REGEX.REMOTE, toBe: true },
         { str: 'remoto: nao', regex: TYPES_REGEX.REMOTE, toBe: false },
       ]
     },
