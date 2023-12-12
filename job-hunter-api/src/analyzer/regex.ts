@@ -98,7 +98,7 @@ export const SKILLS_REGEX = {
   MICRO_FRONTENDS: [/micro(-|\s|s)?front(-|\s)?end(s)?/i],
   MICRO_SERVICES: [/micro(-|\s|s)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [
-    /(desenvolvimento|conhecimento em) (de aplicativos )?mobile/i, /(mobile|programacao) (development|nativ(o|a))/i,
+    /(desenvolvimento|conhecimento em) (de aplicativos )?(mobile|nativo)/i, /(mobile|programacao) (development|nativ(o|a))/i,
     /\bios\b/i, /\bandroid\b/i, /mobile and web/i
   ],
   NEST: [/\bnest((.|-| )?js)?\b/i],
@@ -163,7 +163,7 @@ export const SKILLS_REGEX = {
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
     /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i,
     /(ferramenta(s)?|automa(tiza)?cao) de teste(s)?/i, /karma/i, /jasmine/i,
-    /teste(s)? (d)?e (unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?|aplicac(oes|ao))/i,
+    /teste(s)? (d)?e (qualidade|unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?|aplicac(oes|ao))/i,
     /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit(-|\s))??test(s)?/i, /testing (scenarios|coverage)/i
   ],
@@ -171,6 +171,7 @@ export const SKILLS_REGEX = {
   TOTVS: [/totvs/i, /advpl/i, /protheus/i],
   TYPESCRIPT: [/type( |-)?script/i, /\bts\b/i, /typeschipt/i, /typscript/i],
   UI: [/\bui\b/i, /uiux/i, /uxui/i, /user interface/i],
+  UTILITY_LIBRARY: [/lodash/i],
   UX: [/\bux\b/i, /uiux/i, /uxui/i, /usabilidade/i, /user experience/i],
   VANILLA: [/((javascript|js) )?vanilla((.|-| )?(js|javascript)|\b)/i],
   VITE: [/vite/i],

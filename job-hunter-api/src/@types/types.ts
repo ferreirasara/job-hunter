@@ -113,6 +113,7 @@ export enum JobSkill {
   TOTVS = "TOTVS",
   TYPESCRIPT = "TYPESCRIPT",
   UI = "UI",
+  UTILITY_LIBRARY = "UTILITY_LIBRARY",
   UX = "UX",
   VANILLA = "VANILLA",
   VITE = "VITE",

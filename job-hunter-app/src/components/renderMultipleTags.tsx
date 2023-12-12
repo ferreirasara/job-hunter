@@ -126,6 +126,7 @@ const SKILL_RATING = {
   "TOTVS": -2,
   "TYPESCRIPT": 2,
   "UI": 2,
+  "UTILITY_LIBRARY": 2,
   "UX": 2,
   "VANILLA": -1,
   "VITE": 1,
