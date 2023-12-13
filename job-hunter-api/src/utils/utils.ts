@@ -828,7 +828,7 @@ export const getNumberFromString = (str: string): number => {
     'sete': 7, 'seven': 7,
     'oito': 8, 'eight': 8,
     'nove': 9, 'nine': 9,
-    'des': 10, 'ten': 10,
+    'dez': 10, 'ten': 10,
   }
 
   const words = str?.split(/\s/);
