@@ -223,6 +223,6 @@ export const analyzeDescription = (job: { title: string, description: string, sk
     hiringRegime,
     seniority,
     yearsOfExperience,
-    description: newDescription?.replace(/\n+/g, '\n')?.replace(/`+/g, '`')
+    description: newDescription?.replace(/\n+/g, '\n')?.replace(/\`+/g, '`')
   };
 }

@@ -208,10 +208,10 @@ export const BENEFITS_REGEX = {
   ],
   HOME_OFFICE_VOUCHER: [
     /(auxilio|subsidio|ajuda de custo) (para\s)?(atuacao em\s)?(home(-|\s)?office|trabalho remoto|montagem do seu escritorio)/i,
-    /remote work allowance/i, /voucher (home(-|\s)office|para kit setup)/i, /equipamento/i,
+    /remote work allowance/i, /voucher (home(-|\s)office|para kit setup)/i, /equipamento/i, /hardware setup/i
   ],
   LIFE_INSURANCE: [/seguro de vida/i, /life insurance/i],
-  MATERNITY_LEAVE: [/licenca maternidade/i],
+  MATERNITY_LEAVE: [/licenca maternidade/i, /(paid )?parental leave/i],
   MEAL_VOUCHER: [
     /(vale|ajuda de custo para|auxilio)(-|\s)(alimentacao|refeicao)/i,
     /(caju|flash)/i, /\bv(\.)?a(\.)?\b/i, /\bv(\.)?r(\.)?\b/i, /(to use with|flex) food/i
@@ -275,7 +275,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/i,
   /(\d+|\w+) (anos|meses) (\+ )?(trabalhando)?/i,
 
-  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional)/i,
+  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional|non\-internship professional)/i,
   /at least (\d+|\w+) years of experience/i,
   /more than (\d+|\w+) years/i,
   /minimum (of )?(\d+|\w+) years/i,

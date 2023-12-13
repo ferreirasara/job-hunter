@@ -683,6 +683,7 @@ describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
         { str: '5+ years of professional', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: '4+ anos experiencia', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: '3 anos +', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '4+ years of non-internship professional', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
       ]
     },
   ]
