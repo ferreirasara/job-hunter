@@ -122,6 +122,7 @@ export const SKILLS_REGEX = {
   POWER_BI: [/power(-|\s)?bi/i],
   PRISMA: [/prisma/i],
   PRODUCT_MANAGER: [/product manager/i],
+  PROGRAMMING_LOGIC: [/logica de programacao/i, /programming logic/i],
   PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
   RAZOR: [/razor/i],

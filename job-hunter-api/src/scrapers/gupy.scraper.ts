@@ -49,7 +49,7 @@ export default class GupyScraper extends ScraperInterface {
       const job = jobs[i];
       try {
         await page.goto(job?.jobUrl);
-        const descriptionOriginal = await page?.$$eval('[data-testid="text-section"]', (el) => el?.map(cur => cur?.textContent)?.join('\n\n'));
+        const descriptionOriginal = await page?.$eval('section', (el) => el?.textContent);
         const analyzerResponse = analyzeDescription({ title: job.name, description: descriptionOriginal });
 
         jobsWithDescription.push({

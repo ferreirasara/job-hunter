@@ -82,6 +82,7 @@ export const SKILL_RATING = {
   "POWER_BI": -2,
   "PRISMA": -2,
   "PRODUCT_MANAGER": -2,
+  "PROGRAMMING_LOGIC": 2,
   "PYTHON": -2,
   "PWA": 1,
   "RAZOR": -2,
