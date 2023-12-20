@@ -1,5 +1,5 @@
 import { uniq } from "lodash";
-import { addMarkdown, getNumberFromString, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
+import { getNumberFromString, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
 import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
 import { JobBenefit, JobHiringRegime, JobSeniority, JobSkill, JobType } from "../@types/types";
@@ -207,15 +207,6 @@ export const analyzeDescription = (job: { title: string, description: string, sk
 
   const { skillsRating, benefitsRating } = getRatingsBasedOnSkillsAndBenefits({ skills, benefits });
 
-  let newDescription = description;
-
-  for (const skill of skills) newDescription = addMarkdown(newDescription, SKILLS_REGEX?.[skill]);
-  for (const benefit of benefits) newDescription = addMarkdown(newDescription, BENEFITS_REGEX?.[benefit]);
-  newDescription = addMarkdown(newDescription, TYPES_REGEX?.[type]);
-  newDescription = addMarkdown(newDescription, HIRING_REGIMES_REGEX?.[hiringRegime]);
-  newDescription = addMarkdown(newDescription, SENIORITY_REGEX?.[seniority]);
-  newDescription = addMarkdown(newDescription, YEARS_OF_EXPERIENCE_REGEX);
-
   return {
     skills, benefits,
     skillsRating, benefitsRating,
@@ -223,6 +214,6 @@ export const analyzeDescription = (job: { title: string, description: string, sk
     hiringRegime,
     seniority,
     yearsOfExperience,
-    description: newDescription?.replace(/\n+/g, '\n')?.replace(/\`+/g, '`')
+    description: description?.replace(/\n+/g, '\n')
   };
 }

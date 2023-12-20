@@ -1,6 +1,8 @@
-import { isArray, uniq } from "lodash";
+import { flatten, isArray, uniq } from "lodash";
 import { HTTPRequest } from "puppeteer";
 import fetch from "node-fetch";
+import { JobOpportunity } from "../entity/JobOpportunity";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "../analyzer/regex";
 
 export type ContType = {
   name: string
@@ -850,4 +852,18 @@ export const isUnwantedJob = (args: { title: string, company: string, descriptio
   return unwantedTitleKeywords?.some(cur => title?.includes(cur)) ||
     companyTitleKeywords?.some(cur => company?.includes(cur)) ||
     descriptionTitleKeywords?.some(cur => description?.includes(cur))
+}
+
+export const getJobRegex = (job: JobOpportunity): string[] => {
+  const skills = job?.skills?.split(',');
+  const benefits = job?.benefits?.split(',');
+
+  const skillsRegex = skills?.map(cur => SKILLS_REGEX[cur]);
+  const benefitsRegex = benefits?.map(cur => BENEFITS_REGEX[cur]);
+  const hiringRegimeRegex = HIRING_REGIMES_REGEX[job?.hiringRegime];
+  const seniorityRegex = SENIORITY_REGEX[job?.seniority];
+  const typeRegex = TYPES_REGEX[job?.type];
+
+  const allRegex: RegExp[] = flatten([...skillsRegex, ...benefitsRegex, ...hiringRegimeRegex, ...seniorityRegex, ...typeRegex, ...YEARS_OF_EXPERIENCE_REGEX])
+  return allRegex?.map(cur => String(cur))
 }

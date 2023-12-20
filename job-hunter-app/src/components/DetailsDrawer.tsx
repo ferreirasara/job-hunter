@@ -5,10 +5,10 @@ import { DiscardedButton } from "./DiscardedButton"
 import { RecusedButton } from "./RecusedButton"
 import { NumberOfInterviewsInput } from "./NumberOfInterviewsInput"
 import { NumberOfTestsInput } from "./NumberOfTestsInput"
-import ReactMarkdown from "react-markdown"
 import { renderMultipleTags } from "./renderMultipleTags"
 import { useMemo, useState } from "react"
 import { GetJobsFromAPIArgs } from "../utils/utils"
+import Highlighter from "react-highlight-words"
 
 type DetailsDrawerProps = {
   open: boolean
@@ -35,6 +35,7 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob, apiArgs }
   const screens = useBreakpoint();
   const descriptionSplit = selectedJob?.description?.split('\n');
   const description = descriptionSplit?.filter(cur => !!cur);
+  const allRegex = selectedJob?.regex?.map(cur => new RegExp(cur, 'i'));
 
   const commomProps = {
     uuid: selectedJob?.uuid,
@@ -125,9 +126,10 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob, apiArgs }
     </Divider>
     <div style={{ flex: 1, overflowY: 'auto' }}>
       {description?.map((cur, index) => <Typography.Paragraph key={'paragraph_' + index}>
-        <ReactMarkdown key={'markdown_' + index}>
-          {cur}
-        </ReactMarkdown>
+        <Highlighter
+          searchWords={allRegex || []}
+          textToHighlight={cur}
+        />
       </Typography.Paragraph>)}
     </div>
   </Drawer>

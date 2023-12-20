@@ -2,7 +2,7 @@ import { FindOptionsOrder, FindOptionsWhere, ILike, In, MoreThanOrEqual } from "
 import { AppDataSource } from "../data-source";
 import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten, uniq } from "lodash";
-import { calcContType, convertStrToArray } from "../utils/utils";
+import { calcContType, convertStrToArray, getJobRegex } from "../utils/utils";
 import { JobInput, JobPlatform } from "../@types/types";
 
 const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrder<JobOpportunity> => {
@@ -113,6 +113,11 @@ export default class JobOpportunityController {
       order: getOrderBy(args?.orderByField, args?.orderByOrder)
     });
 
+    const jobsWithRegex = jobs?.map(job => ({
+      ...job,
+      regex: getJobRegex(job),
+    }))
+
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where });
     const allSkillsFromDb = await AppDataSource.manager.find(JobOpportunity, { select: { skills: true }, where });
     const allBenefitsFromDb = await AppDataSource.manager.find(JobOpportunity, { select: { benefits: true }, where });
@@ -123,7 +128,7 @@ export default class JobOpportunityController {
 
     return {
       totalOfJobs,
-      data: jobs,
+      data: jobsWithRegex,
       allRatings: allRatings.map(cur => cur?.totalRating),
       allSkills: uniq(allSkills)?.sort((a, b) => a?.localeCompare(b)),
       allBenefits: uniq(allBenefits)?.sort((a, b) => a?.localeCompare(b)),

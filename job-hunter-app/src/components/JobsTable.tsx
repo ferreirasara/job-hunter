@@ -59,6 +59,7 @@ export type JobsTableData = {
   numberOfTests: number
   seniority: JobSeniority
   yearsOfExperience: number
+  regex: string[]
 }
 
 export type JobsResponse = {
