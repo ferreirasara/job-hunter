@@ -12,11 +12,9 @@
     "@types/react": "^18.2.32",
     "@types/react-dom": "^18.2.14",
     "antd": "^5.10.2",
-    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-highlight-words": "^0.20.0",
-    "react-markdown": "^9.0.0",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
@@ -48,7 +46,6 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.200",
     "@types/react-highlight-words": "^0.16.7"
   }
 }
