@@ -11,7 +11,7 @@ export const renderMultipleTags = (field?: string) => {
   </Tag>)
 }
 
-const SKILL_RATING = {
+export const SKILL_RATING = {
   "AGILE": 2,
   "ANGULAR": -2,
   "ANTD": 2,
@@ -24,8 +24,8 @@ const SKILL_RATING = {
   "BASIC": -1,
   "BLAZOR": -2,
   "BOOTSTRAP": 2,
-  "CERTIFICATIONS": -2,
   "C": -2,
+  "CERTIFICATIONS": -2,
   "CHARTS": 2,
   "COBOL": -2,
   "CODE_MAINTAINABILITY": 2,
@@ -133,6 +133,7 @@ const SKILL_RATING = {
   "VITE": 1,
   "VUE": -2,
   "WEB_HOOKS": 1,
+  "WEBRTC": -2,
   "WINDOWS_FORMS": -2,
   "WORDPRESS": -2,
 }
