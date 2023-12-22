@@ -120,6 +120,7 @@ export const SKILL_RATING = {
   "VITE": 1,
   "VUE": -2,
   "WEB_HOOKS": 1,
+  "WEBRTC": -2,
   "WINDOWS_FORMS": -2,
   "WORDPRESS": -2,
 }

@@ -278,6 +278,14 @@ describe('test SKILLS_REGEX cases', () => {
       ]
     },
     {
+      type: 'REACT_HOOKS',
+      cases: [
+        { str: 'react hook', regex: SKILLS_REGEX.REACT_HOOKS, toBe: true },
+        { str: 'react hooks', regex: SKILLS_REGEX.REACT_HOOKS, toBe: true },
+        { str: 'react hook form', regex: SKILLS_REGEX.REACT_HOOKS, toBe: false },
+      ]
+    },
+    {
       type: 'RESPONSIVE_DESIGN',
       cases: [
         { str: 'site responsivo', regex: SKILLS_REGEX.RESPONSIVE_DESIGN, toBe: true },

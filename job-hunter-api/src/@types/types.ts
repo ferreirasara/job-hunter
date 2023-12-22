@@ -120,6 +120,7 @@ export enum JobSkill {
   VITE = "VITE",
   VUE = "VUE",
   WEB_HOOKS = "WEB_HOOKS",
+  WEBRTC = "WEBRTC",
   WINDOWS_FORMS = "WINDOWS_FORMS",
   WORDPRESS = "WORDPRESS",
 }
