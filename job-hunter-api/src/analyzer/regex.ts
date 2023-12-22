@@ -59,28 +59,28 @@ export const SKILLS_REGEX = {
   ELIXIR: [/elixir/i],
   EMBER: [/\bember\b/i],
   ENGLISH: [/ingles/i, /english/i],
-  FIGMA: [/figma/i],
   FLASK: [/flask/i],
   FLUTTER: [/flutter/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i],
   FULL_STACK: [/full( |-|.)?stack/i, /(back|front)( |-|.)?(end)?( (e|ao|quanto o) |, )(back|front)( |-|.)?(end)?/i],
   GAME_ENGINE: [/unity/],
+  GATSBY: [/gatsby/],
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /mvc/i, /mvvm/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
-    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /solid/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
+    /codigo (limpo|seguro)/i, /design(er)? patterns/i, /\bsolid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
     /componentizacao/i,
   ],
   GOLANG: [/go( |-|.)?lang/i, /\bgo\b/i],
   GRAPHQL: [/graph( |-|.)?ql/i],
-  HTML: [/html(5)?/i],
+  HTML: [/htm(l)?(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
   IONIC: [/ionic/i],
   JAVA: [
     /java(?! script)/i, /java\d/i, /spring( boot)?/i, /eclipse/i, /struts/i, /springboot/i,
     /mockmvc/i, /groovy/i, /jasper/i
   ],
-  JAVASCRIPT: [/java( |-|.)?script/i, /^(.|-)?js\b/i, /es(6|7)/i, /js(6|7)/i],
+  JAVASCRIPT: [/java( |-|.)?script/i, /^(.|-)?js\b/i, /es(5|6|7)/i, /js(5|6|7)/i],
   JQUERY: [/jquery/i],
   KOTLIN: [/kotlin/i],
   LIGHTHOUSE: [/lighthouse/i],
@@ -99,7 +99,7 @@ export const SKILLS_REGEX = {
   MICRO_SERVICES: [/micro( |-|.)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [
     /(desenvolvimento|conhecimento em) (de aplicativos )?(mobile|nativo)/i, /(mobile|programacao) (development|nativ(o|a))/i,
-    /\bios\b/i, /android/i, /mobile and web/i
+    /\bios\b/i, /android/i, /mobile and web/i, /jetpack/, /ml( |-|.)?kit/
   ],
   NEST: [/nest(( |-|.)?js)?/i],
   NEXT: [/next(( |-|.)?js)?/i],
@@ -113,7 +113,7 @@ export const SKILLS_REGEX = {
   PERFORMANCE_OPTIMIZATION: [
     /code( |-|.)?splitting/i, /lazy( |-|.)?loading/i, /optimize applications/i, /baixa latencia/i, /\bseo\b/i,
     /(alta disponibilidade|otimizacao) (d)?e (desempenho|performance)/i, /solucoes (consistentes )?em performance/i,
-    /(seguranca e )?performance (para|na) web/i
+    /(seguranca e )?performance (para|na) web/i, /performance e tempo de carregamento/
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
@@ -123,6 +123,7 @@ export const SKILLS_REGEX = {
   PRISMA: [/prisma/i],
   PRODUCT_MANAGER: [/product manager/i],
   PROGRAMMING_LOGIC: [/logica de programacao/i, /programming logic/i],
+  PROTOTYPING: [/figma/i, /adobe( |-|.)?xd/, /photo( |-|.)?shop/, /prototipo(s)?/],
   PYTHON: [/python/i, /phyton/i],
   PWA: [/pwa/i],
   RAZOR: [/razor/i],
@@ -143,7 +144,7 @@ export const SKILLS_REGEX = {
   SAP: [/\bsap\b/i, /hybris/i],
   SAS: [/\bsas\b/i],
   SASS: [/\bsass\b/i],
-  SCALA: [/scala/i],
+  SCALA: [/\bscala\b/i],
   SCRIPT: [/powershell/, /bash( script)?/, /automatizacao de processos/],
   SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [
@@ -160,6 +161,7 @@ export const SKILLS_REGEX = {
     /te(ch|am)(\s|-)lead/i, /(gerenciar|coordenar) (a )?equipe/i, /(gerenciamento|lideranca) de projetos/i,
     /lideranca de equipe(s)?/i
   ],
+  TELECOMMUNICATIONS: [/vonage/, /voip/, /chime/],
   TEST: [
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
     /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i,
@@ -178,7 +180,7 @@ export const SKILLS_REGEX = {
   VITE: [/vite/i],
   VUE: [/\bvue(( |-|.)?js)?\b/i, /vuetify/i],
   WEB_HOOKS: [/web( )?hook(s)?/i],
-  WEBRTC: [/webrtc/],
+  WEBRTC: [/webrtc/, /daily.co/],
   WINDOWS_FORMS: [/(windows|web)( |-|.)?forms/i],
   WORDPRESS: [/wo(r)?d( |-|.)?press/i, /elementor/i],
 }
@@ -249,7 +251,7 @@ export const HIRING_REGIMES_REGEX = {
 
 export const TYPES_REGEX = {
   REMOTE: [
-    /(home|anywhere)( |-|.)?(office|work)/i, /\bremoto(?!: nao)\b/i, /trabalhar de casa/i, /\bremote\b/i, /\bremota\b/i,
+    /(home|anywhere)( |-|.)?(office|work)/i, /remoto(?!: nao)/i, /trabalhar de casa/i, /remote/i, /remota/i,
     /100\% home/i, /teletrabalho/i, /trabalho digital/i
   ],
   HYBRID: [/hibrid(o|a)/i, /hybrid/i, /disponibilidade para mudanca/i],
@@ -271,7 +273,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
   /(experiencia|atuacao) de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
   /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
-  /(minimo|mais) de (\d+|\w+) (anos|meses)/i,
+  /(minimo|mais) de (\d+|\w+) (anos|meses)(?! de mercado)/i,
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
   /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/i,

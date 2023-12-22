@@ -60,7 +60,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'firebase': return JobSkill.DB;
     case 'flask': return JobSkill.FLASK;
     case 'flutter': return JobSkill.FLUTTER;
-    case 'figma': return JobSkill.FIGMA;
+    case 'figma': return JobSkill.PROTOTYPING;
     case 'git': return JobSkill.CODE_VERSIONING;
     case 'go': return JobSkill.GOLANG;
     case 'google cloud': return JobSkill.DEV_OPS;

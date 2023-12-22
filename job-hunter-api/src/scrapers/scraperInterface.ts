@@ -50,7 +50,7 @@ export default abstract class ScraperInterface {
 
       const discarded = [JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS]?.some(cur => job?.skills?.includes(cur))
 
-      if (discarded && !unwantedJob) {
+      if (discarded) {
         jobsDiscardedCount++;
         console.log(`\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`);
       }

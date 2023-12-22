@@ -846,7 +846,7 @@ export const isUnwantedJob = (args: { title: string, company: string, descriptio
     'banco de talentos', 'banco de oportunidades', 'talent pool', 'design', 'marketing',
     'professor', 'caixa', 'telemarketing', 'logistica', 'vendedor', 'estoquista', 'estocagem'
   ];
-  const companyTitleKeywords = ['boticário', 'stefanini', 'netvagas'];
+  const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
 
   return unwantedTitleKeywords?.some(cur => title?.includes(cur)) ||
