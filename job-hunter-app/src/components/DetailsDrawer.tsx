@@ -35,7 +35,8 @@ export const DetailsDrawer = ({ fetchData, onClose, open, selectedJob, apiArgs }
   const screens = useBreakpoint();
   const descriptionSplit = selectedJob?.description?.split('\n');
   const description = descriptionSplit?.filter(cur => !!cur);
-  const allRegex = selectedJob?.regex?.map(cur => new RegExp(cur, 'i'));
+  const allRegex = selectedJob?.regex?.map(cur => new RegExp(cur?.replace('/', '')?.replace('/i', '')));
+  console.log("🚀 | DetailsDrawer | allRegex:", allRegex);
 
   const commomProps = {
     uuid: selectedJob?.uuid,
