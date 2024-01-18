@@ -77,7 +77,7 @@ export const SKILLS_REGEX = {
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
   IONIC: [/ionic/i],
   JAVA: [
-    /java(?! script)/i, /java\d/i, /spring( boot)?/i, /eclipse/i, /struts/i, /springboot/i,
+    /java(?!( |-|.)?script)/i, /java\d/i, /spring(( |-|.)?boot)?/i, /eclipse/i, /struts/i,
     /mockmvc/i, /groovy/i, /jasper/i
   ],
   JAVASCRIPT: [/java( |-|.)?script/i, /^(.|-)?js\b/i, /es(5|6|7)/i, /js(5|6|7)/i],

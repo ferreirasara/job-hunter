@@ -157,15 +157,8 @@ describe('test SKILLS_REGEX cases', () => {
       cases: [
         { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
         { str: 'java8+', regex: SKILLS_REGEX.JAVA, toBe: true },
-        { str: 'javascript', regex: SKILLS_REGEX.JAVA, toBe: false },
-        { str: 'java script', regex: SKILLS_REGEX.JAVA, toBe: false },
-      ]
-    },
-    {
-      type: 'JAVA',
-      cases: [
-        { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
-        { str: 'java8+', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'springboot', regex: SKILLS_REGEX.JAVA, toBe: true },
+        { str: 'spring boot', regex: SKILLS_REGEX.JAVA, toBe: true },
         { str: 'javascript', regex: SKILLS_REGEX.JAVA, toBe: false },
         { str: 'java script', regex: SKILLS_REGEX.JAVA, toBe: false },
       ]
@@ -199,12 +192,6 @@ describe('test SKILLS_REGEX cases', () => {
       type: 'MENSAGERIA',
       cases: [
         { str: 'rabitmq', regex: SKILLS_REGEX.MENSAGERIA, toBe: true },
-      ]
-    },
-    {
-      type: 'JAVA',
-      cases: [
-        { str: 'java', regex: SKILLS_REGEX.JAVA, toBe: true },
       ]
     },
     {
