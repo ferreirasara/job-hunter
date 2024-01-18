@@ -31,6 +31,15 @@ npm install
 npm run start:api
 ```
 
+### Running Tests
+
+To execute unit tests, use the following command:
+
+```bash
+# Run unit tests
+npm test
+```
+
 ### Crawling Job Listings
 
 To perform a web crawl for job listings, use the following command:
@@ -74,6 +83,9 @@ npm install
 npm start
 ```
 
-## License
+## Contact Information
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+For inquiries or further information, you can reach me via:
+
+- Email: ferreirasara1501@gmail.com
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/ferreirasara1501)
