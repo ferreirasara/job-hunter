@@ -32,6 +32,18 @@ describe('test SKILLS_REGEX cases', () => {
       ]
     },
     {
+      type: 'AJAX',
+      cases: [
+        { str: "ajax", regex: SKILLS_REGEX.AJAX, toBe: true },
+      ]
+    },
+    {
+      type: 'ANGULAR',
+      cases: [
+        { str: "angular", regex: SKILLS_REGEX.ANGULAR, toBe: true },
+      ]
+    },
+    {
       type: 'ANTD',
       cases: [
         { str: 'antd', regex: SKILLS_REGEX.ANTD, toBe: true },
@@ -51,12 +63,20 @@ describe('test SKILLS_REGEX cases', () => {
       ]
     },
     {
+      type: 'ARTIFICIAL_INTELLIGENCE',
+      cases: [
+        { str: "inteligencia artificial", regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE, toBe: true },
+        { str: "artificial intelligence", regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE, toBe: true },
+      ]
+    },
+    {
       type: 'BACHELORS_DEGREE',
       cases: [
         { str: 'graduacao completa', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
         { str: 'ensino superior', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
         { str: 'superior completo', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
         { str: 'formacao superior', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: true },
+        { str: 'nao ter formacao superior na area de computacao e um plus', regex: SKILLS_REGEX.BACHELORS_DEGREE, toBe: false },
       ]
     },
     {
@@ -137,6 +157,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: "back-end, front-end", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
         { str: "front e back-end", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
         { str: "back e frontend", regex: SKILLS_REGEX.FULL_STACK, toBe: true },
+        { str: 'back-end & front-end', regex: SKILLS_REGEX.FULL_STACK, toBe: true }
       ]
     },
     {
@@ -178,6 +199,26 @@ describe('test SKILLS_REGEX cases', () => {
       ]
     },
     {
+      type: 'LOW_CODE',
+      cases: [
+        { str: 'low code', regex: SKILLS_REGEX.LOW_CODE, toBe: true },
+        { str: 'no code', regex: SKILLS_REGEX.LOW_CODE, toBe: true },
+      ]
+    },
+    {
+      type: 'LEAN',
+      cases: [
+        { str: 'lean', regex: SKILLS_REGEX.LEAN, toBe: true },
+      ]
+    },
+    {
+      type: 'MACHINE_LEARNING',
+      cases: [
+        { str: 'machine learning', regex: SKILLS_REGEX.MACHINE_LEARNING, toBe: true },
+        { str: 'aprendizado de maquina', regex: SKILLS_REGEX.MACHINE_LEARNING, toBe: true },
+      ]
+    },
+    {
       type: 'MATERIAL_UI',
       cases: [
         { str: 'mui', regex: SKILLS_REGEX.MATERIAL_UI, toBe: true },
@@ -204,6 +245,7 @@ describe('test SKILLS_REGEX cases', () => {
       type: 'MOBILE_DEVELOPMENT',
       cases: [
         { str: 'desenvolvimento nativo', regex: SKILLS_REGEX.MOBILE_DEVELOPMENT, toBe: true },
+        { str: 'desenvolvimento de aplicacoes mobile', regex: SKILLS_REGEX.MOBILE_DEVELOPMENT, toBe: true },
       ]
     },
     {
@@ -244,6 +286,56 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'node-js', regex: SKILLS_REGEX.NODE, toBe: true },
         { str: 'node js', regex: SKILLS_REGEX.NODE, toBe: true },
         { str: 'nodejs', regex: SKILLS_REGEX.NODE, toBe: true },
+      ]
+    },
+    {
+      type: 'PERFORMANCE_OPTIMIZATION',
+      cases: [
+        { str: 'lazy loading', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
+        { str: 'otimizacao de desempenho', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
+        { str: 'otimizacao de performance', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
+      ]
+    },
+    {
+      type: 'PERL',
+      cases: [
+        { str: 'perl', regex: SKILLS_REGEX.PERL, toBe: true },
+      ]
+    },
+    {
+      type: 'PENTEST',
+      cases: [
+        { str: 'pentest', regex: SKILLS_REGEX.PENTEST, toBe: true },
+      ]
+    },
+    {
+      type: 'PHONEGAP',
+      cases: [
+        { str: 'phonegap', regex: SKILLS_REGEX.PHONEGAP, toBe: true },
+      ]
+    },
+    {
+      type: 'PHP',
+      cases: [
+        { str: 'php', regex: SKILLS_REGEX.PHP, toBe: true },
+      ]
+    },
+    {
+      type: 'POSTMAN',
+      cases: [
+        { str: 'postman', regex: SKILLS_REGEX.POSTMAN, toBe: true },
+      ]
+    },
+    {
+      type: 'POWER_BI',
+      cases: [
+        { str: 'power bi', regex: SKILLS_REGEX.POWER_BI, toBe: true },
+      ]
+    },
+    {
+      type: 'PRISMA',
+      cases: [
+        { str: 'prisma', regex: SKILLS_REGEX.PRISMA, toBe: true },
       ]
     },
     {
@@ -497,6 +589,13 @@ describe('test BENEFITS_REGEX cases', () => {
       ]
     },
     {
+      type: 'MATERNITY_LEAVE',
+      cases: [
+        { str: 'licenca maternidade', regex: BENEFITS_REGEX.MATERNITY_LEAVE, toBe: true },
+        { str: 'parental leave', regex: BENEFITS_REGEX.MATERNITY_LEAVE, toBe: true },
+      ]
+    },
+    {
       type: 'MEAL_VOUCHER',
       cases: [
         { str: 'vale alimentacao', regex: BENEFITS_REGEX.MEAL_VOUCHER, toBe: true },
@@ -526,6 +625,33 @@ describe('test BENEFITS_REGEX cases', () => {
       ]
     },
     {
+      type: 'PET_HELP',
+      cases: [
+        { str: 'licenca pet', regex: BENEFITS_REGEX.PET_HELP, toBe: true },
+        { str: 'convenio pet', regex: BENEFITS_REGEX.PET_HELP, toBe: true },
+      ]
+    },
+    {
+      type: 'PHARMACY_AGREEMENT',
+      cases: [
+        { str: 'convenio farmacia', regex: BENEFITS_REGEX.PHARMACY_AGREEMENT, toBe: true },
+      ]
+    },
+    {
+      type: 'PLR',
+      cases: [
+        { str: 'participacao nos lucros', regex: BENEFITS_REGEX.PLR, toBe: true },
+        { str: 'plr', regex: BENEFITS_REGEX.PLR, toBe: true },
+        { str: 'lucros e resultados', regex: BENEFITS_REGEX.PLR, toBe: true },
+      ]
+    },
+    {
+      type: 'PRIVATE_PENSION',
+      cases: [
+        { str: 'previdencia privada', regex: BENEFITS_REGEX.PRIVATE_PENSION, toBe: true },
+      ]
+    },
+    {
       type: 'PSYCHOLOGICAL_HELP',
       cases: [
         { str: 'auxilio psicologico', regex: BENEFITS_REGEX.PSYCHOLOGICAL_HELP, toBe: true },
@@ -547,6 +673,27 @@ describe('test BENEFITS_REGEX cases', () => {
         { str: 'program of indication', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
         { str: 'indicacao premiada', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
         { str: 'bonus por indicacao de talentos', regex: BENEFITS_REGEX.REFERRAL_BONUS, toBe: true },
+      ]
+    },
+    {
+      type: 'STOCK_OPTIONS',
+      cases: [
+        { str: 'stock options', regex: BENEFITS_REGEX.STOCK_OPTIONS, toBe: true },
+      ]
+    },
+    {
+      type: 'THIRTEENTH_SALARY',
+      cases: [
+        { str: '13 salario', regex: BENEFITS_REGEX.THIRTEENTH_SALARY, toBe: true },
+        { str: '13º salario', regex: BENEFITS_REGEX.THIRTEENTH_SALARY, toBe: true },
+        { str: 'decimo terceiro', regex: BENEFITS_REGEX.THIRTEENTH_SALARY, toBe: true },
+      ]
+    },
+    {
+      type: 'TRANSPORTATION_VOUCHER',
+      cases: [
+        { str: 'vale transporte', regex: BENEFITS_REGEX.TRANSPORTATION_VOUCHER, toBe: true },
+        { str: 'auxilio combustivel', regex: BENEFITS_REGEX.TRANSPORTATION_VOUCHER, toBe: true },
       ]
     },
     {
@@ -650,6 +797,7 @@ describe('test SENIORITY_REGEX cases', () => {
       cases: [
         { str: 'senior', regex: SENIORITY_REGEX.SENIOR, toBe: true },
         { str: 'sr', regex: SENIORITY_REGEX.SENIOR, toBe: true },
+        { str: 'senioridade', regex: SENIORITY_REGEX.SENIOR, toBe: false },
       ]
     },
   ]
@@ -679,6 +827,8 @@ describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
         { str: '4+ anos experiencia', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: '3 anos +', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: '4+ years of non-internship professional', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'experiencia de trabalho de 7+ anos', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: '5+ years with', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
       ]
     },
   ]

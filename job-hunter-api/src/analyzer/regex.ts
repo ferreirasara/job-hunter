@@ -3,9 +3,9 @@ export const SKILLS_REGEX = {
     /agile/i, /scrum/i, /jira/i, /trello/i, /kanban/i, /pair programming/i, /praticas ageis/i,
     /clean architectures/i, /(metodo(logia(s)?)?|desenvolvimento|cultura) ag(eis|il)/i
   ],
+  AJAX: [/\bajax\b/i],
   ANGULAR: [/angular(( |-|.)?js)?/i],
   ANTD: [/ant( |-|.)?(d(esign)?)/i, /biblioteca(s)? de ui/i, /ui( |-|.)?kit/i],
-  AJAX: [/\bajax\b/i],
   API: [
     /((\bapi(s)?\b )|\b)rest(ful|\b)(?!.)?( api(s)?)?/i, /\bapi(s)?\b/i, /soap/i,
     /graphql/, /\bexpress(( |-|.)?js)?\b/i, /fast( |-|.)?api/i
@@ -14,7 +14,7 @@ export const SKILLS_REGEX = {
   ARTIFICIAL_INTELLIGENCE: [/inteligencia artificial/i, /artificial intelligence/i, /nlp/i, /watson/i],
   BACHELORS_DEGREE: [
     /bachelor's degree/i, /computer science/i, /bacharelado/i, /ciencia(s)? da computacao/i,
-    /(gradua(do|cao)|superior)(\s|\s-\s)complet(a|o)/i, /(ensino|formacao) (superior| na area de tecnologia)/i,
+    /(gradua(do|cao)|superior)(\s|\s-\s)complet(a|o)/i, /(?<!nao ter )(ensino|formacao) (superior| na area de tecnologia)/i,
     /possuir formacao/i, /grau de cs/i
   ],
   BACKBONE: [/backbone/i],
@@ -39,7 +39,7 @@ export const SKILLS_REGEX = {
   DB: [
     /(banco|base)(s)? de dados/i, /mongo( )?db/i, /(ms-|microsoft )?sql( |-|.)?(server)?/i, /conteinerizacao/i,
     /postgre(s)?(ql)?/i, /my(\s|-)?sql/i, /firebase/i, /redis/i, /no( |-|.)?sql/i, /\bmssql\b/i, /dynamodb/i,
-    /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i
+    /\borm\b/i, /oracle/i, /hibernate/i, /mariadb/i, /sqlite/i, /bases relacionais e nao relacionais/i, /sequelize/i,
   ],
   DELPHI: [/delphi/i],
   DESIGN: [/design de interfaces/i, /photoshop/i, /illustrator/i, /sketch/i],
@@ -55,14 +55,17 @@ export const SKILLS_REGEX = {
   DRUPAL: [/drupal/i],
   ECOMMERCE: [/shop(i)?fy/i, /linx/i, /tray(corp)?/i, /vtex/i, /(oracle|sap) commerce/i, /magento/i],
   ELASTIC_SEARCH: [/elastic(\s)?search/i],
-  ELECTRON: [/electron/i],
+  ELECTRON: [/electron(?!ica)/i],
   ELIXIR: [/elixir/i],
   EMBER: [/\bember\b/i],
   ENGLISH: [/ingles/i, /english/i],
   FLASK: [/flask/i],
   FLUTTER: [/flutter/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i],
-  FULL_STACK: [/full( |-|.)?stack/i, /(back|front)( |-|.)?(end)?( (e|ao|quanto o) |, )(back|front)( |-|.)?(end)?/i],
+  FULL_STACK: [
+    /full( |-|.)?stack/i, /(back|front)( |-|.)?(end)?( (e|ao|quanto o) |, )(back|front)( |-|.)?(end)?/i,
+    /(back|front)( |-|.)?end & (front|back)( |-|.)?end/i
+  ],
   GAME_ENGINE: [/unity/],
   GATSBY: [/gatsby/],
   GOOD_PRACTICES: [
@@ -98,12 +101,12 @@ export const SKILLS_REGEX = {
   MICRO_FRONTENDS: [/micro( |-|.)?front( |-|.)?end(s)?/i],
   MICRO_SERVICES: [/micro( |-|.)?servic(o|e)(s)?/i],
   MOBILE_DEVELOPMENT: [
-    /(desenvolvimento|conhecimento em) (de aplicativos )?(mobile|nativo)/i, /(mobile|programacao) (development|nativ(o|a))/i,
+    /(desenvolvimento|conhecimento em) (de (aplicativos|aplicacoes) )?(mobile|nativo)/i, /(mobile|programacao) (development|nativ(o|a))/i,
     /\bios\b/i, /android/i, /mobile and web/i, /jetpack/, /ml( |-|.)?kit/
   ],
-  NEST: [/nest(( |-|.)?js)?/i],
-  NEXT: [/next(( |-|.)?js)?/i],
-  NETWORK: [/cpe/i, /gpon/i, /wi( |-|.)?fi/i, /dhcp/i, /\bnat\b/i],
+  NEST: [/\bnest(( |-|.)?js)?/i],
+  NEXT: [/\bnext(( |-|.)?js)?/i],
+  NETWORK: [/\bcpe\b/i, /\bgpon\b/i, /wi( |-|.)?fi/i, /dhcp/i, /\bnat\b/i],
   NUXT: [/nuxt(( |-|.)?js)?/i],
   NODE: [/node(( |-|.)?js)?/i],
   OBJECTIVE_C: [/objective( |-|.)?c/i],
@@ -165,7 +168,7 @@ export const SKILLS_REGEX = {
   TEST: [
     /jest/i, /selenium/i, /junit/i, /cypress/i, /\btdd\b/i, /\be2e\b/i, /enzyme/i, /mocha/i, /code coverage/i,
     /teste(s)? func(t)?iona(is|l)/i, /teste(s)? (unitario|automatizado|integrado)(s)?/i,
-    /(ferramenta(s)?|automa(tiza)?cao) de teste(s)?/i, /karma/i, /jasmine/i,
+    /(ferramenta(s)?|automa(tiza)?cao) de teste(s)?/i, /karma/i, /jasmine/i, /cucumber/i,
     /teste(s)? (d)?e (qualidade|unidade|integracao|software|performance|depuracao|interface(s)?|componente(s)?|aplicac(oes|ao))/i,
     /(react\s)?testing(-| )(library|practices)/i, /(unit|integration|end-to-end)( and integration)? test(ing)?/i,
     /testar (sistemas|apis e servicos)/i, /automated (unit( |-|.)?)?test(s)?/i, /testing (scenarios|coverage)/i
@@ -239,7 +242,7 @@ export const BENEFITS_REGEX = {
     /(premio|programa de) indicac(ao|oes)/i, /indique um colega e ganhe bonus/i
   ],
   STOCK_OPTIONS: [/stock option(s)?/i],
-  THIRTEENTH_SALARY: [/13. salario/i],
+  THIRTEENTH_SALARY: [/13(.|º)? salario/i, /decimo terceiro/i],
   TRANSPORTATION_VOUCHER: [/(vale|auxilio)( |-|.)?(transporte|combustivel|estacionamento)/i, /\bv(\.)?t(\.)?\b/i],
   USD_SALARY: [/salary in usd/i, /pagamento em moeda estrangeira/i],
 }
@@ -261,7 +264,7 @@ export const TYPES_REGEX = {
 export const SENIORITY_REGEX = {
   JUNIOR: [/junior/i, /estagiario/i, /estagio(?! s)/i, /\bjn\b/i, /\bjr\b/i],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
-  SENIOR: [/senior/i, /\bsr\b/],
+  SENIOR: [/senior(?!idade)/i, /\bsr\b/],
 }
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
@@ -276,13 +279,13 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /(minimo|mais) de (\d+|\w+) (anos|meses)(?! de mercado)/i,
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
-  /experiencia comprovada de (\d+|\w+)(\+)? (anos|meses)/i,
+  /experiencia (comprovada|de trabalho) de (\d+|\w+)(\+)? (anos|meses)/i,
   /(\d+|\w+) (anos|meses) (\+ )?(trabalhando)?/i,
 
-  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional|non\-internship professional)/i,
+  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional|non\-internship professional|with)/i,
   /at least (\d+|\w+) years of experience/i,
   /more than (\d+|\w+) years/i,
   /minimum (of )?(\d+|\w+) years/i,
   /(\d+|\w+)\+ of background/i,
-  /(\d+|\w+)-(\d+|\w+) years of experience/i
+  /(\d+|\w+)-(\d+|\w+) years of experience/i,
 ]

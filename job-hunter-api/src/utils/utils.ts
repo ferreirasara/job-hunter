@@ -3,6 +3,7 @@ import { HTTPRequest } from "puppeteer";
 import fetch from "node-fetch";
 import { JobOpportunity } from "../entity/JobOpportunity";
 import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "../analyzer/regex";
+import { JobSkill } from "../@types/types";
 
 export type ContType = {
   name: string
@@ -852,6 +853,16 @@ export const isUnwantedJob = (args: { title: string, company: string, descriptio
   return unwantedTitleKeywords?.some(cur => title?.includes(cur)) ||
     companyTitleKeywords?.some(cur => company?.includes(cur)) ||
     descriptionTitleKeywords?.some(cur => description?.includes(cur))
+}
+
+export const isDiscardedJob = (args: { title: string, skills: string }) => {
+  const { skills, title } = args;
+
+  const discardedTitleKeywords = ['react native'];
+  const discardedSkillsKeywords = [JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS];
+
+  return discardedTitleKeywords?.some(cur => title?.includes(cur)) ||
+    discardedSkillsKeywords?.some(cur => skills?.includes(cur))
 }
 
 export const getJobRegex = (job: JobOpportunity): string[] => {
