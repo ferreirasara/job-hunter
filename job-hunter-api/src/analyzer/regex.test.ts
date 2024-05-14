@@ -29,6 +29,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: "metodologia agil", regex: SKILLS_REGEX.AGILE, toBe: true },
         { str: "metodologias ageis", regex: SKILLS_REGEX.AGILE, toBe: true },
         { str: "desenvolvimento agil", regex: SKILLS_REGEX.AGILE, toBe: true },
+        { str: "metodos ageis", regex: SKILLS_REGEX.AGILE, toBe: true },
       ]
     },
     {
@@ -294,6 +295,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'lazy loading', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
         { str: 'otimizacao de desempenho', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
         { str: 'otimizacao de performance', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
+        { str: 'performance de front-end', regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION, toBe: true },
       ]
     },
     {

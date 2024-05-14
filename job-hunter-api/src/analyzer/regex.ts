@@ -1,7 +1,7 @@
 export const SKILLS_REGEX = {
   AGILE: [
     /agile/i, /scrum/i, /jira/i, /trello/i, /kanban/i, /pair programming/i, /praticas ageis/i,
-    /clean architectures/i, /(metodo(logia(s)?)?|desenvolvimento|cultura) ag(eis|il)/i
+    /clean architectures/i, /(metodo(logia(s)?)?(s)?|desenvolvimento|cultura|framework(s)?) ag(eis|il)/i
   ],
   AJAX: [/\bajax\b/i],
   ANGULAR: [/angular(( |-|.)?js)?/i],
@@ -18,7 +18,7 @@ export const SKILLS_REGEX = {
     /possuir formacao/i, /grau de cs/i
   ],
   BACKBONE: [/backbone/i],
-  BASIC: [/real( |-|.)?basic/i, /\bbasic\b/i],
+  BASIC: [/real( |-|.)?basic/i, /\bbasic(?! programming)\b/i],
   BLAZOR: [/blazor/i],
   BOOTSTRAP: [/bootstrap/i, /biblioteca(s)? de ui/i],
   C: [/\bc\b/i],
@@ -47,8 +47,8 @@ export const SKILLS_REGEX = {
   DEV_OPS: [
     /docker/i, /\baws\b/i, /kubern(e|a)t(e)?s/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git( |-|.)?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
-    /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /kibana/i, /graphana/i, /apache/i, /nginx/i,
-    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /fagarte/i, /google cloud/i, /circleci/i
+    /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /kibana/i, /graphana/i, /apache/i, /nginx/i, /\bgcp\b/i,
+    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /fagarte/i, /google cloud/i, /circleci/i, /hospedagem em nuvem/i
   ],
   DJANGO: [/django/i],
   DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot( |-|.)?net/i, /\basp\b/i],
@@ -72,7 +72,7 @@ export const SKILLS_REGEX = {
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /mvc/i, /mvvm/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
     /codigo (limpo|seguro)/i, /design(er)? patterns/i, /\bsolid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
-    /componentizacao/i,
+    /componentizacao/i, /qualidade de codigo/i
   ],
   GOLANG: [/go( |-|.)?lang/i, /\bgo\b/i],
   GRAPHQL: [/graph( |-|.)?ql/i],
@@ -116,7 +116,7 @@ export const SKILLS_REGEX = {
   PERFORMANCE_OPTIMIZATION: [
     /code( |-|.)?splitting/i, /lazy( |-|.)?loading/i, /optimize applications/i, /baixa latencia/i, /\bseo\b/i,
     /(alta disponibilidade|otimizacao) (d)?e (desempenho|performance)/i, /solucoes (consistentes )?em performance/i,
-    /(seguranca e )?performance (para|na) web/i, /performance e tempo de carregamento/
+    /(seguranca e )?performance (para|na|de) (web|front( |-|.)?end)/i, /performance e tempo de carregamento/,
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
