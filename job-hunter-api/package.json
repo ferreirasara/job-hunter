@@ -31,7 +31,7 @@
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
-    "puppeteer": "^21.4.1",
+    "puppeteer": "^22.11.2",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^29.1.1",
     "typeorm": "0.3.16"
