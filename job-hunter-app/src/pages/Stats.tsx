@@ -112,6 +112,7 @@ export default function Stats() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ maxWidth: 600, padding: 8 }}>
                 <VictoryChart theme={VictoryTheme.material}>
+                  {/* @ts-ignore */}
                   <VictoryLine
                     data={data?.jobsPerRating}
                     x="totalRating"
