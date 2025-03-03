@@ -1,9 +1,9 @@
+import { uniq } from "lodash";
 import { Page } from "puppeteer";
+import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { analyzeDescription } from "../analyzer/analyzer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { uniq } from "lodash";
-import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
 const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS
 export default class DivulgaVagasScraper extends ScraperInterface {
@@ -32,20 +32,20 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
       await page.type('input.form-control', 'frontend');
       await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const frontendUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.waitForSelector('h5.card-title > a')
+      const frontendUrls: string[] = await page?.$$eval('h5.card-title > a', (el) => el?.map(cur => cur?.href));
 
       await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
       await page.type('input.form-control', 'react');
       await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const reactUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.waitForSelector('h5.card-title > a')
+      const reactUrls: string[] = await page?.$$eval('h5.card-title > a', (el) => el?.map(cur => cur?.href));
 
       await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
       await page.type('input.form-control', 'desenvolvedor');
       await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const developerUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.waitForSelector('h5.card-title > a')
+      const developerUrls: string[] = await page?.$$eval('h5.card-title > a', (el) => el?.map(cur => cur?.href));
 
       const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
       const urls = uniq(allUrls);

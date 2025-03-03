@@ -48,7 +48,8 @@ export const SKILLS_REGEX = {
     /docker/i, /\baws\b/i, /kubern(e|a)t(e)?s/i, /terraform/i, /azure/i, /jenkins/i, /\bci(\/|-|\s|\\|\se\s)?cd\b/i,
     /container(s)?/i, /devops/i, /git( |-|.)?(hub)?(-| )(actions|flow)/i, /lambda(s)?/i, /\becs\b/i, /\bec2\b/i,
     /maven/i, /cloudwatch/i, /amazon documentdb/i, /\brds\b/i, /kibana/i, /graphana/i, /apache/i, /nginx/i, /\bgcp\b/i,
-    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /fagarte/i, /google cloud/i, /circleci/i, /hospedagem em nuvem/i
+    /websphere/i, /\btfs\b/i, /fortify/i, /sonar/i, /fagarte/i, /google cloud/i, /circleci/i, /hospedagem em nuvem/i,
+    /vercel/i,
   ],
   DJANGO: [/django/i],
   DOT_NET: [/asp(.\s|\s.)?net/i, /\b(\.)?net\b/i, /dot( |-|.)?net/i, /\basp\b/i],
@@ -72,7 +73,7 @@ export const SKILLS_REGEX = {
     /clean(\s)?(code|architecture)/i, /\bdry\b/i, /mvc/i, /mvvm/i, /(boas|melhores) praticas( de desenvolvimento)?/i,
     /orientacao a objetos/i, /padroes de (desenvolvimento|design|projeto)/i, /domain driven design/i, /\bddd\b/i, /\buml\b/i,
     /codigo (limpo|seguro)/i, /design(er)? patterns/i, /\bsolid\b/i, /documentacao/i, /\boop\b/i, /\bpoo\b/i, /desing partners/i,
-    /componentizacao/i, /qualidade de codigo/i
+    /componentizacao/i, /qualidade de codigo/i, /codigo escalavel/i
   ],
   GOLANG: [/go( |-|.)?lang/i, /\bgo\b/i],
   GRAPHQL: [/graph( |-|.)?ql/i],
@@ -148,7 +149,13 @@ export const SKILLS_REGEX = {
   SAS: [/\bsas\b/i],
   SASS: [/\bsass\b/i],
   SCALA: [/\bscala\b/i],
-  SCRIPT: [/powershell/, /bash( script)?/, /automatizacao de processos/],
+  SCRIPT: [/powershell/i, /bash( script)?/i, /automatizacao de processos/i],
+  SITE_RENDERING: [
+    /\bssr\b/i, /server( |-|.)?side( |-|.)?rendering/i,
+    /\bssg\b/i, /static( |-|.)?site( |-|.)?generation/i,
+    /\bisg\b/i, /incremental( |-|.)?static( |-|.)?regeneration/i,
+    /\csr\b/i, /client( |-|.)?side( |-|.)?rendering/i,
+  ],
   SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [
     /redux/i, /mobx/i, /ngrx/i, /rxjs/i, /state management/i, /use( |-|.)?context/i,

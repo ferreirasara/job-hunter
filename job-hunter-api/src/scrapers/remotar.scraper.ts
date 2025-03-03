@@ -1,9 +1,9 @@
+import { uniq } from "lodash";
 import { Page } from "puppeteer";
+import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { analyzeDescription } from "../analyzer/analyzer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { uniq } from "lodash";
-import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
 
 const platform: JobPlatform = JobPlatform.REMOTAR
 
@@ -13,7 +13,7 @@ export default class RemotarScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({});
+    const { browser, page } = await this.getBrowser({ abortScript: false });
     this.logMessage("Start");
 
     const urls = await this.getUrls(page);
@@ -30,21 +30,24 @@ export default class RemotarScraper extends ScraperInterface {
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle0" });
+      await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle2" });
+      await page.screenshot({ path: 'remotar.jpg' });
       const frontendUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
-      await page.goto("https://remotar.com.br/search/jobs?q=front%20end", { waitUntil: "networkidle0" });
+      await page.goto("https://remotar.com.br/search/jobs?q=front%20end", { waitUntil: "networkidle2" });
       const frontend2Urls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
-      await page.goto("https://remotar.com.br/search/jobs?q=react", { waitUntil: "networkidle0" });
+      await page.goto("https://remotar.com.br/search/jobs?q=react", { waitUntil: "networkidle2" });
       const reactUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
       const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
-      const urls = uniq(allUrls);
+      const urls: JobInitialData[] = uniq(allUrls)?.map(url => ({ url, idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0] }));
 
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0] }));
+      const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
+      const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
+      const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
 
-      return result;
+      return filteredUrls;
     } catch (e) {
       this.logError(e);
       return [];

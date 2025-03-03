@@ -1,8 +1,8 @@
 import { uniq } from "lodash";
-import { getNumberFromString, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
-import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
-import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
 import { JobBenefit, JobHiringRegime, JobSeniority, JobSkill, JobType } from "../@types/types";
+import { getNumberFromString, normalizeDescription, removeAccent, stringContainsAny } from "../utils/utils";
+import { BENEFITS_RATING, SKILL_RATING } from "./ratings";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 
 export const getSkillsBasedOnDescription = (job: { title: string, skills?: string[], description: string }): JobSkill[] => {
   const existentSkills = job.skills;
@@ -36,8 +36,10 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
   switch (lowerCaseSkill) {
     case '.net': return JobSkill.DOT_NET;
     case '.net core': return JobSkill.DOT_NET;
+    case '.net mvc': return JobSkill.DOT_NET;
     case 'agilephp': return JobSkill.PHP;
     case 'angular': return JobSkill.ANGULAR;
+    case 'apache': return JobSkill.DEV_OPS;
     case 'aws rds (relational database service)': return JobSkill.DEV_OPS;
     case 'aws s3': return JobSkill.DEV_OPS;
     case 'aws ec2 (elastic compute cloud)': return JobSkill.DEV_OPS;
@@ -68,21 +70,25 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'html': return JobSkill.HTML;
     case 'ionic': return JobSkill.IONIC;
     case 'java': return JobSkill.JAVA;
+    case 'javaee': return JobSkill.JAVA;
     case 'javascript': return JobSkill.JAVASCRIPT;
     case 'javaScript': return JobSkill.JAVASCRIPT;
     case 'jest': return JobSkill.TEST;
     case 'jquery': return JobSkill.JQUERY;
+    case 'junit': return JobSkill.JAVA;
     case 'kubernetes': return JobSkill.DEV_OPS;
     case 'laravel': return JobSkill.PHP;
     case 'lean': return JobSkill.LEAN;
     case 'magento': return JobSkill.MAGENTO;
     case 'mongodb': return JobSkill.DB;
     case 'mysql': return JobSkill.DB;
+    case 'nestjs': return JobSkill.NEST;
     case 'nextjs': return JobSkill.NEXT;
     case 'nosql': return JobSkill.DB;
     case 'node.js': return JobSkill.NODE;
     case 'phpunit': return JobSkill.PHP;
     case 'postgresql': return JobSkill.DB;
+    case 'oracle': return JobSkill.DEV_OPS;
     case 'objective-c': return JobSkill.OBJECTIVE_C;
     case 'qa - quality assurance': return JobSkill.TEST;
     case 'python': return JobSkill.PYTHON;
@@ -109,6 +115,7 @@ export const getProgramathorNormalizedSkill = (skill: string): JobSkill | string
     case 'testes de regressão': return JobSkill.TEST;
     case 'testes funcionais': return JobSkill.TEST;
     case 'typescript': return JobSkill.TYPESCRIPT;
+    case 'unity': return JobSkill.GAME_ENGINE;
     case 'vue.js': return JobSkill.VUE;
     case 'yii': return JobSkill.PHP;
     case 'wordpress': return JobSkill.WORDPRESS;

@@ -1,9 +1,9 @@
 import { flatten, isArray, uniq } from "lodash";
-import { HTTPRequest } from "puppeteer";
 import fetch from "node-fetch";
-import { JobOpportunity } from "../entity/JobOpportunity";
-import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "../analyzer/regex";
+import { HTTPRequest } from "puppeteer";
 import { JobSkill } from "../@types/types";
+import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "../analyzer/regex";
+import { JobOpportunity } from "../entity/JobOpportunity";
 
 export type ContType = {
   name: string
@@ -858,7 +858,7 @@ export const isUnwantedJob = (args: { title: string, company: string, descriptio
 export const isDiscardedJob = (args: { title: string, skills: string }) => {
   const { skills, title } = args;
 
-  const discardedTitleKeywords = ['react native'];
+  const discardedTitleKeywords = ['react native', 'estagio'];
   const discardedSkillsKeywords = [JobSkill.PHP, JobSkill.DOT_NET, JobSkill.CSHARP, JobSkill.CPLUSPLUS];
 
   return discardedTitleKeywords?.some(cur => title?.includes(cur)) ||

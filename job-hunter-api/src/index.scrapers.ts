@@ -1,5 +1,5 @@
 import { SaveJobsResponse } from "./@types/types";
-import { AppDataSource } from "./data-source"
+import { AppDataSource } from "./data-source";
 import CoodeshScraper from "./scrapers/coodesh.scraper";
 import DivulgaVagasScraper from "./scrapers/divulgaVagas.scraper";
 import GupyScraper from "./scrapers/gupy.scraper";
@@ -7,7 +7,7 @@ import JObatusScraper from "./scrapers/jobatus.scraper";
 import LinkedinScraper from "./scrapers/linkedin.scraper";
 import ProgramathorScraper from "./scrapers/programathor.scraper";
 import RemotarScraper from "./scrapers/remotar.scraper";
-import TramposScraper from "./scrapers/trampos.scraper"
+import TramposScraper from "./scrapers/trampos.scraper";
 import VagasScraper from "./scrapers/vagas.scraper";
 
 AppDataSource.initialize().then(async () => {
@@ -50,8 +50,9 @@ AppDataSource.initialize().then(async () => {
   result = await jobatusScraper.saveJobs();
   updateCounts(result);
 
-  // const divulgaVagasScraper = new DivulgaVagasScraper({ filterExistentsJobs: true })
-  // numberOfNewJobs += await divulgaVagasScraper.saveJobs();
+  const divulgaVagasScraper = new DivulgaVagasScraper({ filterExistentsJobs: true })
+  result = await divulgaVagasScraper.saveJobs();
+  updateCounts(result);
 
   const coodeshScraper = new CoodeshScraper({ filterExistentsJobs: true })
   result = await coodeshScraper.saveJobs();
