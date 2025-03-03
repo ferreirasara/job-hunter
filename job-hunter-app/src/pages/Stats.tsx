@@ -1,7 +1,7 @@
 import { Alert, Collapse, Descriptions, Divider, Grid, Space, Spin } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getStatsFromAPI } from "../utils/utils";
 
 type ContType = {
@@ -66,7 +66,7 @@ export default function Stats() {
     {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
     <div style={{ width: '100%', display: 'flex', flexDirection: "column" }}>
       {loading ? <Spin /> : <Space direction="vertical">
-        <Collapse defaultActiveKey={"geralStats"}>
+        <Collapse defaultActiveKey={"jobsPerRating"}>
           <Collapse.Panel header={<strong>Estatísticas gerais</strong>} key="geralStats">
             <Descriptions column={screens?.lg ? 5 : 1} styles={{ label: labelStyle, content: contentStyle }}>
               <Descriptions.Item label="Total de vagas">{data?.totalOfJobs}</Descriptions.Item>
@@ -110,16 +110,17 @@ export default function Stats() {
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por rating</strong>} key="jobsPerRating">
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <div style={{ maxWidth: 600, padding: 8 }}>
-                <VictoryChart theme={VictoryTheme.material}>
-                  {/* @ts-ignore */}
-                  <VictoryLine
-                    data={data?.jobsPerRating}
-                    x="totalRating"
-                    y="count"
-                    labels={({ datum }: { datum: { totalRating: string, count: number } }) => datum.count}
-                  />
-                </VictoryChart>
+              <div style={{ minHeight: 300, width: '100%' }}>
+                <ResponsiveContainer>
+                  <LineChart data={data?.jobsPerRating?.slice()?.sort((a, b) => parseInt(a.totalRating) - parseInt(b.totalRating))}>
+                    <XAxis dataKey="totalRating" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <CartesianGrid />
+                    <Line type="monotone" dataKey="count" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </Collapse.Panel>
