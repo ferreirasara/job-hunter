@@ -1,9 +1,9 @@
 import { uniqBy } from "lodash";
 import fetch from "node-fetch";
+import { GupyData, GupyResponse, JobInput, JobPlatform, JobType } from "../@types/types";
+import { analyzeDescription } from "../analyzer/analyzer";
 import JobOpportunityController from "../controllers/JobOpportunity.controller";
 import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { GupyData, GupyResponse, JobInput, JobPlatform, JobType } from "../@types/types";
 
 const platform: JobPlatform = JobPlatform.GUPY
 export default class GupyScraper extends ScraperInterface {
@@ -24,7 +24,9 @@ export default class GupyScraper extends ScraperInterface {
       const response3Json: GupyResponse = await response3?.json();
       const response4 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=javascript&limit=1000');
       const response4Json: GupyResponse = await response4?.json();
-      allJobs = [...response1Json?.data, ...response2Json?.data, ...response3Json?.data, ...response4Json?.data];
+      const response5 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=desenvolvedora&limit=1000');
+      const response5Json: GupyResponse = await response5?.json();
+      allJobs = [...response1Json?.data, ...response2Json?.data, ...response3Json?.data, ...response4Json?.data, ...response5Json?.data];
     } catch (e) {
       this.logError(e);
     }

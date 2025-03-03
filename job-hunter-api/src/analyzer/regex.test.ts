@@ -1,5 +1,5 @@
 import { difference, uniq } from "lodash";
-import { stringContainsAny } from "../utils/utils"
+import { stringContainsAny } from "../utils/utils";
 import { BENEFITS_REGEX, HIRING_REGIMES_REGEX, SENIORITY_REGEX, SKILLS_REGEX, TYPES_REGEX, YEARS_OF_EXPERIENCE_REGEX } from "./regex";
 
 type TestCase = {
@@ -831,6 +831,7 @@ describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
         { str: '4+ years of non-internship professional', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: 'experiencia de trabalho de 7+ anos', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         { str: '5+ years with', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
+        { str: 'auxilio creche: para filhos(as) ate 5 anos de idade.', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: false },
       ]
     },
   ]

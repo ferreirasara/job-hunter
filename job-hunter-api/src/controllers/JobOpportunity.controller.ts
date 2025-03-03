@@ -1,9 +1,9 @@
-import { FindOptionsOrder, FindOptionsWhere, ILike, In, MoreThanOrEqual } from "typeorm";
-import { AppDataSource } from "../data-source";
-import { JobOpportunity } from "../entity/JobOpportunity"
 import { flatten, uniq } from "lodash";
-import { calcContType, convertStrToArray, getJobRegex } from "../utils/utils";
+import { FindOptionsOrder, FindOptionsWhere, ILike, In, MoreThanOrEqual } from "typeorm";
 import { JobInput, JobPlatform } from "../@types/types";
+import { AppDataSource } from "../data-source";
+import { JobOpportunity } from "../entity/JobOpportunity";
+import { calcContType, convertStrToArray, getJobRegex } from "../utils/utils";
 
 const getOrderBy = (orderByField: string, orderByOrder: string): FindOptionsOrder<JobOpportunity> => {
   if (orderByField === "createdAt") return { createdAt: orderByOrder === "ascend" ? "ASC" : "DESC" }
@@ -110,7 +110,7 @@ export default class JobOpportunityController {
       skip: args?.page * args?.limit,
       take: args?.limit,
       where,
-      order: getOrderBy(args?.orderByField, args?.orderByOrder)
+      order: getOrderBy(args?.orderByField, args?.orderByOrder),
     });
 
     const jobsWithRegex = jobs?.map(job => ({
@@ -118,7 +118,7 @@ export default class JobOpportunityController {
       regex: getJobRegex(job),
     }))
 
-    const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where });
+    const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, { where, select: { uuid: true } });
     const allSkillsFromDb = await AppDataSource.manager.find(JobOpportunity, { select: { skills: true }, where });
     const allBenefitsFromDb = await AppDataSource.manager.find(JobOpportunity, { select: { benefits: true }, where });
     const allRatings = await AppDataSource.manager.find(JobOpportunity, { order: { totalRating: 'ASC' }, select: { totalRating: true }, where: { discarded: false } });

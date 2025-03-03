@@ -262,7 +262,7 @@ export const HIRING_REGIMES_REGEX = {
 export const TYPES_REGEX = {
   REMOTE: [
     /(home|anywhere)( |-|.)?(office|work)/i, /remoto(?!: nao)/i, /trabalhar de casa/i, /remote/i, /remota/i,
-    /100\% home/i, /teletrabalho/i, /trabalho digital/i
+    /100\% home/i, /teletrabalho/i, /trabalho digital/i, /100\% remoto/i
   ],
   HYBRID: [/hibrid(o|a)/i, /hybrid/i, /disponibilidade para mudanca/i],
   FACE_TO_FACE: [/presencial(mente)?/i, /remoto: nao/i, /residir em/i, /vale transporte/],
@@ -287,7 +287,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
   /experiencia (comprovada|de trabalho) de (\d+|\w+)(\+)? (anos|meses)/i,
-  /(\d+|\w+) (anos|meses) (\+ )?(trabalhando)?/i,
+  /(\d+|\w+) (anos|meses) (?!de idade)(\+ )?(trabalhando)?/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional|non\-internship professional|with)/i,
   /at least (\d+|\w+) years of experience/i,

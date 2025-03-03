@@ -1,6 +1,6 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { JobOpportunity } from "./entity/JobOpportunity"
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { JobOpportunity } from "./entity/JobOpportunity";
 require('dotenv').config();
 
 export const AppDataSource = new DataSource({
