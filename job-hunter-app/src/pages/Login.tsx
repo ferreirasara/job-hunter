@@ -1,18 +1,19 @@
 import { LoginOutlined } from "@ant-design/icons";
 import { Alert, Button, Grid, Input, Space } from "antd";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { validateSecretToken } from "../utils/utils";
 
-export default function Login() {
+const Login = () => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
+
   const [secretToken, setSecretToken] = useState<string>("");
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     setLoading(true);
     const response = await validateSecretToken(secretToken);
     if (response?.success) {
@@ -22,7 +23,7 @@ export default function Login() {
       setErrorMessage(response?.message);
     }
     setLoading(false);
-  }
+  }, [secretToken]);
 
   return loggedIn ? <Navigate to="/" replace={true} /> : <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
     <Space direction="vertical" style={{ width: screens?.xl ? 500 : '90%' }}>
@@ -45,3 +46,5 @@ export default function Login() {
     </Space>
   </div>
 }
+
+export default memo(Login);

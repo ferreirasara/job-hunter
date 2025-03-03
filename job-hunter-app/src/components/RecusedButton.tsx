@@ -1,27 +1,28 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { GetJobsFromAPIArgs, setJobAsRecused } from "../utils/utils";
 
-type RecusedButtonProps = {
+interface RecusedButtonProps {
   uuid?: string
   disabled?: boolean
   fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
   onFinish: () => void
   apiArgs: GetJobsFromAPIArgs
 }
-export const RecusedButton = ({ uuid, disabled, fetchData, onFinish, apiArgs }: RecusedButtonProps) => {
+
+const RecusedButton = ({ uuid, disabled, fetchData, onFinish, apiArgs }: RecusedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSetAsRecused = async () => {
+  const handleSetAsRecused = useCallback(async () => {
     setLoading(true);
     if (uuid) await setJobAsRecused(uuid);
     await fetchData(apiArgs);
     setLoading(false);
     messageApi.open({ content: "Vaga recusada!", type: "success", duration: 10 });
     onFinish();
-  }
+  }, [apiArgs, fetchData, messageApi, onFinish, uuid]);
 
   return <>
     {contextHolder}
@@ -36,3 +37,5 @@ export const RecusedButton = ({ uuid, disabled, fetchData, onFinish, apiArgs }: 
     </Button>
   </>
 }
+
+export default memo(RecusedButton);

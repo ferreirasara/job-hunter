@@ -1,24 +1,25 @@
 import { SaveOutlined } from "@ant-design/icons"
 import { Button, InputNumber, Space } from "antd"
-import { useState } from "react"
+import { memo, useCallback, useState } from "react"
 import { GetJobsFromAPIArgs, updateNumberOfTests } from "../utils/utils"
 
-type NumberOfTestsInputProps = {
+interface NumberOfTestsInputProps {
   uuid?: string
   numberOfTests?: number
   fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
   apiArgs: GetJobsFromAPIArgs
 }
-export const NumberOfTestsInput = ({ fetchData, numberOfTests, uuid, apiArgs }: NumberOfTestsInputProps) => {
+
+const NumberOfTestsInput = ({ fetchData, numberOfTests, uuid, apiArgs }: NumberOfTestsInputProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [newNumberOfTests, setNewNumberOfTests] = useState<number>(numberOfTests || 0);
 
-  const handleUpdateNumberOfTests = async () => {
+  const handleUpdateNumberOfTests = useCallback(async () => {
     setLoading(true);
     if (uuid) await updateNumberOfTests(uuid, newNumberOfTests);
     await fetchData(apiArgs);
     setLoading(false);
-  }
+  }, [apiArgs, fetchData, newNumberOfTests, uuid]);
 
   return <Space.Compact>
     <InputNumber
@@ -40,3 +41,5 @@ export const NumberOfTestsInput = ({ fetchData, numberOfTests, uuid, apiArgs }: 
     />
   </Space.Compact>
 }
+
+export default memo(NumberOfTestsInput);

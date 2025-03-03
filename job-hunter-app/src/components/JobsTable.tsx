@@ -1,11 +1,11 @@
 import { ZoomInOutlined } from "@ant-design/icons";
 import { Button, Grid, Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useContext } from "react";
+import { memo, useContext, useMemo } from "react";
 import { PaginationContext } from "../context/PaginationContext";
 import { formatDateHour } from "../utils/utils";
-import { renderMultipleTags } from "./renderMultipleTags";
-import { renderRating } from "./renderRating";
+import MultipleTags from "./MultipleTags";
+import Rating from "./Rating";
 
 export enum JobPlatform {
   GUPY = "GUPY",
@@ -33,55 +33,58 @@ export enum JobSeniority {
   SENIOR = "SENIOR",
 }
 
-export type JobsTableData = {
-  uuid: string
-  idInPlatform: string
-  company: string
-  platform: JobPlatform
-  title: string
-  description: string
-  url: string
-  country: string
-  state: string
-  city: string
-  applied: boolean
-  discarded: boolean
-  recused: boolean
-  createdAt: Date
-  type: JobType
-  hiringRegime: JobHiringRegime
-  skills: string
-  benefits: string
-  skillsRating: number
-  benefitsRating: number
-  totalRating: number
-  numberOfInterviews: number
-  numberOfTests: number
-  seniority: JobSeniority
-  yearsOfExperience: number
-  regex: string[]
+export interface JobsTableData {
+  uuid: string;
+  idInPlatform: string;
+  company: string;
+  platform: JobPlatform;
+  title: string;
+  description: string;
+  url: string;
+  country: string;
+  state: string;
+  city: string;
+  applied: boolean;
+  discarded: boolean;
+  recused: boolean;
+  createdAt: Date;
+  type: JobType;
+  hiringRegime: JobHiringRegime;
+  skills: string;
+  benefits: string;
+  skillsRating: number;
+  benefitsRating: number;
+  totalRating: number;
+  numberOfInterviews: number;
+  numberOfTests: number;
+  seniority: JobSeniority;
+  yearsOfExperience: number;
+  regex: string[];
 }
 
-export type JobsResponse = {
-  message?: string
-  totalOfJobs: number,
-  data: JobsTableData[],
-  allRatings: number[],
-  allSkills: string[],
-  allBenefits: string[],
+export interface JobsResponse {
+  message?: string;
+  totalOfJobs: number;
+  data: JobsTableData[];
+  allRatings: number[];
+  allSkills: string[];
+  allBenefits: string[];
 }
 
-export type OrderBy = { field: string, order: "ascend" | "descend" }
-
-type JobsTableProps = {
-  loading: boolean
-  data: JobsTableData[]
-  totalOfJobs?: number
-  allRatings: number[]
-  handleSeeDetails: (uuid: string) => void
+export interface OrderBy {
+  field: string;
+  order: "ascend" | "descend";
 }
 
-export const JobsTable = ({
+interface JobsTableProps {
+  loading: boolean;
+  data: JobsTableData[];
+  totalOfJobs?: number;
+  allRatings: number[];
+  handleSeeDetails: (uuid: string) => void;
+}
+
+const JobsTable = ({
   loading,
   data,
   totalOfJobs,
@@ -92,16 +95,16 @@ export const JobsTable = ({
   const screens = useBreakpoint();
   const { limit, page, onChangeLimit, onChangePage } = useContext(PaginationContext);
 
-  const columns: ColumnsType<JobsTableData> = [
+  const columns: ColumnsType<JobsTableData> = useMemo(() => [
     {
       title: "Criada em",
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt) => formatDateHour(createdAt),
-      width: screens?.xl ? 98 : undefined,
+      width: screens?.xl ? 115 : undefined,
       align: 'center',
       showSorterTooltip: false,
-      responsive: ['xl', 'xxl']
+      responsive: ['xl', 'xxl'],
     },
     {
       title: "Plataforma",
@@ -143,7 +146,7 @@ export const JobsTable = ({
       width: screens?.xxl ? 110 : undefined,
       align: 'center',
       showSorterTooltip: false,
-      render: (type: string) => renderMultipleTags(type),
+      render: (type: string) => <MultipleTags field={type} />,
       responsive: ['xxl']
     },
     {
@@ -153,7 +156,7 @@ export const JobsTable = ({
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
       showSorterTooltip: false,
-      render: (type: string) => renderMultipleTags(type),
+      render: (type: string) => <MultipleTags field={type} />,
       responsive: ['xxl']
     },
     {
@@ -163,7 +166,7 @@ export const JobsTable = ({
       width: screens?.xxl ? 130 : undefined,
       align: 'center',
       showSorterTooltip: false,
-      render: (type: string) => renderMultipleTags(type),
+      render: (type: string) => <MultipleTags field={type} />,
       responsive: ['xxl']
     },
     {
@@ -180,7 +183,7 @@ export const JobsTable = ({
       dataIndex: 'skills',
       key: 'skills',
       ellipsis: true,
-      render: (skills: string) => renderMultipleTags(skills),
+      render: (skills: string) => <MultipleTags field={skills} />,
       responsive: ['xl', 'xxl']
     },
     {
@@ -188,7 +191,7 @@ export const JobsTable = ({
       dataIndex: 'benefits',
       key: 'benefits',
       ellipsis: true,
-      render: (benefits: string) => renderMultipleTags(benefits),
+      render: (benefits: string) => <MultipleTags field={benefits} />,
       responsive: ['xl', 'xxl']
     },
     {
@@ -197,7 +200,7 @@ export const JobsTable = ({
       key: 'totalRating',
       width: screens?.xl ? 75 : undefined,
       align: 'center',
-      render: (rating) => renderRating(rating, allRatings?.indexOf(rating), allRatings?.length),
+      render: (rating) => <Rating rating={rating} indexOf={allRatings?.indexOf(rating)} length={allRatings?.length} />,
       showSorterTooltip: false,
       responsive: ['xl', 'xxl']
     },
@@ -209,7 +212,7 @@ export const JobsTable = ({
       align: 'center',
       render: (uuid) => <Button size="small" onClick={() => handleSeeDetails(uuid)} icon={<ZoomInOutlined />} />
     },
-  ]
+  ], [allRatings, handleSeeDetails, screens?.xl, screens?.xxl]);
 
   return <Table
     bordered
@@ -230,3 +233,5 @@ export const JobsTable = ({
     }}
   />
 }
+
+export default memo(JobsTable);

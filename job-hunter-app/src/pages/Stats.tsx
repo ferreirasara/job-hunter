@@ -1,8 +1,8 @@
-import { Alert, Collapse, Descriptions, Divider, Grid, Space, Spin } from "antd"
+import { Alert, Collapse, Descriptions, Divider, Grid, Space, Spin } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { getStatsFromAPI } from "../utils/utils";
-import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
 import { Navigate } from "react-router-dom";
+import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
+import { getStatsFromAPI } from "../utils/utils";
 
 type ContType = {
   name: string
@@ -68,7 +68,7 @@ export default function Stats() {
       {loading ? <Spin /> : <Space direction="vertical">
         <Collapse defaultActiveKey={"geralStats"}>
           <Collapse.Panel header={<strong>Estatísticas gerais</strong>} key="geralStats">
-            <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
+            <Descriptions column={screens?.lg ? 5 : 1} styles={{ label: labelStyle, content: contentStyle }}>
               <Descriptions.Item label="Total de vagas">{data?.totalOfJobs}</Descriptions.Item>
               <Descriptions.Item label="Vagas aplicadas">{data?.totalOfAppliedJobs}</Descriptions.Item>
               <Descriptions.Item label="Vagas descartadas">{data?.totalOfDiscardedJobs}</Descriptions.Item>
@@ -80,32 +80,32 @@ export default function Stats() {
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Contagem de skills</strong>} key="skillsContType">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.skillsContType?.map(cur => <Descriptions.Item label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
+              {data?.skillsContType?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Contagem de benefícios</strong>} key="benefitsContType">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.benefitsContType?.map(cur => <Descriptions.Item label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
+              {data?.benefitsContType?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.name}>{cur?.cont}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por tipo</strong>} key="jobsPerType">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.jobsPerType?.map(cur => <Descriptions.Item label={cur?.type}>{cur?.count}</Descriptions.Item>)}
+              {data?.jobsPerType?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.type}>{cur?.count}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por regime de contrato</strong>} key="jobsPerHiringRegime">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.jobsPerHiringRegime?.map(cur => <Descriptions.Item label={cur?.hiringRegime}>{cur?.count}</Descriptions.Item>)}
+              {data?.jobsPerHiringRegime?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.hiringRegime}>{cur?.count}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por plataforma</strong>} key="jobsPerPlatform">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.jobsPerPlatform?.map(cur => <Descriptions.Item label={cur?.platform}>{cur?.count}</Descriptions.Item>)}
+              {data?.jobsPerPlatform?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.platform}>{cur?.count}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por empresa</strong>} key="jobsPerCompany">
             <Descriptions column={screens?.lg ? 5 : 1} labelStyle={labelStyle} contentStyle={contentStyle}>
-              {data?.jobsPerCompany?.map(cur => <Descriptions.Item label={cur?.company}>{cur?.count}</Descriptions.Item>)}
+              {data?.jobsPerCompany?.map((cur, index) => <Descriptions.Item key={`${cur}-${index}`} label={cur?.company}>{cur?.count}</Descriptions.Item>)}
             </Descriptions>
           </Collapse.Panel>
           <Collapse.Panel header={<strong>Vagas por rating</strong>} key="jobsPerRating">

@@ -1,14 +1,57 @@
 import { Tag } from "antd";
+import { memo, useCallback } from 'react';
 
-export const renderMultipleTags = (field?: string) => {
+interface MultipleTagsProps {
+  field?: string;
+}
+
+const MultipleTags = ({ field }: MultipleTagsProps) => {
+  const getTagColor = useCallback((tag: string) => {
+    // @ts-ignore
+    const skillRating = SKILL_RATING?.[tag];
+    // @ts-ignore
+    const benefitRating = BENEFITS_RATING?.[tag];
+
+    if (skillRating !== undefined) {
+      if (skillRating === -2) return "red";
+      if (skillRating === -1) return "volcano";
+      if (skillRating === 0) return "orange";
+      if (skillRating === 1) return "lime";
+      if (skillRating === 2) return "green";
+    }
+
+    if (benefitRating !== undefined) {
+      if (benefitRating === 1) return "blue";
+      if (benefitRating === 2) return "purple";
+    }
+
+    if (tag === "CLT") return "green";
+    if (tag === "PJ") return "red";
+
+    if (tag === "REMOTE") return "green";
+    if (tag === "HYBRID") return "red";
+    if (tag === "FACE_TO_FACE") return "red";
+
+    if (tag === "JUNIOR") return "red";
+    if (tag === "MID_LEVEL") return "green";
+    if (tag === "SENIOR") return "orange";
+
+    return "default";
+  }, []);
+
   if (!field || field === "") return null;
-  return field?.split(',')?.filter(cur => !!cur?.trim())?.map(cur => <Tag
-    color={getTagColor(cur?.trim())}
-    style={{ margin: 2 }}
-    key={cur?.trim()}
-  >
-    {cur?.trim()}
-  </Tag>)
+
+  return (
+    <>
+      {field?.split(',')?.filter(cur => !!cur?.trim())?.map(cur => <Tag
+        color={getTagColor(cur?.trim())}
+        style={{ margin: 2 }}
+        key={cur?.trim()}
+      >
+        {cur?.trim()}
+      </Tag>)}
+    </>
+  )
 }
 
 export const SKILL_RATING = {
@@ -167,35 +210,4 @@ export const BENEFITS_RATING = {
   "USD_SALARY": 1,
 }
 
-const getTagColor = (tag: string) => {
-  // @ts-ignore
-  const skillRating = SKILL_RATING?.[tag];
-  // @ts-ignore
-  const benefitRating = BENEFITS_RATING?.[tag];
-
-  if (skillRating !== undefined) {
-    if (skillRating === -2) return "red";
-    if (skillRating === -1) return "volcano";
-    if (skillRating === 0) return "orange";
-    if (skillRating === 1) return "lime";
-    if (skillRating === 2) return "green";
-  }
-
-  if (benefitRating !== undefined) {
-    if (benefitRating === 1) return "blue";
-    if (benefitRating === 2) return "purple";
-  }
-
-  if (tag === "CLT") return "green";
-  if (tag === "PJ") return "red";
-
-  if (tag === "REMOTE") return "green";
-  if (tag === "HYBRID") return "red";
-  if (tag === "FACE_TO_FACE") return "red";
-
-  if (tag === "JUNIOR") return "red";
-  if (tag === "MID_LEVEL") return "green";
-  if (tag === "SENIOR") return "orange";
-
-  return "default";
-}
+export default memo(MultipleTags);

@@ -1,12 +1,12 @@
-import { Alert, Button, Divider, Space } from "antd"
-import { useCallback, useContext, useEffect, useState } from "react";
-import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
-import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
-import { DetailsDrawer } from "../components/DetailsDrawer";
-import { NavLink, Navigate } from "react-router-dom";
 import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
-import { FiltersDrawer } from "../components/FiltersDrawer";
+import { Alert, Button, Divider, Space } from "antd";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { NavLink, Navigate } from "react-router-dom";
+import DetailsDrawer from "../components/DetailsDrawer";
+import FiltersDrawer from "../components/FiltersDrawer";
+import JobsTable, { JobsResponse, JobsTableData } from "../components/JobsTable";
 import { PaginationContext } from "../context/PaginationContext";
+import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
 
 export default function Root() {
   const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
@@ -50,16 +50,16 @@ export default function Root() {
     handleFetchData({});
   }, [handleFetchData]);
 
-  const handleSeeDetails = (uuid: string) => {
+  const handleSeeDetails = useCallback((uuid: string) => {
     const job = data?.find(cur => cur?.uuid === uuid)
     setSelectedJob(job);
     setDetailsDrawerOpen(true);
-  }
+  }, [data]);
 
-  const onCloseDrawer = () => {
+  const onCloseDrawer = useCallback(() => {
     setDetailsDrawerOpen(false);
     setSelectedJob(undefined);
-  }
+  }, []);
 
   const secretToken = localStorage?.getItem('secret_token');
   if (!secretToken) return <Navigate to="/login" replace={true} />
