@@ -66,7 +66,7 @@ export default function Stats() {
     {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
     <div style={{ width: '100%', display: 'flex', flexDirection: "column" }}>
       {loading ? <Spin /> : <Space direction="vertical">
-        <Collapse defaultActiveKey={"jobsPerRating"}>
+        <Collapse defaultActiveKey={"geralStats"}>
           <Collapse.Panel header={<strong>Estatísticas gerais</strong>} key="geralStats">
             <Descriptions column={screens?.lg ? 5 : 1} styles={{ label: labelStyle, content: contentStyle }}>
               <Descriptions.Item label="Total de vagas">{data?.totalOfJobs}</Descriptions.Item>

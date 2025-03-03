@@ -1,5 +1,7 @@
 import { JobsResponse, OrderBy } from "../components/JobsTable";
 
+const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
 export type GetJobsFromAPIArgs = {
   page?: number,
   limit?: number,
@@ -45,7 +47,7 @@ export const getJobsFromAPI = async (args: GetJobsFromAPIArgs) => {
   const qs = new URLSearchParams(searchParams);
 
   const secretToken = localStorage?.getItem('secret_token');
-  const jobsResponse = await fetch(encodeURI(`${process.env.REACT_APP_API_BASE_URL}/jobs?${qs.toString()}`), { headers: { "Authorization": secretToken || "" } });
+  const jobsResponse = await fetch(encodeURI(`${API_URL}/jobs?${qs.toString()}`), { headers: { "Authorization": secretToken || "" } });
   const jobsResponseJson: JobsResponse = await jobsResponse?.json();
   return jobsResponseJson;
 }
@@ -53,7 +55,7 @@ export const getJobsFromAPI = async (args: GetJobsFromAPIArgs) => {
 export const setJobAsApplied = async (uuid: string) => {
   const secretToken = localStorage?.getItem('secret_token');
   const body = { applied: true }
-  const jobAppliedResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/job/` + uuid, {
+  const jobAppliedResponse = await fetch(`${API_URL}/job/` + uuid, {
     method: 'POST',
     headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
@@ -65,7 +67,7 @@ export const setJobAsApplied = async (uuid: string) => {
 export const setJobAsDiscarded = async (uuid: string) => {
   const secretToken = localStorage?.getItem('secret_token');
   const body = { discarded: true }
-  const jobDiscardedResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/job/` + uuid, {
+  const jobDiscardedResponse = await fetch(`${API_URL}/job/` + uuid, {
     method: 'POST',
     headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
@@ -77,7 +79,7 @@ export const setJobAsDiscarded = async (uuid: string) => {
 export const setJobAsRecused = async (uuid: string) => {
   const secretToken = localStorage?.getItem('secret_token');
   const body = { recused: true }
-  const jobRecusedResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/job/` + uuid, {
+  const jobRecusedResponse = await fetch(`${API_URL}/job/` + uuid, {
     method: 'POST',
     headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
@@ -89,7 +91,7 @@ export const setJobAsRecused = async (uuid: string) => {
 export const updateNumberOfInterviews = async (uuid: string, numberOfInterviews: number) => {
   const secretToken = localStorage?.getItem('secret_token');
   const body = { numberOfInterviews }
-  const jobRecusedResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/job/` + uuid, {
+  const jobRecusedResponse = await fetch(`${API_URL}/job/` + uuid, {
     method: 'POST',
     headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
@@ -101,7 +103,7 @@ export const updateNumberOfInterviews = async (uuid: string, numberOfInterviews:
 export const updateNumberOfTests = async (uuid: string, numberOfTests: number) => {
   const secretToken = localStorage?.getItem('secret_token');
   const body = { numberOfTests }
-  const jobRecusedResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/job/` + uuid, {
+  const jobRecusedResponse = await fetch(`${API_URL}/job/` + uuid, {
     method: 'POST',
     headers: { "Content-Type": "application/json", "Authorization": secretToken || "" },
     body: JSON.stringify(body),
@@ -112,7 +114,7 @@ export const updateNumberOfTests = async (uuid: string, numberOfTests: number) =
 
 export const getStatsFromAPI = async () => {
   const secretToken = localStorage?.getItem('secret_token');
-  const statsResponse = await fetch(encodeURI(`${process.env.REACT_APP_API_BASE_URL}/stats`), { headers: { "Content-Type": "application/json", "Authorization": secretToken || "" } });
+  const statsResponse = await fetch(encodeURI(`${API_URL}/stats`), { headers: { "Content-Type": "application/json", "Authorization": secretToken || "" } });
   const statsResponseJson = await statsResponse?.json();
   return statsResponseJson;
 }
@@ -123,7 +125,7 @@ export const formatDateHour = (date: string): string => {
 }
 
 export const validateSecretToken = async (token: string) => {
-  const validadeTokenResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/validate`, {
+  const validadeTokenResponse = await fetch(`${API_URL}/validate`, {
     method: 'POST',
     headers: { "Authorization": token },
   });
