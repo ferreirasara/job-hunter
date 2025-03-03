@@ -1,11 +1,11 @@
+import { Spin } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { FiltersContextProvider } from './context/FiltersContext';
-import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
 import { PaginationContextProvider } from './context/PaginationContext';
-import { Spin } from 'antd';
+import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -38,7 +38,13 @@ root.render(
     <FiltersContextProvider>
       <ShowOnlyContextProvider>
         <PaginationContextProvider>
-          <React.Suspense fallback={<Spin spinning />}>
+          <React.Suspense
+            fallback={
+              <div style={{ width: '100dvw', height: '100dvh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Spin spinning />
+              </div>
+            }
+          >
             <RouterProvider router={router} />
           </React.Suspense>
         </PaginationContextProvider>

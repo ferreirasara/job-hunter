@@ -1,11 +1,11 @@
-import { Button, Grid, Table, Typography } from "antd"
-import { ColumnsType } from "antd/es/table";
-import { formatDateHour } from "../utils/utils";
 import { ZoomInOutlined } from "@ant-design/icons";
-import { renderMultipleTags } from "./renderMultipleTags";
-import { renderRating } from "./renderRating";
+import { Button, Grid, Table, Typography } from "antd";
+import { ColumnsType } from "antd/es/table";
 import { useContext } from "react";
 import { PaginationContext } from "../context/PaginationContext";
+import { formatDateHour } from "../utils/utils";
+import { renderMultipleTags } from "./renderMultipleTags";
+import { renderRating } from "./renderRating";
 
 export enum JobPlatform {
   GUPY = "GUPY",

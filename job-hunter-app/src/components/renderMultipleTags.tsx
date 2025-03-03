@@ -1,4 +1,4 @@
-import { Tag } from "antd"
+import { Tag } from "antd";
 
 export const renderMultipleTags = (field?: string) => {
   if (!field || field === "") return null;
@@ -114,6 +114,7 @@ export const SKILL_RATING = {
   "SAS": -1,
   "SCALA": -2,
   "SCRIPT": 1,
+  "SITE_RENDERING": 1,
   "SPANISH": -2,
   "STATE_MANAGEMENT": 2,
   "STORYBOOK": 2,
