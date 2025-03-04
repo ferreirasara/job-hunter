@@ -708,6 +708,11 @@ describe('test BENEFITS_REGEX cases', () => {
           regex: BENEFITS_REGEX.COURSE_HELP,
           toBe: true,
         },
+        {
+          str: 'bolsas de estudo',
+          regex: BENEFITS_REGEX.COURSE_HELP,
+          toBe: true,
+        },
       ],
     },
     {
