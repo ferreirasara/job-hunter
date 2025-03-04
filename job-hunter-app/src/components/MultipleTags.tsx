@@ -33,7 +33,7 @@ const MultipleTags = ({ field }: MultipleTagsProps) => {
 
     if (tag === 'JUNIOR') return 'red';
     if (tag === 'MID_LEVEL') return 'green';
-    if (tag === 'SENIOR') return 'orange';
+    if (tag === 'SENIOR') return 'green';
 
     return 'default';
   }, []);

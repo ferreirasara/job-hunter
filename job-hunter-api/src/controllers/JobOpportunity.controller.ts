@@ -15,6 +15,9 @@ const getOrderBy = (
   orderByField: string,
   orderByOrder: string,
 ): FindOptionsOrder<JobOpportunity> => {
+  if (!orderByField) return { createdAt: 'DESC' };
+  if (!orderByField) orderByField = 'ASC';
+
   if (orderByField === 'createdAt')
     return { createdAt: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
   if (orderByField === 'platform')
@@ -329,8 +332,8 @@ export default class JobOpportunityController {
 
     return unique
       ? uniq(allSkills?.filter((cur) => !!cur))?.sort((a, b) =>
-          a.localeCompare(b),
-        )
+        a.localeCompare(b),
+      )
       : allSkills;
   }
 
@@ -357,8 +360,8 @@ export default class JobOpportunityController {
 
     return unique
       ? uniq(allBenefits?.filter((cur) => !!cur))?.sort((a, b) =>
-          a.localeCompare(b),
-        )
+        a.localeCompare(b),
+      )
       : allBenefits;
   }
 

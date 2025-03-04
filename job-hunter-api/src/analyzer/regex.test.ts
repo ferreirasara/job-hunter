@@ -1287,6 +1287,7 @@ describe('test SENIORITY_REGEX cases', () => {
         { str: 'senior', regex: SENIORITY_REGEX.SENIOR, toBe: true },
         { str: 'sr', regex: SENIORITY_REGEX.SENIOR, toBe: true },
         { str: 'senioridade', regex: SENIORITY_REGEX.SENIOR, toBe: false },
+        { str: 'seniority', regex: SENIORITY_REGEX.SENIOR, toBe: false },
       ],
     },
   ];
@@ -1369,6 +1370,11 @@ describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
         { str: '5+ years with', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
         {
           str: 'auxilio creche: para filhos(as) ate 5 anos de idade.',
+          regex: YEARS_OF_EXPERIENCE_REGEX,
+          toBe: false,
+        },
+        {
+          str: 'apos 6 meses de contrato',
           regex: YEARS_OF_EXPERIENCE_REGEX,
           toBe: false,
         },

@@ -53,7 +53,7 @@ export const SKILLS_REGEX = {
   ],
   CHARTS: [/recharts/i, /bizcharts/],
   COBOL: [/cobol/i],
-  CODE_MAINTAINABILITY: [/eslint/i, /prettier/i],
+  CODE_MAINTAINABILITY: [/eslint/i, /prettier/i, /linting/i],
   CODE_REVIEW: [/code( |-|.)?review/i],
   CODE_VERSIONING: [
     /\bgit(( |-|.)?(hub|lab)?)?\b/i,
@@ -89,7 +89,13 @@ export const SKILLS_REGEX = {
     /sequelize/i,
   ],
   DELPHI: [/delphi/i],
-  DESIGN: [/design de interfaces/i, /photoshop/i, /illustrator/i, /sketch/i],
+  DESIGN: [
+    /design de interfaces/i,
+    /photoshop/i,
+    /illustrator/i,
+    /sketch/i,
+    /figma/i,
+  ],
   DESIGN_SYSTEM: [/design system/i],
   DEV_OPS: [
     /docker/i,
@@ -152,13 +158,13 @@ export const SKILLS_REGEX = {
   ENGLISH: [/ingles/i, /english/i],
   FLASK: [/flask/i],
   FLUTTER: [/flutter/i],
-  FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i],
+  FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i, /parcel/i],
   FULL_STACK: [
     /full( |-|.)?stack/i,
     /(back|front)( |-|.)?(end)?( (e|ao|quanto o) |, )(back|front)( |-|.)?(end)?/i,
     /(back|front)( |-|.)?end & (front|back)( |-|.)?end/i,
   ],
-  GAME_ENGINE: [/unity/],
+  GAME_ENGINE: [/\bunity\b/i],
   GATSBY: [/gatsby/],
   GOOD_PRACTICES: [
     /clean(\s)?(code|architecture)/i,
@@ -247,7 +253,7 @@ export const SKILLS_REGEX = {
     /aplicativo(s)? moveis/i,
   ],
   NEST: [/\bnest(( |-|.)?js)?/i],
-  NEXT: [/\bnext(( |-|.)?js)?/i],
+  NEXT: [/\bnext(( |-|.)?js)?(?! steps)/i],
   NETWORK: [
     /\bcpe\b/i,
     /\bgpon\b/i,
@@ -272,6 +278,8 @@ export const SKILLS_REGEX = {
     /solucoes (consistentes )?em performance/i,
     /(seguranca e )?performance (para|na|de) (web|front( |-|.)?end)/i,
     /performance e tempo de carregamento/i,
+    /(web )?performance optimization/i,
+    /\bwpo\b/i,
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
@@ -296,7 +304,7 @@ export const SKILLS_REGEX = {
     /prototipo(s)?/,
   ],
   PYTHON: [/python/i, /phyton/i],
-  PWA: [/pwa/i],
+  PWA: [/pwa/i, /progressive web apps/i],
   RAZOR: [/razor/i],
   REACT: [/react(( |-|.)?js)?(?! native)(?! hooks)/i, /reacjs/i],
   REACT_HOOKS: [/react( |-|.)?hook(s)?(?! form)/i],
@@ -313,6 +321,7 @@ export const SKILLS_REGEX = {
     /altamente responsivas/i,
     /responsivas/i,
     /responsive/i,
+    /portavel/i,
   ],
   RUBY: [/ruby((-| )on(-| )rails)?/i, /rails/i],
   RUST: [/rust/i],
@@ -542,9 +551,16 @@ export const TYPES_REGEX = {
 };
 
 export const SENIORITY_REGEX = {
-  JUNIOR: [/junior/i, /estagiario/i, /estagio(?! s)/i, /\bjn\b/i, /\bjr\b/i],
+  JUNIOR: [
+    /junior/i,
+    /estagiario/i,
+    /estagio(?! s)/i,
+    /\bjn\b/i,
+    /\bjr\b/i,
+    /trainee/i,
+  ],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
-  SENIOR: [/senior(?!idade)/i, /\bsr\b/],
+  SENIOR: [/senior(?!(idade|ity))/i, /\bsr\b/],
 };
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
@@ -560,7 +576,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
   /entre (\d+|\w+) e (\d+|\w+) anos/i,
   /experiencia (comprovada|de trabalho) de (\d+|\w+)(\+)? (anos|meses)/i,
-  /(\d+|\w+) (anos|meses) (?!de idade)(\+ )?(trabalhando)?/i,
+  /(\d+|\w+) (anos|meses) (?!de (idade|contrato))(\+ )?(trabalhando)?/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software development )?(experience|professional|non\-internship professional|with)/i,
   /at least (\d+|\w+) years of experience/i,
