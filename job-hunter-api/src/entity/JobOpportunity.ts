@@ -1,79 +1,91 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class JobOpportunity {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: string
+  @PrimaryGeneratedColumn('uuid')
+  uuid: string;
 
   @Column({ nullable: true })
-  idInPlatform: string
+  idInPlatform: string;
 
   @Column()
-  company: string
+  company: string;
 
-  @Column({ enum: ["GUPY", "PROGRAMATHOR", "TRAMPOS", "VAGAS", "REMOTAR", "LINKEDIN", "JOBATUS", "DIVULGA_VAGAS", "COODESH"] })
-  platform: string
+  @Column({
+    enum: [
+      'GUPY',
+      'PROGRAMATHOR',
+      'TRAMPOS',
+      'VAGAS',
+      'REMOTAR',
+      'LINKEDIN',
+      'JOBATUS',
+      'DIVULGA_VAGAS',
+      'COODESH',
+    ],
+  })
+  platform: string;
 
   @Column()
-  title: string
+  title: string;
 
   @Column()
-  description: string
+  description: string;
 
   @Column({ nullable: true })
-  skills: string
+  skills: string;
 
   @Column({ nullable: true })
-  benefits: string
+  benefits: string;
 
   @Column()
-  url: string
+  url: string;
 
-  @Column({ enum: ["REMOTE", "HYBRID", "FACE_TO_FACE"], nullable: true })
-  type: string
+  @Column({ enum: ['REMOTE', 'HYBRID', 'FACE_TO_FACE'], nullable: true })
+  type: string;
 
-  @Column({ enum: ["CLT", "PJ"], nullable: true })
-  hiringRegime: string
+  @Column({ enum: ['CLT', 'PJ'], nullable: true })
+  hiringRegime: string;
 
-  @Column({ enum: ["JUNIOR", "MID_LEVEL", "SENIOR"], nullable: true })
-  seniority: string
-
-  @Column({ nullable: true })
-  yearsOfExperience: number
+  @Column({ enum: ['JUNIOR', 'MID_LEVEL', 'SENIOR'], nullable: true })
+  seniority: string;
 
   @Column({ nullable: true })
-  country: string
+  yearsOfExperience: number;
 
   @Column({ nullable: true })
-  state: string
+  country: string;
 
   @Column({ nullable: true })
-  city: string
+  state: string;
 
   @Column({ nullable: true })
-  skillsRating: number
+  city: string;
 
   @Column({ nullable: true })
-  benefitsRating: number
+  skillsRating: number;
 
   @Column({ nullable: true })
-  totalRating: number
+  benefitsRating: number;
+
+  @Column({ nullable: true })
+  totalRating: number;
 
   @Column({ default: false })
-  applied: boolean
+  applied: boolean;
 
   @Column({ nullable: true, default: 0 })
-  numberOfInterviews: number
+  numberOfInterviews: number;
 
   @Column({ nullable: true, default: 0 })
-  numberOfTests: number
+  numberOfTests: number;
 
   @Column({ default: false })
-  discarded: boolean
+  discarded: boolean;
 
   @Column({ default: false })
-  recused: boolean
+  recused: boolean;
 
   @Column({ default: new Date() })
-  createdAt: Date
+  createdAt: Date;
 }

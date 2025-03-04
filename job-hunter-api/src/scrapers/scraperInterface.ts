@@ -1,28 +1,48 @@
-import puppeteer from "puppeteer";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import { interceptRequest, isDiscardedJob, isUnwantedJob, removeAccent } from "../utils/utils";
-import { JobInput, JobPlatform, SaveJobsResponse } from "../@types/types";
+import puppeteer from 'puppeteer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import {
+  interceptRequest,
+  isDiscardedJob,
+  isUnwantedJob,
+  removeAccent,
+} from '../utils/utils';
+import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 
 export default abstract class ScraperInterface {
-  protected platform: JobPlatform
-  protected filterExistentsJobs: boolean
+  protected platform: JobPlatform;
+  protected filterExistentsJobs: boolean;
 
-  constructor({ platform, filterExistentsJobs }: { platform: JobPlatform, filterExistentsJobs?: boolean }) {
+  constructor({
+    platform,
+    filterExistentsJobs,
+  }: {
+    platform: JobPlatform;
+    filterExistentsJobs?: boolean;
+  }) {
     this.platform = platform;
     this.filterExistentsJobs = filterExistentsJobs;
   }
 
-  public abstract getJobs(): Promise<JobInput[]>
+  public abstract getJobs(): Promise<JobInput[]>;
 
-  protected async getBrowser({ abortScript, abortStyle }: { abortScript?: boolean, abortStyle?: boolean }) {
-    const browser = await puppeteer.launch({ headless: "new" });
+  protected async getBrowser({
+    abortScript,
+    abortStyle,
+  }: {
+    abortScript?: boolean;
+    abortStyle?: boolean;
+  }) {
+    const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
-    const ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36";
+    const ua =
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36';
     await page.setUserAgent(ua);
     await page.setRequestInterception(true);
-    page.on('request', (request) => interceptRequest({ request, abortScript, abortStyle }));
+    page.on('request', (request) =>
+      interceptRequest({ request, abortScript, abortStyle }),
+    );
 
-    return { browser, page }
+    return { browser, page };
   }
 
   protected async logError(e: any) {
@@ -42,24 +62,31 @@ export default abstract class ScraperInterface {
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
-      const title = removeAccent(job?.title?.toLowerCase())
-      const company = removeAccent(job?.company?.toLowerCase())
-      const description = removeAccent(job?.description?.toLowerCase())
+      const title = removeAccent(job?.title?.toLowerCase());
+      const company = removeAccent(job?.company?.toLowerCase());
+      const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwantedJob = isUnwantedJob({ title, company, description })
+      const unwantedJob = isUnwantedJob({ title, company, description });
 
       if (!unwantedJob) {
-        const discarded = isDiscardedJob({ title, skills: job.skills })
+        const discarded = isDiscardedJob({ title, skills: job.skills });
         if (discarded) {
           jobsDiscardedCount++;
-          console.log(`\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`);
+          console.log(
+            `\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`,
+          );
         }
 
-        const response = await JobOpportunityController.insert({ discarded, ...job });
-        if (!!response?.success) jobsSavedCount++
+        const response = await JobOpportunityController.insert({
+          discarded,
+          ...job,
+        });
+        if (!!response?.success) jobsSavedCount++;
       } else {
         jobsUnsavedCount++;
-        console.log(`\x1b[34m[${this.platform}] unwanted job: ${job.title} (${job.company})\x1b[0m`);
+        console.log(
+          `\x1b[34m[${this.platform}] unwanted job: ${job.title} (${job.company})\x1b[0m`,
+        );
       }
     }
 

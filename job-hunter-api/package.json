@@ -8,7 +8,10 @@
     "start:api": "ts-node src/index.api.ts",
     "start:scrapers": "ts-node src/index.scrapers.ts",
     "start:analyzer": "ts-node src/index.analyzer.ts",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "eslint:fix": "yarn eslint:check -- --fix"
   },
   "author": "Sara Ferreira",
   "license": "MIT",
@@ -24,8 +27,13 @@
   "dependencies": {
     "@types/jest": "^29.5.6",
     "@types/lodash": "^4.14.200",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "express": "^4.19.2",
     "jest": "^29.7.0",
     "lodash": "^4.17.21",
