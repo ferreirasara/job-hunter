@@ -7,7 +7,11 @@ import ScraperInterface from './ScraperInterface';
 
 const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS;
 export default class DivulgaVagasScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

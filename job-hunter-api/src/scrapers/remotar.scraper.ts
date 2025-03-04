@@ -8,7 +8,11 @@ import ScraperInterface from './ScraperInterface';
 const platform: JobPlatform = JobPlatform.REMOTAR;
 
 export default class RemotarScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

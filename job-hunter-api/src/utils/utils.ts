@@ -42,7 +42,7 @@ export const stringContainsAny = (
 ) => {
   for (let i = 0; i < filterArray.length; i++) {
     const regex = filterArray[i];
-    if (regex.test(inputString)) {
+    if (regex?.test(inputString)) {
       return true;
     }
   }

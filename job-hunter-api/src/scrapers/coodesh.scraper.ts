@@ -7,7 +7,11 @@ import ScraperInterface from './ScraperInterface';
 const platform: JobPlatform = JobPlatform.COODESH;
 
 export default class CoodeshScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

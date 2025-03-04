@@ -1,14 +1,18 @@
 import { Page } from 'puppeteer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import ScraperInterface from './ScraperInterface';
-import { analyzeDescription } from '../analyzer/analyzer';
-import { sleep } from '../utils/utils';
-import { LINKEDIN_URLS } from '../urls/urls';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import { LINKEDIN_URLS } from '../urls/urls';
+import { sleep } from '../utils/utils';
+import ScraperInterface from './ScraperInterface';
 
 const platform: JobPlatform = JobPlatform.LINKEDIN;
 export default class LinkedinScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

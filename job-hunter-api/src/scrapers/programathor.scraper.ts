@@ -1,16 +1,20 @@
 import { Page } from 'puppeteer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import ScraperInterface from './ScraperInterface';
+import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import {
   analyzeDescription,
   getProgramathorNormalizedSkill,
 } from '../analyzer/analyzer';
-import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { PROGRAMATHOR_URLS } from '../urls/urls';
+import ScraperInterface from './ScraperInterface';
 
 const platform: JobPlatform = JobPlatform.PROGRAMATHOR;
 export default class ProgramathorScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

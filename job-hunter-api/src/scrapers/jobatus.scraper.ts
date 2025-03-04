@@ -1,14 +1,18 @@
-import { Page } from 'puppeteer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import ScraperInterface from './ScraperInterface';
-import { analyzeDescription } from '../analyzer/analyzer';
-import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
-import { JOBATUS_URLS } from '../urls/urls';
 import { uniqBy } from 'lodash';
+import { Page } from 'puppeteer';
+import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import { JOBATUS_URLS } from '../urls/urls';
+import ScraperInterface from './ScraperInterface';
 
 const platform: JobPlatform = JobPlatform.JOBATUS;
-export default class JObatusScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+export default class JobatusScraper extends ScraperInterface {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 

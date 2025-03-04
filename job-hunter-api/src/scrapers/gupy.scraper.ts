@@ -13,7 +13,11 @@ import ScraperInterface from './ScraperInterface';
 
 const platform: JobPlatform = JobPlatform.GUPY;
 export default class GupyScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
     super({ platform, filterExistentsJobs });
   }
 
@@ -79,10 +83,11 @@ export default class GupyScraper extends ScraperInterface {
       const job = jobs[i];
       try {
         await page.goto(job?.jobUrl);
-        const descriptionOriginal = await page?.$eval(
-          'section',
-          (el) => el?.textContent,
-        );
+        const descriptionOriginal = (
+          await page?.$$eval('section > div', (el) =>
+            el?.map((cur) => cur?.textContent),
+          )
+        ).join('\n');
         const analyzerResponse = analyzeDescription({
           title: job.name,
           description: descriptionOriginal,
