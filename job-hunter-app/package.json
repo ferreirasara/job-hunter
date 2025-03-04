@@ -28,13 +28,8 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build -- --outDir=build",
-    "preview": "vite preview"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "preview": "vite preview",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "browserslist": {
     "production": [
@@ -49,6 +44,10 @@
     ]
   },
   "devDependencies": {
-    "@types/react-highlight-words": "^0.20.0"
+    "@types/react-highlight-words": "^0.20.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^5.1.3"
   }
 }

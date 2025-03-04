@@ -1,17 +1,23 @@
-import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
-import { Alert, Button, Divider, Space } from "antd";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { NavLink, Navigate } from "react-router-dom";
-import DetailsDrawer from "../components/DetailsDrawer";
-import FiltersDrawer from "../components/FiltersDrawer";
-import JobsTable, { JobsResponse, JobsTableData } from "../components/JobsTable";
-import { PaginationContext } from "../context/PaginationContext";
-import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
+import { BarChartOutlined, FilterOutlined } from '@ant-design/icons';
+import { Alert, Button, Divider, Space } from 'antd';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { NavLink, Navigate } from 'react-router-dom';
+import DetailsDrawer from '../components/DetailsDrawer';
+import FiltersDrawer from '../components/FiltersDrawer';
+import JobsTable, {
+  JobsResponse,
+  JobsTableData,
+} from '../components/JobsTable';
+import { PaginationContext } from '../context/PaginationContext';
+import { GetJobsFromAPIArgs, getJobsFromAPI } from '../utils/utils';
 
 export default function Root() {
   const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
-    showOnlyApplied: false, showOnlyDiscarded: false, showOnlyNewJobs: false,
-    showOnlyRecused: false, orderBy: { field: "createdAt", order: "descend" }
+    showOnlyApplied: false,
+    showOnlyDiscarded: false,
+    showOnlyNewJobs: false,
+    showOnlyRecused: false,
+    orderBy: { field: 'createdAt', order: 'descend' },
   });
   const { page, limit } = useContext(PaginationContext);
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,42 +25,52 @@ export default function Root() {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
   const [allRatings, setAllRatings] = useState<number[]>([]);
   const [allSkills, setAllSkills] = useState<string[]>([]);
   const [allBenefits, setAllBenefits] = useState<string[]>([]);
 
-  const handleFetchData = useCallback(async (apiArgs: GetJobsFromAPIArgs) => {
-    setLoading(true);
-    try {
-      const response: JobsResponse = await getJobsFromAPI({ ...apiArgs, page, limit });
-      if (response?.message) {
-        setErrorMessage(response?.message);
-      } else {
-        setErrorMessage("");
-        setTotalOfJobs(response?.totalOfJobs);
-        setAllRatings(response?.allRatings);
-        setAllSkills(response?.allSkills);
-        setAllBenefits(response?.allBenefits);
-        setData(response?.data);
+  const handleFetchData = useCallback(
+    async (apiArgs: GetJobsFromAPIArgs) => {
+      setLoading(true);
+      try {
+        const response: JobsResponse = await getJobsFromAPI({
+          ...apiArgs,
+          page,
+          limit,
+        });
+        if (response?.message) {
+          setErrorMessage(response?.message);
+        } else {
+          setErrorMessage('');
+          setTotalOfJobs(response?.totalOfJobs);
+          setAllRatings(response?.allRatings);
+          setAllSkills(response?.allSkills);
+          setAllBenefits(response?.allBenefits);
+          setData(response?.data);
+        }
+      } catch (e) {
+        setErrorMessage(e?.toString() || '');
       }
-    } catch (e) {
-      setErrorMessage(e?.toString() || "");
-    }
-    setLoading(false);
-  }, [page, limit])
+      setLoading(false);
+    },
+    [page, limit],
+  );
 
   useEffect(() => {
     handleFetchData({});
   }, [handleFetchData]);
 
-  const handleSeeDetails = useCallback((uuid: string) => {
-    const job = data?.find(cur => cur?.uuid === uuid)
-    setSelectedJob(job);
-    setDetailsDrawerOpen(true);
-  }, [data]);
+  const handleSeeDetails = useCallback(
+    (uuid: string) => {
+      const job = data?.find((cur) => cur?.uuid === uuid);
+      setSelectedJob(job);
+      setDetailsDrawerOpen(true);
+    },
+    [data],
+  );
 
   const onCloseDrawer = useCallback(() => {
     setDetailsDrawerOpen(false);
@@ -62,48 +78,60 @@ export default function Root() {
   }, []);
 
   const secretToken = localStorage?.getItem('secret_token');
-  if (!secretToken) return <Navigate to="/login" replace={true} />
+  if (!secretToken) return <Navigate to="/login" replace={true} />;
 
-  return <div>
-    <Space direction="vertical" style={{ padding: '0 16px' }}>
-      <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
-        Job Hunter
-      </Divider>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
-        <Button icon={<FilterOutlined />} onClick={() => setFiltersDrawerOpen(true)}>
-          Filtrar vagas
-        </Button>
-        <NavLink to="/stats">
-          <Button icon={<BarChartOutlined />}>
-            Ver estatísticas
+  return (
+    <div>
+      <Space direction="vertical" style={{ padding: '0 16px' }}>
+        <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+          Job Hunter
+        </Divider>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Button
+            icon={<FilterOutlined />}
+            onClick={() => setFiltersDrawerOpen(true)}
+          >
+            Filtrar vagas
           </Button>
-        </NavLink>
-      </div>
-      {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
-      <JobsTable
-        loading={loading}
-        data={data}
-        totalOfJobs={totalOfJobs}
-        allRatings={allRatings}
-        handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
+          <NavLink to="/stats">
+            <Button icon={<BarChartOutlined />}>Ver estatísticas</Button>
+          </NavLink>
+        </div>
+        {errorMessage ? (
+          <Alert type="error" showIcon message={errorMessage} />
+        ) : null}
+        <JobsTable
+          loading={loading}
+          data={data}
+          totalOfJobs={totalOfJobs}
+          allRatings={allRatings}
+          handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
+        />
+      </Space>
+      <DetailsDrawer
+        open={detailsDrawerOpen}
+        onClose={onCloseDrawer}
+        selectedJob={selectedJob}
+        fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
+        apiArgs={apiArgs}
       />
-    </Space>
-    <DetailsDrawer
-      open={detailsDrawerOpen}
-      onClose={onCloseDrawer}
-      selectedJob={selectedJob}
-      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
-      apiArgs={apiArgs}
-    />
-    <FiltersDrawer
-      open={filtersDrawerOpen}
-      onClose={() => setFiltersDrawerOpen(false)}
-      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
-      allSkills={allSkills}
-      allBenefits={allBenefits}
-      loading={loading}
-      apiArgs={apiArgs}
-      onChangeApiArgs={(value: GetJobsFromAPIArgs) => setApiArgs(value)}
-    />
-  </div>
+      <FiltersDrawer
+        open={filtersDrawerOpen}
+        onClose={() => setFiltersDrawerOpen(false)}
+        fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
+        allSkills={allSkills}
+        allBenefits={allBenefits}
+        loading={loading}
+        apiArgs={apiArgs}
+        onChangeApiArgs={(value: GetJobsFromAPIArgs) => setApiArgs(value)}
+      />
+    </div>
+  );
 }

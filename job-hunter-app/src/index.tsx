@@ -7,27 +7,27 @@ import { PaginationContextProvider } from './context/PaginationContext';
 import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 
-document.body.style.margin = "0";
-document.body.style.height = "100%";
+document.body.style.margin = '0';
+document.body.style.height = '100%';
 
-const Root = React.lazy(() => import("./pages/Root"));
-const Stats = React.lazy(() => import("./pages/Stats"));
-const Login = React.lazy(() => import("./pages/Login"));
+const Root = React.lazy(() => import('./pages/Root'));
+const Stats = React.lazy(() => import('./pages/Stats'));
+const Login = React.lazy(() => import('./pages/Login'));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Root />,
   },
   {
-    path: "/stats",
+    path: '/stats',
     element: <Stats />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
 ]);
@@ -39,7 +39,15 @@ root.render(
         <PaginationContextProvider>
           <React.Suspense
             fallback={
-              <div style={{ width: '100dvw', height: '100dvh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <div
+                style={{
+                  width: '100dvw',
+                  height: '100dvh',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 <Spin spinning />
               </div>
             }
@@ -49,5 +57,5 @@ root.render(
         </PaginationContextProvider>
       </ShowOnlyContextProvider>
     </FiltersContextProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
