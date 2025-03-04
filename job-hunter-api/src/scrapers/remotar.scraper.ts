@@ -31,7 +31,6 @@ export default class RemotarScraper extends ScraperInterface {
   private async getUrls(page: Page) {
     try {
       await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle2" });
-      await page.screenshot({ path: 'remotar.jpg' });
       const frontendUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
 
       await page.goto("https://remotar.com.br/search/jobs?q=front%20end", { waitUntil: "networkidle2" });
