@@ -126,7 +126,7 @@ export const SKILL_RATING = {
   MICRO_FRONTENDS: 1,
   MICRO_SERVICES: -1,
   MOBILE_DEVELOPMENT: -2,
-  NEST: -2,
+  NEST: 1,
   NEXT: 1,
   NETWORK: -2,
   NUXT: -2,
