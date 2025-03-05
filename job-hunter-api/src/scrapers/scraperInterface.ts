@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import {
   interceptRequest,
@@ -6,7 +7,6 @@ import {
   isUnwantedJob,
   removeAccent,
 } from '../utils/utils';
-import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform;
@@ -78,8 +78,8 @@ export default abstract class ScraperInterface {
         }
 
         const response = await JobOpportunityController.insert({
-          discarded,
           ...job,
+          discarded,
         });
         if (!!response?.success) jobsSavedCount++;
       } else {

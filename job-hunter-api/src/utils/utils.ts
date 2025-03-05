@@ -843,6 +843,7 @@ export const sendMessageToTelegram = async (
 
 export const normalizeDescription = (description: string) => {
   return removeAccent(description)
+    ?.replace(/\. /gi, '.\n')
     ?.replace(/\`/gi, '')
     ?.replace(/ /gi, ' ')
     ?.replace(/;/gi, ';\n')
@@ -902,7 +903,8 @@ export const isUnwantedJob = (args: {
     'vendedor',
     'estoquista',
     'estocagem',
-    'analista de suporte',
+    'suporte',
+    'bolsista',
   ];
   const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];

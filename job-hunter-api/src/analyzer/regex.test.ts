@@ -367,6 +367,11 @@ describe('test SKILLS_REGEX cases', () => {
           regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION,
           toBe: true,
         },
+        {
+          str: 'performance optimization',
+          regex: SKILLS_REGEX.PERFORMANCE_OPTIMIZATION,
+          toBe: true,
+        },
       ],
     },
     {
@@ -470,6 +475,11 @@ describe('test SKILLS_REGEX cases', () => {
       cases: [
         {
           str: 'Gerenciamento de estados',
+          regex: SKILLS_REGEX.STATE_MANAGEMENT,
+          toBe: true,
+        },
+        {
+          str: 'gestao de estado global',
           regex: SKILLS_REGEX.STATE_MANAGEMENT,
           toBe: true,
         },
@@ -1377,6 +1387,21 @@ describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
           str: 'apos 6 meses de contrato',
           regex: YEARS_OF_EXPERIENCE_REGEX,
           toBe: false,
+        },
+        {
+          str: 'experiencia (5+ anos)',
+          regex: YEARS_OF_EXPERIENCE_REGEX,
+          toBe: true,
+        },
+        {
+          str: '12+ years of software engineering experience',
+          regex: YEARS_OF_EXPERIENCE_REGEX,
+          toBe: true,
+        },
+        {
+          str: 'at least 3+ years of relevant experience',
+          regex: YEARS_OF_EXPERIENCE_REGEX,
+          toBe: true,
         },
       ],
     },

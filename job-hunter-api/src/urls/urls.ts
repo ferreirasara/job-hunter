@@ -5,8 +5,8 @@ export const LINKEDIN_URLS = [
 ];
 
 export const PROGRAMATHOR_URLS = [
-  'https://programathor.com.br/jobs-react',
-  'https://programathor.com.br/jobs-front-end',
+  'https://programathor.com.br/jobs-react/remoto',
+  'https://programathor.com.br/jobs-front-end/remoto',
 ];
 
 export const JOBATUS_URLS = [

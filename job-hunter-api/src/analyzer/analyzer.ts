@@ -351,7 +351,7 @@ export const getYearOfExperienceBasedOnDescription = (job: {
       const yearsSplit = yearsStr?.split(' ')?.filter((cur) => !!cur);
       if (!yearsSplit.length) return null;
       const years = parseInt(yearsSplit?.[0]);
-      if (years < 10) return years;
+      if (years < 13) return years;
       if (!years) return getNumberFromString(res?.[0]);
     }
   }
