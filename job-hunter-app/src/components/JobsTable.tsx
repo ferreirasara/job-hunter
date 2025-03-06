@@ -17,6 +17,7 @@ export enum JobPlatform {
   JOBATUS = 'JOBATUS',
   DIVULGA_VAGAS = 'DIVULGA_VAGAS',
   COODESH = 'COODESH',
+  STARTUP = 'STARTUP',
 }
 export enum JobType {
   REMOTE = 'REMOTE',

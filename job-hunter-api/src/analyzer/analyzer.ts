@@ -184,6 +184,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.OBJECTIVE_C;
     case 'qa - quality assurance':
       return JobSkill.TEST;
+    case 'photoshop':
+      return JobSkill.DESIGN;
     case 'python':
       return JobSkill.PYTHON;
     case 'reactjs':

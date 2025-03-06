@@ -7,6 +7,7 @@ import JobatusScraper from './scrapers/jobatus.scraper';
 import LinkedinScraper from './scrapers/linkedin.scraper';
 import ProgramathorScraper from './scrapers/programathor.scraper';
 import RemotarScraper from './scrapers/remotar.scraper';
+import StartupScraper from './scrapers/startup.scraper';
 import TramposScraper from './scrapers/trampos.scraper';
 import VagasScraper from './scrapers/vagas.scraper';
 
@@ -22,6 +23,10 @@ AppDataSource.initialize()
       jobsUnsavedCount += result.jobsUnsavedCount;
       jobsDiscardedCount += result.jobsDiscardedCount;
     };
+
+    const startupScraper = new StartupScraper({});
+    result = await startupScraper.saveJobs();
+    updateCounts(result);
 
     const gupyScraper = new GupyScraper({});
     result = await gupyScraper.saveJobs();

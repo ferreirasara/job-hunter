@@ -22,6 +22,7 @@ export class JobOpportunity {
       'JOBATUS',
       'DIVULGA_VAGAS',
       'COODESH',
+      'STARTUP',
     ],
   })
   platform: string;

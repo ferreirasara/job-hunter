@@ -332,8 +332,8 @@ export default class JobOpportunityController {
 
     return unique
       ? uniq(allSkills?.filter((cur) => !!cur))?.sort((a, b) =>
-        a.localeCompare(b),
-      )
+          a.localeCompare(b),
+        )
       : allSkills;
   }
 
@@ -360,8 +360,8 @@ export default class JobOpportunityController {
 
     return unique
       ? uniq(allBenefits?.filter((cur) => !!cur))?.sort((a, b) =>
-        a.localeCompare(b),
-      )
+          a.localeCompare(b),
+        )
       : allBenefits;
   }
 
