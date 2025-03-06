@@ -43,7 +43,7 @@ export default class StartupScraper extends ScraperInterface {
 
       for (let pageNumber = 1; pageNumber <= TOTAL_PAGES; pageNumber++) {
         await page.goto(
-          `https://startup.jobs/remote-jobs?remote=true&q=frontend&page=${pageNumber}`,
+          `https://startup.jobs/remote-jobs?q=frontend&remote=true&page=${pageNumber}`,
         );
         const frontendUrls: string[] = await page?.$$eval(
           'div.flex.flex-col.justify-center > a',
@@ -51,7 +51,7 @@ export default class StartupScraper extends ScraperInterface {
         );
 
         await page.goto(
-          `https://startup.jobs/remote-jobs?remote=true&q=react&page=${pageNumber}`,
+          `https://startup.jobs/remote-jobs?q=react&remote=true&page=${pageNumber}`,
         );
         const reactUrls: string[] = await page?.$$eval(
           'div.flex.flex-col.justify-center > a',
@@ -93,9 +93,9 @@ export default class StartupScraper extends ScraperInterface {
     for (let i = 0; i < urlsLength; i++) {
       try {
         const obj = urls[i];
-        await page.goto(obj?.url, { waitUntil: 'networkidle2' });
+        await page.goto(obj?.url);
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const company = await page?.$eval('a.text-lg', (el) => el?.innerText);
+        const company = await page?.$eval('a.font-bold', (el) => el?.innerText);
         const location = await page?.$$eval('div.block > a', (el) =>
           el?.map((cur) => cur?.innerText),
         );

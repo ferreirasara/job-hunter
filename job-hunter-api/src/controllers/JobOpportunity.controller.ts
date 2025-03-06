@@ -416,6 +416,10 @@ export default class JobOpportunityController {
       'numberOfTests',
       { applied: true },
     );
+    const sumOfTotalRatings = await AppDataSource.manager.sum(
+      JobOpportunity,
+      'totalRating',
+    );
     const allSkills = await this.getAllSkills({ considerDiscartedJobs: true });
     const allBenefits = await this.getAllBenefits({
       considerDiscartedJobs: true,
@@ -445,6 +449,7 @@ export default class JobOpportunityController {
       totalOfRecusedJobsWithoutEnterview,
       medianOfInterviews: sumOfNumberOfInterviews / totalOfAppliedJobs,
       medianOfTests: sumOfNumberOfTests / totalOfAppliedJobs,
+      medianOfRatings: sumOfTotalRatings / totalOfJobs,
       skillsContType: calcContType(allSkills),
       benefitsContType: calcContType(allBenefits),
     };

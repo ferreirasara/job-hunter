@@ -7,7 +7,7 @@ import {
   Space,
   Spin,
 } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import {
   CartesianGrid,
@@ -39,6 +39,7 @@ type StatsResponse = {
   totalOfRecusedJobsWithoutEnterview: number;
   medianOfInterviews: number;
   medianOfTests: number;
+  medianOfRatings: number;
   skillsContType: ContType[];
   benefitsContType: ContType[];
 };
@@ -78,6 +79,24 @@ export default function Stats() {
     handleFetchData();
   }, [handleFetchData]);
 
+  const calcPerc = useCallback(
+    (num1: number | undefined, num2: number | undefined) => {
+      const perc = ((num1 || 0) / (num2 || 1)) * 100;
+      return `(${perc.toFixed(2)}%)`;
+    },
+    [],
+  );
+
+  const totalOfSkills = useMemo(
+    () => data?.skillsContType?.reduce((acc, cur) => acc + cur.cont, 0) || 0,
+    [data?.skillsContType],
+  );
+
+  const totalOfBenefits = useMemo(
+    () => data?.benefitsContType?.reduce((acc, cur) => acc + cur.cont, 0) || 0,
+    [data?.benefitsContType],
+  );
+
   const secretToken = localStorage?.getItem('secret_token');
   if (!secretToken) return <Navigate to="/login" replace={true} />;
 
@@ -102,7 +121,7 @@ export default function Stats() {
           <Spin />
         ) : (
           <Space direction="vertical">
-            <Collapse defaultActiveKey={'geralStats'}>
+            <Collapse defaultActiveKey={'geralStats'} destroyInactivePanel>
               <Collapse.Panel
                 header={<strong>Estatísticas gerais</strong>}
                 key="geralStats"
@@ -114,23 +133,36 @@ export default function Stats() {
                   <Descriptions.Item label="Total de vagas">
                     {data?.totalOfJobs}
                   </Descriptions.Item>
+                  <Descriptions.Item label="Média de rating">
+                    {data?.medianOfRatings?.toFixed(2)}
+                  </Descriptions.Item>
                   <Descriptions.Item label="Vagas aplicadas">
-                    {data?.totalOfAppliedJobs}
+                    {data?.totalOfAppliedJobs}{' '}
+                    {calcPerc(data?.totalOfAppliedJobs, data?.totalOfJobs)}
                   </Descriptions.Item>
                   <Descriptions.Item label="Vagas descartadas">
-                    {data?.totalOfDiscardedJobs}
+                    {data?.totalOfDiscardedJobs}{' '}
+                    {calcPerc(data?.totalOfDiscardedJobs, data?.totalOfJobs)}
                   </Descriptions.Item>
                   <Descriptions.Item label="Vagas recusadas">
-                    {data?.totalOfRecusedJobs}
+                    {data?.totalOfRecusedJobs}{' '}
+                    {calcPerc(
+                      data?.totalOfRecusedJobs,
+                      data?.totalOfAppliedJobs,
+                    )}
                   </Descriptions.Item>
                   <Descriptions.Item label="Vagas recusadas sem nenhuma entrevista">
-                    {data?.totalOfRecusedJobsWithoutEnterview}
+                    {data?.totalOfRecusedJobsWithoutEnterview}{' '}
+                    {calcPerc(
+                      data?.totalOfRecusedJobsWithoutEnterview,
+                      data?.totalOfAppliedJobs,
+                    )}
                   </Descriptions.Item>
                   <Descriptions.Item label="Média de entrevistas">
-                    {data?.medianOfInterviews?.toPrecision(2)}
+                    {data?.medianOfInterviews?.toFixed(2)}
                   </Descriptions.Item>
                   <Descriptions.Item label="Média de testes">
-                    {data?.medianOfTests?.toPrecision(2)}
+                    {data?.medianOfTests?.toFixed(2)}
                   </Descriptions.Item>
                 </Descriptions>
               </Collapse.Panel>
@@ -148,7 +180,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.name}
                     >
-                      {cur?.cont}
+                      {cur?.cont} {calcPerc(cur.cont, totalOfSkills)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>
@@ -167,7 +199,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.name}
                     >
-                      {cur?.cont}
+                      {cur?.cont} {calcPerc(cur.cont, totalOfBenefits)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>
@@ -186,7 +218,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.type}
                     >
-                      {cur?.count}
+                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>
@@ -205,7 +237,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.hiringRegime}
                     >
-                      {cur?.count}
+                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>
@@ -224,7 +256,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.platform}
                     >
-                      {cur?.count}
+                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>
@@ -243,7 +275,7 @@ export default function Stats() {
                       key={`${cur}-${index}`}
                       label={cur?.company}
                     >
-                      {cur?.count}
+                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
                     </Descriptions.Item>
                   ))}
                 </Descriptions>

@@ -24,9 +24,9 @@ interface ListItemInnerProps {
 }
 const ListItemInner = memo(({ children, title }: ListItemInnerProps) => {
   return (
-    <span>
+    <div>
       <strong>{title}:</strong> {children}
-    </span>
+    </div>
   );
 });
 
@@ -67,7 +67,7 @@ const DetailsDrawer = ({
       placement="right"
       onClose={onClose}
       open={open}
-      width={screens?.xl ? 700 : '100%'}
+      width={screens?.xl ? '40%' : '100%'}
       styles={{
         body: {
           display: 'flex',
@@ -159,6 +159,7 @@ const DetailsDrawer = ({
                 flexWrap: 'wrap',
               }}
             >
+              <strong>Ações:</strong>
               <AppliedButton
                 {...commomProps}
                 disabled={!!selectedJob?.applied}
@@ -200,8 +201,7 @@ const DetailsDrawer = ({
         style={{
           fontSize: '20px',
           fontWeight: '600',
-          marginTop: 8,
-          marginBottom: 8,
+          margin: 0,
         }}
       >
         Descrição

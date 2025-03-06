@@ -226,6 +226,7 @@ const JobsTable = ({
             size="small"
             onClick={() => handleSeeDetails(uuid)}
             icon={<ZoomInOutlined />}
+            type="text"
           />
         ),
       },
