@@ -23,6 +23,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
     this.logMessage('Start');
 
     const urls = await this.getUrls(page);
+    this.logMessage(`Scraped jobs: ${urls?.length}`);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
       this.platform,
     );
@@ -30,6 +31,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
     const filteredUrls = this.filterExistentsJobs
       ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
       : urls;
+    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();

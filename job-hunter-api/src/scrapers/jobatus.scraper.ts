@@ -21,12 +21,14 @@ export default class JobatusScraper extends ScraperInterface {
     this.logMessage('Start');
 
     const urls = await this.getUrls(page);
+    this.logMessage(`Scraped jobs: ${urls?.length}`);
     const existentJobs =
       await JobOpportunityController.getAllJobsFromPlatform(platform);
     const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
     const filteredUrls = this.filterExistentsJobs
       ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
       : urls;
+    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
 

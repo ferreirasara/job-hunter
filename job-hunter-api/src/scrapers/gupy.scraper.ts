@@ -58,6 +58,7 @@ export default class GupyScraper extends ScraperInterface {
     }
 
     const uniqJobs = uniqBy(allJobs, 'id');
+    this.logMessage(`Scraped jobs: ${uniqJobs?.length}`);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
       this.platform,
     );
@@ -67,6 +68,7 @@ export default class GupyScraper extends ScraperInterface {
     const filteredJobs = this.filterExistentsJobs
       ? uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id))
       : uniqJobs;
+    this.logMessage(`Filtered jobs: ${filteredJobs?.length}`);
 
     const jobs = await this.getNewJobsWithDescription(filteredJobs);
     this.logMessage('End');
