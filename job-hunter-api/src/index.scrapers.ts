@@ -3,7 +3,6 @@ import { AppDataSource } from './data-source';
 import CoodeshScraper from './scrapers/coodesh.scraper';
 import DivulgaVagasScraper from './scrapers/divulgaVagas.scraper';
 import GupyScraper from './scrapers/gupy.scraper';
-import JobatusScraper from './scrapers/jobatus.scraper';
 import LinkedinScraper from './scrapers/linkedin.scraper';
 import ProgramathorScraper from './scrapers/programathor.scraper';
 import RemotarScraper from './scrapers/remotar.scraper';
@@ -13,7 +12,7 @@ import VagasScraper from './scrapers/vagas.scraper';
 
 AppDataSource.initialize()
   .then(async () => {
-    let result: SaveJobsResponse = null;
+    let result: SaveJobsResponse | null = null;
     let jobsSavedCount = 0;
     let jobsUnsavedCount = 0;
     let jobsDiscardedCount = 0;
@@ -52,9 +51,9 @@ AppDataSource.initialize()
     result = await vagasScraper.saveJobs();
     updateCounts(result);
 
-    const jobatusScraper = new JobatusScraper({});
-    result = await jobatusScraper.saveJobs();
-    updateCounts(result);
+    // const jobatusScraper = new JobatusScraper({});
+    // result = await jobatusScraper.saveJobs();
+    // updateCounts(result);
 
     const divulgaVagasScraper = new DivulgaVagasScraper({});
     result = await divulgaVagasScraper.saveJobs();
