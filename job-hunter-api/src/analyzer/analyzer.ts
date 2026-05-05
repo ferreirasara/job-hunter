@@ -32,10 +32,10 @@ export const getSkillsBasedOnDescription = (job: {
     ? [...(existentSkills as JobSkill[])]
     : [];
 
-  for (const skill of Object.keys(SKILLS_REGEX)) {
-    if (stringContainsAny(job.title, SKILLS_REGEX?.[skill]))
+  for (const skill of Object.keys(SKILLS_REGEX) as Array<keyof typeof SKILLS_REGEX>) {
+    if (stringContainsAny(job.title, SKILLS_REGEX[skill]))
       skills.push(JobSkill?.[skill]);
-    if (stringContainsAny(job.description, SKILLS_REGEX?.[skill]))
+    if (stringContainsAny(job.description, SKILLS_REGEX[skill]))
       skills.push(JobSkill?.[skill]);
   }
 
@@ -52,10 +52,10 @@ export const getBenefitsBasedOnDescription = (job: {
     ? [...(existentBenefits as JobBenefit[])]
     : [];
 
-  for (const benefit of Object.keys(BENEFITS_REGEX)) {
-    if (stringContainsAny(job.title, BENEFITS_REGEX?.[benefit]))
+  for (const benefit of Object.keys(BENEFITS_REGEX) as Array<keyof typeof BENEFITS_REGEX>) {
+    if (stringContainsAny(job.title, BENEFITS_REGEX[benefit]))
       benefits.push(JobBenefit?.[benefit]);
-    if (stringContainsAny(job.description, BENEFITS_REGEX?.[benefit]))
+    if (stringContainsAny(job.description, BENEFITS_REGEX[benefit]))
       benefits.push(JobBenefit?.[benefit]);
   }
 
@@ -271,9 +271,10 @@ export const getRatingsBasedOnSkillsAndBenefits = (job: {
   let skillsRating = 0;
   let benefitsRating = 0;
 
-  for (const skill of job.skills) skillsRating += SKILL_RATING?.[skill];
-  for (const benefit of job.benefits)
-    benefitsRating += BENEFITS_RATING?.[benefit];
+  for (const skill of (job?.skills || []) as Array<keyof typeof SKILL_RATING>)
+    skillsRating += SKILL_RATING[skill];
+  for (const benefit of (job?.benefits || []) as Array<keyof typeof BENEFITS_RATING>)
+    benefitsRating += BENEFITS_RATING[benefit];
 
   return {
     skillsRating: skillsRating || 0,
@@ -355,7 +356,7 @@ export const getSeniorityBasedOnDescription = (job: {
 
 export const getYearOfExperienceBasedOnDescription = (job: {
   description: string;
-}): number => {
+}): number | null => {
   for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
     const res = regex.exec(job.description);
     if (res) {
