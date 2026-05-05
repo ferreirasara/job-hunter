@@ -78,6 +78,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.DOT_NET;
     case 'agilephp':
       return JobSkill.PHP;
+    case 'android':
+      return JobSkill.MOBILE_DEVELOPMENT;
     case 'angular':
       return JobSkill.ANGULAR;
     case 'apache':
@@ -106,6 +108,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.CSS;
     case 'cypress.io':
       return JobSkill.TEST;
+    case 'dart':
+      return JobSkill.DART;
     case 'design pattern':
       return JobSkill.GOOD_PRACTICES;
     case 'devops':
@@ -140,6 +144,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.HTML;
     case 'ionic':
       return JobSkill.IONIC;
+    case 'ios':
+      return JobSkill.MOBILE_DEVELOPMENT;
     case 'java':
       return JobSkill.JAVA;
     case 'javaee':
@@ -170,9 +176,13 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.NEST;
     case 'nextjs':
       return JobSkill.NEXT;
+    case 'nginx':
+      return JobSkill.DEV_OPS;
     case 'nosql':
       return JobSkill.DB;
     case 'node.js':
+      return JobSkill.NODE;
+    case 'npm':
       return JobSkill.NODE;
     case 'phpunit':
       return JobSkill.PHP;
