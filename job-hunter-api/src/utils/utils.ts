@@ -57,7 +57,7 @@ export const calcContType = (
   arr: string[],
   orderBy: 'cont' | 'name' = 'cont',
 ): ContType[] => {
-  if (!isArray(arr)) return null;
+  if (!isArray(arr)) return [];
   const contTypes: ContType[] = [];
   const valueToIndexMap: Record<string, number> = {};
 
@@ -96,7 +96,7 @@ export const sleep = (ms: number) => {
 };
 
 export const removeAccent = (str: string) => {
-  const accentMap = {
+  const accentMap: { [key: string]: string } = {
     ẚ: 'a',
     Á: 'a',
     á: 'a',
@@ -852,8 +852,8 @@ export const normalizeDescription = (description: string) => {
     ?.toLowerCase();
 };
 
-export const getNumberFromString = (str: string): number => {
-  const numberStrMap = {
+export const getNumberFromString = (str: string): number | null => {
+  const numberStrMap: { [key: string]: number } = {
     um: 1,
     one: 1,
     dois: 2,
@@ -934,14 +934,14 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
 };
 
 export const getJobRegex = (job: JobOpportunity): string[] => {
-  const skills = job?.skills?.split(',');
-  const benefits = job?.benefits?.split(',');
+  const skills = job?.skills?.split(',') as Array<keyof typeof SKILLS_REGEX>;
+  const benefits = job?.benefits?.split(',') as Array<keyof typeof BENEFITS_REGEX>;
 
   const skillsRegex = skills?.map((cur) => SKILLS_REGEX[cur]);
   const benefitsRegex = benefits?.map((cur) => BENEFITS_REGEX[cur]);
-  const hiringRegimeRegex = HIRING_REGIMES_REGEX[job?.hiringRegime];
-  const seniorityRegex = SENIORITY_REGEX[job?.seniority];
-  const typeRegex = TYPES_REGEX[job?.type];
+  const hiringRegimeRegex = HIRING_REGIMES_REGEX[job?.hiringRegime as keyof typeof HIRING_REGIMES_REGEX];
+  const seniorityRegex = SENIORITY_REGEX[job?.seniority as keyof typeof SENIORITY_REGEX];
+  const typeRegex = TYPES_REGEX[job?.type as keyof typeof TYPES_REGEX];
 
   const allRegex: RegExp[] = flatten([
     ...skillsRegex,

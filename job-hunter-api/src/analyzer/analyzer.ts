@@ -356,19 +356,19 @@ export const getSeniorityBasedOnDescription = (job: {
 
 export const getYearOfExperienceBasedOnDescription = (job: {
   description: string;
-}): number | null => {
+}): number | undefined => {
   for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
     const res = regex.exec(job.description);
     if (res) {
       const yearsStr = res?.[0]?.replace(/[^0-9]/g, ' ')?.trim();
       const yearsSplit = yearsStr?.split(' ')?.filter((cur) => !!cur);
-      if (!yearsSplit.length) return null;
+      if (!yearsSplit.length) return undefined;
       const years = parseInt(yearsSplit?.[0]);
       if (years < 13) return years;
       if (!years) return getNumberFromString(res?.[0]);
     }
   }
-  return null;
+  return undefined;
 };
 
 export const analyzeDescription = (job: {

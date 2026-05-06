@@ -17,7 +17,7 @@ export default abstract class ScraperInterface {
     filterExistentsJobs,
   }: {
     platform: JobPlatform;
-    filterExistentsJobs?: boolean;
+    filterExistentsJobs: boolean;
   }) {
     this.platform = platform;
     this.filterExistentsJobs = filterExistentsJobs;
@@ -69,7 +69,7 @@ export default abstract class ScraperInterface {
       const unwantedJob = isUnwantedJob({ title, company, description });
 
       if (!unwantedJob) {
-        const discarded = isDiscardedJob({ title, skills: job.skills });
+        const discarded = isDiscardedJob({ title, skills: job.skills || '' });
         if (discarded) {
           jobsDiscardedCount++;
           console.log(
