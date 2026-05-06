@@ -43,31 +43,46 @@ export default class DivulgaVagasScraper extends ScraperInterface {
   private async getUrls(page: Page) {
     try {
       await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('input.form-control', 'frontend');
-      await page.click('button.btn');
-      await page.waitForSelector('h5.card-title > a');
-      const frontendUrls: string[] = await page?.$$eval(
-        'h5.card-title > a',
-        (el) => el?.map((cur) => cur?.href),
-      );
+      await page.type('#desktop-busca', 'frontend');
+      await page.click('button.btn-filtrar');
+      let frontendUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        frontendUrls = await page?.$$eval(
+          'div.vaga-titulo-text > a',
+          (el) => el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No frontend jobs found');
+      }
 
       await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('input.form-control', 'react');
-      await page.click('button.btn');
-      await page.waitForSelector('h5.card-title > a');
-      const reactUrls: string[] = await page?.$$eval(
-        'h5.card-title > a',
-        (el) => el?.map((cur) => cur?.href),
-      );
+      await page.type('#desktop-busca', 'react');
+      await page.click('button.btn-filtrar');
+      let reactUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        reactUrls = await page?.$$eval(
+          'div.vaga-titulo-text > a',
+          (el) => el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No react jobs found');
+      }
 
       await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('input.form-control', 'desenvolvedor');
-      await page.click('button.btn');
-      await page.waitForSelector('h5.card-title > a');
-      const developerUrls: string[] = await page?.$$eval(
-        'h5.card-title > a',
-        (el) => el?.map((cur) => cur?.href),
-      );
+      await page.type('#desktop-busca', 'desenvolvedor');
+      await page.click('button.btn-filtrar');
+      let developerUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        developerUrls = await page?.$$eval(
+          'div.vaga-titulo-text > a',
+          (el) => el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No developer jobs found');
+      }
 
       const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
       const urls = uniq(allUrls);
@@ -96,17 +111,17 @@ export default class DivulgaVagasScraper extends ScraperInterface {
         await page.goto(obj?.url, { waitUntil: 'domcontentloaded' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
         const location: string = await page?.$eval(
-          'div.media > div > span',
+          'div.job-company-section > div.job-info-grid > div.job-info-item',
           (el) => el?.innerText,
         );
-        const company = await page?.$eval(
-          'div.media > div > div > span',
+        const company = (await page?.$eval(
+          'div.job-company-name',
           (el) => el?.innerText,
-        );
-        const descriptionOriginal = await page?.$eval(
-          'div.row',
-          (el) => el?.innerText,
-        );
+        ))?.trim();
+        const descriptionOriginal = (await page?.$$eval(
+          'section.job-card',
+          (el) => el?.map((cur) => cur?.innerText),
+        ))?.join('\n\n');
         const analyzerResponse = analyzeDescription({
           title,
           description: descriptionOriginal,
