@@ -11,8 +11,7 @@
     "typeorm": "typeorm-ts-node-commonjs",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "eslint:fix": "yarn eslint:check -- --fix",
-    "release": "standard-version"
+    "eslint:fix": "yarn eslint:check -- --fix"
   },
   "author": "Sara Ferreira",
   "license": "MIT",
@@ -22,7 +21,6 @@
     "@types/morgan": "^1.9.7",
     "@types/node": "^20.8.9",
     "@types/node-fetch": "^2.6.7",
-    "standard-version": "^9.5.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
