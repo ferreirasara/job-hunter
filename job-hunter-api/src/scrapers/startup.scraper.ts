@@ -97,9 +97,13 @@ export default class StartupScraper extends ScraperInterface {
         const obj = urls[i];
         await page.goto(obj?.url);
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const company = await page?.$eval('a.text-sm.font-medium.text-gray-500', (el) => el?.innerText);
-        const location = await page?.$$eval('div.flex.flex-wrap.gap-x-6.gap-y-2.mt-3.pb-4.mb-4.border-b > div:nth-child(2)', (el) =>
-          el?.map((cur) => cur?.innerText),
+        const company = await page?.$eval(
+          'a.text-sm.font-medium.text-gray-500',
+          (el) => el?.innerText,
+        );
+        const location = await page?.$$eval(
+          'div.flex.flex-wrap.gap-x-6.gap-y-2.mt-3.pb-4.mb-4.border-b > div:nth-child(2)',
+          (el) => el?.map((cur) => cur?.innerText),
         );
 
         const descriptionOriginal = await page?.$eval(

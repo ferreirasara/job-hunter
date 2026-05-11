@@ -935,12 +935,18 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
 
 export const getJobRegex = (job: JobOpportunity): string[] => {
   const skills = job?.skills?.split(',') as Array<keyof typeof SKILLS_REGEX>;
-  const benefits = job?.benefits?.split(',') as Array<keyof typeof BENEFITS_REGEX>;
+  const benefits = job?.benefits?.split(',') as Array<
+    keyof typeof BENEFITS_REGEX
+  >;
 
   const skillsRegex = skills?.map((cur) => SKILLS_REGEX[cur]);
   const benefitsRegex = benefits?.map((cur) => BENEFITS_REGEX[cur]);
-  const hiringRegimeRegex = HIRING_REGIMES_REGEX[job?.hiringRegime as keyof typeof HIRING_REGIMES_REGEX];
-  const seniorityRegex = SENIORITY_REGEX[job?.seniority as keyof typeof SENIORITY_REGEX];
+  const hiringRegimeRegex =
+    HIRING_REGIMES_REGEX[
+      job?.hiringRegime as keyof typeof HIRING_REGIMES_REGEX
+    ];
+  const seniorityRegex =
+    SENIORITY_REGEX[job?.seniority as keyof typeof SENIORITY_REGEX];
   const typeRegex = TYPES_REGEX[job?.type as keyof typeof TYPES_REGEX];
 
   const allRegex: RegExp[] = flatten([

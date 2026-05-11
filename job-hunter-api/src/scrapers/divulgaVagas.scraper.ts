@@ -48,9 +48,8 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       let frontendUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');
-        frontendUrls = await page?.$$eval(
-          'div.vaga-titulo-text > a',
-          (el) => el?.map((cur) => cur?.href),
+        frontendUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
         );
       } catch (e) {
         this.logMessage('No frontend jobs found');
@@ -62,9 +61,8 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       let reactUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');
-        reactUrls = await page?.$$eval(
-          'div.vaga-titulo-text > a',
-          (el) => el?.map((cur) => cur?.href),
+        reactUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
         );
       } catch (e) {
         this.logMessage('No react jobs found');
@@ -76,9 +74,8 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       let developerUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');
-        developerUrls = await page?.$$eval(
-          'div.vaga-titulo-text > a',
-          (el) => el?.map((cur) => cur?.href),
+        developerUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
         );
       } catch (e) {
         this.logMessage('No developer jobs found');
@@ -114,14 +111,14 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           'div.job-company-section > div.job-info-grid > div.job-info-item',
           (el) => el?.innerText,
         );
-        const company = (await page?.$eval(
-          'div.job-company-name',
-          (el) => el?.innerText,
-        ))?.trim();
-        const descriptionOriginal = (await page?.$$eval(
-          'section.job-card',
-          (el) => el?.map((cur) => cur?.innerText),
-        ))?.join('\n\n');
+        const company = (
+          await page?.$eval('div.job-company-name', (el) => el?.innerText)
+        )?.trim();
+        const descriptionOriginal = (
+          await page?.$$eval('section.job-card', (el) =>
+            el?.map((cur) => cur?.innerText),
+          )
+        )?.join('\n\n');
         const analyzerResponse = analyzeDescription({
           title,
           description: descriptionOriginal,
