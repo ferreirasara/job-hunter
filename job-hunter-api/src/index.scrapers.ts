@@ -31,9 +31,9 @@ AppDataSource.initialize()
     result = await gupyScraper.saveJobs();
     updateCounts(result);
 
-    const linkedinScraper = new LinkedinScraper({});
-    result = await linkedinScraper.saveJobs();
-    updateCounts(result);
+    // const linkedinScraper = new LinkedinScraper({});
+    // result = await linkedinScraper.saveJobs();
+    // updateCounts(result);
 
     const programathorScraper = new ProgramathorScraper({});
     result = await programathorScraper.saveJobs();
