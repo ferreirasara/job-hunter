@@ -45,7 +45,7 @@ export const SKILLS_REGEX = {
   BLAZOR: [/blazor/i],
   BLUEPRINTJS: [/blue( |-|.)?print(js)?/i],
   BOOTSTRAP: [/boo(t)?strap/i, /biblioteca(s)? de ui/i],
-  C: [/\bc\b/i],
+  C: [/\bc\b(?!-)/i],
   CERTIFICATIONS: [
     /\b(?!reembolso por )certificações\b/i,
     /certification(s)?/i,
@@ -448,7 +448,7 @@ export const BENEFITS_REGEX = {
   FOURTEENTH_SALARY: [/14. salario/i],
   GYMPASS: [
     /(gym|total)( |-|.)?pass/i,
-    /(auxilio )?(academia|atividade fisica)/i,
+    /(auxilio )?(?!from )(academia|atividade fisica)/i,
     /wellhub/i,
   ],
   HEALTH_OR_DENTAL_PLAN: [

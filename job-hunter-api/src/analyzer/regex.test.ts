@@ -53,6 +53,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'antd', regex: SKILLS_REGEX.ANTD, toBe: true },
         { str: 'ant design', regex: SKILLS_REGEX.ANTD, toBe: true },
         { str: 'ant-design', regex: SKILLS_REGEX.ANTD, toBe: true },
+        { str: 'wanted', regex: SKILLS_REGEX.ANTD, toBe: false },
       ],
     },
     {
