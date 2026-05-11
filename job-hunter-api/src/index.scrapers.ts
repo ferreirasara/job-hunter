@@ -12,6 +12,9 @@ import VagasScraper from './scrapers/vagas.scraper';
 
 AppDataSource.initialize()
   .then(async () => {
+    const args = process.argv.slice(2);
+    const scrapersToRun = args.length > 0 ? args : ['all'];
+
     let result: SaveJobsResponse | null = null;
     let jobsSavedCount = 0;
     let jobsUnsavedCount = 0;
@@ -23,45 +26,61 @@ AppDataSource.initialize()
       jobsDiscardedCount += result.jobsDiscardedCount;
     };
 
-    const startupScraper = new StartupScraper({});
-    result = await startupScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('startup') || scrapersToRun.includes('all')) {
+      const startupScraper = new StartupScraper({});
+      result = await startupScraper.saveJobs();
+      updateCounts(result);
+    }
 
-    const gupyScraper = new GupyScraper({});
-    result = await gupyScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('gupy') || scrapersToRun.includes('all')) {
+      const gupyScraper = new GupyScraper({});
+      result = await gupyScraper.saveJobs();
+      updateCounts(result);
+    }
 
     // const linkedinScraper = new LinkedinScraper({});
     // result = await linkedinScraper.saveJobs();
     // updateCounts(result);
 
-    const programathorScraper = new ProgramathorScraper({});
-    result = await programathorScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('programathor') || scrapersToRun.includes('all')) {
+      const programathorScraper = new ProgramathorScraper({});
+      result = await programathorScraper.saveJobs();
+      updateCounts(result);
+    }
 
-    const remotarScraper = new RemotarScraper({});
-    result = await remotarScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('remotar') || scrapersToRun.includes('all')) {
+      const remotarScraper = new RemotarScraper({});
+      result = await remotarScraper.saveJobs();
+      updateCounts(result);
+    }
 
-    const tramposScraper = new TramposScraper({});
-    result = await tramposScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('trampos') || scrapersToRun.includes('all')) {
+      const tramposScraper = new TramposScraper({});
+      result = await tramposScraper.saveJobs();
+      updateCounts(result);
+    }
 
-    const vagasScraper = new VagasScraper({});
-    result = await vagasScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('vagas') || scrapersToRun.includes('all')) {
+      const vagasScraper = new VagasScraper({});
+      result = await vagasScraper.saveJobs();
+      updateCounts(result);
+    }
 
     // const jobatusScraper = new JobatusScraper({});
     // result = await jobatusScraper.saveJobs();
     // updateCounts(result);
 
-    const divulgaVagasScraper = new DivulgaVagasScraper({});
-    result = await divulgaVagasScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('divulgaVagas') || scrapersToRun.includes('all')) {
+      const divulgaVagasScraper = new DivulgaVagasScraper({});
+      result = await divulgaVagasScraper.saveJobs();
+      updateCounts(result);
+    }
 
-    const coodeshScraper = new CoodeshScraper({});
-    result = await coodeshScraper.saveJobs();
-    updateCounts(result);
+    if (scrapersToRun.includes('coodesh') || scrapersToRun.includes('all')) {
+      const coodeshScraper = new CoodeshScraper({});
+      result = await coodeshScraper.saveJobs();
+      updateCounts(result);
+    }
 
     console.log(`\n\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
     console.log(`\x1b[43m Number of unsaved jobs: ${jobsUnsavedCount} \x1b[0m`);
