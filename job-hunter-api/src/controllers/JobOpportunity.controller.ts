@@ -75,9 +75,9 @@ export default class JobOpportunityController {
       newJob.hiringRegime = jobInput.hiringRegime;
       newJob.skillsRating = jobInput.skillsRating;
       newJob.benefitsRating = jobInput.benefitsRating;
-      newJob.totalRating = jobInput.skillsRating + jobInput.benefitsRating;
-      newJob.applied = jobInput.applied;
-      newJob.discarded = jobInput.discarded;
+      newJob.totalRating = (jobInput?.skillsRating || 0) + (jobInput?.benefitsRating || 0);
+      newJob.applied = jobInput.applied || false;
+      newJob.discarded = jobInput.discarded || false;
       newJob.seniority = jobInput.seniority;
       newJob.yearsOfExperience = jobInput.yearsOfExperience;
 
@@ -86,13 +86,9 @@ export default class JobOpportunityController {
         return { success: true, uuid: res.uuid };
       } catch (e) {
         console.log(e);
-        return null;
+        return { success: false, message: 'Error on saving job' };
       }
     } else {
-      // const replyMarkup = {
-      //   inline_keyboard: [[{ text: jobInput?.title, url: jobInput?.url }]]
-      // }
-      // await sendMessageToTelegram(`⚠️ Duplicated:\n\n*Title*: \`${jobInput?.title}\`\n*Company*: \`${jobInput?.company}\`\n*Platform*: \`${jobInput?.platform}\`\n*idInPlatform*: \`${jobInput.idInPlatform}\``, replyMarkup);
       return { success: false, message: 'Duplicated' };
     }
   }
@@ -139,10 +135,10 @@ export default class JobOpportunityController {
     }
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
-      skip: args?.page * args?.limit,
+      skip: (args?.page || 0) * (args?.limit || 10),
       take: args?.limit,
       where,
-      order: getOrderBy(args?.orderByField, args?.orderByOrder),
+      order: getOrderBy(args?.orderByField || 'createdAt', args?.orderByOrder || 'descend'),
     });
 
     const jobsWithRegex = jobs?.map((job) => ({
@@ -179,8 +175,8 @@ export default class JobOpportunityController {
       totalOfJobs,
       data: jobsWithRegex,
       allRatings: allRatings.map((cur) => cur?.totalRating),
-      allSkills: uniq(allSkills)?.sort((a, b) => a?.localeCompare(b)),
-      allBenefits: uniq(allBenefits)?.sort((a, b) => a?.localeCompare(b)),
+      allSkills: uniq(allSkills)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
+      allBenefits: uniq(allBenefits)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
     };
   }
 
@@ -202,7 +198,7 @@ export default class JobOpportunityController {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       applied,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateDiscarded(uuid: string, discarded: boolean) {
@@ -211,14 +207,14 @@ export default class JobOpportunityController {
       applied: false,
       recused: false,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateRecused(uuid: string, recused: boolean) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       recused,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateNumberOfInterviews(
@@ -228,28 +224,28 @@ export default class JobOpportunityController {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       numberOfInterviews,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateNumberOfTests(uuid: string, numberOfTests: number) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       numberOfTests,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateSkills(uuid: string, skills: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       skills,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateBenefits(uuid: string, benefits: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       benefits,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateRatings(
@@ -259,30 +255,30 @@ export default class JobOpportunityController {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       skillsRating: rating.skillsRating,
       benefitsRating: rating.benefitsRating,
-      totalRating: rating.skillsRating + rating.benefitsRating,
+      totalRating: (rating?.skillsRating || 0) + (rating?.benefitsRating || 0),
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateType(uuid: string, type: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       type,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateHiringRegime(uuid: string, hiringRegime: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       hiringRegime,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateSeniority(uuid: string, seniority: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       seniority,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateYearsOfExperience(
@@ -292,14 +288,14 @@ export default class JobOpportunityController {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       yearsOfExperience,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async updateDescription(uuid: string, description: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       description,
     });
-    return response?.affected > 0;
+    return response?.affected && response?.affected > 0;
   }
 
   public static async getAllJobsFromPlatform(platform: JobPlatform) {
@@ -318,7 +314,7 @@ export default class JobOpportunityController {
     considerDiscartedJobs?: boolean;
     whereFilter?: FindOptionsWhere<JobOpportunity>;
   }) {
-    const where: FindOptionsWhere<JobOpportunity> = whereFilter;
+    const where: FindOptionsWhere<JobOpportunity> = whereFilter || {};
 
     if (!considerDiscartedJobs) where.discarded = false;
 
@@ -327,13 +323,13 @@ export default class JobOpportunityController {
       select: { skills: true },
     });
     const allSkills = flatten(
-      allSkillStrs?.map((cur) => convertStrToArray(cur?.skills)),
+      allSkillStrs?.map((cur) => convertStrToArray(cur?.skills || '')),
     );
 
     return unique
       ? uniq(allSkills?.filter((cur) => !!cur))?.sort((a, b) =>
-          a.localeCompare(b),
-        )
+        a.localeCompare(b),
+      )
       : allSkills;
   }
 
@@ -346,7 +342,7 @@ export default class JobOpportunityController {
     considerDiscartedJobs?: boolean;
     whereFilter?: FindOptionsWhere<JobOpportunity>;
   }) {
-    const where: FindOptionsWhere<JobOpportunity> = whereFilter;
+    const where: FindOptionsWhere<JobOpportunity> = whereFilter || {};
 
     if (!considerDiscartedJobs) where.discarded = false;
 
@@ -355,13 +351,13 @@ export default class JobOpportunityController {
       select: { benefits: true },
     });
     const allBenefits = flatten(
-      allBeneftStrs?.map((cur) => convertStrToArray(cur?.benefits)),
+      allBeneftStrs?.map((cur) => convertStrToArray(cur?.benefits || '')),
     );
 
     return unique
       ? uniq(allBenefits?.filter((cur) => !!cur))?.sort((a, b) =>
-          a.localeCompare(b),
-        )
+        a.localeCompare(b),
+      )
       : allBenefits;
   }
 
@@ -410,16 +406,16 @@ export default class JobOpportunityController {
       JobOpportunity,
       'numberOfInterviews',
       { applied: true },
-    );
+    ) || 0;
     const sumOfNumberOfTests = await AppDataSource.manager.sum(
       JobOpportunity,
       'numberOfTests',
       { applied: true },
-    );
+    ) || 0;
     const sumOfTotalRatings = await AppDataSource.manager.sum(
       JobOpportunity,
       'totalRating',
-    );
+    ) || 0;
     const allSkills = await this.getAllSkills({ considerDiscartedJobs: true });
     const allBenefits = await this.getAllBenefits({
       considerDiscartedJobs: true,

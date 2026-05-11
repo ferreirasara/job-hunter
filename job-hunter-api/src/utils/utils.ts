@@ -1,5 +1,4 @@
 import { flatten, isArray, uniq } from 'lodash';
-import fetch from 'node-fetch';
 import { HTTPRequest } from 'puppeteer';
 import { JobSkill } from '../@types/types';
 import {
@@ -852,7 +851,7 @@ export const normalizeDescription = (description: string) => {
     ?.toLowerCase();
 };
 
-export const getNumberFromString = (str: string): number | null => {
+export const getNumberFromString = (str: string): number | undefined => {
   const numberStrMap: { [key: string]: number } = {
     um: 1,
     one: 1,
@@ -880,7 +879,7 @@ export const getNumberFromString = (str: string): number | null => {
   for (const word of words)
     if (numberStrMap?.[word]) return numberStrMap?.[word];
 
-  return null;
+  return undefined;
 };
 
 export const isUnwantedJob = (args: {

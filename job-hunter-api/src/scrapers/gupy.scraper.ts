@@ -1,5 +1,4 @@
 import { uniqBy } from 'lodash';
-import fetch from 'node-fetch';
 import {
   GupyData,
   GupyResponse,
@@ -68,7 +67,7 @@ export default class GupyScraper extends ScraperInterface {
       this.platform,
     );
     const existentJobIds = existentJobs?.map((cur) =>
-      parseInt(cur?.idInPlatform),
+      parseInt(cur?.idInPlatform || ''),
     );
     const filteredJobs = this.filterExistentsJobs
       ? uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id))

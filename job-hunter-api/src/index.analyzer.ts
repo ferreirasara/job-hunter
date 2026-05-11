@@ -21,7 +21,7 @@ AppDataSource.initialize()
           console.log(
             `[update-jobs] Updating job ${i + 1} of ${allJobsLength}`,
           );
-        const newDescription = normalizeDescription(job?.description);
+        const newDescription = normalizeDescription(job?.description || '');
         const analyzerResponse = analyzeDescription({
           title: job?.title,
           description: newDescription,
@@ -74,7 +74,7 @@ AppDataSource.initialize()
           console.log(
             `[normalize-programathor-skills] Updating job ${i + 1} of ${allJobsLength}`,
           );
-        const skills = convertStrToArray(job?.skills);
+        const skills = convertStrToArray(job?.skills || '');
         const newSkills = skills?.map((cur) =>
           getProgramathorNormalizedSkill(cur),
         );
@@ -94,7 +94,7 @@ AppDataSource.initialize()
           console.log(
             `[normalize-description] Updating job ${i + 1} of ${allJobsLength}`,
           );
-        const newDescription = normalizeDescription(job?.description);
+        const newDescription = normalizeDescription(job?.description || '');
         await JobOpportunityController.updateDescription(
           job.uuid,
           newDescription,
