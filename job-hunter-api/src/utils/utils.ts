@@ -904,14 +904,21 @@ export const isUnwantedJob = (args: {
     'estocagem',
     'suporte',
     'bolsista',
+    'product manager',
+    'director',
+    'coordinator',
+    'data analyst',
+    'product manager',
+    'sales',
+    'president',
   ];
   const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
 
   return (
-    unwantedTitleKeywords?.some((cur) => title?.includes(cur)) ||
-    companyTitleKeywords?.some((cur) => company?.includes(cur)) ||
-    descriptionTitleKeywords?.some((cur) => description?.includes(cur))
+    unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
+    companyTitleKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
+    descriptionTitleKeywords?.some((cur) => description?.toLowerCase()?.includes(cur))
   );
 };
 
@@ -924,6 +931,9 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
     JobSkill.DOT_NET,
     JobSkill.CSHARP,
     JobSkill.CPLUSPLUS,
+    JobSkill.COBOL,
+    JobSkill.PYTHON,
+    JobSkill.SALESFORCE,
   ];
 
   return (
