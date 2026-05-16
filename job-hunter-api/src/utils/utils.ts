@@ -911,6 +911,12 @@ export const isUnwantedJob = (args: {
     'product manager',
     'sales',
     'president',
+    'quality assurance',
+    'fraud',
+    'sales',
+    'business',
+    'support',
+    'customer success',
   ];
   const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
@@ -934,6 +940,7 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
     JobSkill.COBOL,
     JobSkill.PYTHON,
     JobSkill.SALESFORCE,
+    JobSkill.FLUTTER,
   ];
 
   return (
