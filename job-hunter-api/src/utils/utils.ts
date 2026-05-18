@@ -917,6 +917,9 @@ export const isUnwantedJob = (args: {
     'business',
     'support',
     'customer success',
+    'executive',
+    'teacher',
+    'community',
   ];
   const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
