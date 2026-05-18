@@ -1,11 +1,11 @@
 import { ZoomInOutlined } from '@ant-design/icons';
 import { Button, Grid, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { memo, useContext, useMemo } from 'react';
-import { PaginationContext } from '../context/PaginationContext';
+import { memo, useMemo } from 'react';
 import { formatDateHour } from '../utils/utils';
 import MultipleTags from './MultipleTags';
 import Rating from './Rating';
+import { usePagination } from '../store/pagination.store';
 
 export enum JobPlatform {
   GUPY = 'GUPY',
@@ -94,8 +94,7 @@ const JobsTable = ({
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { limit, page, onChangeLimit, onChangePage } =
-    useContext(PaginationContext);
+  const { limit, page, setLimit, setPage } = usePagination((state) => state);
 
   const columns: ColumnsType<JobsTableData> = useMemo(
     () => [
@@ -245,8 +244,8 @@ const JobsTable = ({
       pagination={{
         position: ['bottomCenter'],
         onChange: (page, pageSize) => {
-          onChangePage(page - 1);
-          onChangeLimit(pageSize);
+          setPage(page - 1);
+          setLimit(pageSize);
         },
         total: totalOfJobs || 0,
         current: page + 1,

@@ -1,6 +1,6 @@
 import { BarChartOutlined, FilterOutlined } from '@ant-design/icons';
 import { Alert, Button, Divider, Space } from 'antd';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
 import FiltersDrawer from '../components/FiltersDrawer';
@@ -8,8 +8,8 @@ import JobsTable, {
   JobsResponse,
   JobsTableData,
 } from '../components/JobsTable';
-import { PaginationContext } from '../context/PaginationContext';
 import { GetJobsFromAPIArgs, getJobsFromAPI } from '../utils/utils';
+import { usePagination } from '../store/pagination.store';
 
 export default function Root() {
   const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
@@ -19,7 +19,7 @@ export default function Root() {
     showOnlyRecused: false,
     orderBy: { field: 'createdAt', order: 'descend' },
   });
-  const { page, limit } = useContext(PaginationContext);
+  const { page, limit } = usePagination((state) => state);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
