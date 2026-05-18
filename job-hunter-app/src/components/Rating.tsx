@@ -7,13 +7,14 @@ const COLOR_LEVEL = 5;
 
 interface RatingProps {
   rating: number;
-  indexOf: number;
+  indexOf?: number;
   length: number;
 }
 
 const Rating = ({ indexOf, length, rating }: RatingProps) => {
   const classifyRating = useCallback(
-    (indexOf: number, length: number): 'low' | 'median' | 'high' => {
+    (indexOf?: number, length?: number): 'low' | 'median' | 'high' => {
+      if (indexOf === undefined || length === undefined) return 'low';
       if (indexOf < length / 3) return 'low';
       if (indexOf < (length * 2) / 3) return 'median';
       return 'high';

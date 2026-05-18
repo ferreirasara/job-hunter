@@ -5,96 +5,21 @@ import { memo, useMemo } from 'react';
 import { formatDateHour } from '../utils/utils';
 import MultipleTags from './MultipleTags';
 import Rating from './Rating';
-import { usePagination } from '../store/pagination.store';
-
-export enum JobPlatform {
-  GUPY = 'GUPY',
-  PROGRAMATHOR = 'PROGRAMATHOR',
-  TRAMPOS = 'TRAMPOS',
-  VAGAS = 'VAGAS',
-  REMOTAR = 'REMOTAR',
-  LINKEDIN = 'LINKEDIN',
-  JOBATUS = 'JOBATUS',
-  DIVULGA_VAGAS = 'DIVULGA_VAGAS',
-  COODESH = 'COODESH',
-  STARTUP = 'STARTUP',
-}
-export enum JobType {
-  REMOTE = 'REMOTE',
-  HYBRID = 'HYBRID',
-  FACE_TO_FACE = 'FACE_TO_FACE',
-}
-export enum JobHiringRegime {
-  PJ = 'PJ',
-  CLT = 'CLT',
-}
-export enum JobSeniority {
-  JUNIOR = 'JUNIOR',
-  MID_LEVEL = 'MID_LEVEL',
-  SENIOR = 'SENIOR',
-}
-
-export interface JobsTableData {
-  uuid: string;
-  idInPlatform: string;
-  company: string;
-  platform: JobPlatform;
-  title: string;
-  description: string;
-  url: string;
-  country: string;
-  state: string;
-  city: string;
-  applied: boolean;
-  discarded: boolean;
-  recused: boolean;
-  createdAt: Date;
-  type: JobType;
-  hiringRegime: JobHiringRegime;
-  skills: string;
-  benefits: string;
-  skillsRating: number;
-  benefitsRating: number;
-  totalRating: number;
-  numberOfInterviews: number;
-  numberOfTests: number;
-  seniority: JobSeniority;
-  yearsOfExperience: number;
-  regex: string[];
-}
-
-export interface JobsResponse {
-  message?: string;
-  totalOfJobs: number;
-  data: JobsTableData[];
-  allRatings: number[];
-  allSkills: string[];
-  allBenefits: string[];
-}
-
-export interface OrderBy {
-  field: string;
-  order: 'ascend' | 'descend';
-}
+import { JobsTableData } from '../@types/types';
+import { useFilters } from '../store/filters.store';
+import { useGetJobs } from '../hooks/useGetJobs';
 
 interface JobsTableProps {
-  loading: boolean;
-  data: JobsTableData[];
-  totalOfJobs?: number;
-  allRatings: number[];
   handleSeeDetails: (uuid: string) => void;
 }
 
 const JobsTable = ({
-  loading,
-  data,
-  totalOfJobs,
-  allRatings,
   handleSeeDetails,
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { limit, page, setLimit, setPage } = usePagination((state) => state);
+  const { limit, page, setLimit, setPage } = useFilters((state) => state);
+  const { data, isLoading } = useGetJobs();
 
   const columns: ColumnsType<JobsTableData> = useMemo(
     () => [
@@ -207,8 +132,8 @@ const JobsTable = ({
         render: (rating) => (
           <Rating
             rating={rating}
-            indexOf={allRatings?.indexOf(rating)}
-            length={allRatings?.length}
+            indexOf={data?.allRatings?.indexOf(rating)}
+            length={data?.allRatings?.length || 0}
           />
         ),
         showSorterTooltip: false,
@@ -230,15 +155,15 @@ const JobsTable = ({
         ),
       },
     ],
-    [allRatings, handleSeeDetails, screens?.xl, screens?.xxl],
+    [data?.allRatings, handleSeeDetails, screens?.xl, screens?.xxl],
   );
 
   return (
     <Table
       bordered
-      loading={loading}
+      loading={isLoading}
       columns={columns}
-      dataSource={data}
+      dataSource={data?.data || []}
       rowKey={'uuid'}
       size="small"
       pagination={{
@@ -247,7 +172,7 @@ const JobsTable = ({
           setPage(page - 1);
           setLimit(pageSize);
         },
-        total: totalOfJobs || 0,
+        total: data?.totalOfJobs || 0,
         current: page + 1,
         pageSize: limit,
       }}

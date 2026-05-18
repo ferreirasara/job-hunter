@@ -1,52 +1,52 @@
-import { CloseOutlined, FilterOutlined } from '@ant-design/icons';
-import { Button, Drawer, Form, Grid, Input, Radio, Select } from 'antd';
-import { memo, useCallback } from 'react';
-import { GetJobsFromAPIArgs } from '../utils/utils';
-import {
-  JobHiringRegime,
-  JobPlatform,
-  JobSeniority,
-  JobType,
-} from './JobsTable';
+import { Drawer, Form, Grid, Input, Radio, Select } from 'antd';
+import { memo } from 'react';
+import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types';
+import { useFilters } from '../store/filters.store';
+import { useGetJobs } from '../hooks/useGetJobs';
 
 interface FiltersDrawerProps {
   open: boolean;
   onClose: () => void;
-  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>;
   loading: boolean;
   allSkills: string[];
   allBenefits: string[];
-  apiArgs: GetJobsFromAPIArgs;
-  onChangeApiArgs: (value: GetJobsFromAPIArgs) => void;
 }
 
 const formItemStyle: React.CSSProperties = { marginBottom: 8 };
 
 const FiltersDrawer = ({
-  fetchData,
-  loading,
   onClose,
   open,
-  allBenefits,
-  allSkills,
-  apiArgs,
-  onChangeApiArgs,
 }: FiltersDrawerProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
   const [form] = Form.useForm<GetJobsFromAPIArgs>();
+  const state = useFilters((state) => state);
+  const { data, isLoading } = useGetJobs();
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
   const seniorityOptions = Object.keys(JobSeniority);
   const platformOptions = Object.keys(JobPlatform);
 
-  const handleFilter = useCallback(async () => {
-    await fetchData(apiArgs);
-    onClose();
-  }, [apiArgs, fetchData, onClose]);
-
-  const initialValues: GetJobsFromAPIArgs = apiArgs;
+  const initialValues: GetJobsFromAPIArgs = {
+    benefitFilter: state.benefitFilter,
+    companyFilter: state.companyFilter,
+    hiringRegimeFilter: state.hiringRegimeFilter,
+    platformFilter: state.platformFilter,
+    skillFilter: state.skillFilter,
+    titleFilter: state.titleFilter,
+    typeFilter: state.typeFilter,
+    seniorityFilter: state.seniorityFilter,
+    showOnlyApplied: state.showOnlyApplied,
+    showOnlyDiscarded: state.showOnlyDiscarded,
+    showOnlyNewJobs: state.showOnlyNewJobs,
+    showOnlyRecused: state.showOnlyRecused,
+    page: state.page,
+    limit: state.limit,
+    orderBy: state.orderBy,
+    skillsFilter: state.skillsFilter,
+  };
 
   return (
     <Drawer
@@ -54,22 +54,7 @@ const FiltersDrawer = ({
       placement="right"
       onClose={onClose}
       open={open}
-      width={screens?.md ? 400 : '100%'}
-      closable={false}
-      extra={
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Button icon={<CloseOutlined />} onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button
-            type="primary"
-            onClick={handleFilter}
-            icon={<FilterOutlined />}
-          >
-            Filtrar
-          </Button>
-        </div>
-      }
+      size={screens?.md ? 400 : '100%'}
     >
       <Form form={form} initialValues={initialValues}>
         <Form.Item
@@ -78,11 +63,10 @@ const FiltersDrawer = ({
           style={formItemStyle}
         >
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
-            onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, platformFilter: value })
-            }
+            onChange={(value) => state.setPlatformFilter(value)}
             showSearch
             options={platformOptions?.map((cur) => ({
               label: cur,
@@ -92,32 +76,24 @@ const FiltersDrawer = ({
         </Form.Item>
         <Form.Item label="Empresa" name="companyFilter" style={formItemStyle}>
           <Input
-            disabled={loading}
+            disabled={isLoading}
             allowClear
-            onChange={(event) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                companyFilter: event?.target?.value,
-              })
-            }
+            onChange={(event) => state.setCompanyFilter(event?.target?.value)}
           />
         </Form.Item>
         <Form.Item label="Título" name="titleFilter" style={formItemStyle}>
           <Input
-            disabled={loading}
+            disabled={isLoading}
             allowClear
-            onChange={(event) =>
-              onChangeApiArgs({ ...apiArgs, titleFilter: event?.target?.value })
-            }
+            onChange={(event) => state.setTitleFilter(event?.target?.value)}
           />
         </Form.Item>
         <Form.Item label="Tipo" name="typeFilter" style={formItemStyle}>
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
-            onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, typeFilter: value })
-            }
+            onChange={(value) => state.setTypeFilter(value)}
             showSearch
             options={typeOptions?.map((cur) => ({ label: cur, value: cur }))}
           />
@@ -128,10 +104,11 @@ const FiltersDrawer = ({
           style={formItemStyle}
         >
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
             onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, hiringRegimeFilter: value })
+              state.setHiringRegimeFilter(value)
             }
             showSearch
             options={hiringRegimeOptions?.map((cur) => ({
@@ -146,10 +123,11 @@ const FiltersDrawer = ({
           style={formItemStyle}
         >
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
             onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, seniorityFilter: value })
+              state.setSeniorityFilter(value)
             }
             showSearch
             options={seniorityOptions?.map((cur) => ({
@@ -160,24 +138,26 @@ const FiltersDrawer = ({
         </Form.Item>
         <Form.Item label="Skill" name="skillFilter" style={formItemStyle}>
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
             onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, skillFilter: value })
+              state.setSkillFilter(value)
             }
             showSearch
-            options={allSkills?.map((cur) => ({ label: cur, value: cur }))}
+            options={data?.allSkills?.map((cur) => ({ label: cur, value: cur }))}
           />
         </Form.Item>
         <Form.Item label="Benefício" name="benefitFilter" style={formItemStyle}>
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
             onChange={(value) =>
-              onChangeApiArgs({ ...apiArgs, benefitFilter: value })
+              state.setBenefitFilter(value)
             }
             showSearch
-            options={allBenefits?.map((cur) => ({ label: cur, value: cur }))}
+            options={data?.allBenefits?.map((cur) => ({ label: cur, value: cur }))}
           />
         </Form.Item>
         <Form.Item
@@ -186,50 +166,26 @@ const FiltersDrawer = ({
           style={formItemStyle}
         >
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
-            onChange={(value) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                orderBy: {
-                  field: value,
-                  order: apiArgs?.orderBy?.order || 'descend',
-                },
-              })
-            }
+            onChange={(value) => state.setOrderBy({
+              field: value,
+              order: state?.orderBy?.order || 'descend',
+            })}
             showSearch
-          >
-            <Select.Option key={'createdAt'} value={'createdAt'}>
-              Criada em
-            </Select.Option>
-            <Select.Option key={'platform'} value={'platform'}>
-              Plataforma
-            </Select.Option>
-            <Select.Option key={'company'} value={'company'}>
-              Empresa
-            </Select.Option>
-            <Select.Option key={'title'} value={'title'}>
-              Título
-            </Select.Option>
-            <Select.Option key={'type'} value={'type'}>
-              Tipo
-            </Select.Option>
-            <Select.Option key={'hiringRegime'} value={'hiringRegime'}>
-              Contratação
-            </Select.Option>
-            <Select.Option key={'seniority'} value={'seniority'}>
-              Senioridade
-            </Select.Option>
-            <Select.Option
-              key={'yearsOfExperience'}
-              value={'yearsOfExperience'}
-            >
-              Experiência
-            </Select.Option>
-            <Select.Option key={'totalRating'} value={'totalRating'}>
-              Rating
-            </Select.Option>
-          </Select>
+            options={[
+              { label: 'Criada em', value: 'createdAt' },
+              { label: 'Plataforma', value: 'platform' },
+              { label: 'Empresa', value: 'company' },
+              { label: 'Título', value: 'title' },
+              { label: 'Tipo', value: 'type' },
+              { label: 'Contratação', value: 'hiringRegime' },
+              { label: 'Senioridade', value: 'seniority' },
+              { label: 'Experiência', value: 'yearsOfExperience' },
+              { label: 'Rating', value: 'totalRating' }
+            ]}
+          />
         </Form.Item>
         <Form.Item
           label="Ordenação (ordem)"
@@ -237,75 +193,40 @@ const FiltersDrawer = ({
           style={formItemStyle}
         >
           <Select
-            loading={loading}
+            loading={isLoading}
+            disabled={isLoading}
             allowClear
-            onChange={(value) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                orderBy: {
-                  field: apiArgs?.orderBy?.field || 'creadeAt',
-                  order: value,
-                },
-              })
-            }
+            onChange={(value) => state.setOrderBy({
+              field: state?.orderBy?.field || 'createdAt',
+              order: value,
+            })}
             showSearch
-          >
-            <Select.Option key={'ascend'} value={'ascend'}>
-              Ascendente
-            </Select.Option>
-            <Select.Option key={'descend'} value={'descend'}>
-              Descendente
-            </Select.Option>
-          </Select>
+            options={[
+              { label: 'Ascendente', value: 'ascend' },
+              { label: 'Descendente', value: 'descend' },
+            ]}
+          />
         </Form.Item>
         <Form.Item name="showOnlyNewJobs" style={formItemStyle}>
-          <Radio.Group
-            onChange={(event) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                showOnlyNewJobs: event?.target?.value,
-              })
-            }
-          >
+          <Radio.Group onChange={(event) => state.setShowOnlyNewJobs(event?.target?.value)} disabled={isLoading}>
             <Radio value={true}>Novas</Radio>
             <Radio value={false}>Todas</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item name="showOnlyApplied" style={formItemStyle}>
-          <Radio.Group
-            onChange={(event) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                showOnlyApplied: event?.target?.value,
-              })
-            }
-          >
+          <Radio.Group onChange={(event) => state.setShowOnlyApplied(event?.target?.value)} disabled={isLoading}>
             <Radio value={true}>Aplicadas</Radio>
             <Radio value={false}>Não aplicadas</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item name="showOnlyRecused" style={formItemStyle}>
-          <Radio.Group
-            onChange={(event) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                showOnlyRecused: event?.target?.value,
-              })
-            }
-          >
+          <Radio.Group onChange={(event) => state.setShowOnlyRecused(event?.target?.value)} disabled={isLoading}>
             <Radio value={true}>Recusadas</Radio>
             <Radio value={false}>Não recusadas</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item name="showOnlyDiscarded" style={formItemStyle}>
-          <Radio.Group
-            onChange={(event) =>
-              onChangeApiArgs({
-                ...apiArgs,
-                showOnlyDiscarded: event?.target?.value,
-              })
-            }
-          >
+          <Radio.Group onChange={(event) => state.setShowOnlyDiscarded(event?.target?.value)} disabled={isLoading}>
             <Radio value={true}>Descartadas</Radio>
             <Radio value={false}>Não descartadas</Radio>
           </Radio.Group>

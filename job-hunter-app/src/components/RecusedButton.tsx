@@ -1,38 +1,32 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
-import { memo, useCallback, useState } from 'react';
-import { GetJobsFromAPIArgs, setJobAsRecused } from '../utils/utils';
+import { memo, useCallback } from 'react';
+import { useSetJobAsRecused } from '../hooks/useSetJobAsRecused';
 
 interface RecusedButtonProps {
   uuid?: string;
   disabled?: boolean;
-  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>;
   onFinish: () => void;
-  apiArgs: GetJobsFromAPIArgs;
 }
 
 const RecusedButton = ({
   uuid,
   disabled,
-  fetchData,
   onFinish,
-  apiArgs,
 }: RecusedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState<boolean>(false);
 
+  const { mutateAsync, isPending } = useSetJobAsRecused();
   const handleSetAsRecused = useCallback(async () => {
-    setLoading(true);
-    if (uuid) await setJobAsRecused(uuid);
-    await fetchData(apiArgs);
-    setLoading(false);
+    if (!uuid) return;
+    await mutateAsync({ uuid });
     messageApi.open({
       content: 'Vaga recusada!',
       type: 'success',
       duration: 10,
     });
     onFinish();
-  }, [apiArgs, fetchData, messageApi, onFinish, uuid]);
+  }, [messageApi, onFinish, uuid]);
 
   return (
     <>
@@ -41,7 +35,7 @@ const RecusedButton = ({
         size="small"
         icon={<CloseCircleOutlined />}
         onClick={handleSetAsRecused}
-        loading={loading}
+        loading={isPending}
         disabled={disabled}
       >
         Marcar como recusada

@@ -2,28 +2,27 @@ import { LoginOutlined } from '@ant-design/icons';
 import { Alert, Button, Grid, Input, Space } from 'antd';
 import { memo, useCallback, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { validateSecretToken } from '../utils/utils';
+import { useValidateSecretToken } from '../hooks/useValidateSecretToken';
+import { LOCAL_STORAGE_SECRET_TOKEN_KEY } from '../utils/utils';
 
 const Login = () => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
-  const [secretToken, setSecretToken] = useState<string>('');
+  const [token, setToken] = useState<string>('');
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const { mutateAsync, isPending } = useValidateSecretToken();
   const handleLogin = useCallback(async () => {
-    setLoading(true);
-    const response = await validateSecretToken(secretToken);
+    const response = await mutateAsync({ token });
     if (response?.success) {
-      localStorage.setItem('secret_token', secretToken);
+      localStorage.setItem(LOCAL_STORAGE_SECRET_TOKEN_KEY, token);
       setLoggedIn(true);
     } else {
       setErrorMessage(response?.message);
     }
-    setLoading(false);
-  }, [secretToken]);
+  }, [token]);
 
   return loggedIn ? (
     <Navigate to="/" replace={true} />
@@ -39,9 +38,9 @@ const Login = () => {
       <Space direction="vertical" style={{ width: screens?.xl ? 500 : '90%' }}>
         <Input.Password
           placeholder="Secret Token"
-          value={secretToken}
-          onChange={(e) => setSecretToken(e?.target?.value)}
-          disabled={loading}
+          value={token}
+          onChange={(e) => setToken(e?.target?.value)}
+          disabled={isPending}
         />
         {errorMessage ? (
           <Alert type="error" showIcon message={errorMessage} />
@@ -51,7 +50,7 @@ const Login = () => {
           block
           onClick={handleLogin}
           icon={<LoginOutlined />}
-          loading={loading}
+          loading={isPending}
         >
           Login
         </Button>

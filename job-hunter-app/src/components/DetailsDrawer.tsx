@@ -1,21 +1,18 @@
 import { Divider, Drawer, Grid, List, Typography } from 'antd';
 import { memo, useMemo } from 'react';
 import Highlighter from 'react-highlight-words';
-import { GetJobsFromAPIArgs } from '../utils/utils';
 import AppliedButton from './AppliedButton';
 import DiscardedButton from './DiscardedButton';
-import { JobsTableData } from './JobsTable';
 import MultipleTags from './MultipleTags';
 import NumberOfInterviewsInput from './NumberOfInterviewsInput';
 import NumberOfTestsInput from './NumberOfTestsInput';
 import RecusedButton from './RecusedButton';
+import { JobsTableData } from '../@types/types';
 
 interface DetailsDrawerProps {
   open: boolean;
   onClose: () => void;
   selectedJob?: JobsTableData;
-  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>;
-  apiArgs: GetJobsFromAPIArgs;
 }
 
 interface ListItemInnerProps {
@@ -31,11 +28,9 @@ const ListItemInner = memo(({ children, title }: ListItemInnerProps) => {
 });
 
 const DetailsDrawer = ({
-  fetchData,
   onClose,
   open,
   selectedJob,
-  apiArgs,
 }: DetailsDrawerProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
@@ -47,15 +42,8 @@ const DetailsDrawer = ({
       selectedJob?.regex?.map(
         (cur) => new RegExp(cur?.replace('/', '')?.replace('/i', '')),
       ),
-    [selectedJob?.regex],
+    [],
   );
-
-  const commomProps = {
-    uuid: selectedJob?.uuid,
-    fetchData: fetchData,
-    onFinish: onClose,
-    apiArgs,
-  };
 
   return (
     <Drawer
@@ -161,16 +149,19 @@ const DetailsDrawer = ({
             >
               <strong>Ações:</strong>
               <AppliedButton
-                {...commomProps}
+                onFinish={onClose}
+                uuid={selectedJob?.uuid}
                 disabled={!!selectedJob?.applied}
               />
               <DiscardedButton
-                {...commomProps}
+                onFinish={onClose}
+                uuid={selectedJob?.uuid}
                 disabled={!!selectedJob?.discarded}
               />
               {selectedJob?.applied ? (
                 <RecusedButton
-                  {...commomProps}
+                  onFinish={onClose}
+                  uuid={selectedJob?.uuid}
                   disabled={!!selectedJob?.recused}
                 />
               ) : null}
@@ -185,11 +176,11 @@ const DetailsDrawer = ({
                 }}
               >
                 <NumberOfInterviewsInput
-                  {...commomProps}
                   numberOfInterviews={selectedJob?.numberOfInterviews}
+                  uuid={selectedJob?.uuid}
                 />
                 <NumberOfTestsInput
-                  {...commomProps}
+                  uuid={selectedJob?.uuid}
                   numberOfTests={selectedJob?.numberOfTests}
                 />
               </div>

@@ -1,10 +1,10 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Spin } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { FiltersContextProvider } from './context/FiltersContext';
-import { PaginationContextProvider } from './context/PaginationContext';
-import { ShowOnlyContextProvider } from './context/ShowOnlyContext';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -34,28 +34,24 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <FiltersContextProvider>
-      <ShowOnlyContextProvider>
-        <PaginationContextProvider>
-          <React.Suspense
-            fallback={
-              <div
-                style={{
-                  width: '100dvw',
-                  height: '100dvh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Spin spinning />
-              </div>
-            }
+    <QueryClientProvider client={queryClient}>
+      <React.Suspense
+        fallback={
+          <div
+            style={{
+              width: '100dvw',
+              height: '100dvh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <RouterProvider router={router} />
-          </React.Suspense>
-        </PaginationContextProvider>
-      </ShowOnlyContextProvider>
-    </FiltersContextProvider>
+            <Spin spinning />
+          </div>
+        }
+      >
+        <RouterProvider router={router} />
+      </React.Suspense>
+    </QueryClientProvider>
   </React.StrictMode>,
 );

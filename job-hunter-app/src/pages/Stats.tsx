@@ -7,7 +7,7 @@ import {
   Space,
   Spin,
 } from 'antd';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
 import {
   CartesianGrid,
@@ -19,35 +19,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { getStatsFromAPI } from '../utils/utils';
-
-type ContType = {
-  name: string;
-  cont: number;
-};
-type StatsResponse = {
-  message?: string;
-  jobsPerPlatform: { platform: string; count: number }[];
-  jobsPerCompany: { company: string; count: number }[];
-  jobsPerRating: { totalRating: string; count: number }[];
-  jobsPerType: { type: string; count: number }[];
-  jobsPerHiringRegime: { hiringRegime: string; count: number }[];
-  totalOfJobs: number;
-  totalOfAppliedJobs: number;
-  totalOfDiscardedJobs: number;
-  totalOfRecusedJobs: number;
-  totalOfRecusedJobsWithoutEnterview: number;
-  medianOfInterviews: number;
-  medianOfTests: number;
-  medianOfRatings: number;
-  skillsContType: ContType[];
-  benefitsContType: ContType[];
-};
+import { useGetStats } from '../hooks/useGetStats';
 
 export default function Stats() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<StatsResponse>();
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { data, isLoading, error } = useGetStats();
 
   const labelStyle: React.CSSProperties = { fontWeight: 600, color: 'black' };
   const contentStyle: React.CSSProperties = {
@@ -59,25 +34,6 @@ export default function Stats() {
 
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-
-  const handleFetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response: StatsResponse = await getStatsFromAPI();
-      if (response?.message) {
-        setErrorMessage(response?.message);
-      } else {
-        setData(response);
-      }
-    } catch (e) {
-      setErrorMessage(e?.toString() || '');
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    handleFetchData();
-  }, [handleFetchData]);
 
   const calcPerc = useCallback(
     (num1: number | undefined, num2: number | undefined) => {
@@ -113,11 +69,11 @@ export default function Stats() {
       <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
         Job Hunter - Estatísticas
       </Divider>
-      {errorMessage ? (
-        <Alert type="error" showIcon message={errorMessage} />
+      {error ? (
+        <Alert type="error" showIcon message={error?.message} />
       ) : null}
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-        {loading ? (
+        {isLoading ? (
           <Spin />
         ) : (
           <Space direction="vertical">
