@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 import { FiltersState } from '../@types/types';
+import { persist } from 'zustand/middleware';
 
-export const useFilters = create<FiltersState>()((set) => ({
+export const useFilters = create<FiltersState>()(persist((set) => ({
   benefitFilter: '',
   companyFilter: '',
   hiringRegimeFilter: '',
@@ -34,4 +35,4 @@ export const useFilters = create<FiltersState>()((set) => ({
   setOrderBy: (orderBy) => set({ orderBy }),
   setPage: (page: number) => set({ page }),
   setLimit: (limit: number) => set({ limit }),
-}));
+}), { name: 'filters-storage' }));
