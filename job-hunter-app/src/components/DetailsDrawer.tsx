@@ -200,7 +200,9 @@ const DetailsDrawer = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {description?.map((cur, index) => (
           <Typography.Paragraph key={'paragraph_' + index}>
-            <Highlighter searchWords={allRegex || []} textToHighlight={cur} />
+            <div>
+              <Highlighter searchWords={allRegex || []} textToHighlight={cur} />
+            </div>
           </Typography.Paragraph>
         ))}
       </div>
