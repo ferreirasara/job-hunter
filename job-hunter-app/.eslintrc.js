@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
     sourceType: 'module',
@@ -11,28 +11,36 @@ module.exports = {
   },
   plugins: [
     'react',
+    'react-hooks',
     'import',
     'jsx-a11y',
-    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint',
+    '@tanstack/query',
   ],
   extends: [
-    'react-app',
-    'react-app/jest',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:prettier/recommended',
   ],
   root: true,
   env: {
-    es6: true,
     browser: true,
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'node_modules/', 'build/', 'dist/'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'react/prop-types': 'off',
   },
 };
