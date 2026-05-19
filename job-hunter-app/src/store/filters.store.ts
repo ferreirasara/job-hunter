@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { FiltersState } from '../@types/types';
 import { persist } from 'zustand/middleware';
+import { calcLimit } from '../utils/utils';
 
 export const useFilters = create<FiltersState>()(persist((set) => ({
   benefitFilter: '',
@@ -17,7 +18,7 @@ export const useFilters = create<FiltersState>()(persist((set) => ({
   showOnlyRecused: false,
   showOnlyNewJobs: false,
   showOnlyApplied: false,
-  limit: 10,
+  limit: calcLimit(),
   page: 0,
   setShowOnlyDiscarded: (showOnlyDiscarded) => set({ showOnlyDiscarded }),
   setShowOnlyRecused: (showOnlyRecused) => set({ showOnlyRecused }),

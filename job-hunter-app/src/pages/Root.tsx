@@ -1,17 +1,21 @@
 import { BarChartOutlined, FilterOutlined } from '@ant-design/icons';
 import { Alert, Button, Divider, Space } from 'antd';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
 import FiltersDrawer from '../components/FiltersDrawer';
 import JobsTable from '../components/JobsTable';
 import { JobsTableData } from '../@types/types';
 import { useGetJobs } from '../hooks/useGetJobs';
+import { useShallow } from 'zustand/shallow';
+import { useFilters } from '../store/filters.store';
+import { calcLimit } from '../utils/utils';
 
 export default function Root() {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
+  const setLimit = useFilters(useShallow(state => state.setLimit));
 
   const { data, isLoading, error } = useGetJobs();
 
@@ -27,6 +31,10 @@ export default function Root() {
   const onCloseDrawer = useCallback(() => {
     setDetailsDrawerOpen(false);
     setSelectedJob(undefined);
+  }, []);
+
+  useEffect(() => {
+    setLimit(calcLimit());
   }, []);
 
   const secretToken = localStorage?.getItem('secret_token');

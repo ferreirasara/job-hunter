@@ -11,3 +11,8 @@ export const formatDateHour = (date: string): string => {
     minute: '2-digit',
   });
 };
+
+export const calcLimit = () => {
+  const height = window.innerHeight;
+  return Math.floor((height - 213) / 43);
+}
