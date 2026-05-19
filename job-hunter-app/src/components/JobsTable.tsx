@@ -99,15 +99,6 @@ const JobsTable = ({
         responsive: ['xxl'],
       },
       {
-        title: 'Experiência',
-        dataIndex: 'yearsOfExperience',
-        key: 'yearsOfExperience',
-        width: screens?.xxl ? 105 : undefined,
-        align: 'center',
-        showSorterTooltip: false,
-        responsive: ['xxl'],
-      },
-      {
         title: 'Skills',
         dataIndex: 'skills',
         key: 'skills',

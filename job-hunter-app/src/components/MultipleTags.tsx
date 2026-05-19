@@ -5,12 +5,15 @@ interface MultipleTagsProps {
   field?: string;
 }
 
-const MultipleTags = ({ field }: MultipleTagsProps) => {
-  const getTagColor = useCallback((tag: string) => {
-    const skillRating = SKILL_RATING?.[tag as keyof typeof SKILL_RATING];
-    const benefitRating =
-      BENEFITS_RATING?.[tag as keyof typeof BENEFITS_RATING];
+interface TagValue {
+  value: string;
+  color: string;
+  skillRating?: number;
+  benefitRating?: number;
+}
 
+const MultipleTags = ({ field }: MultipleTagsProps) => {
+  const getTagColor = useCallback((tag: string, skillRating?: number, benefitRating?: number) => {
     if (skillRating !== undefined) {
       if (skillRating === -2) return 'red';
       if (skillRating === -1) return 'volcano';
@@ -39,21 +42,25 @@ const MultipleTags = ({ field }: MultipleTagsProps) => {
   }, []);
 
   if (!field || field === '') return null;
+  const values: TagValue[] = field.split(',').map(value => {
+    const skillRating = SKILL_RATING?.[value as keyof typeof SKILL_RATING];
+    const benefitRating = BENEFITS_RATING?.[value as keyof typeof BENEFITS_RATING];
+    const color = getTagColor(value, skillRating, benefitRating);
+
+    return { value, color, skillRating, benefitRating };
+  })?.sort((a, b) => a.skillRating !== undefined && b.skillRating !== undefined ? b.skillRating - a.skillRating : 0 || a.value.localeCompare(b.value));
 
   return (
     <>
-      {field
-        ?.split(',')
-        ?.filter((cur) => !!cur?.trim())
-        ?.map((cur) => (
-          <Tag
-            color={getTagColor(cur?.trim())}
-            style={{ margin: 2 }}
-            key={cur?.trim()}
-          >
-            {cur?.trim()}
-          </Tag>
-        ))}
+      {values?.map((cur) => (
+        <Tag
+          color={cur.color}
+          style={{ margin: 2 }}
+          key={cur?.value}
+        >
+          {cur?.value}
+        </Tag>
+      ))}
     </>
   );
 };
