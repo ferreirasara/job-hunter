@@ -8,6 +8,7 @@ import Rating from './Rating';
 import { JobsTableData } from '../@types/types';
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
+import DiscardedButton from './DiscardedButton';
 
 interface JobsTableProps {
   handleSeeDetails: (uuid: string) => void;
@@ -19,7 +20,7 @@ const JobsTable = ({
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
   const { limit, page, setLimit, setPage } = useFilters((state) => state);
-  const { data, isLoading } = useGetJobs();
+  const { data, isLoading, isFetching } = useGetJobs();
 
   const columns: ColumnsType<JobsTableData> = useMemo(
     () => [
@@ -134,15 +135,21 @@ const JobsTable = ({
         title: '',
         dataIndex: 'uuid',
         key: 'uuid',
-        width: 56,
+        width: 70,
         align: 'center',
         render: (uuid) => (
-          <Button
-            size="small"
-            onClick={() => handleSeeDetails(uuid)}
-            icon={<ZoomInOutlined />}
-            type="text"
-          />
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+            <Button
+              size="small"
+              onClick={() => handleSeeDetails(uuid)}
+              icon={<ZoomInOutlined />}
+              type="text"
+            />
+            <DiscardedButton
+              uuid={uuid}
+              onlyIcon
+            />
+          </div>
         ),
       },
     ],
@@ -152,7 +159,7 @@ const JobsTable = ({
   return (
     <Table
       bordered
-      loading={isLoading}
+      loading={isLoading || isFetching}
       columns={columns}
       dataSource={data?.data || []}
       rowKey={'uuid'}

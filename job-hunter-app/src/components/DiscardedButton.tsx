@@ -6,7 +6,7 @@ import { useSetJobAsDiscarded } from '../hooks/useSetJobAsDiscarded';
 interface DiscardedButtonProps {
   uuid?: string;
   disabled?: boolean;
-  onFinish: () => void;
+  onFinish?: () => void;
   onlyIcon?: boolean;
 }
 const DiscardedButton = ({
@@ -26,7 +26,7 @@ const DiscardedButton = ({
       type: 'success',
       duration: 10,
     });
-    onFinish();
+    onFinish?.();
   }, [messageApi, onFinish, uuid]);
 
   return (
@@ -38,6 +38,7 @@ const DiscardedButton = ({
         onClick={handleSetAsDiscarded}
         loading={isPending}
         disabled={disabled}
+        type={onlyIcon ? 'text' : 'default'}
       >
         {!onlyIcon ? 'Descartar' : null}
       </Button>
