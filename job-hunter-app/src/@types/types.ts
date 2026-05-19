@@ -1,4 +1,4 @@
-export type GetJobsFromAPIArgs = {
+export interface GetJobsFromAPIArgs {
   page: number;
   limit: number;
   platformFilter?: string;
