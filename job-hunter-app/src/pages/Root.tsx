@@ -69,18 +69,22 @@ export default function Root() {
         ) : null}
         <JobsTable handleSeeDetails={(uuid) => handleSeeDetails(uuid)} />
       </Space>
-      <DetailsDrawer
-        open={detailsDrawerOpen}
-        onClose={onCloseDrawer}
-        selectedJob={selectedJob}
-      />
-      <FiltersDrawer
-        open={filtersDrawerOpen}
-        onClose={() => setFiltersDrawerOpen(false)}
-        allSkills={data?.allSkills || []}
-        allBenefits={data?.allBenefits || []}
-        loading={isLoading}
-      />
+      {!!selectedJob && detailsDrawerOpen && (
+        <DetailsDrawer
+          open={detailsDrawerOpen}
+          onClose={onCloseDrawer}
+          selectedJob={selectedJob}
+        />
+      )}
+      {filtersDrawerOpen && (
+        <FiltersDrawer
+          open={filtersDrawerOpen}
+          onClose={() => setFiltersDrawerOpen(false)}
+          allSkills={data?.allSkills || []}
+          allBenefits={data?.allBenefits || []}
+          loading={isLoading}
+        />
+      )}
     </div>
   );
 }

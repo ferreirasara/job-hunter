@@ -55,7 +55,8 @@ const DetailsDrawer = ({
       placement="right"
       onClose={onClose}
       open={open}
-      width={screens?.xl ? '40%' : '100%'}
+      size={screens?.xl ? '40%' : '100%'}
+      destroyOnHidden
       styles={{
         body: {
           display: 'flex',
@@ -200,9 +201,7 @@ const DetailsDrawer = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {description?.map((cur, index) => (
           <Typography.Paragraph key={'paragraph_' + index}>
-            <div>
-              <Highlighter searchWords={allRegex || []} textToHighlight={cur} />
-            </div>
+            <Highlighter searchWords={allRegex || []} textToHighlight={cur} />
           </Typography.Paragraph>
         ))}
       </div>
