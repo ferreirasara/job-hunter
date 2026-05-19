@@ -1,5 +1,5 @@
 import { Drawer, Form, Grid, Input, Radio, Select } from 'antd';
-import { memo } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types';
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
@@ -23,6 +23,27 @@ const FiltersDrawer = ({
   const [form] = Form.useForm<GetJobsFromAPIArgs>();
   const state = useFilters((state) => state);
   const { data, isLoading } = useGetJobs();
+
+  const companyFilterTimeoutRef = useRef<number | undefined>(undefined);
+  const titleFilterTimeoutRef = useRef<number | undefined>(undefined);
+
+  const debouncedSetCompanyFilter = useCallback((value: string) => {
+    if (companyFilterTimeoutRef.current) {
+      clearTimeout(companyFilterTimeoutRef.current);
+    }
+    companyFilterTimeoutRef.current = setTimeout(() => {
+      state.setCompanyFilter(value);
+    }, 300);
+  }, [state]);
+
+  const debouncedSetTitleFilter = useCallback((value: string) => {
+    if (titleFilterTimeoutRef.current) {
+      clearTimeout(titleFilterTimeoutRef.current);
+    }
+    titleFilterTimeoutRef.current = setTimeout(() => {
+      state.setTitleFilter(value);
+    }, 300);
+  }, [state]);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
@@ -78,14 +99,14 @@ const FiltersDrawer = ({
           <Input
             disabled={isLoading}
             allowClear
-            onChange={(event) => state.setCompanyFilter(event?.target?.value)}
+            onChange={(event) => debouncedSetCompanyFilter(event?.target?.value)}
           />
         </Form.Item>
         <Form.Item label="Título" name="titleFilter" style={formItemStyle}>
           <Input
             disabled={isLoading}
             allowClear
-            onChange={(event) => state.setTitleFilter(event?.target?.value)}
+            onChange={(event) => debouncedSetTitleFilter(event?.target?.value)}
           />
         </Form.Item>
         <Form.Item label="Tipo" name="typeFilter" style={formItemStyle}>
