@@ -83,7 +83,7 @@ const JobsTable = ({
         title: 'Contratação',
         dataIndex: 'hiringRegime',
         key: 'hiringRegime',
-        width: screens?.xxl ? 130 : undefined,
+        width: screens?.xxl ? 100 : undefined,
         align: 'center',
         showSorterTooltip: false,
         render: (type: string) => <MultipleTags field={type} />,
@@ -164,6 +164,9 @@ const JobsTable = ({
       dataSource={data?.data || []}
       rowKey={'uuid'}
       size="small"
+      onRow={(data) => ({
+        onDoubleClick: () => handleSeeDetails(data.uuid),
+      })}
       pagination={{
         position: ['bottomCenter'],
         onChange: (page, pageSize) => {
