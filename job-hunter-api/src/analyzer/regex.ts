@@ -194,7 +194,7 @@ export const SKILLS_REGEX = {
   GRAPHQL: [/graph( |-|.)?ql/i],
   HTML: [/htm(l)?(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
-  IONIC: [/ionic/i],
+  IONIC: [/\bionic\b/i],
   JAVA: [
     /java(?!( |-|.)?script)/i,
     /java\d/i,
@@ -343,6 +343,7 @@ export const SKILLS_REGEX = {
     /\bcsr\b/i,
     /client( |-|.)?side( |-|.)?rendering/i,
   ],
+  SPA: [/\bspa\b/, /single page applications/],
   SPANISH: [/espanhol/i, /spanish/i],
   STATE_MANAGEMENT: [
     /redux/i,
@@ -556,7 +557,7 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [
-    /junior/i,
+    /junior(?! res)/i,
     /estagiario/i,
     /estagio(?! s)/i,
     /\bjn\b/i,
@@ -584,7 +585,7 @@ export const YEARS_OF_EXPERIENCE_REGEX = [
   /experiencia \((\d+|\w+)\+ (anos|meses)\)/i,
 
   /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software (development|engineering) )?(experience|professional|non\-internship professional|with)/i,
-  /at least (\d+|\w+)(\+)? years of (relevant )?experience/i,
+  /(\d+|\w+)(\+)? years of (relevant )?experience/i,
   /more than (\d+|\w+) years/i,
   /minimum (of )?(\d+|\w+) years/i,
   /(\d+|\w+)\+ of background/i,

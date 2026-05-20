@@ -886,8 +886,12 @@ export const isUnwantedJob = (args: {
   title: string;
   company: string;
   description: string;
+  skills: string;
 }): boolean => {
-  const { company, description, title } = args;
+  const { company, description, title, skills } = args;
+  const skillsArray = skills?.split(',') || [];
+
+  if (skillsArray?.length < 2) return true;
 
   const unwantedTitleKeywords = [
     'banco de talentos',
@@ -920,8 +924,15 @@ export const isUnwantedJob = (args: {
     'executive',
     'teacher',
     'community',
+    'country manager',
+    'escritório',
+    'costureir',
+    'mobile',
+    'account',
+    'totvs',
+    'network',
   ];
-  const companyTitleKeywords = ['boticario', 'stefanini', 'netvagas'];
+  const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
 
   return (
@@ -934,7 +945,7 @@ export const isUnwantedJob = (args: {
 export const isDiscardedJob = (args: { title: string; skills: string }) => {
   const { skills, title } = args;
 
-  const discardedTitleKeywords = ['react native', 'estagio'];
+  const discardedTitleKeywords = ['react native', 'estagio', 'kotlin'];
   const discardedSkillsKeywords = [
     JobSkill.PHP,
     JobSkill.DOT_NET,
@@ -944,6 +955,8 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
     JobSkill.PYTHON,
     JobSkill.SALESFORCE,
     JobSkill.FLUTTER,
+    JobSkill.RUBY,
+    JobSkill.DELPHI,
   ];
 
   return (

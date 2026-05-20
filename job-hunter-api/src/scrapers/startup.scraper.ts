@@ -115,6 +115,11 @@ export default class StartupScraper extends ScraperInterface {
           description: descriptionOriginal,
         });
 
+        if (analyzerResponse?.skillsRating < 10) {
+          this.logMessage(`Skills rating too low (< 10). Skipping job ${title} from ${company}`);
+          continue;
+        }
+
         jobs?.push({
           title,
           company,

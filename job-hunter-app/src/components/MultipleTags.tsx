@@ -170,6 +170,7 @@ export const SKILL_RATING = {
   SCALA: -2,
   SCRIPT: 1,
   SITE_RENDERING: 1,
+  SPA: 2,
   SPANISH: -2,
   STATE_MANAGEMENT: 2,
   STORYBOOK: 2,
