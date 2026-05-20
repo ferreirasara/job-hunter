@@ -931,6 +931,7 @@ export const isUnwantedJob = (args: {
     'account',
     'totvs',
     'network',
+    'cozinheir',
   ];
   const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
@@ -945,7 +946,7 @@ export const isUnwantedJob = (args: {
 export const isDiscardedJob = (args: { title: string; skills: string }) => {
   const { skills, title } = args;
 
-  const discardedTitleKeywords = ['react native', 'estagio', 'kotlin'];
+  const discardedTitleKeywords = ['react native', 'estagio', 'kotlin', 'android'];
   const discardedSkillsKeywords = [
     JobSkill.PHP,
     JobSkill.DOT_NET,
