@@ -17,8 +17,9 @@ export default class CoodeshScraper extends ScraperInterface {
 
   public async getJobs(): Promise<JobInput[]> {
     const { browser, page } = await this.getBrowser({
-      abortScript: true,
+      abortScript: false,
       abortStyle: true,
+      headless: true,
     });
     this.logMessage('Start');
 
@@ -42,10 +43,9 @@ export default class CoodeshScraper extends ScraperInterface {
 
   private async getUrls(page: Page) {
     try {
-      await page.goto('https://coodesh.com/jobs?skills=reactjs', {
-        waitUntil: 'networkidle0',
-      });
-      const urls: string[] = await page?.$$eval('a.card', (el) =>
+      await page.goto('https://coodesh.com/jobs?search=react');
+      await page.waitForSelector('div.chakra-stack > a.chakra-link');
+      const urls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
         el?.map((cur) => cur?.href),
       );
 
@@ -73,19 +73,15 @@ export default class CoodeshScraper extends ScraperInterface {
     for (let i = 0; i < urlsLength; i++) {
       try {
         const obj = urls[i];
-        await page.goto(obj?.url, { waitUntil: 'domcontentloaded' });
+        await page.goto(obj?.url, { waitUntil: 'networkidle0' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const company = await page?.$eval('span.h4', (el) => el?.innerText);
+        const company = await page?.$eval('div.chakra-stack > div.chakra-stack > p.chakra-text', (el) => el?.innerText);
         const info: string[] = await page?.$$eval(
-          'div.media-body > span',
+          'div.chakra-stack > p.chakra-text',
           (el) => el?.map((cur) => cur?.innerText),
         );
-        const location = info
-          ?.find((cur) => cur?.includes(' em '))
-          ?.split('em')?.[1]
-          ?.split(',');
         const descriptionOriginal = await page?.$$eval(
-          'div.styleJobDescription',
+          'div > div > div > p.chakra-text',
           (el) => el?.map((cur) => cur?.innerText)?.join('\n\n'),
         );
         const analyzerResponse = analyzeDescription({
@@ -96,9 +92,6 @@ export default class CoodeshScraper extends ScraperInterface {
         jobs?.push({
           title,
           company,
-          city: location?.[0]?.trim(),
-          state: location?.[1]?.trim(),
-          country: location?.[2]?.trim(),
           description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
