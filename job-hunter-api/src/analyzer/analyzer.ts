@@ -328,12 +328,10 @@ export const getTypeBasedOnDescription = (job: {
     TYPES_REGEX.FACE_TO_FACE,
   );
 
-  if (isRemoteTitle && (!isHybridTitle || !isFaceToFaceTitle))
-    return JobType.REMOTE;
+  if (isRemoteTitle) return JobType.REMOTE;
   if (isHybridTitle) return JobType.HYBRID;
   if (isFaceToFaceTitle) return JobType.FACE_TO_FACE;
-  if (isRemoteDescription && (!isHybridDescription || !isFaceToFaceDescription))
-    return JobType.REMOTE;
+  if (isRemoteDescription) return JobType.REMOTE;
   if (isHybridDescription) return JobType.HYBRID;
   if (isFaceToFaceDescription) return JobType.FACE_TO_FACE;
 
@@ -344,18 +342,18 @@ export const getSeniorityBasedOnDescription = (job: {
   title: string;
   description: string;
 }): JobSeniority => {
-  if (stringContainsAny(job.title, SENIORITY_REGEX.JUNIOR))
-    return JobSeniority.JUNIOR;
-  if (stringContainsAny(job.title, SENIORITY_REGEX.MID_LEVEL))
-    return JobSeniority.MID_LEVEL;
   if (stringContainsAny(job.title, SENIORITY_REGEX.SENIOR))
     return JobSeniority.SENIOR;
-  if (stringContainsAny(job.description, SENIORITY_REGEX.JUNIOR))
-    return JobSeniority.JUNIOR;
-  if (stringContainsAny(job.description, SENIORITY_REGEX.MID_LEVEL))
+  if (stringContainsAny(job.title, SENIORITY_REGEX.MID_LEVEL))
     return JobSeniority.MID_LEVEL;
+  if (stringContainsAny(job.title, SENIORITY_REGEX.JUNIOR))
+    return JobSeniority.JUNIOR;
   if (stringContainsAny(job.description, SENIORITY_REGEX.SENIOR))
     return JobSeniority.SENIOR;
+  if (stringContainsAny(job.description, SENIORITY_REGEX.MID_LEVEL))
+    return JobSeniority.MID_LEVEL;
+  if (stringContainsAny(job.description, SENIORITY_REGEX.JUNIOR))
+    return JobSeniority.JUNIOR;
 
   return JobSeniority.SENIOR;
 };

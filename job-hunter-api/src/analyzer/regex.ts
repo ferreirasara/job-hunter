@@ -557,7 +557,7 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [
-    /junior(?! res)/i,
+    /junior(?! es)/i,
     /estagiario/i,
     /estagio(?! s)/i,
     /\bjn\b/i,
