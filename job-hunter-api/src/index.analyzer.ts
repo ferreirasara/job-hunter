@@ -11,6 +11,9 @@ AppDataSource.initialize()
   .then(async () => {
     const functionToCall = process?.argv?.[2];
 
+    if (!functionToCall)
+      throw new Error('Please provide a function to call as argument (update-jobs, normalize-programathor-skills, normalize-description)');
+
     if (functionToCall === 'update-jobs') {
       console.log(`[update-jobs] Start`);
       const allJobs = await JobOpportunityController.getAllJobs();
