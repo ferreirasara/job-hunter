@@ -35,7 +35,11 @@ const DiscardedButton = ({
       <Button
         size="small"
         icon={<DeleteOutlined />}
-        onClick={handleSetAsDiscarded}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleSetAsDiscarded();
+        }}
         loading={isPending}
         disabled={disabled}
         type={onlyIcon ? 'text' : 'default'}
