@@ -165,8 +165,10 @@ const JobsTable = ({
       rowKey={'uuid'}
       size="small"
       onRow={(data) => ({
-        onDoubleClick: () => handleSeeDetails(data.uuid),
+        onClick: () => handleSeeDetails(data.uuid),
       })}
+      rowHoverable
+      styles={{ body: { row: { cursor: 'pointer' } } }}
       pagination={{
         position: ['bottomCenter'],
         onChange: (page, pageSize) => {
