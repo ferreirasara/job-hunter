@@ -1,5 +1,5 @@
 import { BarChartOutlined, FilterOutlined } from '@ant-design/icons';
-import { Alert, Button, Divider, Space } from 'antd';
+import { Alert, Button, Divider, Space, Typography } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
@@ -52,6 +52,7 @@ export default function Root() {
             flexDirection: 'row',
             gap: '8px',
             flexWrap: 'wrap',
+            alignItems: 'center',
           }}
         >
           <Button
@@ -63,6 +64,7 @@ export default function Root() {
           <NavLink to="/stats">
             <Button icon={<BarChartOutlined />}>Ver estatísticas</Button>
           </NavLink>
+          <Typography.Text>Total de vagas com os filtros atuais: {data?.totalOfJobs || 0}</Typography.Text>
         </div>
         {error ? (
           <Alert type="error" showIcon message={error?.message} />
