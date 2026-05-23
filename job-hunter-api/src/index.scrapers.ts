@@ -6,6 +6,7 @@ import GupyScraper from './scrapers/gupy.scraper';
 import LinkedinScraper from './scrapers/linkedin.scraper';
 import ProgramathorScraper from './scrapers/programathor.scraper';
 import RemotarScraper from './scrapers/remotar.scraper';
+import SolidesScraper from './scrapers/solides.scraper';
 import StartupScraper from './scrapers/startup.scraper';
 import TramposScraper from './scrapers/trampos.scraper';
 import VagasScraper from './scrapers/vagas.scraper';
@@ -79,6 +80,12 @@ AppDataSource.initialize()
     if (scrapersToRun.includes('coodesh') || scrapersToRun.includes('all')) {
       const coodeshScraper = new CoodeshScraper({});
       result = await coodeshScraper.saveJobs();
+      updateCounts(result);
+    }
+
+    if (scrapersToRun.includes('solides') || scrapersToRun.includes('all')) {
+      const solidesScraper = new SolidesScraper({});
+      result = await solidesScraper.saveJobs();
       updateCounts(result);
     }
 

@@ -47,8 +47,8 @@ export default abstract class ScraperInterface {
     return { browser, page };
   }
 
-  protected async logError(e: any) {
-    console.log(`[${this.platform}] Error: ${e}`);
+  protected async logError(e: any, url?: string) {
+    console.log(`[${this.platform}] Error: ${e}. ${url ? url : ''}`);
   }
 
   protected async logMessage(message: string) {

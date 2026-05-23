@@ -47,6 +47,7 @@ export enum JobPlatform {
   DIVULGA_VAGAS = 'DIVULGA_VAGAS',
   COODESH = 'COODESH',
   STARTUP = 'STARTUP',
+  SOLIDES = 'SOLIDES',
 }
 
 export enum JobType {
