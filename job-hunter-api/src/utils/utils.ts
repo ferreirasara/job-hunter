@@ -946,7 +946,7 @@ export const isUnwantedJob = (args: {
 export const isDiscardedJob = (args: { title: string; skills: string }) => {
   const { skills, title } = args;
 
-  const discardedTitleKeywords = ['react native', 'estagio', 'kotlin', 'android'];
+  const discardedTitleRegex = [SKILLS_REGEX.JAVA, SKILLS_REGEX.REACT_NATIVE, SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE];
   const discardedSkillsKeywords = [
     JobSkill.PHP,
     JobSkill.DOT_NET,
@@ -961,7 +961,7 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
   ];
 
   return (
-    discardedTitleKeywords?.some((cur) => title?.includes(cur)) ||
+    discardedTitleRegex?.some((cur) => stringContainsAny(title, cur)) ||
     discardedSkillsKeywords?.some((cur) => skills?.includes(cur))
   );
 };

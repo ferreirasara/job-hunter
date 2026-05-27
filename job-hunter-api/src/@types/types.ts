@@ -1,5 +1,6 @@
 export enum JobSkill {
   AGILE = 'AGILE',
+  AI_AGENTS = 'AI_AGENTS',
   ANGULAR = 'ANGULAR',
   ANTD = 'ANTD',
   AJAX = 'AJAX',

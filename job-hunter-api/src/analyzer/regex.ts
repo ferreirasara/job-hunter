@@ -10,6 +10,7 @@ export const SKILLS_REGEX = {
     /clean architectures/i,
     /(metodo(logia(s)?)?(s)?|desenvolvimento|cultura|framework(s)?) ag(eis|il)/i,
   ],
+  AI_AGENTS: [/\bgemini\b/, /\bgpt\b/, /\bopenai\b/, /\banthropic\b/, /\bprompt\b/, /\bferramentas de ia\b/],
   AJAX: [/\bajax\b/i],
   ANGULAR: [/angular(( |-|.)?js)?/i],
   ANTD: [/ant( |-|.)?(d(esign)?)/i, /biblioteca(s)? de ui/i, /ui( |-|.)?kit/i],
@@ -23,8 +24,6 @@ export const SKILLS_REGEX = {
   ],
   APOLLO: [/apollo/i],
   ARTIFICIAL_INTELLIGENCE: [
-    /inteligencia artificial/i,
-    /artificial intelligence/i,
     /nlp/i,
     /watson/i,
   ],
@@ -557,7 +556,7 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [
-    /junior(?! es)/i,
+    /(?! mentor )junior(?! es)/i,
     /estagiario/i,
     /estagio(?! s)/i,
     /\bjn\b/i,
@@ -565,7 +564,7 @@ export const SENIORITY_REGEX = {
     /trainee/i,
   ],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
-  SENIOR: [/senior(?!(idade|ity))/i, /\bsr\b/],
+  SENIOR: [/senior(?!(idade|ity))/i, /\bsr\b/, /\bespecialista\b/],
 };
 
 export const YEARS_OF_EXPERIENCE_REGEX = [
