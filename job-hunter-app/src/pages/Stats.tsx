@@ -6,6 +6,7 @@ import {
   Grid,
   Space,
   Spin,
+  Tag,
 } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ import {
   YAxis,
 } from 'recharts';
 import { useGetStats } from '../hooks/useGetStats';
+import { getBenefitRating, getSkillRating, getTagColor } from '../utils/utils';
 
 export default function Stats() {
   const { data, isLoading, error } = useGetStats();
@@ -58,7 +60,7 @@ export default function Stats() {
 
   return (
     <Space
-      direction="vertical"
+      orientation="vertical"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -70,14 +72,14 @@ export default function Stats() {
         Job Hunter - Estatísticas
       </Divider>
       {error ? (
-        <Alert type="error" showIcon message={error?.message} />
+        <Alert type="error" showIcon title={error?.message} />
       ) : null}
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         {isLoading ? (
           <Spin />
         ) : (
-          <Space direction="vertical">
-            <Collapse defaultActiveKey={'geralStats'} destroyInactivePanel>
+          <Space orientation="vertical">
+            <Collapse defaultActiveKey={'geralStats'} destroyOnHidden size='small'>
               <Collapse.Panel
                 header={<strong>Estatísticas gerais</strong>}
                 key="geralStats"
@@ -85,42 +87,18 @@ export default function Stats() {
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
                   styles={{ label: labelStyle, content: contentStyle }}
-                >
-                  <Descriptions.Item label="Total de vagas">
-                    {data?.totalOfJobs}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Média de rating">
-                    {data?.medianOfRatings?.toFixed(2)}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Vagas aplicadas">
-                    {data?.totalOfAppliedJobs}{' '}
-                    {calcPerc(data?.totalOfAppliedJobs, data?.totalOfJobs)}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Vagas descartadas">
-                    {data?.totalOfDiscardedJobs}{' '}
-                    {calcPerc(data?.totalOfDiscardedJobs, data?.totalOfJobs)}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Vagas recusadas">
-                    {data?.totalOfRecusedJobs}{' '}
-                    {calcPerc(
-                      data?.totalOfRecusedJobs,
-                      data?.totalOfAppliedJobs,
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Vagas recusadas sem nenhuma entrevista">
-                    {data?.totalOfRecusedJobsWithoutEnterview}{' '}
-                    {calcPerc(
-                      data?.totalOfRecusedJobsWithoutEnterview,
-                      data?.totalOfAppliedJobs,
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Média de entrevistas">
-                    {data?.medianOfInterviews?.toFixed(2)}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Média de testes">
-                    {data?.medianOfTests?.toFixed(2)}
-                  </Descriptions.Item>
-                </Descriptions>
+                  size='small'
+                  items={[
+                    { label: 'Total de vagas', children: data?.totalOfJobs },
+                    { label: 'Média de rating', children: data?.medianOfRatings?.toFixed(2) },
+                    { label: 'Vagas aplicadas', children: `${data?.totalOfAppliedJobs} ${calcPerc(data?.totalOfAppliedJobs, data?.totalOfJobs)}` },
+                    { label: 'Vagas descartadas', children: `${data?.totalOfDiscardedJobs} ${calcPerc(data?.totalOfDiscardedJobs, data?.totalOfJobs)}` },
+                    { label: 'Vagas recusadas', children: `${data?.totalOfRecusedJobs} ${calcPerc(data?.totalOfRecusedJobs, data?.totalOfAppliedJobs)}` },
+                    { label: 'Vagas recusadas sem nenhuma entrevista', children: `${data?.totalOfRecusedJobsWithoutEnterview} ${calcPerc(data?.totalOfRecusedJobsWithoutEnterview, data?.totalOfAppliedJobs)}` },
+                    { label: 'Média de entrevistas', children: data?.medianOfInterviews?.toFixed(2) },
+                    { label: 'Média de testes', children: data?.medianOfTests?.toFixed(2) },
+                  ]}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Contagem de skills</strong>}
@@ -128,18 +106,18 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.skillsContType?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.name}
-                    >
-                      {cur?.cont} {calcPerc(cur.cont, totalOfSkills)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.skillsContType?.map((cur, index) => ({
+                    label: (
+                      <Tag color={getTagColor(cur?.name, getSkillRating(cur?.name))}>
+                        {cur?.name}
+                      </Tag>
+                    ),
+                    children: `${cur?.cont} ${calcPerc(cur.cont, totalOfSkills)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Contagem de benefícios</strong>}
@@ -147,18 +125,18 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.benefitsContType?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.name}
-                    >
-                      {cur?.cont} {calcPerc(cur.cont, totalOfBenefits)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.benefitsContType?.map((cur, index) => ({
+                    label: (
+                      <Tag color={getTagColor(cur?.name, undefined, getBenefitRating(cur?.name))}>
+                        {cur?.name}
+                      </Tag>
+                    ),
+                    children: `${cur?.cont} ${calcPerc(cur.cont, totalOfBenefits)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Vagas por tipo</strong>}
@@ -166,18 +144,18 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.jobsPerType?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.type}
-                    >
-                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.jobsPerType?.map((cur, index) => ({
+                    label: (
+                      <Tag color={getTagColor(cur?.type)}>
+                        {cur?.type}
+                      </Tag>
+                    ),
+                    children: `${cur?.count} ${calcPerc(cur.count, data?.totalOfJobs)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Vagas por regime de contrato</strong>}
@@ -185,18 +163,18 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.jobsPerHiringRegime?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.hiringRegime}
-                    >
-                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.jobsPerHiringRegime?.map((cur, index) => ({
+                    label: (
+                      <Tag color={getTagColor(cur?.hiringRegime)}>
+                        {cur?.hiringRegime}
+                      </Tag>
+                    ),
+                    children: `${cur?.count} ${calcPerc(cur.count, data?.totalOfJobs)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Vagas por plataforma</strong>}
@@ -204,18 +182,14 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.jobsPerPlatform?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.platform}
-                    >
-                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.jobsPerPlatform?.map((cur, index) => ({
+                    label: cur?.platform,
+                    children: `${cur?.count} ${calcPerc(cur.count, data?.totalOfJobs)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Vagas por empresa</strong>}
@@ -223,18 +197,14 @@ export default function Stats() {
               >
                 <Descriptions
                   column={screens?.lg ? 5 : 1}
-                  labelStyle={labelStyle}
-                  contentStyle={contentStyle}
-                >
-                  {data?.jobsPerCompany?.map((cur, index) => (
-                    <Descriptions.Item
-                      key={`${cur}-${index}`}
-                      label={cur?.company}
-                    >
-                      {cur?.count} {calcPerc(cur.count, data?.totalOfJobs)}
-                    </Descriptions.Item>
-                  ))}
-                </Descriptions>
+                  styles={{ label: labelStyle, content: contentStyle }}
+                  size='small'
+                  items={data?.jobsPerCompany?.map((cur, index) => ({
+                    label: cur?.company,
+                    children: `${cur?.count} ${calcPerc(cur.count, data?.totalOfJobs)}`,
+                    key: index,
+                  }))}
+                />
               </Collapse.Panel>
               <Collapse.Panel
                 header={<strong>Vagas por rating</strong>}

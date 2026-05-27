@@ -1,5 +1,6 @@
 import { Tag } from 'antd';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
+import { getBenefitRating, getSkillRating, getTagColor } from '../utils/utils';
 
 interface MultipleTagsProps {
   field?: string;
@@ -13,41 +14,10 @@ interface TagValue {
 }
 
 const MultipleTags = ({ field }: MultipleTagsProps) => {
-  const getTagColor = useCallback((tag: string, skillRating?: number, benefitRating?: number) => {
-    if (skillRating !== undefined) {
-      if (skillRating <= -4) return 'red';
-      if (skillRating === -3) return 'volcano';
-      if (skillRating <= -1) return 'orange';
-      if (skillRating === 0) return 'gold';
-      if (skillRating <= 2) return 'lime';
-      if (skillRating === 3) return 'green';
-      if (skillRating === 4) return 'cyan';
-      if (skillRating === 5) return 'geekblue';
-    }
-
-    if (benefitRating !== undefined) {
-      if (benefitRating === 1) return 'blue';
-      if (benefitRating === 2) return 'purple';
-    }
-
-    if (tag === 'CLT') return 'green';
-    if (tag === 'PJ') return 'red';
-
-    if (tag === 'REMOTE') return 'green';
-    if (tag === 'HYBRID') return 'red';
-    if (tag === 'FACE_TO_FACE') return 'red';
-
-    if (tag === 'JUNIOR') return 'red';
-    if (tag === 'MID_LEVEL') return 'green';
-    if (tag === 'SENIOR') return 'green';
-
-    return 'default';
-  }, []);
-
   if (!field || field === '') return null;
   const values: TagValue[] = field.split(',').map(value => {
-    const skillRating = SKILL_RATING?.[value as keyof typeof SKILL_RATING];
-    const benefitRating = BENEFITS_RATING?.[value as keyof typeof BENEFITS_RATING];
+    const skillRating = getSkillRating(value);
+    const benefitRating = getBenefitRating(value);
     const color = getTagColor(value, skillRating, benefitRating);
 
     return { value, color, skillRating, benefitRating };
