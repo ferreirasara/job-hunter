@@ -932,6 +932,8 @@ export const isUnwantedJob = (args: {
     'totvs',
     'network',
     'cozinheir',
+    'contábil',
+    'governance',
   ];
   const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
   const descriptionTitleKeywords = ['telemarketing'];
@@ -946,7 +948,13 @@ export const isUnwantedJob = (args: {
 export const isDiscardedJob = (args: { title: string; skills: string }) => {
   const { skills, title } = args;
 
-  const discardedTitleRegex = [SKILLS_REGEX.JAVA, SKILLS_REGEX.REACT_NATIVE, SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE];
+  const discardedTitleRegex = [
+    SKILLS_REGEX.JAVA,
+    SKILLS_REGEX.REACT_NATIVE,
+    SKILLS_REGEX.ANGULAR,
+    SKILLS_REGEX.VUE,
+    SKILLS_REGEX.DEV_OPS,
+  ];
   const discardedSkillsKeywords = [
     JobSkill.PHP,
     JobSkill.DOT_NET,
@@ -976,7 +984,7 @@ export const getJobRegex = (job: JobOpportunity): string[] => {
   const benefitsRegex = benefits?.map((cur) => BENEFITS_REGEX[cur]);
   const hiringRegimeRegex =
     HIRING_REGIMES_REGEX[
-      job?.hiringRegime as keyof typeof HIRING_REGIMES_REGEX
+    job?.hiringRegime as keyof typeof HIRING_REGIMES_REGEX
     ];
   const seniorityRegex =
     SENIORITY_REGEX[job?.seniority as keyof typeof SENIORITY_REGEX];
