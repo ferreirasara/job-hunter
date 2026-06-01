@@ -18,22 +18,9 @@ export interface GetJobsFromAPIArgs {
 };
 
 export interface FiltersState extends GetJobsFromAPIArgs {
+  setState: (partialState: Partial<FiltersState>) => void;
   setPage: (page: number) => void;
   setLimit: (limit: number) => void;
-  setPlatformFilter: (platformFilter: string) => void;
-  setTypeFilter: (typeFilter: string) => void;
-  setHiringRegimeFilter: (hiringRegimeFilter: string) => void;
-  setSkillFilter: (skillFilter: string) => void;
-  setBenefitFilter: (benefitFilter: string) => void;
-  setSkillsFilter: (skillsFilter: string) => void;
-  setTitleFilter: (titleFilter: string) => void;
-  setCompanyFilter: (companyFilter: string) => void;
-  setSeniorityFilter: (seniorityFilter: string) => void;
-  setOrderBy: (orderBy: OrderBy) => void;
-  setShowOnlyDiscarded: (showOnlyDiscarded: boolean) => void;
-  setShowOnlyRecused: (showOnlyRecused: boolean) => void;
-  setShowOnlyNewJobs: (showOnlyNewJobs: boolean) => void;
-  setShowOnlyApplied: (showOnlyApplied: boolean) => void;
 }
 
 export enum JobPlatform {
