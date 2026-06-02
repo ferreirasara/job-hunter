@@ -157,10 +157,6 @@ AppDataSource.initialize()
       res.send({ message: 'Scrapers executed successfully' });
     });
 
-    app.all('*', (req, res) => {
-      res.status(404).send({ message: 'Route not found' });
-    });
-
     app.listen(PORT, () => {
       console.log(`Running in ${HOSTNAME}:${PORT}`);
     });
