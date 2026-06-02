@@ -833,10 +833,11 @@ export const addMarkdown = (str: string, toMark: RegExp[]) => {
 
 export const sendMessageToTelegram = async (
   messageToSend: string,
-  replyMarkup?: any,
 ) => {
+  if (!process.env.TELEGRAM_BOT_TOKEN) return;
+
   await fetch(
-    `https://api.telegram.org/bot6281487370:AAEo9IQ6p1Ai2mArBu2tDm4vXsjNKt4JzYU/sendMessage?chat_id=364508175&parse_mode=Markdown&text=${encodeURIComponent(messageToSend)}&reply_markup=${encodeURIComponent(JSON.stringify(replyMarkup))}`,
+    `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=364508175&parse_mode=Markdown&text=${encodeURIComponent(messageToSend)}`,
   );
 };
 

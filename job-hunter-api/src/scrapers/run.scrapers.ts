@@ -1,4 +1,5 @@
 import { SaveJobsResponse, ScrapersToRun } from '../@types/types';
+import { sendMessageToTelegram } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import GupyScraper from './gupy.scraper';
@@ -90,5 +91,11 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   );
   console.log(
     `\x1b[43m Total of new jobs: ${jobsSavedCount - jobsDiscardedCount} \x1b[0m`,
+  );
+
+  await sendMessageToTelegram(
+    `Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nTotal of new jobs: ${
+      jobsSavedCount - jobsDiscardedCount
+    }`,
   );
 }
