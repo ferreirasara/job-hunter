@@ -1,5 +1,5 @@
-import { BarChartOutlined, FilterOutlined } from '@ant-design/icons';
-import { Alert, Button, Divider, Space, Typography } from 'antd';
+import { BarChartOutlined, FilterOutlined, PlayCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Alert, Button, Divider, message, Space } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
@@ -10,14 +10,16 @@ import { useGetJobs } from '../hooks/useGetJobs';
 import { useShallow } from 'zustand/shallow';
 import { useFilters } from '../store/filters.store';
 import { calcLimit } from '../utils/utils';
+import { useRunScrapers } from '../hooks/useRunScrapers';
 
 export default function Root() {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
   const setLimit = useFilters(useShallow(state => state.setLimit));
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const { data, isLoading, error } = useGetJobs();
+  const { data, isLoading, error, refetch } = useGetJobs();
 
   const handleSeeDetails = useCallback(
     (uuid: string) => {
@@ -37,12 +39,23 @@ export default function Root() {
     setLimit(calcLimit());
   }, []);
 
+  const { mutateAsync, isPending: isRunningScrapers } = useRunScrapers();
+  const handleRunScrapers = useCallback(async () => {
+    await mutateAsync();
+    messageApi.open({
+      content: 'Scrapers executados com sucesso! Aguarde alguns minutos.',
+      type: 'success',
+      duration: 10,
+    });
+  }, [messageApi]);
+
   const secretToken = localStorage?.getItem('secret_token');
   if (!secretToken) return <Navigate to="/login" replace={true} />;
 
   return (
     <div>
-      <Space direction="vertical" style={{ padding: '0 16px' }}>
+      {contextHolder}
+      <Space orientation="vertical" style={{ padding: '0 16px' }}>
         <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
           Job Hunter
         </Divider>
@@ -64,7 +77,20 @@ export default function Root() {
           <NavLink to="/stats">
             <Button icon={<BarChartOutlined />}>Ver estatísticas</Button>
           </NavLink>
-          <Typography.Text>Total de vagas com os filtros atuais: {data?.totalOfJobs || 0}</Typography.Text>
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={() => refetch()}
+            loading={isLoading}
+          >
+            Regarregar vagas
+          </Button>
+          <Button
+            icon={<PlayCircleOutlined />}
+            onClick={handleRunScrapers}
+            loading={isRunningScrapers}
+          >
+            Executar scrapers
+          </Button>
         </div>
         {error ? (
           <Alert type="error" showIcon message={error?.message} />
