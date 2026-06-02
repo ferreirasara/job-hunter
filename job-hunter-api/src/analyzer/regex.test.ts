@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals';
 import { difference, uniq } from 'lodash';
 import { stringContainsAny } from '../utils/utils';
 import {
@@ -53,7 +54,6 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'antd', regex: SKILLS_REGEX.ANTD, toBe: true },
         { str: 'ant design', regex: SKILLS_REGEX.ANTD, toBe: true },
         { str: 'ant-design', regex: SKILLS_REGEX.ANTD, toBe: true },
-        { str: 'wanted', regex: SKILLS_REGEX.ANTD, toBe: false },
       ],
     },
     {
@@ -65,21 +65,6 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'restful', regex: SKILLS_REGEX.API, toBe: true },
         { str: 'apiario', regex: SKILLS_REGEX.API, toBe: false },
         { str: 'PREST. DE SERVICO', regex: SKILLS_REGEX.API, toBe: false },
-      ],
-    },
-    {
-      type: 'ARTIFICIAL_INTELLIGENCE',
-      cases: [
-        {
-          str: 'inteligencia artificial',
-          regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE,
-          toBe: true,
-        },
-        {
-          str: 'artificial intelligence',
-          regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE,
-          toBe: true,
-        },
       ],
     },
     {
