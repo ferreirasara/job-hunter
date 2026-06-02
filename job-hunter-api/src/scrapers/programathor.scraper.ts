@@ -6,7 +6,7 @@ import {
 } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { PROGRAMATHOR_URLS } from '../urls/urls';
-import ScraperInterface from './ScraperInterface';
+import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.PROGRAMATHOR;
 export default class ProgramathorScraper extends ScraperInterface {

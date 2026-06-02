@@ -8,7 +8,7 @@ import {
 } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import ScraperInterface from './ScraperInterface';
+import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.GUPY;
 export default class GupyScraper extends ScraperInterface {

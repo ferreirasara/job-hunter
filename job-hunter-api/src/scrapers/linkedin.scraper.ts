@@ -4,7 +4,7 @@ import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { LINKEDIN_URLS } from '../urls/urls';
 import { sleep } from '../utils/utils';
-import ScraperInterface from './ScraperInterface';
+import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.LINKEDIN;
 export default class LinkedinScraper extends ScraperInterface {

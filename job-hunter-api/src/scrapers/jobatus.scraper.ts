@@ -4,7 +4,7 @@ import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { JOBATUS_URLS } from '../urls/urls';
-import ScraperInterface from './ScraperInterface';
+import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.JOBATUS;
 export default class JobatusScraper extends ScraperInterface {

@@ -3,7 +3,7 @@ import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import ScraperInterface from './ScraperInterface';
+import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.STARTUP;
 const TOTAL_PAGES = 5;
