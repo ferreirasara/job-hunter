@@ -4,6 +4,7 @@ import morgan = require('morgan');
 import { AppDataSource } from './data-source';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
 import { UpdateJobBody } from './@types/types';
+import { runScrapers } from './scrapers/run.scrapers';
 
 AppDataSource.initialize()
   .then(async () => {
@@ -143,6 +144,17 @@ AppDataSource.initialize()
         res.send({ success: true });
         return;
       }
+    });
+
+    app.post('/run-scrapers', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      runScrapers(['all']);
+      res.send({ message: 'Scrapers executed successfully' });
     });
 
     app.listen(PORT, () => {
