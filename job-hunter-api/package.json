@@ -4,8 +4,10 @@
   "description": "",
   "types": "types.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "start:api": "ts-node src/index.api.ts",
+    "start:api:prod": "node dist/index.api.js",
     "start:scrapers": "ts-node src/index.scrapers.ts",
     "start:analyzer": "ts-node src/index.analyzer.ts",
     "typeorm": "typeorm-ts-node-commonjs",
