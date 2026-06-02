@@ -45,7 +45,7 @@ export default class StartupScraper extends ScraperInterface {
 
       for (let pageNumber = 1; pageNumber <= TOTAL_PAGES; pageNumber++) {
         await page.goto(
-          `https://startup.jobs/remote-jobs?q=frontend&remote=true&page=${pageNumber}`,
+          `https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d&page=${pageNumber}`,
         );
         const frontendUrls: string[] = await page?.$$eval(
           'div.flex.flex-col.justify-center > a',
@@ -53,7 +53,7 @@ export default class StartupScraper extends ScraperInterface {
         );
 
         await page.goto(
-          `https://startup.jobs/remote-jobs?q=react&remote=true&page=${pageNumber}`,
+          `https://startup.jobs/remote-jobs?q=react&remote=true&since=30d&page=${pageNumber}`,
         );
         const reactUrls: string[] = await page?.$$eval(
           'div.flex.flex-col.justify-center > a',
