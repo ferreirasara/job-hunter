@@ -563,6 +563,7 @@ export const SENIORITY_REGEX = {
     /\bjn\b/i,
     /\bjr\b/i,
     /trainee/i,
+    /internship/i
   ],
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
   SENIOR: [/senior(?!(idade|ity))/i, /\bsr\b/, /\bespecialista\b/],
