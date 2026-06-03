@@ -21,7 +21,7 @@ const MultipleTags = ({ field }: MultipleTagsProps) => {
     const color = getTagColor(value, skillRating, benefitRating);
 
     return { value, color, skillRating, benefitRating };
-  })?.sort((a, b) => a.skillRating !== undefined && b.skillRating !== undefined ? b.skillRating - a.skillRating : 0 || a.value.localeCompare(b.value));
+  })?.sort((a, b) => a.skillRating !== undefined && b.skillRating !== undefined ? a.skillRating - b.skillRating : 0 || a.value.localeCompare(b.value));
 
   return (
     <>

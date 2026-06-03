@@ -108,14 +108,6 @@ const JobsTable = ({
         responsive: ['xl', 'xxl'],
       },
       {
-        title: 'Benefícios',
-        dataIndex: 'benefits',
-        key: 'benefits',
-        ellipsis: true,
-        render: (benefits: string) => <MultipleTags field={benefits} />,
-        responsive: ['xl', 'xxl'],
-      },
-      {
         title: 'Rating',
         dataIndex: 'totalRating',
         key: 'totalRating',
@@ -162,7 +154,7 @@ const JobsTable = ({
       loading={isLoading || isFetching}
       columns={columns}
       dataSource={data?.data || []}
-      rowKey={'uuid'}
+      rowKey="uuid"
       size="small"
       onRow={(data) => ({
         onClick: () => handleSeeDetails(data.uuid),
