@@ -1,4 +1,5 @@
 export const SKILL_RATING = {
+  AG_GRID: 4,
   AGILE: 4,
   AI_AGENTS: 3,
   ANGULAR: -4,
@@ -23,6 +24,7 @@ export const SKILL_RATING = {
   CPLUSPLUS: -4,
   CLEAN_CODE: 5,
   CSS: 4,
+  CYBER_SECURITY: -5,
   CSHARP: -4,
   DART: -4,
   DB: 4,
@@ -75,7 +77,8 @@ export const SKILL_RATING = {
   OBJECTIVE_C: -5,
   ORM: 4,
   PACKAGE_MANAGER: 3,
-  PENTEST: -4,
+  PAYMENT_INTEGRATIONS: -4,
+  PENTEST: -5,
   PERFORMANCE_OPTIMIZATION: 5,
   PERL: -5,
   PHONEGAP: -5,
