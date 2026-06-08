@@ -7,8 +7,6 @@ import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
 import SolidesScraper from './solides.scraper';
 import StartupScraper from './startup.scraper';
-import TramposScraper from './trampos.scraper';
-import VagasScraper from './vagas.scraper';
 
 export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   let result: SaveJobsResponse | null = null;
@@ -50,17 +48,17 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('trampos') || scrapersToRun.includes('all')) {
-    const tramposScraper = new TramposScraper({});
-    result = await tramposScraper.saveJobs();
-    updateCounts(result);
-  }
+  // if (scrapersToRun.includes('trampos') || scrapersToRun.includes('all')) {
+  //   const tramposScraper = new TramposScraper({});
+  //   result = await tramposScraper.saveJobs();
+  //   updateCounts(result);
+  // }
 
-  if (scrapersToRun.includes('vagas') || scrapersToRun.includes('all')) {
-    const vagasScraper = new VagasScraper({});
-    result = await vagasScraper.saveJobs();
-    updateCounts(result);
-  }
+  // if (scrapersToRun.includes('vagas') || scrapersToRun.includes('all')) {
+  //   const vagasScraper = new VagasScraper({});
+  //   result = await vagasScraper.saveJobs();
+  //   updateCounts(result);
+  // }
 
   // const jobatusScraper = new JobatusScraper({});
   // result = await jobatusScraper.saveJobs();
@@ -92,10 +90,8 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   console.log(
     `\x1b[43m Total of new jobs: ${jobsSavedCount - jobsDiscardedCount} \x1b[0m`,
   );
+  const newJobsCount = jobsSavedCount - jobsDiscardedCount;
 
-  await sendMessageToTelegram(
-    `Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nTotal of new jobs: ${
-      jobsSavedCount - jobsDiscardedCount
-    }`,
-  );
+  if (newJobsCount)
+    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nTotal of new jobs: ${newJobsCount}`);
 }

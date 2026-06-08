@@ -42,9 +42,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
 
   private async getUrls(page: Page) {
     try {
-      await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('#desktop-busca', 'frontend');
-      await page.click('button.btn-filtrar');
+      await page.goto('https://divulgavagas.com.br/vagas-de-frontend/');
       let frontendUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');
@@ -55,9 +53,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
         this.logMessage('No frontend jobs found');
       }
 
-      await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('#desktop-busca', 'react');
-      await page.click('button.btn-filtrar');
+      await page.goto('https://divulgavagas.com.br/vagas-de-react/');
       let reactUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');
@@ -68,9 +64,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
         this.logMessage('No react jobs found');
       }
 
-      await page.goto('https://www.divulgavagas.com.br/vagas-de-emprego/');
-      await page.type('#desktop-busca', 'desenvolvedor');
-      await page.click('button.btn-filtrar');
+      await page.goto('https://divulgavagas.com.br/vagas-de-desenvolvedor/');
       let developerUrls: string[] = [];
       try {
         await page.waitForSelector('div.vaga-titulo-text > a');

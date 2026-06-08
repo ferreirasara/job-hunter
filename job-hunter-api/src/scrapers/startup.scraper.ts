@@ -6,7 +6,6 @@ import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.STARTUP;
-const TOTAL_PAGES = 5;
 
 export default class StartupScraper extends ScraperInterface {
   constructor({
@@ -18,7 +17,7 @@ export default class StartupScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({});
+    const { browser, page } = await this.getBrowser({ abortScript: false, abortStyle: false });
     this.logMessage('Start');
 
     const urls = await this.getUrls(page);
@@ -43,34 +42,41 @@ export default class StartupScraper extends ScraperInterface {
     try {
       const urls: JobInitialData[] = [];
 
-      for (let pageNumber = 1; pageNumber <= TOTAL_PAGES; pageNumber++) {
-        await page.goto(
-          `https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d&page=${pageNumber}`,
-        );
-        const frontendUrls: string[] = await page?.$$eval(
-          'div.flex.flex-col.justify-center > a',
-          (el) => el?.map((cur) => cur?.href),
-        );
+      await page.goto(
+        `https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d`,
+      );
+      const selector = 'div[data-search-target="results"] > div.flex.flex-col.divide-y > div.isolate > div.col-span-8.flex.gap-3 > div.grow.overflow-hidden > div > a';
+      await page.waitForSelector(selector);
+      const frontendUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
 
-        await page.goto(
-          `https://startup.jobs/remote-jobs?q=react&remote=true&since=30d&page=${pageNumber}`,
-        );
-        const reactUrls: string[] = await page?.$$eval(
-          'div.flex.flex-col.justify-center > a',
-          (el) => el?.map((cur) => cur?.href),
-        );
+      await page.goto(
+        `https://startup.jobs/remote-jobs?q=front%20end&remote=true&since=30d`,
+      );
+      await page.waitForSelector(selector);
+      const frontend2Urls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
 
-        const allUrls = [...frontendUrls, ...reactUrls];
-        urls.push(
-          ...uniq(allUrls)?.map((url) => {
-            const urlSplit = url?.split('-');
-            return {
-              url,
-              idInPlatform: urlSplit?.[urlSplit?.length - 1],
-            };
-          }),
-        );
-      }
+      await page.goto(
+        `https://startup.jobs/remote-jobs?q=react&remote=true&since=30d`,
+      );
+      await page.waitForSelector(selector);
+      const reactUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
+
+      await page.goto(
+        `https://startup.jobs/remote-jobs?q=desenvolvedor&remote=true&since=30d`,
+      );
+      await page.waitForSelector(selector);
+      const developerUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
+
+      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
+      urls.push(
+        ...uniq(allUrls)?.map((url) => {
+          const urlSplit = url?.split('-');
+          return {
+            url,
+            idInPlatform: urlSplit?.[urlSplit?.length - 1],
+          };
+        }),
+      );
 
       const existentJobs =
         await JobOpportunityController.getAllJobsFromPlatform(this.platform);

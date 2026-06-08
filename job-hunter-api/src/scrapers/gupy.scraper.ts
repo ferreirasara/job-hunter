@@ -26,27 +26,27 @@ export default class GupyScraper extends ScraperInterface {
 
     try {
       const response1 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0',
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
       );
       const response1Json: GupyResponse = await response1?.json();
 
       const response2 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0',
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
       );
       const response2Json: GupyResponse = await response2?.json();
 
       const response3 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0',
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
       );
       const response3Json: GupyResponse = await response3?.json();
 
       const response4 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0',
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
       );
       const response4Json: GupyResponse = await response4?.json();
 
       const response5 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedora&limit=100&offset=0',
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
       );
       const response5Json: GupyResponse = await response5?.json();
 

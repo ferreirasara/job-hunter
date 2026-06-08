@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
 import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import {
@@ -7,6 +7,9 @@ import {
   isUnwantedJob,
   removeAccent,
 } from '../utils/utils';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+
+puppeteer.use(StealthPlugin());
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform;
@@ -33,11 +36,11 @@ export default abstract class ScraperInterface {
     abortScript?: boolean;
     abortStyle?: boolean;
     headless?: boolean;
-  }) {
+    }) {
     const browser = await puppeteer.launch({ headless });
     const page = await browser.newPage();
     const ua =
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36';
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
     await page.setUserAgent(ua);
     await page.setRequestInterception(true);
     page.on('request', (request) =>

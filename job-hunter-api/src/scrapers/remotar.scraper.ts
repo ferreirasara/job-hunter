@@ -44,7 +44,7 @@ export default class RemotarScraper extends ScraperInterface {
         waitUntil: 'networkidle2',
       });
       const frontendUrls: string[] = await page?.$$eval(
-        'div.featured > a',
+        'a.job-title',
         (el) => el?.map((cur) => cur?.href),
       );
 
@@ -52,18 +52,25 @@ export default class RemotarScraper extends ScraperInterface {
         waitUntil: 'networkidle2',
       });
       const frontend2Urls: string[] = await page?.$$eval(
-        'div.featured > a',
+        'a.job-title',
         (el) => el?.map((cur) => cur?.href),
       );
 
       await page.goto('https://remotar.com.br/search/jobs?q=react', {
         waitUntil: 'networkidle2',
       });
-      const reactUrls: string[] = await page?.$$eval('div.featured > a', (el) =>
+      const reactUrls: string[] = await page?.$$eval('a.job-title', (el) =>
         el?.map((cur) => cur?.href),
       );
 
-      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
+      await page.goto('https://remotar.com.br/search/jobs?q=desenvolvedor', {
+        waitUntil: 'networkidle2',
+      });
+      const developerUrls: string[] = await page?.$$eval('a.job-title', (el) =>
+        el?.map((cur) => cur?.href),
+      );
+
+      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
       const urls: JobInitialData[] = uniq(allUrls)?.map((url) => ({
         url,
         idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0],
