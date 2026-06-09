@@ -45,7 +45,7 @@ const getOrderBy = (
 export default class JobOpportunityController {
   public static async insert(
     jobInput: JobInput,
-  ): Promise<{ success: boolean; uuid?: string; message?: string }> {
+  ): Promise<{ success: boolean; uuid?: string; message?: 'Duplicated' | string }> {
     const existentJob = await AppDataSource.manager.findOne(JobOpportunity, {
       where: {
         company: jobInput.company,
@@ -53,12 +53,7 @@ export default class JobOpportunityController {
       },
     });
 
-    if (
-      !existentJob ||
-      (existentJob?.platform !== 'LINKEDIN' &&
-        existentJob?.platform === jobInput?.platform &&
-        existentJob?.idInPlatform !== jobInput?.idInPlatform)
-    ) {
+    if (!existentJob) {
       const newJob = new JobOpportunity();
       newJob.company = jobInput.company;
       newJob.description = jobInput.description;

@@ -289,6 +289,7 @@ export const SKILLS_REGEX = {
     /performance e tempo de carregamento/i,
     /(web )?performance optimization/i,
     /\bwpo\b/i,
+    /hydration/i,
   ],
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],

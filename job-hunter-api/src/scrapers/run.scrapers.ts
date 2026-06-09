@@ -13,11 +13,13 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   let jobsSavedCount = 0;
   let jobsUnsavedCount = 0;
   let jobsDiscardedCount = 0;
+  let duplicatedJobsCount = 0;
 
   const updateCounts = (result: SaveJobsResponse) => {
     jobsSavedCount += result.jobsSavedCount;
     jobsUnsavedCount += result.jobsUnsavedCount;
     jobsDiscardedCount += result.jobsDiscardedCount;
+    duplicatedJobsCount += result.duplicatedJobsCount;
   };
 
   if (scrapersToRun.includes('startup') || scrapersToRun.includes('all')) {
@@ -84,14 +86,8 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
 
   console.log(`\n\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
   console.log(`\x1b[43m Number of unsaved jobs: ${jobsUnsavedCount} \x1b[0m`);
-  console.log(
-    `\x1b[43m Number of discarded jobs: ${jobsDiscardedCount} \x1b[0m`,
-  );
-  console.log(
-    `\x1b[43m Total of new jobs: ${jobsSavedCount - jobsDiscardedCount} \x1b[0m`,
-  );
-  const newJobsCount = jobsSavedCount - jobsDiscardedCount;
+  console.log(`\x1b[43m Number of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
+  console.log(`\x1b[43m Number of duplicated jobs: ${duplicatedJobsCount} \x1b[0m`);
 
-  if (newJobsCount)
-    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nTotal of new jobs: ${newJobsCount}`);
+  await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}`);
 }

@@ -64,6 +64,7 @@ export default abstract class ScraperInterface {
     let jobsSavedCount = 0;
     let jobsUnsavedCount = 0;
     let jobsDiscardedCount = 0;
+    let duplicatedJobsCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
@@ -86,7 +87,11 @@ export default abstract class ScraperInterface {
           ...job,
           discarded,
         });
-        if (!!response?.success) jobsSavedCount++;
+        if (response?.success) {
+          jobsSavedCount++;
+        } else if (response?.message === 'Duplicated') {
+          duplicatedJobsCount++;
+        }
       } else {
         jobsUnsavedCount++;
         console.log(
@@ -96,6 +101,6 @@ export default abstract class ScraperInterface {
     }
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);
-    return { jobsSavedCount, jobsDiscardedCount, jobsUnsavedCount };
+    return { jobsSavedCount, jobsDiscardedCount, jobsUnsavedCount, duplicatedJobsCount };
   }
 }

@@ -259,6 +259,7 @@ export type SaveJobsResponse = {
   jobsSavedCount: number;
   jobsDiscardedCount: number;
   jobsUnsavedCount: number;
+  duplicatedJobsCount: number;
 };
 
 export type ScrapersToRun = 'gupy' | 'programathor' | 'remotar' | 'trampos' | 'vagas' | 'linkedin' | 'jobatus' | 'divulgaVagas' | 'coodesh' | 'startup' | 'solides' | 'all';
