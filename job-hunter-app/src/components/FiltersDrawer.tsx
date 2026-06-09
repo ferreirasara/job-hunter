@@ -65,7 +65,8 @@ const FiltersDrawer = ({
     showOnlyRecused: state.showOnlyRecused,
     page: state.page,
     limit: state.limit,
-    orderBy: state.orderBy,
+    orderByOrder: state.orderByOrder,
+    orderByField: state.orderByField,
     skillsFilter: state.skillsFilter,
   };
 
@@ -164,7 +165,7 @@ const FiltersDrawer = ({
         </Form.Item>
         <Form.Item
           label="Ordenação (campo)"
-          name={['orderBy', 'field']}
+          name="orderByField"
           style={formItemStyle}
         >
           <Select
@@ -185,7 +186,7 @@ const FiltersDrawer = ({
         </Form.Item>
         <Form.Item
           label="Ordenação (ordem)"
-          name={['orderBy', 'order']}
+          name="orderByOrder"
           style={formItemStyle}
         >
           <Select

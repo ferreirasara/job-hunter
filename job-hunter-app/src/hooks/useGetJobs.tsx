@@ -16,7 +16,8 @@ export const useGetJobs = () => {
     titleFilter,
     companyFilter,
     seniorityFilter,
-    orderBy,
+    orderByOrder,
+    orderByField,
     showOnlyDiscarded,
     showOnlyRecused,
     showOnlyNewJobs,
@@ -24,7 +25,7 @@ export const useGetJobs = () => {
   } = useFilters((state) => state);
 
   return useQuery({
-    queryKey: ['jobs', page, limit, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, skillsFilter, titleFilter, companyFilter, seniorityFilter, orderBy, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied],
+    queryKey: ['jobs', page, limit, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, skillsFilter, titleFilter, companyFilter, seniorityFilter, orderByField, orderByOrder, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied],
     queryFn: async (): Promise<JobsResponse> => {
       const searchParams: any = {};
 
@@ -43,10 +44,8 @@ export const useGetJobs = () => {
       if (showOnlyRecused) searchParams.showOnlyRecused = showOnlyRecused;
       if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;
       if (showOnlyApplied) searchParams.showOnlyApplied = showOnlyApplied;
-      if (orderBy?.field && orderBy?.order) {
-        searchParams.orderByField = orderBy?.field;
-        searchParams.orderByOrder = orderBy?.order;
-      }
+      if (orderByField) searchParams.orderByField = orderByField;
+      if (orderByOrder) searchParams.orderByOrder = orderByOrder;
 
       const qs = new URLSearchParams(searchParams);
 

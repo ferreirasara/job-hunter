@@ -12,7 +12,7 @@ export const SKILLS_REGEX = {
     /clean architectures/i,
     /(metodo(logia(s)?)?(s)?|desenvolvimento|cultura|framework(s)?|design) ag(eis|il)/i,
   ],
-  AI_AGENTS: [/\bgemini\b/, /\bgpt\b/, /\bopenai\b/, /\banthropic\b/, /\bprompt\b/, /\bferramentas de ia\b/],
+  AI_AGENTS: [/\bgemini\b/, /\bgpt\b/, /\bopenai\b/, /\banthropic\b/, /\bprompt\b/, /\bferramentas de ia\b/, /ai agents/i],
   AJAX: [/\bajax\b/i],
   ANGULAR: [/angular(( |-|.)?js)?/i],
   ANTD: [/\bant( |-|.)?(d(esign)?)\b/i, /biblioteca(s)? de ui/i, /ui( |-|.)?kit/i],
@@ -29,6 +29,7 @@ export const SKILLS_REGEX = {
     /nlp/i,
     /watson/i,
   ],
+  AUTHENTICATION: [/jwt/i, /oauth/i, /authentication/i, /autenticacao/i],
   BACHELORS_DEGREE: [
     /bachelor's degree/i,
     /computer science/i,
@@ -260,7 +261,7 @@ export const SKILLS_REGEX = {
     /(aplicativo(s)?|desenvolvimento) move(is|l)/i,
   ],
   NEST: [/\bnest(( |-|.)?js)?\b/i],
-  NEXT: [/\bnext(( |-|.)?js)?(?! steps)/i],
+  NEXT: [/\bnext(( |-|.)?js)?(?! (steps|generation))/i],
   NETWORK: [
     /\bcpe\b/i,
     /\bgpon\b/i,

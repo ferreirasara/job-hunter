@@ -13,7 +13,7 @@ export const useFilters = create<FiltersState>()(persist((set) => ({
   titleFilter: '',
   typeFilter: '',
   seniorityFilter: '',
-  orderBy: { field: 'createdAt', order: 'descend' },
+  orderBy: { field: 'rating', order: 'ascend' },
   showOnlyDiscarded: false,
   showOnlyRecused: false,
   showOnlyNewJobs: false,

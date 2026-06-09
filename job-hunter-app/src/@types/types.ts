@@ -10,7 +10,8 @@ export interface GetJobsFromAPIArgs {
   titleFilter?: string;
   companyFilter?: string;
   seniorityFilter?: string;
-  orderBy?: OrderBy;
+  orderByOrder?: 'ascend' | 'descend';
+  orderByField?: string;
   showOnlyDiscarded?: boolean;
   showOnlyRecused?: boolean;
   showOnlyNewJobs?: boolean;
@@ -90,11 +91,6 @@ export interface JobsResponse {
   allRatings: number[];
   allSkills: string[];
   allBenefits: string[];
-}
-
-export interface OrderBy {
-  field: string;
-  order: 'ascend' | 'descend';
 }
 
 export interface ContType {
