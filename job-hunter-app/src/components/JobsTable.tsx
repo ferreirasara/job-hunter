@@ -171,7 +171,7 @@ const JobsTable = ({
         current: page + 1,
         pageSize: limit,
       }}
-      footer={() => `Total de vagas com os filtros atuais: ${data?.totalOfJobs || 0}`}
+      footer={() => `Total de vagas com os filtros atuais: ${data?.totalOfJobs || 0} | Vagas nessa página: ${data?.data?.length || 0}`}
     />
   );
 };
