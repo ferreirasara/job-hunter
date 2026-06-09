@@ -45,7 +45,7 @@ export default class StartupScraper extends ScraperInterface {
       await page.goto(
         `https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d`,
       );
-      const selector = 'div[data-search-target="results"] > div.flex.flex-col.divide-y > div.isolate > div.col-span-8.flex.gap-3 > div.grow.overflow-hidden > div > a';
+      const selector = 'div.grow.overflow-hidden > div.flex.flex-col.justify-center > a.flex.items-center.gap-1.font-medium';
       await page.waitForSelector(selector);
       const frontendUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
 

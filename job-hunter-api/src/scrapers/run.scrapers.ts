@@ -89,5 +89,8 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   console.log(`\x1b[43m Number of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
   console.log(`\x1b[43m Number of duplicated jobs: ${duplicatedJobsCount} \x1b[0m`);
 
-  await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}`);
+  const hasSomeNonZeroCount = [jobsSavedCount, jobsUnsavedCount, jobsDiscardedCount, duplicatedJobsCount].some((cur) => cur > 0);
+  if (hasSomeNonZeroCount) {
+    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}`);
+  }
 }
