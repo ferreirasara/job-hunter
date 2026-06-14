@@ -6,6 +6,7 @@ import GupyScraper from './gupy.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
 import RemoteOkScraper from './remoteok.scraper';
+import RemotifyEuropeScraper from './remotifyeurope.scraper';
 import SolidesScraper from './solides.scraper';
 import StartupScraper from './startup.scraper';
 import WeWorkRemotelyScraper from './weworkremotely.scraper';
@@ -95,6 +96,12 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   if (scrapersToRun.includes('remoteok') || scrapersToRun.includes('all')) {
     const remoteOkScraper = new RemoteOkScraper({});
     result = await remoteOkScraper.saveJobs();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('remotifyeurope') || scrapersToRun.includes('all')) {
+    const remotifyEuropeScraper = new RemotifyEuropeScraper({});
+    result = await remotifyEuropeScraper.saveJobs();
     updateCounts(result);
   }
 
