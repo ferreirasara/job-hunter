@@ -887,8 +887,12 @@ export const isUnwantedJob = (args: {
   title: string;
   company: string;
   description: string;
+  skills: string;
 }): boolean => {
-  const { company, description, title } = args;
+  const { company, description, title, skills } = args;
+  const skillsArray = skills?.split(',') || [];
+
+  if (!skillsArray?.length) return true;
 
   const unwantedTitleKeywords = [
     'banco de talentos',

@@ -72,7 +72,7 @@ export default abstract class ScraperInterface {
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwantedJob = isUnwantedJob({ title, company, description });
+      const unwantedJob = isUnwantedJob({ title, company, description, skills: job.skills || '' });
 
       if (!unwantedJob) {
         const discarded = isDiscardedJob({ title, skills: job.skills || '' });
