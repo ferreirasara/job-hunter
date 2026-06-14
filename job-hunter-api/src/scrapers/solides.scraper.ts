@@ -117,10 +117,20 @@ export default class SolidesScraper extends ScraperInterface {
         const obj = urls[i];
         await page.goto(obj?.url, { waitUntil: 'networkidle2' });
         const title = await page?.$eval('h1.text-subtitle1.font-semibold', (el) => el?.innerText);
-        const company = await page?.$eval(
-          'a.text-subtitle2',
-          (el) => el?.innerText,
-        );
+        let company: string;
+
+        try {
+          company = await page?.$eval(
+            'a.text-subtitle2',
+            (el) => el?.innerText,
+          );
+        } catch (e) {
+          company = await page?.$eval(
+            'h3.text-subtitle2',
+            (el) => el?.innerText,
+          );
+        }
+
         const location = (await page?.$eval(
           'div.flex.flex-wrap.items-center.gap-x-6.gap-y-3.text-gray-900 > p:nth-child(1)',
           (el) => el?.innerText,

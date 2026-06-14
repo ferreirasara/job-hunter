@@ -82,6 +82,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.DOT_NET;
     case 'agilephp':
       return JobSkill.PHP;
+    case 'ai agents':
+      return JobSkill.AI_AGENTS;
     case 'android':
       return JobSkill.MOBILE_DEVELOPMENT;
     case 'angular':
@@ -176,6 +178,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.DB;
     case 'mysql':
       return JobSkill.DB;
+    case 'n8n':
+      return JobSkill.AI_AGENTS;
     case 'nestjs':
       return JobSkill.NEST;
     case 'nextjs':
