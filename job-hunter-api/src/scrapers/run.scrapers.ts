@@ -7,6 +7,7 @@ import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
 import SolidesScraper from './solides.scraper';
 import StartupScraper from './startup.scraper';
+import WeWorkRemotelyScraper from './weworkremotely.scraper';
 
 export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   let result: SaveJobsResponse | null = null;
@@ -81,6 +82,12 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   if (scrapersToRun.includes('solides') || scrapersToRun.includes('all')) {
     const solidesScraper = new SolidesScraper({});
     result = await solidesScraper.saveJobs();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('weworkremotely') || scrapersToRun.includes('all')) {
+    const weWorkRemotelyScraper = new WeWorkRemotelyScraper({});
+    result = await weWorkRemotelyScraper.saveJobs();
     updateCounts(result);
   }
 

@@ -193,6 +193,7 @@ export enum JobPlatform {
   COODESH = 'COODESH',
   STARTUP = 'STARTUP',
   SOLIDES = 'SOLIDES',
+  WE_WORK_REMOTELY = 'WE_WORK_REMOTELY',
 }
 
 export type GupyResponse = {
@@ -262,4 +263,16 @@ export type SaveJobsResponse = {
   duplicatedJobsCount: number;
 };
 
-export type ScrapersToRun = 'gupy' | 'programathor' | 'remotar' | 'trampos' | 'vagas' | 'linkedin' | 'jobatus' | 'divulgaVagas' | 'coodesh' | 'startup' | 'solides' | 'all';
+export type ScrapersToRun = 'gupy' |
+  'programathor' |
+  'remotar' |
+  'trampos' |
+  'vagas' |
+  'linkedin' |
+  'jobatus' |
+  'divulgaVagas' |
+  'coodesh' |
+  'startup' |
+  'solides' |
+  'weworkremotely' |
+  'all';
