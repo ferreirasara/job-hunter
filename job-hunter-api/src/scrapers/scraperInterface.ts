@@ -91,6 +91,9 @@ export default abstract class ScraperInterface {
           jobsSavedCount++;
         } else if (response?.message === 'Duplicated') {
           duplicatedJobsCount++;
+          console.log(
+            `\x1b[34m[${this.platform}] duplicated job: ${job.title} (${job.company})\x1b[0m`,
+          );
         }
       } else {
         jobsUnsavedCount++;
