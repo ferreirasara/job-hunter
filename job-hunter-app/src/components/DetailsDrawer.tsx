@@ -154,11 +154,13 @@ const DetailsDrawer = ({
                 uuid={selectedJob?.uuid}
                 disabled={!!selectedJob?.applied}
               />
-              <DiscardedButton
-                onFinish={onClose}
-                uuid={selectedJob?.uuid}
-                disabled={!!selectedJob?.discarded}
-              />
+              {!selectedJob?.applied ? (
+                <DiscardedButton
+                  onFinish={onClose}
+                  uuid={selectedJob?.uuid}
+                  disabled={!!selectedJob?.discarded}
+                />
+              ) : null}
               {selectedJob?.applied ? (
                 <RecusedButton
                   onFinish={onClose}

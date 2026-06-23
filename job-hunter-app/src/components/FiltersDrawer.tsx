@@ -33,7 +33,7 @@ const FiltersDrawer = ({
     }
     companyFilterTimeoutRef.current = setTimeout(() => {
       state.setState({ companyFilter: value });
-    }, 300);
+    }, 500);
   }, [state]);
 
   const debouncedSetTitleFilter = useCallback((value: string) => {
@@ -42,7 +42,7 @@ const FiltersDrawer = ({
     }
     titleFilterTimeoutRef.current = setTimeout(() => {
       state.setState({ titleFilter: value });
-    }, 300);
+    }, 500);
   }, [state]);
 
   const typeOptions = Object.keys(JobType);

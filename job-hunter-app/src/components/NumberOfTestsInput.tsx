@@ -26,7 +26,6 @@ const NumberOfTestsInput = ({
     <Space.Compact>
       <InputNumber
         size="small"
-        style={{ width: 250 }}
         disabled={isPending}
         value={newNumberOfTests}
         onChange={(value) => setNewNumberOfTests(value || 0)}

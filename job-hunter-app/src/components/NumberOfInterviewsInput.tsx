@@ -26,7 +26,6 @@ const NumberOfInterviewsInput = ({
     <Space.Compact>
       <InputNumber
         size="small"
-        style={{ width: 250 }}
         disabled={isPending}
         value={newNumberOfInterviews}
         onChange={(value) => setNewNumberOfInterviews(value || 0)}

@@ -887,64 +887,24 @@ export const isUnwantedJob = (args: {
   title: string;
   company: string;
   description: string;
-  skills: string;
+  skillsRating: number;
 }): boolean => {
-  const { company, description, title, skills } = args;
-  const skillsArray = skills?.split(',') || [];
+  const { company, description, title, skillsRating } = args;
 
-  if (!skillsArray?.length) return true;
+  if (skillsRating < 10) return true;
 
   const unwantedTitleKeywords = [
     'banco de talentos',
     'banco de oportunidades',
     'talent pool',
-    'design',
-    'marketing',
-    'professor',
-    'caixa',
-    'telemarketing',
-    'logistica',
-    'vendedor',
-    'estoquista',
-    'estocagem',
-    'suporte',
-    'bolsista',
-    'product manager',
-    'director',
-    'coordinator',
-    'data analyst',
-    'product manager',
-    'sales',
-    'president',
-    'quality assurance',
-    'fraud',
-    'sales',
-    'business',
-    'support',
-    'customer success',
-    'executive',
-    'teacher',
-    'community',
-    'country manager',
-    'escritório',
-    'costureir',
-    'mobile',
-    'account',
-    'totvs',
-    'network',
-    'cozinheir',
-    'contábil',
-    'governance',
-    'compliance',
-    'vendas',
   ];
   const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
-  const descriptionTitleKeywords = ['telemarketing'];
+  const descriptionKeywords = ['telemarketing'];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
     companyTitleKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
-    descriptionTitleKeywords?.some((cur) => description?.toLowerCase()?.includes(cur))
+    descriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur))
   );
 };
 

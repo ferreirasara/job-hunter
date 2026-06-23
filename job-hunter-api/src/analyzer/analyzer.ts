@@ -210,8 +210,6 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.REACT;
     case 'react native':
       return JobSkill.REACT_NATIVE;
-    case 'realbasic':
-      return JobSkill.BASIC;
     case 'redux':
       return JobSkill.STATE_MANAGEMENT;
     case 'restful':
