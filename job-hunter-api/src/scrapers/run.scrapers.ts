@@ -13,12 +13,14 @@ import WeWorkRemotelyScraper from './weworkremotely.scraper';
 
 export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
   let result: SaveJobsResponse | null = null;
+  let totalJobs = 0;
   let jobsSavedCount = 0;
   let jobsUnsavedCount = 0;
   let jobsDiscardedCount = 0;
   let duplicatedJobsCount = 0;
 
   const updateCounts = (result: SaveJobsResponse) => {
+    totalJobs += result.totalJobs;
     jobsSavedCount += result.jobsSavedCount;
     jobsUnsavedCount += result.jobsUnsavedCount;
     jobsDiscardedCount += result.jobsDiscardedCount;
@@ -105,13 +107,14 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     updateCounts(result);
   }
 
-  console.log(`\n\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
+  console.log(`\n\n\x1b[43m Number of total jobs: ${totalJobs} \x1b[0m`);
+  console.log(`\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
   console.log(`\x1b[43m Number of unsaved jobs: ${jobsUnsavedCount} \x1b[0m`);
   console.log(`\x1b[43m Number of discarded jobs: ${jobsDiscardedCount} \x1b[0m`);
   console.log(`\x1b[43m Number of duplicated jobs: ${duplicatedJobsCount} \x1b[0m`);
 
   const hasSomeNonZeroCount = [jobsSavedCount, jobsUnsavedCount, jobsDiscardedCount, duplicatedJobsCount].some((cur) => cur > 0);
   if (hasSomeNonZeroCount) {
-    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}`);
+    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of total jobs: ${totalJobs}\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unsaved jobs: ${jobsUnsavedCount}\nNumber of discarded jobs: ${jobsDiscardedCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}`);
   }
 }

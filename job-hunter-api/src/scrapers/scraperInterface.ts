@@ -36,7 +36,7 @@ export default abstract class ScraperInterface {
     abortScript?: boolean;
     abortStyle?: boolean;
     headless?: boolean;
-    }) {
+  }) {
     const browser = await puppeteer.launch({ headless, args: ['--no-sandbox'] });
     const page = await browser.newPage();
     const ua =
@@ -87,7 +87,7 @@ export default abstract class ScraperInterface {
           ...job,
           discarded,
         });
-        if (response?.success) {
+        if (response?.success && !discarded) {
           jobsSavedCount++;
         } else if (response?.message === 'Duplicated') {
           duplicatedJobsCount++;
@@ -104,6 +104,13 @@ export default abstract class ScraperInterface {
     }
 
     console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);
-    return { jobsSavedCount, jobsDiscardedCount, jobsUnsavedCount, duplicatedJobsCount };
+
+    return {
+      jobsSavedCount,
+      jobsDiscardedCount,
+      jobsUnsavedCount,
+      duplicatedJobsCount,
+      totalJobs: jobs?.length,
+    };
   }
 }
