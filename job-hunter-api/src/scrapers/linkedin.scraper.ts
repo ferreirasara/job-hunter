@@ -17,10 +17,7 @@ export default class LinkedinScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({
-      abortScript: false,
-      abortStyle: false,
-    });
+    const { browser, page } = await this.getBrowser({ });
     this.logMessage('Start');
 
     const urls = await this.getUrls(page);
@@ -46,18 +43,6 @@ export default class LinkedinScraper extends ScraperInterface {
     for (const url of LINKEDIN_URLS) {
       try {
         await page.goto(url);
-        const totalOfJobs = await page?.$eval(
-          'span.results-context-header__job-count',
-          (el) => parseInt(el?.innerText),
-        );
-
-        for (let i = 0; i < totalOfJobs / 25; i++) {
-          await sleep(500);
-          for (let keyPressed = 0; keyPressed <= 10; keyPressed++) {
-            await page?.keyboard?.press('PageDown');
-          }
-          await page?.waitForNetworkIdle();
-        }
 
         const urls: string[] = await page?.$$eval(
           'a.base-card__full-link',

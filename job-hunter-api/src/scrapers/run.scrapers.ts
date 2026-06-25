@@ -3,6 +3,7 @@ import { sendMessageToTelegram } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import GupyScraper from './gupy.scraper';
+import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
 import RemoteOkScraper from './remoteok.scraper';
@@ -39,9 +40,12 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     updateCounts(result);
   }
 
-  // const linkedinScraper = new LinkedinScraper({});
-  // result = await linkedinScraper.saveJobs();
-  // updateCounts(result);
+
+  if (scrapersToRun.includes('linkedin') || scrapersToRun.includes('all')) {
+    const linkedinScraper = new LinkedinScraper({});
+    result = await linkedinScraper.saveJobs();
+    updateCounts(result);
+  }
 
   if (scrapersToRun.includes('programathor') || scrapersToRun.includes('all')) {
     const programathorScraper = new ProgramathorScraper({});

@@ -933,10 +933,10 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
     JobSkill.DELPHI,
   ];
 
-  return (
-    discardedTitleRegex?.some((cur) => stringContainsAny(title, cur)) ||
-    discardedSkillsKeywords?.some((cur) => skills?.includes(cur))
-  );
+  const isDiscardedByTitle = discardedTitleRegex?.some((cur) => stringContainsAny(title, cur));
+  const isDiscardedBySkills = discardedSkillsKeywords?.some((cur) => skills?.includes(cur));
+
+  return (isDiscardedByTitle || isDiscardedBySkills);
 };
 
 export const getJobRegex = (job: JobOpportunity): string[] => {
