@@ -1,8 +1,9 @@
-import { Drawer, Form, Grid, Input, Radio, Select } from 'antd';
-import { memo, useCallback, useRef } from 'react';
+import { Button, Drawer, Form, Grid, Input, Radio, Select, Space } from 'antd';
+import { memo } from 'react';
 import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types';
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
+import { ClearOutlined, FilterOutlined } from '@ant-design/icons';
 
 interface FiltersDrawerProps {
   open: boolean;
@@ -23,27 +24,6 @@ const FiltersDrawer = ({
   const [form] = Form.useForm<GetJobsFromAPIArgs>();
   const state = useFilters((state) => state);
   const { data, isLoading } = useGetJobs();
-
-  const companyFilterTimeoutRef = useRef<number | undefined>(undefined);
-  const titleFilterTimeoutRef = useRef<number | undefined>(undefined);
-
-  const debouncedSetCompanyFilter = useCallback((value: string) => {
-    if (companyFilterTimeoutRef.current) {
-      clearTimeout(companyFilterTimeoutRef.current);
-    }
-    companyFilterTimeoutRef.current = setTimeout(() => {
-      state.setState({ companyFilter: value });
-    }, 500);
-  }, [state]);
-
-  const debouncedSetTitleFilter = useCallback((value: string) => {
-    if (titleFilterTimeoutRef.current) {
-      clearTimeout(titleFilterTimeoutRef.current);
-    }
-    titleFilterTimeoutRef.current = setTimeout(() => {
-      state.setState({ titleFilter: value });
-    }, 500);
-  }, [state]);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
@@ -82,17 +62,7 @@ const FiltersDrawer = ({
         form={form}
         initialValues={initialValues}
         disabled={isLoading}
-        onValuesChange={(values) => {
-          if (values.companyFilter) {
-            debouncedSetCompanyFilter(values.companyFilter);
-          } else if (values.titleFilter) {
-            debouncedSetTitleFilter(values.titleFilter);
-          } else {
-            state.setState({ ...values, page: 0 })
-          }
-
-        }
-        }
+        onFinish={(values) => state.setState({ ...values, page: 0 })}
       >
         <Form.Item
           label="Plataforma"
@@ -210,6 +180,24 @@ const FiltersDrawer = ({
         <Form.Item name="showOnlyDiscarded" style={formItemStyle}>
           <Radio.Group options={[{ value: true, label: 'Descartadas' }, { value: false, label: 'Não descartadas' }]} />
         </Form.Item>
+        <Space>
+          <Button
+            icon={<FilterOutlined />}
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+          >
+            Filtrar
+          </Button>
+          <Button
+            icon={<ClearOutlined />}
+            loading={isLoading}
+            type="default"
+            htmlType="reset"
+          >
+            Resetar
+          </Button>
+        </Space>
       </Form>
     </Drawer>
   );
