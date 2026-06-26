@@ -108,6 +108,7 @@ export const SKILLS_REGEX = {
     /sqlite/i,
     /bases relacionais e nao relacionais/i,
     /sequelize/i,
+    /supabase/i,
   ],
   DELPHI: [/delphi/i, /\bvcl\b/i],
   DESIGN: [
@@ -158,6 +159,8 @@ export const SKILLS_REGEX = {
     /\belk\b/i,
     /infraestrutura (e monitoramento|de ti)/i,
     /infra( |-|.)?estrutura/i,
+    /continuous deployment/i,
+    /pipelines de deploy/i,
   ],
   DJANGO: [/django/i],
   DOT_NET: [
@@ -279,6 +282,7 @@ export const SKILLS_REGEX = {
     /jetpack/i,
     /ml( |-|.)?kit/i,
     /(aplicativo(s)?|desenvolvimento) move(is|l)/i,
+    /react( |-|.)?native/i,
   ],
   NEST: [/\bnest(( |-|.)?js)?\b/i],
   NEXT: [/\bnext(( |-|.)?js)?(?! (steps|generation|in))/i],
@@ -343,7 +347,6 @@ export const SKILLS_REGEX = {
   RAZOR: [/razor/i],
   REACT: [/react(( |-|.)?js)?(?! native)(?! hooks)/i, /reacjs/i],
   REACT_HOOKS: [/react( |-|.)?hook(s)?(?! form)/i, /hooks/i],
-  REACT_NATIVE: [/react( |-|.)?native/i],
   REACT_ROUTER: [/react router/i],
   REASONML: [/reasonml/i],
   RESPONSIVE_DESIGN: [

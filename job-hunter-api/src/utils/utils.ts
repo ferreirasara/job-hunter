@@ -915,7 +915,7 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
 
   const discardedTitleRegex = [
     SKILLS_REGEX.JAVA,
-    SKILLS_REGEX.REACT_NATIVE,
+    SKILLS_REGEX.MOBILE_DEVELOPMENT,
     SKILLS_REGEX.ANGULAR,
     SKILLS_REGEX.VUE,
     SKILLS_REGEX.DEV_OPS,

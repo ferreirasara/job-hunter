@@ -400,13 +400,6 @@ describe('test SKILLS_REGEX cases', () => {
       ],
     },
     {
-      type: 'REACT_NATIVE',
-      cases: [
-        { str: 'react native', regex: SKILLS_REGEX.REACT_NATIVE, toBe: true },
-        { str: 'react-native', regex: SKILLS_REGEX.REACT_NATIVE, toBe: true },
-      ],
-    },
-    {
       type: 'REACT_HOOKS',
       cases: [
         { str: 'react hook', regex: SKILLS_REGEX.REACT_HOOKS, toBe: true },

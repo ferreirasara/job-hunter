@@ -209,7 +209,7 @@ export const getProgramathorNormalizedSkill = (
     case 'reactjs':
       return JobSkill.REACT;
     case 'react native':
-      return JobSkill.REACT_NATIVE;
+      return JobSkill.MOBILE_DEVELOPMENT;
     case 'redux':
       return JobSkill.STATE_MANAGEMENT;
     case 'restful':
@@ -333,9 +333,9 @@ export const getTypeBasedOnDescription = (job: {
   if (isRemoteTitle) return JobType.REMOTE;
   if (isHybridTitle) return JobType.HYBRID;
   if (isFaceToFaceTitle) return JobType.FACE_TO_FACE;
-  if (isRemoteDescription) return JobType.REMOTE;
   if (isHybridDescription) return JobType.HYBRID;
   if (isFaceToFaceDescription) return JobType.FACE_TO_FACE;
+  if (isRemoteDescription) return JobType.REMOTE;
 
   return JobType.REMOTE;
 };
