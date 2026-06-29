@@ -7,7 +7,6 @@ import {
   SENIORITY_REGEX,
   SKILLS_REGEX,
   TYPES_REGEX,
-  YEARS_OF_EXPERIENCE_REGEX,
 } from '../analyzer/regex';
 import { JobOpportunity } from '../entity/JobOpportunity';
 
@@ -961,7 +960,6 @@ export const getJobRegex = (job: JobOpportunity): string[] => {
     ...hiringRegimeRegex,
     ...seniorityRegex,
     ...typeRegex,
-    ...YEARS_OF_EXPERIENCE_REGEX,
   ]);
   return allRegex?.map((cur) => String(cur));
 };

@@ -54,11 +54,6 @@ AppDataSource.initialize()
           job.uuid,
           analyzerResponse?.seniority,
         );
-        if (analyzerResponse?.yearsOfExperience)
-          await JobOpportunityController.updateYearsOfExperience(
-            job.uuid,
-            analyzerResponse?.yearsOfExperience,
-          );
         await JobOpportunityController.updateRatings(job.uuid, {
           skillsRating: analyzerResponse?.skillsRating,
           benefitsRating: analyzerResponse?.benefitsRating,

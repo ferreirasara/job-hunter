@@ -161,7 +161,6 @@ export default class SolidesScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e, urls[i]?.url);

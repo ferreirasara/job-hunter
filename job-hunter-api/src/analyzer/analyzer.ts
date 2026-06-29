@@ -19,7 +19,6 @@ import {
   SENIORITY_REGEX,
   SKILLS_REGEX,
   TYPES_REGEX,
-  YEARS_OF_EXPERIENCE_REGEX,
 } from './regex';
 
 export const getSkillsBasedOnDescription = (job: {
@@ -360,23 +359,6 @@ export const getSeniorityBasedOnDescription = (job: {
   return JobSeniority.SENIOR;
 };
 
-export const getYearOfExperienceBasedOnDescription = (job: {
-  description: string;
-}): number | undefined => {
-  for (const regex of YEARS_OF_EXPERIENCE_REGEX) {
-    const res = regex.exec(job.description);
-    if (res) {
-      const yearsStr = res?.[0]?.replace(/[^0-9]/g, ' ')?.trim();
-      const yearsSplit = yearsStr?.split(' ')?.filter((cur) => !!cur);
-      if (!yearsSplit.length) return undefined;
-      const years = parseInt(yearsSplit?.[0]);
-      if (years < 13) return years;
-      if (!years) return getNumberFromString(res?.[0]);
-    }
-  }
-  return undefined;
-};
-
 export const analyzeDescription = (job: {
   title: string;
   description: string;
@@ -408,9 +390,6 @@ export const analyzeDescription = (job: {
     description,
   });
   const seniority = getSeniorityBasedOnDescription({ title, description });
-  const yearsOfExperience = getYearOfExperienceBasedOnDescription({
-    description,
-  });
 
   const { skillsRating, benefitsRating } = getRatingsBasedOnSkillsAndBenefits({
     skills,
@@ -425,7 +404,6 @@ export const analyzeDescription = (job: {
     type,
     hiringRegime,
     seniority,
-    yearsOfExperience,
     description: description?.replace(/\n+/g, '\n'),
   };
 };

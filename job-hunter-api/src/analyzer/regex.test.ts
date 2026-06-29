@@ -7,7 +7,6 @@ import {
   SENIORITY_REGEX,
   SKILLS_REGEX,
   TYPES_REGEX,
-  YEARS_OF_EXPERIENCE_REGEX,
 } from './regex';
 
 type TestCase = {
@@ -1288,103 +1287,4 @@ describe('test SENIORITY_REGEX cases', () => {
   const senioritiesNotTested = difference(allSeniorities, senioritiesTested);
   if (senioritiesNotTested?.length)
     console.log(`Seniorities not tested: ${senioritiesNotTested?.join(', ')}`);
-});
-
-describe('test YEARS_OF_EXPERIENCE_REGEX cases', () => {
-  const testCases: TestCase[] = [
-    {
-      type: 'YEARS_OF_EXPERIENCE_REGEX',
-      cases: [
-        {
-          str: 'experiencia profissional minima de 3 anos',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'pelo menos 2 anos de experiencia',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'pelo menos dois anos de experiencia',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: '2 ou mais anos de experiencia trabalhando',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'mais de 2 anos em contato',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'experiencia minima de 3 anos',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: '3 anos trabalhando',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'experiencia comprovada de 4+ anos',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: '5+ years of professional',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: '4+ anos experiencia',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        { str: '3 anos +', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
-        {
-          str: '4+ years of non-internship professional',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'experiencia de trabalho de 7+ anos',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        { str: '5+ years with', regex: YEARS_OF_EXPERIENCE_REGEX, toBe: true },
-        {
-          str: 'auxilio creche: para filhos(as) ate 5 anos de idade.',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: false,
-        },
-        {
-          str: 'apos 6 meses de contrato',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: false,
-        },
-        {
-          str: 'experiencia (5+ anos)',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: '12+ years of software engineering experience',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-        {
-          str: 'at least 3+ years of relevant experience',
-          regex: YEARS_OF_EXPERIENCE_REGEX,
-          toBe: true,
-        },
-      ],
-    },
-  ];
-
-  doTestCases(testCases);
 });

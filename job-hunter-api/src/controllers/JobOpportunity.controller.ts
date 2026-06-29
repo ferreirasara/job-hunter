@@ -36,8 +36,6 @@ const getOrderBy = (
     return { totalRating: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
   if (orderByField === 'seniority')
     return { seniority: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
-  if (orderByField === 'yearsOfExperience')
-    return { yearsOfExperience: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
 
   return { createdAt: 'DESC' };
 };
@@ -74,7 +72,6 @@ export default class JobOpportunityController {
       newJob.applied = jobInput.applied || false;
       newJob.discarded = jobInput.discarded || false;
       newJob.seniority = jobInput.seniority;
-      newJob.yearsOfExperience = jobInput.yearsOfExperience;
 
       try {
         const res = await AppDataSource.manager.save(newJob);
@@ -176,9 +173,7 @@ export default class JobOpportunityController {
   }
 
   public static async getAllJobs() {
-    const jobs = await AppDataSource.manager.find(JobOpportunity, {
-      where: { discarded: false, applied: false },
-    });
+    const jobs = await AppDataSource.manager.find(JobOpportunity);
     return jobs;
   }
 
@@ -272,16 +267,6 @@ export default class JobOpportunityController {
   public static async updateSeniority(uuid: string, seniority: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       seniority,
-    });
-    return response?.affected && response?.affected > 0;
-  }
-
-  public static async updateYearsOfExperience(
-    uuid: string,
-    yearsOfExperience: number,
-  ) {
-    const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
-      yearsOfExperience,
     });
     return response?.affected && response?.affected > 0;
   }

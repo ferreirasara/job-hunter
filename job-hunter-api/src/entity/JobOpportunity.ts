@@ -53,9 +53,6 @@ export class JobOpportunity {
   seniority?: string;
 
   @Column({ nullable: true })
-  yearsOfExperience?: number;
-
-  @Column({ nullable: true })
   country?: string;
 
   @Column({ nullable: true })

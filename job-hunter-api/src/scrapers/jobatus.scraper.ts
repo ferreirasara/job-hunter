@@ -107,7 +107,6 @@ export default class JobatusScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e);

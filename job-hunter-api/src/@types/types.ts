@@ -243,7 +243,6 @@ export type JobInput = {
   applied?: boolean;
   discarded?: boolean;
   seniority?: JobSeniority;
-  yearsOfExperience?: number;
 };
 
 export type OrderBy = { field: string; order: 'ascend' | 'descend' };

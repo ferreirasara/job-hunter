@@ -149,7 +149,6 @@ const FiltersDrawer = ({
               { label: 'Tipo', value: 'type' },
               { label: 'Contratação', value: 'hiringRegime' },
               { label: 'Senioridade', value: 'seniority' },
-              { label: 'Experiência', value: 'yearsOfExperience' },
               { label: 'Rating', value: 'totalRating' }
             ]}
           />

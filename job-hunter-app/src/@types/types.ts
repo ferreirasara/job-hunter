@@ -80,7 +80,6 @@ export interface JobsTableData {
   numberOfInterviews: number;
   numberOfTests: number;
   seniority: JobSeniority;
-  yearsOfExperience: number;
   regex: string[];
 }
 

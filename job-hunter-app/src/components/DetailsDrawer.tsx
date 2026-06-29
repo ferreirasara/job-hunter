@@ -94,11 +94,6 @@ const DetailsDrawer = ({
             <ListItemInner title="Senioridade">
               <MultipleTags field={selectedJob?.seniority} />
             </ListItemInner>
-            {selectedJob?.yearsOfExperience ? (
-              <ListItemInner title="Anos de experiencia">
-                {selectedJob?.yearsOfExperience}
-              </ListItemInner>
-            ) : null}
           </div>
         </List.Item>
         {selectedJob?.skills?.length ? (

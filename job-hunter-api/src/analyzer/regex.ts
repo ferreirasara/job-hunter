@@ -614,27 +614,3 @@ export const SENIORITY_REGEX = {
   MID_LEVEL: [/pleno(?! conhecimento)/i, /\bmid\b/i, /\bpl\b/i],
   SENIOR: [/senior(?!(idade|ity))/i, /\bsr\b/, /\bespecialista\b/],
 };
-
-export const YEARS_OF_EXPERIENCE_REGEX = [
-  /experiencia (profissional )?(minima )?de (\d+|\w+) (anos|meses)/i,
-  /experiencia (com desenvolvimento )?(ha|de) pelo menos (\d+|\w+) (anos|meses)/i,
-  /(temos ((aproximadamente )?)?!)(\d+|\w+) (anos|meses) de experiencia/i,
-  /((no )?minimo|pelo menos|ao menos) (de )?(\d+|\w+) (anos|meses)/i,
-  /(\d+|\w+)(\+| ou mais) ((anos|meses) )?(de )?(experiencia|trabalhando)/i,
-  /(profissional com )?(\d+|\w+) (anos|meses) de experiencia/i,
-  /(experiencia|atuacao) de (\d+|\w+) a (\d+|\w+) (anos|meses)/i,
-  /conhecimento de (\d+|\w+) (anos|meses) ou mais/i,
-  /(minimo|mais) de (\d+|\w+) (anos|meses)(?! de mercado)/i,
-  /experiencia (acima|minima) de (\d+|\w+) (anos|meses)/i,
-  /entre (\d+|\w+) e (\d+|\w+) anos/i,
-  /experiencia (comprovada|de trabalho) de (\d+|\w+)(\+)? (anos|meses)/i,
-  /(\d+|\w+) (anos|meses) (?!de (idade|contrato))(\+ )?(trabalhando)?/i,
-  /experiencia \((\d+|\w+)\+ (anos|meses)\)/i,
-
-  /(\d+|\w+)\+ years(’)? ((of|demonstrated) )?(software (development|engineering) )?(experience|professional|non\-internship professional|with)/i,
-  /(\d+|\w+)(\+)? years of (relevant )?experience/i,
-  /more than (\d+|\w+) years/i,
-  /minimum (of )?(\d+|\w+) years/i,
-  /(\d+|\w+)\+ of background/i,
-  /(\d+|\w+)-(\d+|\w+) years of experience/i,
-];
