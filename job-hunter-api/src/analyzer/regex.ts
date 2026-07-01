@@ -590,14 +590,13 @@ export const TYPES_REGEX = {
     /100\% home/i,
     /teletrabalho/i,
     /trabalho digital/i,
-    /100\% remoto/i,
+    /100\% remot(o|a|e)/i,
   ],
-  HYBRID: [/hibrid(o|a)/i, /hybrid/i, /disponibilidade para mudanca/i],
+  HYBRID: [/hibrid(o|a)/i, /hybrid(?! app)/i, /disponibilidade para mudanca/i],
   FACE_TO_FACE: [
     /presencial(mente)?/i,
     /remoto: nao/i,
     /residir em/i,
-    /vale transporte/,
   ],
 };
 

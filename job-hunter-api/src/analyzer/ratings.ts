@@ -127,7 +127,7 @@ export const SKILL_RATING = {
   UX: 5,
   VANILLA: 4,
   VITE: 4,
-  VUE: 4,
+  VUE: -1,
   WEB_HOOKS: 3,
   WEBRTC: -2,
   WINDOWS_FORMS: -5,
