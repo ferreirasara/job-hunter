@@ -899,6 +899,7 @@ export const isUnwantedJob = (args: {
     'manager',
     'director',
     'designer',
+    'junior',
   ];
   const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
   const descriptionKeywords = ['telemarketing'];

@@ -235,6 +235,7 @@ export const SKILLS_REGEX = {
     /mockmvc/i,
     /groovy/i,
     /jasper/i,
+    /quarkus/i,
   ],
   JAVASCRIPT: [
     /java( |-|.)?script/i,
@@ -347,7 +348,7 @@ export const SKILLS_REGEX = {
   PYTHON: [/python/i, /phyton/i, /\bpandas\b/i],
   PWA: [/\bpwa\b/i, /progressive web apps/i],
   RAZOR: [/razor/i],
-  REACT: [/react(( |-|.)?js)?(?! native)(?! hooks)/i, /reacjs/i],
+  REACT: [/react(( |-|.)?js)?(?! native)(?! hooks)(?!tive)/i, /reacjs/i],
   REACT_HOOKS: [/react( |-|.)?hook(s)?(?! form)/i, /hooks/i],
   REACT_ROUTER: [/react router/i],
   REASONML: [/reasonml/i],
