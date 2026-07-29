@@ -1,56 +1,87 @@
-import { Page } from "puppeteer";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { uniq } from "lodash";
-import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { uniq } from 'lodash';
+import { Page } from 'puppeteer';
+import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import ScraperInterface from './scraperInterface';
 
-const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS
+const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS;
 export default class DivulgaVagasScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
-    super({ platform, filterExistentsJobs })
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
+    super({ platform, filterExistentsJobs });
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ abortScript: true, abortStyle: true });
-    this.logMessage("Start");
+    const { browser, page } = await this.getBrowser({
+      abortScript: true,
+      abortStyle: true,
+    });
+    this.logMessage('Start');
 
     const urls = await this.getUrls(page);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-    const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
+    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
+      this.platform,
+    );
+    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
+    const filteredUrls = this.filterExistentsJobs
+      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
+      : urls;
+    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();
 
-    this.logMessage("End");
+    this.logMessage('End');
     return jobs;
   }
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'frontend');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const frontendUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://divulgavagas.com.br/vagas-de-frontend/');
+      let frontendUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        frontendUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No frontend jobs found');
+      }
 
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'react');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const reactUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://divulgavagas.com.br/vagas-de-react/');
+      let reactUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        reactUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No react jobs found');
+      }
 
-      await page.goto("https://www.divulgavagas.com.br/vagas-de-emprego/");
-      await page.type('input.form-control', 'desenvolvedor');
-      await page.click('button.btn');
-      await page.waitForSelector('h3 > a.heading-default-color')
-      const developerUrls: string[] = await page?.$$eval('h3 > a.heading-default-color', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://divulgavagas.com.br/vagas-de-desenvolvedor/');
+      let developerUrls: string[] = [];
+      try {
+        await page.waitForSelector('div.vaga-titulo-text > a');
+        developerUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+          el?.map((cur) => cur?.href),
+        );
+      } catch (e) {
+        this.logMessage('No developer jobs found');
+      }
 
       const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
       const urls = uniq(allUrls);
 
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1] }));
+      const result: JobInitialData[] = urls?.map((url) => ({
+        url,
+        idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1],
+      }));
 
       return result;
     } catch (e) {
@@ -59,18 +90,33 @@ export default class DivulgaVagasScraper extends ScraperInterface {
     }
   }
 
-  private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {
+  private async getDetails(
+    page: Page,
+    urls: JobInitialData[],
+  ): Promise<JobInput[]> {
     const urlsLength = urls?.length;
     const jobs: JobInput[] = [];
     for (let i = 0; i < urlsLength; i++) {
       try {
-        const obj = urls[i]
-        await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
+        const obj = urls[i];
+        await page.goto(obj?.url, { waitUntil: 'domcontentloaded' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const location: string = await page?.$eval('div.media > div > span', (el) => el?.innerText);
-        const company = await page?.$eval('div.media > div > div > span', (el) => el?.innerText);
-        const descriptionOriginal = await page?.$eval('div.row', (el) => el?.innerText);
-        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
+        const location: string = await page?.$eval(
+          'div.job-company-section > div.job-info-grid > div.job-info-item',
+          (el) => el?.innerText,
+        );
+        const company = (
+          await page?.$eval('div.job-company-name', (el) => el?.innerText)
+        )?.trim();
+        const descriptionOriginal = (
+          await page?.$$eval('section.job-card', (el) =>
+            el?.map((cur) => cur?.innerText),
+          )
+        )?.join('\n\n');
+        const analyzerResponse = analyzeDescription({
+          title,
+          description: descriptionOriginal,
+        });
 
         jobs?.push({
           title,
@@ -88,7 +134,6 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e);

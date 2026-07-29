@@ -1,12 +1,13 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { JobOpportunity } from "./entity/JobOpportunity"
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import { JobOpportunity } from './entity/JobOpportunity';
+dotenv.config();
 
 export const AppDataSource = new DataSource({
-  type: "postgres",
+  type: 'postgres',
   host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT),
+  port: parseInt(process.env.DB_PORT || '5432'),
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
@@ -15,4 +16,4 @@ export const AppDataSource = new DataSource({
   entities: [JobOpportunity],
   migrations: [],
   subscribers: [],
-})
+});

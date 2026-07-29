@@ -1,91 +1,197 @@
 # Job Hunter
 
-Job Hunter is a powerful job search tool designed to streamline the process of finding employment opportunities. This project is built using Node.js and consists of two main components: `job-hunter-api` for the backend and `job-hunter-app` for the frontend.
+Job Hunter is a personal job-search dashboard that collects job listings from multiple platforms, analyzes them for skills and benefits, stores them in PostgreSQL, and provides a React UI for reviewing, filtering, applying, discarding, and tracking opportunities.
 
-## job-hunter-api
+The repository is split into two TypeScript projects:
 
-### Getting Started
+- `job-hunter-api`: Express API, PostgreSQL persistence with TypeORM, job scrapers, and job analysis.
+- `job-hunter-app`: Vite + React frontend for browsing jobs and viewing application statistics.
 
-To run the API, navigate to the `job-hunter-api` directory and use the following commands:
+## Features
 
-1. Create a `.env` file in the `job-hunter-api` directory with the following variables:
+- Scrapes job opportunities from multiple job boards.
+- Detects skills, benefits, job type, hiring regime, seniority, and ratings from job descriptions.
+- Stores opportunities in PostgreSQL and avoids duplicates by company/title.
+- Filters and sorts jobs by platform, type, hiring regime, skills, benefits, title, company, seniority, rating, and status.
+- Tracks applied, discarded, and recused jobs.
+- Tracks number of interviews and tests for applied jobs.
+- Displays statistics by platform, company, rating, job type, hiring regime, skills, and benefits.
+- Protects API access with a shared secret token.
+
+## Tech Stack
+
+- Node.js
+- TypeScript
+- Express
+- PostgreSQL
+- TypeORM
+- Puppeteer
+- Jest
+- React
+- Vite
+- Ant Design
+- TanStack Query
+- Zustand
+- Recharts
+
+## Project Structure
+
+```text
+.
+|-- job-hunter-api/     # Backend API, scrapers, analyzer, database entities
+|-- job-hunter-app/     # Frontend React application
+|-- LICENSE
+`-- README.md
+```
+
+## Prerequisites
+
+- Node.js and npm
+- PostgreSQL
+- A PostgreSQL database created for the app
+
+## Backend Setup
+
+From the API directory:
+
+```bash
+cd job-hunter-api
+npm install
+```
+
+Create `job-hunter-api/.env`:
 
 ```env
-DB_HOST=your_db_host
-DB_PORT=your_db_port
-DB_USERNAME=your_db_username
-DB_PASSWORD=your_db_password
-DB_DATABASE=your_db_database
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+DB_DATABASE=job_hunter
 SECRET_TOKEN=your_secret_token
 ```
 
-Replace `your_db_host`, `your_db_port`, `your_db_username`, `your_db_password`, `your_db_database`, and `your_secret_token` with your actual database connection details and the secret token for accessing the platform.
+Optional Telegram notifications can be enabled with:
 
-2. Install dependencies and start the API server:
+```env
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+```
+
+Start the API:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start the API server
 npm run start:api
 ```
 
-### Running Tests
+The API runs at:
 
-To execute unit tests, use the following command:
-
-```bash
-# Run unit tests
-npm test
+```text
+http://localhost:8080
 ```
 
-### Crawling Job Listings
+## Frontend Setup
 
-To perform a web crawl for job listings, use the following command:
+From the app directory:
 
 ```bash
-# Run job crawlers
-npm run start:crawlers
+cd job-hunter-app
+npm install
 ```
 
-### Customizing Scrapers and Ratings
-
-If you wish to customize the tool for specific job platforms or adjust skill ratings, you can find the relevant files in the `job-hunter-api/src/scrapers` and `job-hunter-api/src/analyzer` directories.
-
-#### Scrapers
-
-Each job platform has its own scraper file within the `job-hunter-api/src/scrapers` directory. To customize the URLs used for job searches, locate the appropriate scraper file and modify the URLs as needed.
-
-#### Skill Ratings
-
-The skill ratings used for job analysis are defined in the `job-hunter-api/src/analyzer/ratings.ts` file. Adjust the values associated with each skill to tailor the scoring system to your preferences.
-
-## job-hunter-app
-
-The frontend of the Job Hunter tool is developed using React. To launch the application, navigate to the `job-hunter-app` directory and use the following commands:
-
-1. Create a `.env` file in the `job-hunter-app` directory with the following variable:
+Create `job-hunter-app/.env`:
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:your_api_port
+VITE_APP_API_BASE_URL=http://localhost:8080
 ```
 
-Replace `your_api_port` with the port where your API server is running.
-
-2. Install dependencies and start the frontend application:
+Start the frontend:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start the frontend application
 npm start
 ```
 
-## Contact Information
+Vite will print the local URL, usually:
 
-For inquiries or further information, you can reach me via:
+```text
+http://localhost:5173
+```
+
+When you open the app, sign in with the same value configured as `SECRET_TOKEN` in the API `.env` file.
+
+## Common Commands
+
+### API
+
+```bash
+cd job-hunter-api
+
+npm run start:api        # Start the API in development mode
+npm run start:scrapers   # Run the job scrapers
+npm run start:analyzer   # Re-run job analysis
+npm run build            # Compile TypeScript
+npm test                 # Run Jest tests
+npm run eslint:check     # Check linting
+npm run lint:fix         # Fix linting issues
+```
+
+### App
+
+```bash
+cd job-hunter-app
+
+npm start        # Start Vite dev server
+npm run build    # Type-check and build for production
+npm run preview  # Preview the production build locally
+```
+
+## API Routes
+
+All routes expect the secret token in the `Authorization` header.
+
+```text
+GET  /jobs          List jobs with pagination, filters, sorting, skills, benefits, and ratings
+POST /job/:uuid     Update a job status or counters
+GET  /stats         Get dashboard statistics
+POST /validate      Validate the secret token
+POST /run-scrapers  Trigger all scrapers
+```
+
+`GET /jobs` requires `limit` and `page` query parameters.
+
+Example:
+
+```bash
+curl "http://localhost:8080/jobs?limit=10&page=0" \
+  -H "Authorization: your_secret_token"
+```
+
+## Customization
+
+Scrapers live in:
+
+```text
+job-hunter-api/src/scrapers
+```
+
+Search URLs live in:
+
+```text
+job-hunter-api/src/urls/urls.ts
+```
+
+Analyzer regex rules and ratings live in:
+
+```text
+job-hunter-api/src/analyzer/regex.ts
+job-hunter-api/src/analyzer/ratings.ts
+```
+
+Update those files to add job platforms, change search targets, or tune how skills and benefits are detected and scored.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Contact
 
 - Email: ferreirasara1501@gmail.com
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/ferreirasara1501)
+- LinkedIn: [Sara Ferreira](https://www.linkedin.com/in/ferreirasara1501)

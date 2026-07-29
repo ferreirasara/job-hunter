@@ -1,67 +1,115 @@
-import { Page } from "puppeteer";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { uniq } from "lodash";
-import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { uniq } from 'lodash';
+import { Page } from 'puppeteer';
+import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import ScraperInterface from './scraperInterface';
 
-const platform: JobPlatform = JobPlatform.REMOTAR
+const platform: JobPlatform = JobPlatform.REMOTAR;
 
 export default class RemotarScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
-    super({ platform, filterExistentsJobs })
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
+    super({ platform, filterExistentsJobs });
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({});
-    this.logMessage("Start");
+    const { browser, page } = await this.getBrowser({ abortScript: false });
+    this.logMessage('Start');
 
     const urls = await this.getUrls(page);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-    const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
+    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
+      this.platform,
+    );
+    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
+    const filteredUrls = this.filterExistentsJobs
+      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
+      : urls;
+    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();
 
-    this.logMessage("End");
+    this.logMessage('End');
     return jobs;
   }
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://remotar.com.br/search/jobs?q=frontend", { waitUntil: "networkidle0" });
-      const frontendUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://remotar.com.br/search/jobs?q=frontend', {
+        waitUntil: 'networkidle2',
+      });
+      const frontendUrls: string[] = await page?.$$eval(
+        'a.job-title',
+        (el) => el?.map((cur) => cur?.href),
+      );
 
-      await page.goto("https://remotar.com.br/search/jobs?q=front%20end", { waitUntil: "networkidle0" });
-      const frontend2Urls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://remotar.com.br/search/jobs?q=front%20end', {
+        waitUntil: 'networkidle2',
+      });
+      const frontend2Urls: string[] = await page?.$$eval(
+        'a.job-title',
+        (el) => el?.map((cur) => cur?.href),
+      );
 
-      await page.goto("https://remotar.com.br/search/jobs?q=react", { waitUntil: "networkidle0" });
-      const reactUrls: string[] = await page?.$$eval('div.featured > a', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://remotar.com.br/search/jobs?q=react', {
+        waitUntil: 'networkidle2',
+      });
+      const reactUrls: string[] = await page?.$$eval('a.job-title', (el) =>
+        el?.map((cur) => cur?.href),
+      );
 
-      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
-      const urls = uniq(allUrls);
+      await page.goto('https://remotar.com.br/search/jobs?q=desenvolvedor', {
+        waitUntil: 'networkidle2',
+      });
+      const developerUrls: string[] = await page?.$$eval('a.job-title', (el) =>
+        el?.map((cur) => cur?.href),
+      );
 
-      const result: JobInitialData[] = urls?.map(url => ({ url, idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0] }));
+      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
+      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => ({
+        url,
+        idInPlatform: url?.split('job/')?.[1]?.split('/')?.[0],
+      }));
 
-      return result;
+      const existentJobs =
+        await JobOpportunityController.getAllJobsFromPlatform(this.platform);
+      const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
+      const filteredUrls = this.filterExistentsJobs
+        ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
+        : urls;
+
+      return filteredUrls;
     } catch (e) {
       this.logError(e);
       return [];
     }
   }
 
-  private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {
+  private async getDetails(
+    page: Page,
+    urls: JobInitialData[],
+  ): Promise<JobInput[]> {
     const urlsLength = urls?.length;
     const jobs: JobInput[] = [];
     for (let i = 0; i < urlsLength; i++) {
       try {
-        const obj = urls[i]
-        await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
+        const obj = urls[i];
+        await page.goto(obj?.url, { waitUntil: 'domcontentloaded' });
         const title = await page?.$eval('h1.job-title', (el) => el?.innerText);
         const company = await page?.$eval('p.h2', (el) => el?.innerText);
-        const descriptionOriginal = await page?.$$eval('div.job-info-box', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ title, description: descriptionOriginal });
+        const descriptionOriginal = await page?.$$eval(
+          'div.job-info-box',
+          (el) => el?.map((cur) => cur?.innerText)?.join('\n\n'),
+        );
+        const analyzerResponse = analyzeDescription({
+          title,
+          description: descriptionOriginal,
+        });
 
         jobs?.push({
           title,
@@ -77,7 +125,6 @@ export default class RemotarScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e);

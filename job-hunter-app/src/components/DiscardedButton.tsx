@@ -1,39 +1,53 @@
-import { DeleteOutlined } from "@ant-design/icons";
-import { Button, message } from "antd";
-import { useState } from "react";
-import { GetJobsFromAPIArgs, setJobAsDiscarded } from "../utils/utils";
+import { DeleteOutlined } from '@ant-design/icons';
+import { Button, message } from 'antd';
+import { memo, useCallback } from 'react';
+import { useSetJobAsDiscarded } from '../hooks/useSetJobAsDiscarded';
 
-type DiscardedButtonProps = {
-  uuid?: string
-  disabled?: boolean
-  fetchData: (apiArgs: GetJobsFromAPIArgs) => Promise<void>
-  onFinish: () => void
-  apiArgs: GetJobsFromAPIArgs
-  onlyIcon?: boolean
+interface DiscardedButtonProps {
+  uuid?: string;
+  disabled?: boolean;
+  onFinish?: () => void;
+  onlyIcon?: boolean;
 }
-export const DiscardedButton = ({ uuid, disabled, fetchData, onFinish, onlyIcon, apiArgs }: DiscardedButtonProps) => {
+const DiscardedButton = ({
+  uuid,
+  disabled,
+  onFinish,
+  onlyIcon,
+}: DiscardedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSetAsDiscarded = async () => {
-    setLoading(true);
-    if (uuid) await setJobAsDiscarded(uuid);
-    await fetchData(apiArgs);
-    setLoading(false);
-    messageApi.open({ content: "Vaga descartada!", type: "success", duration: 10 });
-    onFinish();
-  }
+  const { mutateAsync, isPending } = useSetJobAsDiscarded();
+  const handleSetAsDiscarded = useCallback(async () => {
+    if (!uuid) return;
+    await mutateAsync({ uuid });
+    messageApi.open({
+      content: 'Vaga descartada!',
+      type: 'success',
+      duration: 10,
+    });
+    onFinish?.();
+  }, [messageApi, onFinish, uuid]);
 
-  return <>
-    {contextHolder}
-    <Button
-      size="small"
-      icon={<DeleteOutlined />}
-      onClick={handleSetAsDiscarded}
-      loading={loading}
-      disabled={disabled}
-    >
-      {!onlyIcon ? "Descartar" : null}
-    </Button>
-  </>
-}
+  return (
+    <>
+      {contextHolder}
+      <Button
+        size="small"
+        icon={<DeleteOutlined />}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleSetAsDiscarded();
+        }}
+        loading={isPending}
+        disabled={disabled}
+        type={onlyIcon ? 'text' : 'default'}
+      >
+        {!onlyIcon ? 'Descartar' : null}
+      </Button>
+    </>
+  );
+};
+
+export default memo(DiscardedButton);

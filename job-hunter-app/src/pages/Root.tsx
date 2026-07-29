@@ -1,109 +1,118 @@
-import { Alert, Button, Divider, Space } from "antd"
-import { useCallback, useContext, useEffect, useState } from "react";
-import { JobsResponse, JobsTable, JobsTableData } from "../components/JobsTable";
-import { GetJobsFromAPIArgs, getJobsFromAPI } from "../utils/utils";
-import { DetailsDrawer } from "../components/DetailsDrawer";
-import { NavLink, Navigate } from "react-router-dom";
-import { BarChartOutlined, FilterOutlined } from "@ant-design/icons";
-import { FiltersDrawer } from "../components/FiltersDrawer";
-import { PaginationContext } from "../context/PaginationContext";
+import { BarChartOutlined, FilterOutlined, PlayCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Alert, Button, Divider, message, Space } from 'antd';
+import { useCallback, useEffect, useState } from 'react';
+import { NavLink, Navigate } from 'react-router-dom';
+import DetailsDrawer from '../components/DetailsDrawer';
+import FiltersDrawer from '../components/FiltersDrawer';
+import JobsTable from '../components/JobsTable';
+import { JobsTableData } from '../@types/types';
+import { useGetJobs } from '../hooks/useGetJobs';
+import { useShallow } from 'zustand/shallow';
+import { useFilters } from '../store/filters.store';
+import { calcLimit } from '../utils/utils';
+import { useRunScrapers } from '../hooks/useRunScrapers';
 
 export default function Root() {
-  const [apiArgs, setApiArgs] = useState<GetJobsFromAPIArgs>({
-    showOnlyApplied: false, showOnlyDiscarded: false, showOnlyNewJobs: false,
-    showOnlyRecused: false, orderBy: { field: "createdAt", order: "descend" }
-  });
-  const { page, limit } = useContext(PaginationContext);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<JobsTableData[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const setLimit = useFilters(useShallow(state => state.setLimit));
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const [totalOfJobs, setTotalOfJobs] = useState<number>(0);
-  const [allRatings, setAllRatings] = useState<number[]>([]);
-  const [allSkills, setAllSkills] = useState<string[]>([]);
-  const [allBenefits, setAllBenefits] = useState<string[]>([]);
+  const { data, isLoading, error, refetch } = useGetJobs();
 
-  const handleFetchData = useCallback(async (apiArgs: GetJobsFromAPIArgs) => {
-    setLoading(true);
-    try {
-      const response: JobsResponse = await getJobsFromAPI({ ...apiArgs, page, limit });
-      if (response?.message) {
-        setErrorMessage(response?.message);
-      } else {
-        setErrorMessage("");
-        setTotalOfJobs(response?.totalOfJobs);
-        setAllRatings(response?.allRatings);
-        setAllSkills(response?.allSkills);
-        setAllBenefits(response?.allBenefits);
-        setData(response?.data);
-      }
-    } catch (e) {
-      setErrorMessage(e?.toString() || "");
-    }
-    setLoading(false);
-  }, [page, limit])
+  const handleSeeDetails = useCallback(
+    (uuid: string) => {
+      const job = data?.data?.find((cur) => cur?.uuid === uuid);
+      setSelectedJob(job);
+      setDetailsDrawerOpen(true);
+    },
+    [data],
+  );
 
-  useEffect(() => {
-    handleFetchData({});
-  }, [handleFetchData]);
-
-  const handleSeeDetails = (uuid: string) => {
-    const job = data?.find(cur => cur?.uuid === uuid)
-    setSelectedJob(job);
-    setDetailsDrawerOpen(true);
-  }
-
-  const onCloseDrawer = () => {
+  const onCloseDrawer = useCallback(() => {
     setDetailsDrawerOpen(false);
     setSelectedJob(undefined);
-  }
+  }, []);
+
+  useEffect(() => {
+    setLimit(calcLimit());
+  }, []);
+
+  const { mutateAsync, isPending: isRunningScrapers } = useRunScrapers();
+  const handleRunScrapers = useCallback(async () => {
+    await mutateAsync();
+    messageApi.open({
+      content: 'Scrapers executados com sucesso! Aguarde alguns minutos.',
+      type: 'success',
+      duration: 10,
+    });
+  }, [messageApi]);
 
   const secretToken = localStorage?.getItem('secret_token');
-  if (!secretToken) return <Navigate to="/login" replace={true} />
+  if (!secretToken) return <Navigate to="/login" replace={true} />;
 
-  return <div>
-    <Space direction="vertical" style={{ padding: '0 16px' }}>
-      <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
-        Job Hunter
-      </Divider>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
-        <Button icon={<FilterOutlined />} onClick={() => setFiltersDrawerOpen(true)}>
-          Filtrar vagas
-        </Button>
-        <NavLink to="/stats">
-          <Button icon={<BarChartOutlined />}>
-            Ver estatísticas
+  return (
+    <div>
+      {contextHolder}
+      <Space orientation="vertical" style={{ padding: '0 16px' }}>
+        <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
+          Job Hunter
+        </Divider>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+          }}
+        >
+          <Button
+            icon={<FilterOutlined />}
+            onClick={() => setFiltersDrawerOpen(true)}
+          >
+            Filtrar vagas
           </Button>
-        </NavLink>
-      </div>
-      {errorMessage ? <Alert type="error" showIcon message={errorMessage} /> : null}
-      <JobsTable
-        loading={loading}
-        data={data}
-        totalOfJobs={totalOfJobs}
-        allRatings={allRatings}
-        handleSeeDetails={(uuid) => handleSeeDetails(uuid)}
-      />
-    </Space>
-    <DetailsDrawer
-      open={detailsDrawerOpen}
-      onClose={onCloseDrawer}
-      selectedJob={selectedJob}
-      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
-      apiArgs={apiArgs}
-    />
-    <FiltersDrawer
-      open={filtersDrawerOpen}
-      onClose={() => setFiltersDrawerOpen(false)}
-      fetchData={(value: GetJobsFromAPIArgs) => handleFetchData(value)}
-      allSkills={allSkills}
-      allBenefits={allBenefits}
-      loading={loading}
-      apiArgs={apiArgs}
-      onChangeApiArgs={(value: GetJobsFromAPIArgs) => setApiArgs(value)}
-    />
-  </div>
+          <NavLink to="/stats">
+            <Button icon={<BarChartOutlined />}>Ver estatísticas</Button>
+          </NavLink>
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={() => refetch()}
+            loading={isLoading}
+          >
+            Regarregar vagas
+          </Button>
+          <Button
+            icon={<PlayCircleOutlined />}
+            onClick={handleRunScrapers}
+            loading={isRunningScrapers}
+          >
+            Executar scrapers
+          </Button>
+        </div>
+        {error ? (
+          <Alert type="error" showIcon message={error?.message} />
+        ) : null}
+        <JobsTable handleSeeDetails={(uuid) => handleSeeDetails(uuid)} />
+      </Space>
+      {!!selectedJob && detailsDrawerOpen && (
+        <DetailsDrawer
+          open={detailsDrawerOpen}
+          onClose={onCloseDrawer}
+          selectedJob={selectedJob}
+        />
+      )}
+      {filtersDrawerOpen && (
+        <FiltersDrawer
+          open={filtersDrawerOpen}
+          onClose={() => setFiltersDrawerOpen(false)}
+          allSkills={data?.allSkills || []}
+          allBenefits={data?.allBenefits || []}
+          loading={isLoading}
+        />
+      )}
+    </div>
+  );
 }

@@ -1,41 +1,81 @@
-import { uniqBy } from "lodash";
-import fetch from "node-fetch";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { GupyData, GupyResponse, JobInput, JobPlatform, JobType } from "../@types/types";
+import { uniqBy } from 'lodash';
+import {
+  GupyData,
+  GupyResponse,
+  JobInput,
+  JobPlatform,
+  JobType,
+} from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import ScraperInterface from './scraperInterface';
 
-const platform: JobPlatform = JobPlatform.GUPY
+const platform: JobPlatform = JobPlatform.GUPY;
 export default class GupyScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
-    super({ platform, filterExistentsJobs })
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
+    super({ platform, filterExistentsJobs });
   }
 
   public async getJobs() {
-    this.logMessage("Start");
-    let allJobs = [];
+    this.logMessage('Start');
+    let allJobs: GupyData[] = [];
 
     try {
-      const response1 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=react&limit=1000');
+      const response1 = await fetch(
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
+      );
       const response1Json: GupyResponse = await response1?.json();
-      const response2 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=frontend&limit=1000');
+
+      const response2 = await fetch(
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
+      );
       const response2Json: GupyResponse = await response2?.json();
-      const response3 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=front%20end&limit=1000');
+
+      const response3 = await fetch(
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
+      );
       const response3Json: GupyResponse = await response3?.json();
-      const response4 = await fetch('https://portal.api.gupy.io/api/v1/jobs?isRemoteWork=true&jobName=javascript&limit=1000');
+
+      const response4 = await fetch(
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
+      );
       const response4Json: GupyResponse = await response4?.json();
-      allJobs = [...response1Json?.data, ...response2Json?.data, ...response3Json?.data, ...response4Json?.data];
+
+      const response5 = await fetch(
+        'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
+      );
+      const response5Json: GupyResponse = await response5?.json();
+
+      allJobs = [
+        ...response1Json?.data,
+          ...response2Json?.data,
+          ...response3Json?.data,
+          ...response4Json?.data,
+          ...response5Json?.data,
+      ];
     } catch (e) {
       this.logError(e);
     }
 
     const uniqJobs = uniqBy(allJobs, 'id');
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-    const existentJobIds = existentJobs?.map(cur => parseInt(cur?.idInPlatform));
-    const filteredJobs = this.filterExistentsJobs ? uniqJobs?.filter(cur => !existentJobIds?.includes(cur?.id)) : uniqJobs;
+    this.logMessage(`Scraped jobs: ${uniqJobs?.length}`);
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
+      this.platform,
+    );
+    const existentJobIds = existentJobs?.map((cur) =>
+      parseInt(cur?.idInPlatform || ''),
+    );
+    const filteredJobs = this.filterExistentsJobs
+      ? uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id))
+      : uniqJobs;
+    this.logMessage(`Filtered jobs: ${filteredJobs?.length}`);
 
     const jobs = await this.getNewJobsWithDescription(filteredJobs);
-    this.logMessage("End");
+    this.logMessage('End');
     return jobs;
   }
 
@@ -43,14 +83,21 @@ export default class GupyScraper extends ScraperInterface {
     const jobsWithDescription: JobInput[] = [];
     const { browser, page } = await this.getBrowser({});
 
-    const jobsLength = jobs?.length
+    const jobsLength = jobs?.length;
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs[i];
       try {
         await page.goto(job?.jobUrl);
-        const descriptionOriginal = await page?.$eval('section', (el) => el?.textContent);
-        const analyzerResponse = analyzeDescription({ title: job.name, description: descriptionOriginal });
+        const descriptionOriginal = (
+          await page?.$$eval('section > div', (el) =>
+            el?.map((cur) => cur?.textContent),
+          )
+        ).join('\n');
+        const analyzerResponse = analyzeDescription({
+          title: job.name,
+          description: descriptionOriginal,
+        });
 
         jobsWithDescription.push({
           company: job.careerPageName,
@@ -69,7 +116,6 @@ export default class GupyScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e);

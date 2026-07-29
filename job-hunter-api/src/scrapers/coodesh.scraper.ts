@@ -1,40 +1,76 @@
-import { Page } from "puppeteer";
-import JobOpportunityController from "../controllers/JobOpportunity.controller";
-import ScraperInterface from "./ScraperInterface";
-import { analyzeDescription } from "../analyzer/analyzer";
-import { JobInitialData, JobInput, JobPlatform } from "../@types/types";
+import { Page } from 'puppeteer';
+import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
+import { analyzeDescription } from '../analyzer/analyzer';
+import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import ScraperInterface from './scraperInterface';
+import { uniq } from 'lodash';
 
-const platform: JobPlatform = JobPlatform.COODESH
+const platform: JobPlatform = JobPlatform.COODESH;
 
 export default class CoodeshScraper extends ScraperInterface {
-  constructor({ filterExistentsJobs }: { filterExistentsJobs?: boolean }) {
-    super({ platform, filterExistentsJobs })
+  constructor({
+    filterExistentsJobs = true,
+  }: {
+    filterExistentsJobs?: boolean;
+  }) {
+    super({ platform, filterExistentsJobs });
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ abortScript: true, abortStyle: true });
-    this.logMessage("Start");
+    const { browser, page } = await this.getBrowser({
+      abortScript: false,
+      abortStyle: true,
+      headless: true,
+    });
+    this.logMessage('Start');
 
     const urls = await this.getUrls(page);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-    const existentJobsIds = existentJobs?.map(cur => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs ? urls?.filter(cur => !existentJobsIds?.includes(cur?.idInPlatform)) : urls;
+    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
+      this.platform,
+    );
+    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
+    const filteredUrls = this.filterExistentsJobs
+      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
+      : urls;
+    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();
 
-    this.logMessage("End");
+    this.logMessage('End');
     return jobs;
   }
 
   private async getUrls(page: Page) {
     try {
-      await page.goto("https://coodesh.com/jobs?skills=reactjs", { waitUntil: "networkidle0" });
-      const urls: string[] = await page?.$$eval('a.card', (el) => el?.map(cur => cur?.href));
+      await page.goto('https://coodesh.com/jobs?search=react&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
+      await page.waitForSelector('div.chakra-stack > a.chakra-link');
+      const reactUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
+        el?.map((cur) => cur?.href),
+      );
 
-      const result: JobInitialData[] = urls?.map(url => {
+      await page.goto('https://coodesh.com/jobs?search=frontend&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
+      await page.waitForSelector('div.chakra-stack > a.chakra-link');
+      const frontendUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
+        el?.map((cur) => cur?.href),
+      );
+
+      await page.goto('https://coodesh.com/jobs?search=desenvolvedor&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
+      await page.waitForSelector('div.chakra-stack > a.chakra-link');
+      const developerUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
+        el?.map((cur) => cur?.href),
+      );
+
+      const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
+      const urls = uniq(allUrls);
+
+      const result: JobInitialData[] = urls?.map((url) => {
         const url1 = url?.split('?')?.[0];
-        return { url, idInPlatform: url1?.split('-')?.[url1?.split('-')?.length - 1] }
+        return {
+          url,
+          idInPlatform: url1?.split('-')?.[url1?.split('-')?.length - 1],
+        };
       });
 
       return result;
@@ -44,26 +80,34 @@ export default class CoodeshScraper extends ScraperInterface {
     }
   }
 
-  private async getDetails(page: Page, urls: JobInitialData[]): Promise<JobInput[]> {
+  private async getDetails(
+    page: Page,
+    urls: JobInitialData[],
+  ): Promise<JobInput[]> {
     const urlsLength = urls?.length;
     const jobs: JobInput[] = [];
     for (let i = 0; i < urlsLength; i++) {
       try {
-        const obj = urls[i]
-        await page.goto(obj?.url, { waitUntil: "domcontentloaded" });
+        const obj = urls[i];
+        await page.goto(obj?.url, { waitUntil: 'networkidle0' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const company = await page?.$eval('span.h4', (el) => el?.innerText);
-        const info: string[] = await page?.$$eval('div.media-body > span', (el) => el?.map(cur => cur?.innerText));
-        const location = info?.find(cur => cur?.includes(' em '))?.split('em')?.[1]?.split(',')
-        const descriptionOriginal = await page?.$$eval('div.styleJobDescription', (el) => el?.map(cur => cur?.innerText)?.join('\n\n'));
-        const analyzerResponse = analyzeDescription({ title, description: info?.join(', ') + descriptionOriginal });
+        const company = await page?.$eval('div.chakra-stack > div.chakra-stack > p.chakra-text', (el) => el?.innerText);
+        const info: string[] = await page?.$$eval(
+          'div.chakra-stack > p.chakra-text',
+          (el) => el?.map((cur) => cur?.innerText),
+        );
+        const descriptionOriginal = await page?.$$eval(
+          'div > div > div > p.chakra-text',
+          (el) => el?.map((cur) => cur?.innerText)?.join('\n\n'),
+        );
+        const analyzerResponse = analyzeDescription({
+          title,
+          description: info?.join(', ') + descriptionOriginal,
+        });
 
         jobs?.push({
           title,
           company,
-          city: location?.[0]?.trim(),
-          state: location?.[1]?.trim(),
-          country: location?.[2]?.trim(),
           description: analyzerResponse?.description,
           url: obj?.url,
           idInPlatform: obj?.idInPlatform,
@@ -75,7 +119,6 @@ export default class CoodeshScraper extends ScraperInterface {
           skillsRating: analyzerResponse?.skillsRating,
           hiringRegime: analyzerResponse?.hiringRegime,
           seniority: analyzerResponse?.seniority,
-          yearsOfExperience: analyzerResponse?.yearsOfExperience,
         });
       } catch (e) {
         this.logError(e);
