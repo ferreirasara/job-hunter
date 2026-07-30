@@ -52,6 +52,7 @@ export const SKILL_RATING = {
   BACHELORS_DEGREE: 5,
   BACKBONE: -5,
   BLAZOR: -5,
+  BLOCKCHAIN: -5,
   BLUEPRINTJS: 5,
   BOOTSTRAP: 4,
   C: -5,
