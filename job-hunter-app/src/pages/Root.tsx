@@ -1,5 +1,5 @@
-import { BarChartOutlined, FilterOutlined, PlayCircleOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Alert, Button, Divider, message, Space } from 'antd';
+import { BarChartOutlined, CopyOutlined, FilePdfOutlined, FilterOutlined, LinkOutlined, MoreOutlined, PlayCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Alert, Button, Divider, Dropdown, MenuProps, message, Space } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
@@ -11,6 +11,7 @@ import { useShallow } from 'zustand/shallow';
 import { useFilters } from '../store/filters.store';
 import { calcLimit } from '../utils/utils';
 import { useRunScrapers } from '../hooks/useRunScrapers';
+import { COVER_LETTER } from '../utils/constants';
 
 export default function Root() {
   const [selectedJob, setSelectedJob] = useState<JobsTableData>();
@@ -39,7 +40,7 @@ export default function Root() {
     setLimit(calcLimit());
   }, []);
 
-  const { mutateAsync, isPending: isRunningScrapers } = useRunScrapers();
+  const { mutateAsync } = useRunScrapers();
   const handleRunScrapers = useCallback(async () => {
     await mutateAsync();
     messageApi.open({
@@ -48,6 +49,55 @@ export default function Root() {
       duration: 10,
     });
   }, [messageApi]);
+
+  const handleCopyCoverLetter = useCallback(() => {
+    navigator.clipboard.writeText(COVER_LETTER);
+    messageApi.open({
+      content: 'Carta de apresentação copiada para a área de transferencia.',
+      type: 'success',
+      duration: 10,
+    });
+  }, []);
+
+  const items: MenuProps['items'] = [
+    {
+      key: 'stats',
+      label: (
+        <NavLink to="/stats">
+          Ver estatísticas
+        </NavLink>
+      ),
+      icon: <BarChartOutlined />,
+    },
+    {
+      key: 'refetch',
+      label: 'Regarregar vagas',
+      onClick: () => refetch(),
+      icon: <ReloadOutlined />,
+    },
+    {
+      key: 'run-scrapers',
+      label: 'Executar scrapers',
+      onClick: () => handleRunScrapers(),
+      icon: <PlayCircleOutlined />,
+    },
+    {
+      key: 'copy-cover-letter',
+      label: 'Copiar carta de apresentação',
+      onClick: () => handleCopyCoverLetter(),
+      icon: <CopyOutlined />,
+    },
+    {
+      key: 'online-curriculum',
+      label: <a href="https://ferreirasara.github.io/curriculum-vitae/" target='_blank'>Currículo on-line</a>,
+      icon: <LinkOutlined />,
+    },
+    {
+      key: 'online-curriculum-pdf',
+      label: <a href="https://github.com/ferreirasara/curriculum-vitae/blob/a692d9cb7cc3558410e31d169fa051b1fb46a636/curriculum-vitae-sara-ferreira.pdf" target='_blank'>Currículo on-line em pdf</a>,
+      icon: <FilePdfOutlined />,
+    },
+  ];
 
   const secretToken = localStorage?.getItem('secret_token');
   if (!secretToken) return <Navigate to="/login" replace={true} />;
@@ -59,39 +109,17 @@ export default function Root() {
         <Divider style={{ fontSize: '24px', fontWeight: '600' }}>
           Job Hunter
         </Divider>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '8px',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
+        <Space.Compact>
           <Button
             icon={<FilterOutlined />}
             onClick={() => setFiltersDrawerOpen(true)}
           >
             Filtrar vagas
           </Button>
-          <NavLink to="/stats">
-            <Button icon={<BarChartOutlined />}>Ver estatísticas</Button>
-          </NavLink>
-          <Button
-            icon={<ReloadOutlined />}
-            onClick={() => refetch()}
-            loading={isLoading}
-          >
-            Regarregar vagas
-          </Button>
-          <Button
-            icon={<PlayCircleOutlined />}
-            onClick={handleRunScrapers}
-            loading={isRunningScrapers}
-          >
-            Executar scrapers
-          </Button>
-        </div>
+          <Dropdown menu={{ items }}>
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        </Space.Compact>
         {error ? (
           <Alert type="error" showIcon message={error?.message} />
         ) : null}
