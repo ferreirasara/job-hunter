@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer-extra';
 import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import {
+  formatDateHour,
   interceptRequest,
   isDiscardedJob,
   isUnwantedJob,
@@ -51,11 +52,11 @@ export default abstract class ScraperInterface {
   }
 
   protected async logError(e: any, url?: string) {
-    console.log(`[${this.platform}] Error: ${e}. ${url ? url : ''}`);
+    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] Error: ${e}. ${url ? url : ''}`);
   }
 
   protected async logMessage(message: string) {
-    console.log(`[${this.platform}] ${message}`);
+    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] ${message}`);
   }
 
   public async saveJobs(): Promise<SaveJobsResponse> {
@@ -79,7 +80,7 @@ export default abstract class ScraperInterface {
         if (discarded) {
           jobsDiscardedCount++;
           console.log(
-            `\x1b[33m[${this.platform}] auto discarded job: ${job.title} (${job.company})\x1b[0m`,
+            `\x1b[33m[${this.platform}] [${formatDateHour(new Date().toISOString())}] auto discarded job: ${job.title} (${job.company})\x1b[0m`,
           );
         }
 
@@ -92,18 +93,18 @@ export default abstract class ScraperInterface {
         } else if (response?.message === 'Duplicated') {
           duplicatedJobsCount++;
           console.log(
-            `\x1b[34m[${this.platform}] duplicated job: ${job.title} (${job.company})\x1b[0m`,
+            `\x1b[34m[${this.platform}] [${formatDateHour(new Date().toISOString())}] duplicated job: ${job.title} (${job.company})\x1b[0m`,
           );
         }
       } else {
         jobsUnsavedCount++;
         console.log(
-          `\x1b[34m[${this.platform}] unwanted job: ${job.title} (${job.company})\x1b[0m`,
+          `\x1b[34m[${this.platform}] [${formatDateHour(new Date().toISOString())}] unwanted job: ${job.title} (${job.company})\x1b[0m`,
         );
       }
     }
 
-    console.log(`[${this.platform}] saved ${jobsSavedCount} jobs!`);
+    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] saved ${jobsSavedCount} jobs!`);
 
     return {
       jobsSavedCount,

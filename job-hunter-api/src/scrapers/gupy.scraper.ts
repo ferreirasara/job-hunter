@@ -118,7 +118,7 @@ export default class GupyScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e);
+        this.logError(e, jobs?.[i]?.jobUrl);
         continue;
       }
     }

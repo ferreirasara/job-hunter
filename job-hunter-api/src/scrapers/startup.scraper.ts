@@ -113,7 +113,7 @@ export default class StartupScraper extends ScraperInterface {
         );
 
         const descriptionOriginal = await page?.$eval(
-          'div.trix-content',
+          'div.pb-8',
           (el) => el?.innerText,
         );
         const analyzerResponse = analyzeDescription({
@@ -139,7 +139,7 @@ export default class StartupScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e);
+        this.logError(e, urls?.[i]?.url);
         continue;
       }
     }

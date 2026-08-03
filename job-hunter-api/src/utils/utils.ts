@@ -965,3 +965,14 @@ export const getJobRegex = (job: JobOpportunity): string[] => {
   ]);
   return allRegex?.map((cur) => String(cur));
 };
+
+export const formatDateHour = (date: string): string => {
+  const dateObj = new Date(date);
+  return dateObj?.toLocaleString('pt-br', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

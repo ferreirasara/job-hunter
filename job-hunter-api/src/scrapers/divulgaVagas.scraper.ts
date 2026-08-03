@@ -136,7 +136,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e);
+        this.logError(e, urls?.[i]?.url);
         continue;
       }
     }

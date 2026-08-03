@@ -115,7 +115,7 @@ export default class LinkedinScraper extends ScraperInterface {
           !JSON.stringify(e)?.includes('failed to find element') &&
           !JSON.stringify(e)?.includes('TimeoutError')
         )
-          this.logError(e);
+          this.logError(e, urls[i]?.url);
         continue;
       }
     }
