@@ -18,23 +18,23 @@ export default class JobatusScraper extends ScraperInterface {
 
   public async getJobs(): Promise<JobInput[]> {
     const { browser, page } = await this.getBrowser({});
-    this.logMessage('Start');
+    this.log('Start');
 
     const urls = await this.getUrls(page);
-    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    this.log(`Scraped jobs: ${urls?.length}`);
     const existentJobs =
       await JobOpportunityController.getAllJobsFromPlatform(platform);
     const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
     const filteredUrls = this.filterExistentsJobs
       ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
       : urls;
-    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
+    this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
 
     await browser.close();
 
-    this.logMessage('End');
+    this.log('End');
     return jobs;
   }
 
@@ -53,7 +53,7 @@ export default class JobatusScraper extends ScraperInterface {
           })),
         );
       } catch (e) {
-        this.logError(e);
+        this.log(e, { error: true });
         continue;
       }
     }
@@ -109,7 +109,7 @@ export default class JobatusScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e, urls?.[i]?.url);
+        this.log(e, { error: true, url: urls?.[i]?.url });
         continue;
       }
     }

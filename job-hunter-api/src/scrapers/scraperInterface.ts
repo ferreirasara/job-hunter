@@ -12,6 +12,12 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteer.use(StealthPlugin());
 
+type LogOptions = {
+  color?: string;
+  error?: boolean;
+  url?: string;
+};
+
 export default abstract class ScraperInterface {
   protected platform: JobPlatform;
   protected filterExistentsJobs: boolean;
@@ -51,12 +57,17 @@ export default abstract class ScraperInterface {
     return { browser, page };
   }
 
-  protected async logError(e: any, url?: string) {
-    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] Error: ${e}. ${url ? url : ''}`);
-  }
+  protected log(message: unknown, options: LogOptions = {}) {
+    const timestamp = formatDateHour(new Date().toISOString());
+    const logMessage = options.error
+      ? `Error: ${String(message)}. ${options.url || ''}`
+      : String(message);
+    const plainLog = `[${this.platform}] [${timestamp}] ${logMessage}`;
+    const consoleLog = options.color
+      ? `${options.color}${plainLog}\x1b[0m`
+      : plainLog;
 
-  protected async logMessage(message: string) {
-    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] ${message}`);
+    console.log(consoleLog);
   }
 
   public async saveJobs(): Promise<SaveJobsResponse> {
@@ -79,9 +90,9 @@ export default abstract class ScraperInterface {
         const discarded = isDiscardedJob({ title, skills: job.skills || '' });
         if (discarded) {
           jobsDiscardedCount++;
-          console.log(
-            `\x1b[33m[${this.platform}] [${formatDateHour(new Date().toISOString())}] auto discarded job: ${job.title} (${job.company})\x1b[0m`,
-          );
+          this.log(`auto discarded job: ${job.title} (${job.company})`, {
+            color: '\x1b[33m',
+          });
         }
 
         const response = await JobOpportunityController.insert({
@@ -92,19 +103,19 @@ export default abstract class ScraperInterface {
           jobsSavedCount++;
         } else if (response?.message === 'Duplicated') {
           duplicatedJobsCount++;
-          console.log(
-            `\x1b[34m[${this.platform}] [${formatDateHour(new Date().toISOString())}] duplicated job: ${job.title} (${job.company})\x1b[0m`,
-          );
+          this.log(`duplicated job: ${job.title} (${job.company})`, {
+            color: '\x1b[34m',
+          });
         }
       } else {
         jobsUnsavedCount++;
-        console.log(
-          `\x1b[34m[${this.platform}] [${formatDateHour(new Date().toISOString())}] unwanted job: ${job.title} (${job.company})\x1b[0m`,
-        );
+        this.log(`unwanted job: ${job.title} (${job.company})`, {
+          color: '\x1b[34m',
+        });
       }
     }
 
-    console.log(`[${this.platform}] [${formatDateHour(new Date().toISOString())}] saved ${jobsSavedCount} jobs!`);
+    this.log(`saved ${jobsSavedCount} jobs!`);
 
     return {
       jobsSavedCount,

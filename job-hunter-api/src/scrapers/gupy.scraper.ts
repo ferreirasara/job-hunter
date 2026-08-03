@@ -21,7 +21,7 @@ export default class GupyScraper extends ScraperInterface {
   }
 
   public async getJobs() {
-    this.logMessage('Start');
+    this.log('Start');
     let allJobs: GupyData[] = [];
 
     try {
@@ -58,11 +58,11 @@ export default class GupyScraper extends ScraperInterface {
           ...response5Json?.data,
       ];
     } catch (e) {
-      this.logError(e);
+      this.log(e, { error: true });
     }
 
     const uniqJobs = uniqBy(allJobs, 'id');
-    this.logMessage(`Scraped jobs: ${uniqJobs?.length}`);
+    this.log(`Scraped jobs: ${uniqJobs?.length}`);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
       this.platform,
     );
@@ -72,10 +72,10 @@ export default class GupyScraper extends ScraperInterface {
     const filteredJobs = this.filterExistentsJobs
       ? uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id))
       : uniqJobs;
-    this.logMessage(`Filtered jobs: ${filteredJobs?.length}`);
+    this.log(`Filtered jobs: ${filteredJobs?.length}`);
 
     const jobs = await this.getNewJobsWithDescription(filteredJobs);
-    this.logMessage('End');
+    this.log('End');
     return jobs;
   }
 
@@ -118,7 +118,7 @@ export default class GupyScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e, jobs?.[i]?.jobUrl);
+        this.log(e, { error: true, url: jobs?.[i]?.jobUrl });
         continue;
       }
     }

@@ -18,10 +18,10 @@ export default class LinkedinScraper extends ScraperInterface {
 
   public async getJobs(): Promise<JobInput[]> {
     const { browser, page } = await this.getBrowser({ });
-    this.logMessage('Start');
+    this.log('Start');
 
     const urls = await this.getUrls(page);
-    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    this.log(`Scraped jobs: ${urls?.length}`);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
       this.platform,
     );
@@ -29,12 +29,12 @@ export default class LinkedinScraper extends ScraperInterface {
     const filteredUrls = this.filterExistentsJobs
       ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
       : urls;
-    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
+    this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();
 
-    this.logMessage('End');
+    this.log('End');
     return jobs;
   }
 
@@ -55,7 +55,7 @@ export default class LinkedinScraper extends ScraperInterface {
           }),
         );
       } catch (e) {
-        this.logError(e);
+        this.log(e, { error: true });
         continue;
       }
     }
@@ -115,7 +115,7 @@ export default class LinkedinScraper extends ScraperInterface {
           !JSON.stringify(e)?.includes('failed to find element') &&
           !JSON.stringify(e)?.includes('TimeoutError')
         )
-          this.logError(e, urls[i]?.url);
+          this.log(e, { error: true, url: urls[i]?.url });
         continue;
       }
     }

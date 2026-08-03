@@ -20,10 +20,10 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       abortScript: true,
       abortStyle: true,
     });
-    this.logMessage('Start');
+    this.log('Start');
 
     const urls = await this.getUrls(page);
-    this.logMessage(`Scraped jobs: ${urls?.length}`);
+    this.log(`Scraped jobs: ${urls?.length}`);
     const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
       this.platform,
     );
@@ -31,12 +31,12 @@ export default class DivulgaVagasScraper extends ScraperInterface {
     const filteredUrls = this.filterExistentsJobs
       ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
       : urls;
-    this.logMessage(`Filtered jobs: ${filteredUrls?.length}`);
+    this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
     await browser.close();
 
-    this.logMessage('End');
+    this.log('End');
     return jobs;
   }
 
@@ -50,7 +50,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           el?.map((cur) => cur?.href),
         );
       } catch (e) {
-        this.logMessage('No frontend jobs found');
+        this.log('No frontend jobs found');
       }
 
       await page.goto('https://divulgavagas.com.br/vagas-de-react/');
@@ -61,7 +61,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           el?.map((cur) => cur?.href),
         );
       } catch (e) {
-        this.logMessage('No react jobs found');
+        this.log('No react jobs found');
       }
 
       await page.goto('https://divulgavagas.com.br/vagas-de-desenvolvedor/');
@@ -72,7 +72,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           el?.map((cur) => cur?.href),
         );
       } catch (e) {
-        this.logMessage('No developer jobs found');
+        this.log('No developer jobs found');
       }
 
       const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
@@ -85,7 +85,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
 
       return result;
     } catch (e) {
-      this.logError(e);
+      this.log(e, { error: true });
       return [];
     }
   }
@@ -136,7 +136,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
           seniority: analyzerResponse?.seniority,
         });
       } catch (e) {
-        this.logError(e, urls?.[i]?.url);
+        this.log(e, { error: true, url: urls?.[i]?.url });
         continue;
       }
     }
