@@ -17,7 +17,7 @@ export default class LinkedinScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ headless: false });
+    const { browser, page } = await this.getBrowser({ });
     this.log('Start');
 
     const urls = await this.getUrls(page);
@@ -32,7 +32,7 @@ export default class LinkedinScraper extends ScraperInterface {
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
-    // await browser.close();
+    await browser.close();
 
     this.log('End');
     return jobs;
