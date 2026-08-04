@@ -2,9 +2,9 @@ export const SKILLS_REGEX = {
   ACCESSIBILITY: [/acessibilidade/i, /\bwcag\b/i],
   AG_GRID: [/ag-grid/i],
   AGILE: [
-    /agile/i,
-    /scrum/i,
-    /jira/i,
+    /\bagile\b/i,
+    /\bscrum\b/i,
+    /\bjira\b/i,
     /confluence/i,
     /trello/i,
     /kanban/i,
@@ -172,6 +172,7 @@ export const SKILLS_REGEX = {
     /pipelines de deploy/i,
     /ambientes em nuvem/i,
     /sentry/i,
+    /\bhelm\b/i,
   ],
   DJANGO: [/django/i],
   DOT_NET: [
@@ -239,7 +240,7 @@ export const SKILLS_REGEX = {
   JAVA: [
     /java(?!( |-|\.)?script)/i,
     /java\d/i,
-    /spring(( |-|\.)?boot)?/i,
+    /\bspring(( |-|\.)?boot)?\b/i,
     /eclipse/i,
     /struts/i,
     /mockmvc/i,
@@ -615,6 +616,7 @@ export const TYPES_REGEX = {
     /presencial(mente)?/i,
     /remoto: nao/i,
     /residir em/i,
+    /on( |-|\.)?site/i,
   ],
 };
 

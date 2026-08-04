@@ -17,7 +17,7 @@ export default class LinkedinScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ });
+    const { browser, page } = await this.getBrowser({ headless: false });
     this.log('Start');
 
     const urls = await this.getUrls(page);
@@ -32,7 +32,7 @@ export default class LinkedinScraper extends ScraperInterface {
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
-    await browser.close();
+    // await browser.close();
 
     this.log('End');
     return jobs;
@@ -68,7 +68,7 @@ export default class LinkedinScraper extends ScraperInterface {
   ): Promise<JobInput[]> {
     const urlsLength = urls?.length;
     const jobs: JobInput[] = [];
-    for (let i = 0; i < urlsLength; i++) {
+    for (let i = 0; i < 2; i++) {
       try {
         const obj = urls[i];
         await sleep(500);
@@ -90,9 +90,12 @@ export default class LinkedinScraper extends ScraperInterface {
           'div.description__text',
           (el) => el?.map((cur) => cur?.innerText)?.join('\n\n'),
         );
+        const jobCriteria: string = await page?.$eval('div.description__job-criteria-list', (el) => el?.innerText);
+
+        const description = `${descriptionOriginal}\n\n${jobCriteria}`;
         const analyzerResponse = analyzeDescription({
           title,
-          description: descriptionOriginal,
+          description,
         });
 
         jobs?.push({
