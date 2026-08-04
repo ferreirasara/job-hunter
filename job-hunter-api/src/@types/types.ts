@@ -88,6 +88,7 @@ export enum JobSkill {
   PERL = 'PERL',
   PHONEGAP = 'PHONEGAP',
   PHP = 'PHP',
+  PIXEL_PERFECT = 'PIXEL_PERFECT',
   POSTMAN = 'POSTMAN',
   POWER_BI = 'POWER_BI',
   PRISMA = 'PRISMA',

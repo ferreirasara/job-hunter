@@ -128,6 +128,7 @@ export const SKILL_RATING = {
   PERL: -5,
   PHONEGAP: -5,
   PHP: -5,
+  PIXEL_PERFECT: 4,
   POSTMAN: 3,
   POWER_BI: -5,
   PRISMA: 3,
