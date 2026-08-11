@@ -4,6 +4,7 @@ import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
 import { ClearOutlined, FilterOutlined } from '@ant-design/icons';
+import { INITIAL_FILTERS_STATE } from '../utils/constants';
 
 interface FiltersDrawerProps {
   open: boolean;
@@ -48,6 +49,42 @@ const FiltersDrawer = ({
     orderByOrder: state.orderByOrder,
     orderByField: state.orderByField,
     skillsFilter: state.skillsFilter,
+  };
+
+  const handleReset = () => {
+    form.setFields([
+      { name: 'benefitFilter', value: INITIAL_FILTERS_STATE.benefitFilter },
+      { name: 'companyFilter', value: INITIAL_FILTERS_STATE.companyFilter },
+      { name: 'hiringRegimeFilter', value: INITIAL_FILTERS_STATE.hiringRegimeFilter },
+      { name: 'platformFilter', value: INITIAL_FILTERS_STATE.platformFilter },
+      { name: 'skillFilter', value: INITIAL_FILTERS_STATE.skillFilter },
+      { name: 'titleFilter', value: INITIAL_FILTERS_STATE.titleFilter },
+      { name: 'typeFilter', value: INITIAL_FILTERS_STATE.typeFilter },
+      { name: 'seniorityFilter', value: INITIAL_FILTERS_STATE.seniorityFilter },
+      { name: 'showOnlyApplied', value: INITIAL_FILTERS_STATE.showOnlyApplied },
+      { name: 'showOnlyDiscarded', value: INITIAL_FILTERS_STATE.showOnlyDiscarded },
+      { name: 'showOnlyNewJobs', value: INITIAL_FILTERS_STATE.showOnlyNewJobs },
+      { name: 'showOnlyRecused', value: INITIAL_FILTERS_STATE.showOnlyRecused },
+      { name: 'orderByOrder', value: INITIAL_FILTERS_STATE.orderByOrder },
+      { name: 'orderByField', value: INITIAL_FILTERS_STATE.orderByField },
+    ]);
+    state.setState({
+      benefitFilter: INITIAL_FILTERS_STATE.benefitFilter,
+      companyFilter: INITIAL_FILTERS_STATE.companyFilter,
+      hiringRegimeFilter: INITIAL_FILTERS_STATE.hiringRegimeFilter,
+      platformFilter: INITIAL_FILTERS_STATE.platformFilter,
+      skillFilter: INITIAL_FILTERS_STATE.skillFilter,
+      titleFilter: INITIAL_FILTERS_STATE.titleFilter,
+      typeFilter: INITIAL_FILTERS_STATE.typeFilter,
+      seniorityFilter: INITIAL_FILTERS_STATE.seniorityFilter,
+      showOnlyApplied: INITIAL_FILTERS_STATE.showOnlyApplied,
+      showOnlyDiscarded: INITIAL_FILTERS_STATE.showOnlyDiscarded,
+      showOnlyNewJobs: INITIAL_FILTERS_STATE.showOnlyNewJobs,
+      showOnlyRecused: INITIAL_FILTERS_STATE.showOnlyRecused,
+      orderByOrder: INITIAL_FILTERS_STATE.orderByOrder,
+      orderByField: INITIAL_FILTERS_STATE.orderByField,
+      skillsFilter: INITIAL_FILTERS_STATE.skillsFilter,
+    });
   };
 
   return (
@@ -192,7 +229,7 @@ const FiltersDrawer = ({
             icon={<ClearOutlined />}
             loading={isLoading}
             type="default"
-            htmlType="reset"
+            onClick={handleReset}
           >
             Resetar
           </Button>
