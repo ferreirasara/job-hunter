@@ -3,7 +3,7 @@ import { BENEFITS_RATING, SKILL_RATING } from '../components/MultipleTags';
 export const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 export const LOCAL_STORAGE_SECRET_TOKEN_KEY = 'secret_token';
 
-export const formatDateHour = (date: string): string => {
+export const formatDateHour = (date: string | Date): string => {
   const dateObj = new Date(date);
   return dateObj?.toLocaleString('pt-br', {
     day: '2-digit',
@@ -57,3 +57,20 @@ export const getSkillRating = (skill: string | keyof typeof SKILL_RATING) => {
 export const getBenefitRating = (benefit: string | keyof typeof BENEFITS_RATING) => {
   return BENEFITS_RATING?.[benefit as keyof typeof BENEFITS_RATING];
 }
+
+export const calcDaysSince = (createdAt: string | Date): number => {
+  const createdDate = new Date(createdAt);
+  const today = new Date();
+  
+  const diffTime = today.getTime() - createdDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  return diffDays;
+};
+
+export const getWaitingAlertType = (daysSince: number): 'warning' | 'alert' | 'critical' | null => {
+  if (daysSince < 30) return null;
+  if (daysSince < 60) return 'warning';
+  if (daysSince < 90) return 'alert';
+  return 'critical';
+};

@@ -5,6 +5,7 @@ import { memo, useMemo } from 'react';
 import { formatDateHour } from '../utils/utils';
 import MultipleTags from './MultipleTags';
 import Rating from './Rating';
+import WaitingBadge from './WaitingBadge';
 import { JobsTableData } from '../@types/types';
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
@@ -19,7 +20,7 @@ const JobsTable = ({
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const { limit, page, setLimit, setPage } = useFilters((state) => state);
+  const { limit, page, setLimit, setPage, showOnlyApplied } = useFilters((state) => state);
   const { data, isLoading, isFetching } = useGetJobs();
 
   const columns: ColumnsType<JobsTableData> = useMemo(
@@ -28,8 +29,17 @@ const JobsTable = ({
         title: 'Criada em',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        render: (createdAt) => formatDateHour(createdAt),
-        width: screens?.xl ? 115 : undefined,
+        render: (createdAt, record) => {
+          return (
+            <div>
+              {formatDateHour(createdAt)}
+              {showOnlyApplied && !record.recused && (
+                <WaitingBadge createdAt={createdAt} />
+              )}
+            </div>
+          );
+        },
+        width: screens?.xl ? 145 : undefined,
         align: 'center',
         showSorterTooltip: false,
         responsive: ['xl', 'xxl'],
