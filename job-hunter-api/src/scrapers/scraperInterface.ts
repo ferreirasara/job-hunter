@@ -21,7 +21,7 @@ type LogOptions = {
 export default abstract class ScraperInterface {
   protected platform: JobPlatform;
   protected filterExistentsJobs: boolean;
-  protected logsList: string[] = [];
+  protected errorsList: string[] = [];
 
   constructor({
     platform,
@@ -61,7 +61,7 @@ export default abstract class ScraperInterface {
   protected log(message: unknown, options: LogOptions = {}) {
     const timestamp = formatDateHour(new Date().toISOString());
     const logMessage = options.error
-      ? `Error: ${String(message)}. ${options.url || ''}`
+      ? `${String(message)}. ${options.url || ''}`
       : String(message);
     const plainLog = `[${this.platform}] [${timestamp}] ${logMessage}`;
     const consoleLog = options.color
@@ -69,32 +69,8 @@ export default abstract class ScraperInterface {
       : plainLog;
 
     console.log(consoleLog);
-    this.logsList.push(plainLog);
-  }
-
-  protected async uploadLogs() {
-    if (this.logsList.length > 0 && process.env.PASTEBIN_API_KEY) {
-      const timestamp = formatDateHour(new Date().toISOString());
-
-      const params = new URLSearchParams({
-        api_dev_key: process.env.PASTEBIN_API_KEY!,
-        api_option: "paste",
-        api_paste_code: this.logsList.join('\n'),
-        api_paste_private: "1",
-        api_paste_name: `JobHunter Logs - ${this.platform} - ${timestamp}`,
-        api_paste_expire_date: "1W",
-        api_user_key: process.env.PASTEBIN_USER_KEY || '',
-      });
-
-      await fetch("https://pastebin.com/api/api_post.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      });
-
-      this.logsList = [];
+    if (options.error) {
+      this.errorsList.push(plainLog);
     }
   }
 
@@ -144,7 +120,6 @@ export default abstract class ScraperInterface {
     }
 
     this.log(`saved ${jobsSavedCount} jobs!`);
-    await this.uploadLogs();
 
     return {
       jobsSavedCount,
@@ -152,6 +127,11 @@ export default abstract class ScraperInterface {
       jobsUnsavedCount,
       duplicatedJobsCount,
       totalJobs: jobs?.length,
+      errorsList: this.errorsList,
     };
+  }
+
+  public clearErrorsList() {
+    this.errorsList = [];
   }
 }

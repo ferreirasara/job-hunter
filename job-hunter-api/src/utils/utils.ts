@@ -976,3 +976,27 @@ export const formatDateHour = (date: string): string => {
     minute: '2-digit',
   });
 };
+
+export const uploadErrorList = async (errorsList: string[]) => {
+  if (errorsList.length > 0 && process.env.PASTEBIN_API_KEY) {
+    const timestamp = formatDateHour(new Date().toISOString());
+
+    const params = new URLSearchParams({
+      api_dev_key: process.env.PASTEBIN_API_KEY!,
+      api_option: "paste",
+      api_paste_code: errorsList.join('\n'),
+      api_paste_private: "1",
+      api_paste_name: `JobHunter Errors - ${timestamp}`,
+      api_paste_expire_date: "1W",
+      api_user_key: process.env.PASTEBIN_USER_KEY || '',
+    });
+
+    await fetch("https://pastebin.com/api/api_post.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+  }
+}

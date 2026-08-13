@@ -267,6 +267,7 @@ export type SaveJobsResponse = {
   jobsDiscardedCount: number;
   jobsUnsavedCount: number;
   duplicatedJobsCount: number;
+  errorsList?: string[];
 };
 
 export type ScrapersToRun = 'gupy' |
