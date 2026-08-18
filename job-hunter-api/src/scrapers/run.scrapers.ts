@@ -3,6 +3,7 @@ import { sendMessageToTelegram, uploadErrorList } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import GupyScraper from './gupy.scraper';
+import InhireScraper from './inhire.scraper';
 import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
@@ -122,6 +123,13 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     const remotifyEuropeScraper = new RemotifyEuropeScraper({});
     result = await remotifyEuropeScraper.saveJobs();
     remotifyEuropeScraper.clearErrorsList();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('inhire') || scrapersToRun.includes('all')) {
+    const inhireScraper = new InhireScraper({});
+    result = await inhireScraper.saveJobs();
+    inhireScraper.clearErrorsList();
     updateCounts(result);
   }
 

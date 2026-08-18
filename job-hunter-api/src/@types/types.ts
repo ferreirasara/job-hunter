@@ -200,6 +200,7 @@ export enum JobPlatform {
   WE_WORK_REMOTELY = 'WE_WORK_REMOTELY',
   REMOTEOK = 'REMOTEOK',
   REMOTIFYEUREPE = 'REMOTIFYEUREPE',
+  INHIRE = 'INHIRE',
 }
 
 export type GupyResponse = {
@@ -284,4 +285,5 @@ export type ScrapersToRun = 'gupy' |
   'weworkremotely' |
   'remoteok' |
   'remotifyeurope' |
+  'inhire' |
   'all';

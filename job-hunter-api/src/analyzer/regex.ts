@@ -348,7 +348,7 @@ export const SKILLS_REGEX = {
   ],
   PIXEL_PERFECT: [/pixel( |-|\.)?perfect/i],
   POSTMAN: [/postman/i],
-  POWER_BI: [/power( |-|\.)?bi/i, /looker/i],
+  POWER_BI: [/power( |-|\.)?(bi|platform)/i, /looker/i, /microsoft fabric/i],
   PRISMA: [/prisma/i],
   PRODUCT_MANAGER: [/product (manager|owner)/i, /scrum master/i],
   PROGRAMMING_LOGIC: [/logica de programacao/i, /programming logic/i],
