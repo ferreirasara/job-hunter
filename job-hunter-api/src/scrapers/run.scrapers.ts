@@ -2,6 +2,7 @@ import { SaveJobsResponse, ScrapersToRun } from '../@types/types';
 import { sendMessageToTelegram, uploadErrorList } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
+import FrontendBrScraper from './frontendbr.scraper';
 import GupyScraper from './gupy.scraper';
 import InhireScraper from './inhire.scraper';
 import LinkedinScraper from './linkedin.scraper';
@@ -130,6 +131,13 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     const inhireScraper = new InhireScraper({});
     result = await inhireScraper.saveJobs();
     inhireScraper.clearErrorsList();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('frontendbr') || scrapersToRun.includes('all')) {
+    const frontendBrScraper = new FrontendBrScraper({});
+    result = await frontendBrScraper.saveJobs();
+    frontendBrScraper.clearErrorsList();
     updateCounts(result);
   }
 
