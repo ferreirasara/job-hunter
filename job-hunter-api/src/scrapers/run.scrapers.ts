@@ -9,6 +9,7 @@ import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import RemotarScraper from './remotar.scraper';
 import RemoteOkScraper from './remoteok.scraper';
+import RemoteRocketshipScraper from './remoterocketship.scraper';
 import RemotifyEuropeScraper from './remotifyeurope.scraper';
 import SolidesScraper from './solides.scraper';
 import StartupScraper from './startup.scraper';
@@ -138,6 +139,13 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     const frontendBrScraper = new FrontendBrScraper({});
     result = await frontendBrScraper.saveJobs();
     frontendBrScraper.clearErrorsList();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('remoterocketship') || scrapersToRun.includes('all')) {
+    const remoteRocketshipScraper = new RemoteRocketshipScraper({});
+    result = await remoteRocketshipScraper.saveJobs();
+    remoteRocketshipScraper.clearErrorsList();
     updateCounts(result);
   }
 

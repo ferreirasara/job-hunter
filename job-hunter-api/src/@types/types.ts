@@ -202,6 +202,7 @@ export enum JobPlatform {
   REMOTIFYEUREPE = 'REMOTIFYEUREPE',
   INHIRE = 'INHIRE',
   FRONTENDBR = 'FRONTENDBR',
+  REMOTEROCKETSHIP = 'REMOTEROCKETSHIP',
 }
 
 export type GupyResponse = {
@@ -288,4 +289,5 @@ export type ScrapersToRun = 'gupy' |
   'remotifyeurope' |
   'inhire' |
   'frontendbr' |
+  'remoterocketship' |
   'all';

@@ -111,3 +111,9 @@ export const INHIRE_URLS = [
   'https://projectivaholding.inhire.app/vagas/',
   'https://bancobs2.inhire.app/vagas/',
 ]
+
+export const REMOTEROCKETSHIP_URLS = [
+  'https://www.remoterocketship.com/br/vagas/engenheiro-frontend/?jobsInput=engenheiro-frontend&page=1&sort=DateAdded&locations=Brazil&jobTitle=Frontend%2520Engineer',
+  'https://www.remoterocketship.com/br/vagas/engenheiro-frontend/?jobsInput=engenheiro-frontend&page=1&sort=DateAdded&locations=Brazil&jobTitle=Desenvolvedor%2520React.js',
+  'https://www.remoterocketship.com/br/vagas/engenheiro-frontend/?jobsInput=engenheiro-frontend&page=1&sort=DateAdded&locations=Brazil&jobTitle=Desenvolvedor',
+]
