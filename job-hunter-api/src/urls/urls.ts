@@ -2,6 +2,7 @@ export const LINKEDIN_URLS = [
   'https://www.linkedin.com/jobs/search/?keywords=Frontend&f_WT=2&geoId=106057199',
   'https://www.linkedin.com/jobs/search/?keywords=React&f_WT=2&geoId=106057199',
   'https://www.linkedin.com/jobs/search/?keywords=Desenvolvedor&f_WT=2&geoId=106057199',
+  'https://www.linkedin.com/jobs/search/?keywords=Desenvolvedor%20Frontend&geoId=106057199&f_AL=true'
 ];
 
 export const PROGRAMATHOR_URLS = [

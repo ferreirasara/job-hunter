@@ -890,7 +890,7 @@ export const isUnwantedJob = (args: {
 }): boolean => {
   const { company, description, title, skillsRating } = args;
 
-  if (skillsRating < 15) return true;
+  if (skillsRating < 10) return true;
 
   const unwantedTitleKeywords = [
     'banco de talentos',
@@ -932,6 +932,7 @@ export const isDiscardedJob = (args: { title: string; skills: string }) => {
     JobSkill.FLUTTER,
     JobSkill.RUBY,
     JobSkill.DELPHI,
+    JobSkill.TOTVS,
   ];
 
   const isDiscardedByTitle = discardedTitleRegex?.some((cur) => stringContainsAny(title, cur));
