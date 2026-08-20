@@ -291,3 +291,46 @@ export type ScrapersToRun = 'gupy' |
   'frontendbr' |
   'remoterocketship' |
   'all';
+
+export type SolidesResponse = {
+  data: {
+    totalPages?: number;
+    currentPage?: number;
+    count?: number;
+    data?: SolidesJob[];
+  }
+}
+
+export type SolidesJob = {
+  id: number;
+  title: string;
+  description: string;
+  companyName: string;
+  state: {
+    name: string;
+  };
+  city: {
+    name: string;
+  };
+  seniority: {
+    name: string;
+  }[];
+  recruitmentContractType: {
+    name: string;
+  }[];
+  benefits: {
+    name: string;
+  }[];
+  language: {
+    name: string;
+  }[];
+  hardSkills: {
+    name: string;
+  }[];
+  education: {
+    name: string;
+  }[];
+  occupationAreas: {
+    name: string;
+  }[];
+};

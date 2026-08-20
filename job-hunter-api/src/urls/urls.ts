@@ -110,6 +110,7 @@ export const INHIRE_URLS = [
   'https://sevenred.inhire.app/vagas/',
   'https://projectivaholding.inhire.app/vagas/',
   'https://bancobs2.inhire.app/vagas/',
+  'https://dtlabs.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
