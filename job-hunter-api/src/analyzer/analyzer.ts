@@ -7,7 +7,6 @@ import {
   JobType,
 } from '../@types/types';
 import {
-  getNumberFromString,
   normalizeDescription,
   removeAccent,
   stringContainsAny,

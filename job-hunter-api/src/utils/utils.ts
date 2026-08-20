@@ -841,7 +841,7 @@ export const sendMessageToTelegram = async (
 };
 
 export const normalizeDescription = (description: string) => {
-  return removeAccent(description)
+  return removeAccent(removeHtmlTags(description))
     ?.replace(/\. /gi, '.\n')
     ?.replace(/\`/gi, '')
     ?.replace(/ /gi, ' ')
@@ -1000,4 +1000,8 @@ export const uploadErrorList = async (errorsList: string[]) => {
       body: params.toString(),
     });
   }
+}
+
+export const removeHtmlTags = (html: string): string => {
+  return html.replace(/<[^>]*>/g, '');
 }

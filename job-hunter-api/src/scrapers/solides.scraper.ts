@@ -1,6 +1,7 @@
 import { JobInput, JobPlatform, SolidesJob, SolidesResponse } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import { removeHtmlTags } from '../utils/utils';
 import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.SOLIDES;
@@ -32,7 +33,7 @@ export default class SolidesScraper extends ScraperInterface {
   }
 
   private convertJob(solidesJob: SolidesJob): JobInput {
-    const description = `Área de ocupação: ${solidesJob?.occupationAreas?.map((cur) => cur.name).join(', ')}\n\nSkills: ${solidesJob?.hardSkills?.map((cur) => cur.name).join(', ')}\n\nEducação: ${solidesJob?.education?.map((cur) => cur.name).join(', ')}\n\Idiomas: ${solidesJob?.language?.map((cur) => cur.name).join(', ')}\n\Senioridade: ${solidesJob?.seniority?.map((cur) => cur.name).join(', ')}\n\Tipo de recrutamento: ${solidesJob?.recruitmentContractType?.map((cur) => cur.name).join(', ')}\n\nBenefícios: ${solidesJob?.benefits?.map((cur) => cur.name).join(', ')}\n\nDescrição: ${solidesJob?.description}`;
+    const description = `Área de ocupação: ${solidesJob?.occupationAreas?.map((cur) => cur.name).join(', ')}\n\nSkills: ${solidesJob?.hardSkills?.map((cur) => cur.name).join(', ')}\n\nEducação: ${solidesJob?.education?.map((cur) => cur.name).join(', ')}\n\Idiomas: ${solidesJob?.language?.map((cur) => cur.name).join(', ')}\n\Senioridade: ${solidesJob?.seniority?.map((cur) => cur.name).join(', ')}\n\Tipo de recrutamento: ${solidesJob?.recruitmentContractType?.map((cur) => cur.name).join(', ')}\n\nBenefícios: ${solidesJob?.benefits?.map((cur) => cur.name).join(', ')}\n\nDescrição: ${removeHtmlTags(solidesJob?.description)}`;
     const analyzerResponse = analyzeDescription({
       title: solidesJob?.title,
       description,
