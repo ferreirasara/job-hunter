@@ -164,6 +164,8 @@ export const getProgramathorNormalizedSkill = (
       return JobSkill.JQUERY;
     case 'junit':
       return JobSkill.JAVA;
+    case 'kotlin':
+      return JobSkill.KOTLIN;
     case 'kubernetes':
       return JobSkill.DEV_OPS;
     case 'laravel':

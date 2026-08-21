@@ -890,7 +890,7 @@ export const isUnwantedJob = (args: {
 }): boolean => {
   const { company, description, title, skillsRating } = args;
 
-  if (skillsRating < 10) return true;
+  if (skillsRating < 15) return true;
 
   const unwantedTitleKeywords = [
     'banco de talentos',

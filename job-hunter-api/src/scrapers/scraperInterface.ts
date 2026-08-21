@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-extra';
-import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
+import { JobInput, JobPlatform, JobSkill, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import {
   formatDateHour,
@@ -87,11 +87,22 @@ export default abstract class ScraperInterface {
       const title = removeAccent(job?.title?.toLowerCase());
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
+      const hasReactSkill = job.skills?.split(',').some(
+        (skill) => skill.trim().toUpperCase() === JobSkill.REACT,
+      );
 
-      const unwantedJob = isUnwantedJob({ title, company, description, skillsRating: job.skillsRating || 0 });
+      const unwantedJob = !hasReactSkill && isUnwantedJob({
+        title,
+        company,
+        description,
+        skillsRating: job.skillsRating || 0,
+      });
 
       if (!unwantedJob) {
-        const discarded = isDiscardedJob({ title, skills: job.skills || '' });
+        const discarded = !hasReactSkill && isDiscardedJob({
+          title,
+          skills: job.skills || '',
+        });
         if (discarded) {
           jobsDiscardedCount++;
           this.log(`auto discarded job: ${job.title} (${job.company})`, {
@@ -110,6 +121,8 @@ export default abstract class ScraperInterface {
           this.log(`duplicated job: ${job.title} (${job.company})`, {
             color: '\x1b[34m',
           });
+        } else {
+          this.log(`error while saving job: ${job.title} (${job.company})`, { error: true });
         }
       } else {
         jobsUnsavedCount++;
