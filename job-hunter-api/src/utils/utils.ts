@@ -1006,6 +1006,6 @@ export const removeHtmlTags = (html: string): string => {
   return html.replace(/<[^>]*>/g, '');
 }
 
-export const slugify = (str: string) => {
-  return encodeURIComponent((str).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-');
+export const formSolidesUrl = (id: number | string, title: string) => {
+  return `https://vagas.solides.com.br/vaga/${id}/${encodeURIComponent((title).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-') }`
 }

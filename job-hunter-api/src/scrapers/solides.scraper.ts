@@ -1,7 +1,7 @@
 import { JobInput, JobPlatform, SolidesJob, SolidesResponse } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import { removeHtmlTags, slugify } from '../utils/utils';
+import { formSolidesUrl, removeHtmlTags } from '../utils/utils';
 import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.SOLIDES;
@@ -45,7 +45,7 @@ export default class SolidesScraper extends ScraperInterface {
       city: solidesJob?.city?.name,
       state: solidesJob?.state?.name,
       description: analyzerResponse?.description,
-      url: `https://vagas.solides.com.br/vaga/${solidesJob?.id}/${slugify(solidesJob?.title)}`,
+      url: formSolidesUrl(solidesJob?.id, solidesJob?.title),
       idInPlatform: String(solidesJob?.id),
       type: analyzerResponse?.type,
       platform: this.platform,

@@ -5,7 +5,7 @@ import {
 } from './analyzer/analyzer';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
 import { AppDataSource } from './data-source';
-import { convertStrToArray, normalizeDescription } from './utils/utils';
+import { convertStrToArray, formSolidesUrl, normalizeDescription } from './utils/utils';
 
 AppDataSource.initialize()
   .then(async () => {
@@ -99,6 +99,23 @@ AppDataSource.initialize()
         );
       }
       console.log(`[normalize-description] End`);
+    } else if (functionToCall === 'update-solides-urls') {
+      console.log(`[update-solides-urls] Start`);
+      const allJobs = await JobOpportunityController.getAllJobsFromPlatform(JobPlatform.SOLIDES);
+      const allJobsLength = allJobs?.length;
+      for (let i = 0; i < allJobsLength; i++) {
+        const job = allJobs[i];
+        if (i % 50 === 0)
+          console.log(
+            `[update-solides-urls] Updating job ${i + 1} of ${allJobsLength}`,
+          );
+        const newUrl = formSolidesUrl(job?.idInPlatform || '', job?.title);
+        await JobOpportunityController.updateUrl(
+          job.uuid,
+          newUrl,
+        );
+      }
+      console.log(`[update-solides-urls] End`);
     }
   })
   .catch((error) => console.log(error));
