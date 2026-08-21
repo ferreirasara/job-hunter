@@ -1005,3 +1005,7 @@ export const uploadErrorList = async (errorsList: string[]) => {
 export const removeHtmlTags = (html: string): string => {
   return html.replace(/<[^>]*>/g, '');
 }
+
+export const slugify = (str: string) => {
+  return encodeURIComponent((str).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-');
+}
