@@ -70,12 +70,6 @@ export default function Root() {
       icon: <BarChartOutlined />,
     },
     {
-      key: 'refetch',
-      label: 'Regarregar vagas',
-      onClick: () => refetch(),
-      icon: <ReloadOutlined />,
-    },
-    {
       key: 'run-scrapers',
       label: 'Executar scrapers',
       onClick: () => handleRunScrapers(),
@@ -115,6 +109,12 @@ export default function Root() {
             onClick={() => setFiltersDrawerOpen(true)}
           >
             Filtrar vagas
+          </Button>
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={() => refetch()}
+          >
+            Recarregar
           </Button>
           <Dropdown menu={{ items }}>
             <Button icon={<MoreOutlined />} />
