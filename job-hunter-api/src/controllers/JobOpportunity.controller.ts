@@ -16,7 +16,7 @@ const getOrderBy = (
   orderByOrder: string,
 ): FindOptionsOrder<JobOpportunity> => {
   // secondary key guarantees a deterministic order for rows tied on the primary field
-  const tiebreaker = { id: 'ASC' } as const;
+  const tiebreaker = { uuid: 'ASC' } as const;
 
   if (!orderByField) return { createdAt: 'DESC', ...tiebreaker };
 
