@@ -20,7 +20,7 @@ export const useSetJobAsApplied = () => {
       return responseJson;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
     },
   })
 };

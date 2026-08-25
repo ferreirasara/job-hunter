@@ -15,29 +15,31 @@ const getOrderBy = (
   orderByField: string,
   orderByOrder: string,
 ): FindOptionsOrder<JobOpportunity> => {
-  if (!orderByField) return { createdAt: 'DESC' };
-  if (!orderByField) orderByField = 'ASC';
+  // secondary key guarantees a deterministic order for rows tied on the primary field
+  const tiebreaker = { id: 'ASC' } as const;
+
+  if (!orderByField) return { createdAt: 'DESC', ...tiebreaker };
 
   if (orderByField === 'createdAt')
-    return { createdAt: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { createdAt: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'platform')
-    return { platform: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { platform: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'company')
-    return { company: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { company: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'title')
-    return { title: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { title: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'type')
-    return { type: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { type: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'hiringRegime')
-    return { hiringRegime: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { hiringRegime: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'skills')
-    return { skills: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { skills: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'totalRating')
-    return { totalRating: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { totalRating: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
   if (orderByField === 'seniority')
-    return { seniority: orderByOrder === 'ascend' ? 'ASC' : 'DESC' };
+    return { seniority: orderByOrder === 'ascend' ? 'ASC' : 'DESC', ...tiebreaker };
 
-  return { createdAt: 'DESC' };
+  return { createdAt: 'DESC', ...tiebreaker };
 };
 
 export default class JobOpportunityController {

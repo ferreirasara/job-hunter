@@ -20,7 +20,7 @@ export const useUpdateNumberOfTests = () => {
       return responseJson;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
     },
   })
 };
