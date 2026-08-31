@@ -267,7 +267,6 @@ export type UpdateJobBody = {
 export type SaveJobsResponse = {
   totalJobs: number;
   jobsSavedCount: number;
-  jobsDiscardedCount: number;
   jobsUnsavedCount: number;
   duplicatedJobsCount: number;
   errorsList?: string[];

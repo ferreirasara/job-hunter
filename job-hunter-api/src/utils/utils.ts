@@ -887,8 +887,9 @@ export const isUnwantedJob = (args: {
   company: string;
   description: string;
   skillsRating: number;
+  skills: string;
 }): boolean => {
-  const { company, description, title, skillsRating } = args;
+  const { company, description, title, skillsRating, skills } = args;
 
   if (skillsRating < 15) return true;
 
@@ -901,44 +902,15 @@ export const isUnwantedJob = (args: {
     'designer',
     'junior',
   ];
-  const companyTitleKeywords = [/*'boticario',*/ 'stefanini', 'netvagas'];
+  const companyTitleKeywords = ['bairesdev'];
   const descriptionKeywords = ['telemarketing'];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
     companyTitleKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
-    descriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur))
+    descriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)) ||
+    !skills.includes(JobSkill.REACT)
   );
-};
-
-export const isDiscardedJob = (args: { title: string; skills: string }) => {
-  const { skills, title } = args;
-
-  const discardedTitleRegex = [
-    SKILLS_REGEX.JAVA,
-    SKILLS_REGEX.MOBILE_DEVELOPMENT,
-    SKILLS_REGEX.ANGULAR,
-    SKILLS_REGEX.VUE,
-    SKILLS_REGEX.DEV_OPS,
-  ];
-  const discardedSkillsKeywords = [
-    JobSkill.PHP,
-    JobSkill.DOT_NET,
-    JobSkill.CSHARP,
-    JobSkill.CPLUSPLUS,
-    JobSkill.COBOL,
-    JobSkill.PYTHON,
-    JobSkill.SALESFORCE,
-    JobSkill.FLUTTER,
-    JobSkill.RUBY,
-    JobSkill.DELPHI,
-    JobSkill.TOTVS,
-  ];
-
-  const isDiscardedByTitle = discardedTitleRegex?.some((cur) => stringContainsAny(title, cur));
-  const isDiscardedBySkills = discardedSkillsKeywords?.some((cur) => skills?.includes(cur));
-
-  return (isDiscardedByTitle || isDiscardedBySkills);
 };
 
 export const getJobRegex = (job: JobOpportunity): string[] => {
@@ -1007,5 +979,5 @@ export const removeHtmlTags = (html: string): string => {
 }
 
 export const formSolidesUrl = (id: number | string, title: string) => {
-  return `https://vagas.solides.com.br/vaga/${id}/${encodeURIComponent((title).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-') }`
+  return `https://vagas.solides.com.br/vaga/${id}/${encodeURIComponent((title).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-')}`
 }

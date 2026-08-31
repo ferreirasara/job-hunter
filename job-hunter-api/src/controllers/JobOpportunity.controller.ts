@@ -50,6 +50,7 @@ export default class JobOpportunityController {
       where: {
         company: jobInput.company,
         title: jobInput.title,
+        createdAt: MoreThanOrEqual(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)), // Check for jobs created in the last 30 days
       },
     });
 

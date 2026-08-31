@@ -1,13 +1,7 @@
 import puppeteer from 'puppeteer-extra';
-import { JobInput, JobPlatform, JobSkill, SaveJobsResponse } from '../@types/types';
+import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import {
-  formatDateHour,
-  interceptRequest,
-  isDiscardedJob,
-  isUnwantedJob,
-  removeAccent,
-} from '../utils/utils';
+import { formatDateHour, interceptRequest, isUnwantedJob, removeAccent } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteer.use(StealthPlugin());
@@ -79,7 +73,6 @@ export default abstract class ScraperInterface {
     const jobsLength = jobs?.length;
     let jobsSavedCount = 0;
     let jobsUnsavedCount = 0;
-    let jobsDiscardedCount = 0;
     let duplicatedJobsCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
@@ -87,34 +80,18 @@ export default abstract class ScraperInterface {
       const title = removeAccent(job?.title?.toLowerCase());
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
-      const hasReactSkill = job.skills?.split(',').some(
-        (skill) => skill.trim().toUpperCase() === JobSkill.REACT,
-      );
 
-      const unwantedJob = !hasReactSkill && isUnwantedJob({
+      const unwantedJob = isUnwantedJob({
         title,
         company,
         description,
         skillsRating: job.skillsRating || 0,
+        skills: job.skills || '',
       });
 
       if (!unwantedJob) {
-        const discarded = !hasReactSkill && isDiscardedJob({
-          title,
-          skills: job.skills || '',
-        });
-        if (discarded) {
-          jobsDiscardedCount++;
-          this.log(`auto discarded job: ${job.title} (${job.company})`, {
-            color: '\x1b[33m',
-          });
-        }
-
-        const response = await JobOpportunityController.insert({
-          ...job,
-          discarded,
-        });
-        if (response?.success && !discarded) {
+        const response = await JobOpportunityController.insert(job);
+        if (response?.success) {
           jobsSavedCount++;
         } else if (response?.message === 'Duplicated') {
           duplicatedJobsCount++;
@@ -136,7 +113,6 @@ export default abstract class ScraperInterface {
 
     return {
       jobsSavedCount,
-      jobsDiscardedCount,
       jobsUnsavedCount,
       duplicatedJobsCount,
       totalJobs: jobs?.length,
