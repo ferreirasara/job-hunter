@@ -4,6 +4,7 @@ import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
 import { INHIRE_URLS } from '../urls/urls';
+import { sleep } from '../utils/utils';
 
 const platform: JobPlatform = JobPlatform.INHIRE;
 export default class InhireScraper extends ScraperInterface {
@@ -42,7 +43,8 @@ export default class InhireScraper extends ScraperInterface {
     for (const url of INHIRE_URLS) {
       try {
         await page.goto(url);
-        await page.waitForNetworkIdle({ idleTime: 1000, timeout: 10000 });
+        await page.waitForSelector('a[data-component-name="job-position-link"]');
+        await sleep(1000);
         const urls: string[] = await page?.$$eval('a[data-component-name="job-position-link"]', (el) =>
           el?.map((cur) => cur?.href),
         );
@@ -70,7 +72,7 @@ export default class InhireScraper extends ScraperInterface {
       try {
         const obj = urls[i];
         await page.goto(obj?.url);
-        await page.waitForNetworkIdle({ idleTime: 2000, timeout: 10000 });
+        await page.waitForSelector('div[data-component-name="HtmlParser"]', { timeout: 10000 });
 
         const title = await page?.$eval(
           'h1',
