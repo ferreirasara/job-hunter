@@ -903,7 +903,7 @@ export const isUnwantedJob = (args: {
     'junior',
   ];
   const companyTitleKeywords = ['bairesdev'];
-  const descriptionKeywords = ['telemarketing'];
+  const descriptionKeywords = ['telemarketing', 'us-based', 'us based'];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
