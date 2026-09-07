@@ -177,6 +177,7 @@ export const SKILLS_REGEX = {
     /\bhelm\b/i,
     /gcloud/i,
     /grafana/i,
+    /openshift/i,
   ],
   DJANGO: [/django/i],
   DOT_NET: [
@@ -251,6 +252,7 @@ export const SKILLS_REGEX = {
     /groovy/i,
     /jasper/i,
     /quarkus/i,
+    /netbeans/i,
   ],
   JAVASCRIPT: [
     /java( |-|\.)?script/i,
@@ -402,7 +404,7 @@ export const SKILLS_REGEX = {
     /client( |-|\.)?side( |-|\.)?rendering/i,
   ],
   SPA: [/\bspa\b/, /single page applications/i],
-  SPANISH: [/espanhol/i, /spanish/i],
+  SPANISH: [/espanhol(?!a)/i, /spanish/i],
   STATE_MANAGEMENT: [
     /redux/i,
     /mobx/i,
@@ -610,8 +612,7 @@ export const TYPES_REGEX = {
     /(home|anywhere)( |-|\.)?(office|work)/i,
     /remoto(?!: nao)/i,
     /trabalhar de casa/i,
-    /remote/i,
-    /remota/i,
+    /remot(e|a)(?!a)/i,
     /100\% home/i,
     /teletrabalho/i,
     /trabalho digital/i,
@@ -622,7 +623,8 @@ export const TYPES_REGEX = {
     /presencial(mente)?/i,
     /remoto: nao/i,
     /residir em/i,
-    /on( |-|\.)?site/i,
+    /\bon( |-|\.)?site\b/i,
+    /ida(s)? presencia(is|l)/i,
   ],
 };
 
