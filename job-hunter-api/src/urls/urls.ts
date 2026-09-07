@@ -111,6 +111,8 @@ export const INHIRE_URLS = [
   'https://projectivaholding.inhire.app/vagas/',
   'https://bancobs2.inhire.app/vagas/',
   'https://dtlabs.inhire.app/vagas/',
+  'https://frete.inhire.app/',
+  'https://nava.inhire.app/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
