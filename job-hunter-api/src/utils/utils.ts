@@ -896,13 +896,14 @@ export const isUnwantedJob = (args: {
   const unwantedTitleKeywords = [
     'banco de talentos',
     'banco de oportunidades',
+    'hub de talentos',
     'talent pool',
     'manager',
     'director',
     'designer',
     'junior',
   ];
-  const companyTitleKeywords = ['bairesdev'];
+  const companyTitleKeywords = ['bairesdev', 'jobgether'];
   const descriptionKeywords = ['telemarketing', 'us-based', 'us based'];
 
   return (
