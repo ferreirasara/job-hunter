@@ -905,11 +905,13 @@ export const isUnwantedJob = (args: {
   ];
   const companyTitleKeywords = ['bairesdev', 'jobgether'];
   const descriptionKeywords = ['telemarketing', 'us-based', 'us based'];
+  const unwantedSkillsTitle = [JobSkill.ANGULAR, JobSkill.VUE];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
     companyTitleKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
     descriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)) ||
+    unwantedSkillsTitle?.some((cur) => skills?.includes(cur)) ||
     !skills.includes(JobSkill.REACT)
   );
 };
