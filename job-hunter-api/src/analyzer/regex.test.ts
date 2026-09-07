@@ -29,7 +29,193 @@ const doTestCases = (testCases: TestCase[]) => {
 };
 
 describe('test SKILLS_REGEX cases', () => {
-  const testCases: TestCase[] = [
+  const testCases = [
+    {
+      type: 'APOLLO',
+      cases: [{ str: 'apollo graphql', regex: SKILLS_REGEX.APOLLO, toBe: true }],
+    },
+    {
+      type: 'ACCESSIBILITY',
+      cases: [
+        { str: 'acessibilidade', regex: SKILLS_REGEX.ACCESSIBILITY, toBe: true },
+        { str: 'wcag', regex: SKILLS_REGEX.ACCESSIBILITY, toBe: true },
+      ],
+    },
+    {
+      type: 'BACKBONE',
+      cases: [
+        { str: 'backbone', regex: SKILLS_REGEX.BACKBONE, toBe: true },
+        { str: 'marionette.js', regex: SKILLS_REGEX.BACKBONE, toBe: true },
+      ],
+    },
+    {
+      type: 'BLAZOR',
+      cases: [{ str: 'blazor', regex: SKILLS_REGEX.BLAZOR, toBe: true }],
+    },
+    {
+      type: 'BLOCKCHAIN',
+      cases: [
+        { str: 'blockchain', regex: SKILLS_REGEX.BLOCKCHAIN, toBe: true },
+        { str: 'crypto', regex: SKILLS_REGEX.BLOCKCHAIN, toBe: true },
+      ],
+    },
+    {
+      type: 'BLUEPRINTJS',
+      cases: [
+        { str: 'blueprint.js', regex: SKILLS_REGEX.BLUEPRINTJS, toBe: true },
+      ],
+    },
+    {
+      type: 'BOOTSTRAP',
+      cases: [
+        { str: 'bootstrap', regex: SKILLS_REGEX.BOOTSTRAP, toBe: true },
+        { str: 'bootstrap 5', regex: SKILLS_REGEX.BOOTSTRAP, toBe: true },
+      ],
+    },
+    {
+      type: 'C',
+      cases: [
+        { str: 'linguagem C', regex: SKILLS_REGEX.C, toBe: true },
+        { str: 'c-sharp', regex: SKILLS_REGEX.C, toBe: false },
+      ],
+    },
+    {
+      type: 'CERTIFICATIONS',
+      cases: [
+        { str: 'certificacoes relevante', regex: SKILLS_REGEX.CERTIFICATIONS, toBe: true },
+        { str: 'certificado', regex: SKILLS_REGEX.CERTIFICATIONS, toBe: false },
+      ],
+    },
+    {
+      type: 'CHARTS',
+      cases: [
+        { str: 'recharts', regex: SKILLS_REGEX.CHARTS, toBe: true },
+        { str: 'd3', regex: SKILLS_REGEX.CHARTS, toBe: true },
+      ],
+    },
+    {
+      type: 'COBOL',
+      cases: [{ str: 'cobol', regex: SKILLS_REGEX.COBOL, toBe: true }],
+    },
+    {
+      type: 'CODE_MAINTAINABILITY',
+      cases: [{ str: 'eslint', regex: SKILLS_REGEX.CODE_MAINTAINABILITY, toBe: true }],
+    },
+    {
+      type: 'CODE_REVIEW',
+      cases: [{ str: 'code review', regex: SKILLS_REGEX.CODE_REVIEW, toBe: true }],
+    },
+    {
+      type: 'COLLABORATIVE_TOOLS',
+      cases: [
+        { str: 'notion', regex: SKILLS_REGEX.COLLABORATIVE_TOOLS, toBe: true },
+        { str: 'ferramentas colaborativas', regex: SKILLS_REGEX.COLLABORATIVE_TOOLS, toBe: true },
+      ],
+    },
+    {
+      type: 'CLEAN_CODE',
+      cases: [{ str: 'clean code', regex: SKILLS_REGEX.CLEAN_CODE, toBe: true }],
+    },
+    {
+      type: 'CYBER_SECURITY',
+      cases: [
+        { str: 'cybersecurity', regex: SKILLS_REGEX.CYBER_SECURITY, toBe: true },
+        { str: 'pentest', regex: SKILLS_REGEX.CYBER_SECURITY, toBe: true },
+      ],
+    },
+    {
+      type: 'DART',
+      cases: [{ str: 'dart', regex: SKILLS_REGEX.DART, toBe: true }],
+    },
+    {
+      type: 'DATA',
+      cases: [
+        { str: 'json', regex: SKILLS_REGEX.DATA, toBe: true },
+        { str: 'data structures', regex: SKILLS_REGEX.DATA, toBe: true },
+      ],
+    },
+    {
+      type: 'DELPHI',
+      cases: [
+        { str: 'delphi', regex: SKILLS_REGEX.DELPHI, toBe: true },
+        { str: 'vcl', regex: SKILLS_REGEX.DELPHI, toBe: true },
+      ],
+    },
+    {
+      type: 'DESIGN',
+      cases: [{ str: 'figma', regex: SKILLS_REGEX.DESIGN, toBe: true }],
+    },
+    {
+      type: 'DESIGN_SYSTEM',
+      cases: [{ str: 'design system', regex: SKILLS_REGEX.DESIGN_SYSTEM, toBe: true }],
+    },
+    {
+      type: 'DJANGO',
+      cases: [{ str: 'django', regex: SKILLS_REGEX.DJANGO, toBe: true }],
+    },
+    {
+      type: 'DOT_NET',
+      cases: [
+        { str: '.NET', regex: SKILLS_REGEX.DOT_NET, toBe: true },
+        { str: 'asp.net', regex: SKILLS_REGEX.DOT_NET, toBe: true },
+      ],
+    },
+    {
+      type: 'DRUPAL',
+      cases: [{ str: 'drupal', regex: SKILLS_REGEX.DRUPAL, toBe: true }],
+    },
+    {
+      type: 'ELASTIC_SEARCH',
+      cases: [{ str: 'elastic search', regex: SKILLS_REGEX.ELASTIC_SEARCH, toBe: true }],
+    },
+    {
+      type: 'ELECTRON',
+      cases: [{ str: 'electron', regex: SKILLS_REGEX.ELECTRON, toBe: true }],
+    },
+    {
+      type: 'ELIXIR',
+      cases: [{ str: 'elixir', regex: SKILLS_REGEX.ELIXIR, toBe: true }],
+    },
+    {
+      type: 'EMBER',
+      cases: [{ str: 'ember', regex: SKILLS_REGEX.EMBER, toBe: true }],
+    },
+    {
+      type: 'ENGLISH',
+      cases: [
+        { str: 'english', regex: SKILLS_REGEX.ENGLISH, toBe: true },
+        { str: 'lingua inglesa', regex: SKILLS_REGEX.ENGLISH, toBe: true },
+      ],
+    },
+    {
+      type: 'FEATURE_FLAG',
+      cases: [
+        { str: 'feature flags', regex: SKILLS_REGEX.FEATURE_FLAG, toBe: true },
+        { str: 'launchdarkly', regex: SKILLS_REGEX.FEATURE_FLAG, toBe: true },
+      ],
+    },
+    {
+      type: 'FLASK',
+      cases: [{ str: 'flask', regex: SKILLS_REGEX.FLASK, toBe: true }],
+    },
+    {
+      type: 'FLUTTER',
+      cases: [{ str: 'flutter', regex: SKILLS_REGEX.FLUTTER, toBe: true }],
+    },
+    {
+      type: 'FRONTEND_BUILD_TOOLS',
+      cases: [
+        { str: 'webpack', regex: SKILLS_REGEX.FRONTEND_BUILD_TOOLS, toBe: true },
+        { str: 'ferramentas de build', regex: SKILLS_REGEX.FRONTEND_BUILD_TOOLS, toBe: true },
+      ],
+    },
+    {
+      type: 'AG_GRID',
+      cases: [
+        { str: 'ag-grid', regex: SKILLS_REGEX.AG_GRID, toBe: true },
+        { str: 'ag grid', regex: SKILLS_REGEX.AG_GRID, toBe: true },
+      ],
+    },
     {
       type: 'AGILE',
       cases: [
@@ -37,6 +223,15 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'metodologias ageis', regex: SKILLS_REGEX.AGILE, toBe: true },
         { str: 'desenvolvimento agil', regex: SKILLS_REGEX.AGILE, toBe: true },
         { str: 'metodos ageis', regex: SKILLS_REGEX.AGILE, toBe: true },
+      ],
+    },
+    {
+      type: 'AI_AGENTS',
+      cases: [
+        { str: 'gemini', regex: SKILLS_REGEX.AI_AGENTS, toBe: true },
+        { str: 'gpt', regex: SKILLS_REGEX.AI_AGENTS, toBe: true },
+        { str: 'ia voltada ao desenvolvimento', regex: SKILLS_REGEX.AI_AGENTS, toBe: true },
+        { str: 'ferramenta de ia', regex: SKILLS_REGEX.AI_AGENTS, toBe: true },
       ],
     },
     {
@@ -583,8 +778,297 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'web hooks', regex: SKILLS_REGEX.WEB_HOOKS, toBe: true },
       ],
     },
-  ];
-
+    {
+      type: 'ARTIFICIAL_INTELLIGENCE',
+      cases: [
+        { str: 'nlp', regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE, toBe: true },
+        { str: 'watson', regex: SKILLS_REGEX.ARTIFICIAL_INTELLIGENCE, toBe: true },
+      ],
+    },
+    {
+      type: 'AUTHENTICATION',
+      cases: [
+        { str: 'oauth', regex: SKILLS_REGEX.AUTHENTICATION, toBe: true },
+        { str: 'jwt', regex: SKILLS_REGEX.AUTHENTICATION, toBe: true },
+        { str: 'authentication', regex: SKILLS_REGEX.AUTHENTICATION, toBe: true },
+        { str: 'autenticacao', regex: SKILLS_REGEX.AUTHENTICATION, toBe: true },
+      ],
+    },
+    {
+      type: 'TANSTAK',
+      cases: [
+        { str: 'tanstack query', regex: SKILLS_REGEX.TANSTAK, toBe: true },
+      ],
+    },
+    {
+      type: 'TECH_LEAD',
+      cases: [
+        { str: 'tech lead', regex: SKILLS_REGEX.TECH_LEAD, toBe: true },
+        { str: 'team lead', regex: SKILLS_REGEX.TECH_LEAD, toBe: true },
+        { str: 'gerenciar a equipe', regex: SKILLS_REGEX.TECH_LEAD, toBe: true },
+      ],
+    },
+    {
+      type: 'PWA',
+      cases: [
+        { str: 'pwa', regex: SKILLS_REGEX.PWA, toBe: true },
+        { str: 'progressive web app', regex: SKILLS_REGEX.PWA, toBe: true },
+      ],
+    },
+    {
+      type: 'GAME_ENGINE',
+      cases: [{ str: 'unity', regex: SKILLS_REGEX.GAME_ENGINE, toBe: true }],
+    },
+    {
+      type: 'GATSBY',
+      cases: [{ str: 'gatsby', regex: SKILLS_REGEX.GATSBY, toBe: true }],
+    },
+    {
+      type: 'GOLANG',
+      cases: [
+        { str: 'golang', regex: SKILLS_REGEX.GOLANG, toBe: true },
+        { str: 'desenvolvimento com go', regex: SKILLS_REGEX.GOLANG, toBe: true },
+      ],
+    },
+    {
+      type: 'GRAPHQL',
+      cases: [
+        { str: 'graphql', regex: SKILLS_REGEX.GRAPHQL, toBe: true },
+        { str: 'graph-ql', regex: SKILLS_REGEX.GRAPHQL, toBe: true },
+      ],
+    },
+    {
+      type: 'INTEGRATIONS',
+      cases: [
+        { str: 'integracoes com servicos de terceiros', regex: SKILLS_REGEX.INTEGRATIONS, toBe: true },
+      ],
+    },
+    {
+      type: 'IONIC',
+      cases: [{ str: 'ionic', regex: SKILLS_REGEX.IONIC, toBe: true }],
+    },
+    {
+      type: 'JQUERY',
+      cases: [{ str: 'jquery', regex: SKILLS_REGEX.JQUERY, toBe: true }],
+    },
+    {
+      type: 'KOTLIN',
+      cases: [
+        { str: 'kotlin', regex: SKILLS_REGEX.KOTLIN, toBe: true },
+        { str: 'kotlim', regex: SKILLS_REGEX.KOTLIN, toBe: true },
+      ],
+    },
+    {
+      type: 'LIGHTHOUSE',
+      cases: [{ str: 'lighthouse', regex: SKILLS_REGEX.LIGHTHOUSE, toBe: true }],
+    },
+    {
+      type: 'LINUX',
+      cases: [{ str: 'linux', regex: SKILLS_REGEX.LINUX, toBe: true }],
+    },
+    {
+      type: 'MAGENTO',
+      cases: [{ str: 'magento', regex: SKILLS_REGEX.MAGENTO, toBe: true }],
+    },
+    {
+      type: 'MARKETING',
+      cases: [
+        { str: 'google analytics', regex: SKILLS_REGEX.MARKETING, toBe: true },
+        { str: 'email marketing', regex: SKILLS_REGEX.MARKETING, toBe: true },
+      ],
+    },
+    {
+      type: 'MICRO_FRONTENDS',
+      cases: [{ str: 'micro frontends', regex: SKILLS_REGEX.MICRO_FRONTENDS, toBe: true }],
+    },
+    {
+      type: 'NETWORK',
+      cases: [
+        { str: 'wifi', regex: SKILLS_REGEX.NETWORK, toBe: true },
+        { str: 'network protocols', regex: SKILLS_REGEX.NETWORK, toBe: true },
+      ],
+    },
+    {
+      type: 'OBJECTIVE_C',
+      cases: [{ str: 'objective-c', regex: SKILLS_REGEX.OBJECTIVE_C, toBe: true }],
+    },
+    {
+      type: 'ORM',
+      cases: [
+        { str: 'typeorm', regex: SKILLS_REGEX.ORM, toBe: true },
+        { str: 'prisma', regex: SKILLS_REGEX.ORM, toBe: true },
+      ],
+    },
+    {
+      type: 'PACKAGE_MANAGER',
+      cases: [
+        { str: 'npm', regex: SKILLS_REGEX.PACKAGE_MANAGER, toBe: true },
+        { str: 'yarn', regex: SKILLS_REGEX.PACKAGE_MANAGER, toBe: true },
+      ],
+    },
+    {
+      type: 'PAYMENT_INTEGRATIONS',
+      cases: [{ str: 'gateway de pagamento', regex: SKILLS_REGEX.PAYMENT_INTEGRATIONS, toBe: true }],
+    },
+    {
+      type: 'PIXEL_PERFECT',
+      cases: [{ str: 'pixel-perfect', regex: SKILLS_REGEX.PIXEL_PERFECT, toBe: true }],
+    },
+    {
+      type: 'PRODUCT_MANAGER',
+      cases: [
+        { str: 'product manager', regex: SKILLS_REGEX.PRODUCT_MANAGER, toBe: true },
+        { str: 'product owner', regex: SKILLS_REGEX.PRODUCT_MANAGER, toBe: true },
+      ],
+    },
+    {
+      type: 'PROGRAMMING_LOGIC',
+      cases: [{ str: 'logica de programacao', regex: SKILLS_REGEX.PROGRAMMING_LOGIC, toBe: true }],
+    },
+    {
+      type: 'PROTOTYPING',
+      cases: [
+        { str: 'adobe xd', regex: SKILLS_REGEX.PROTOTYPING, toBe: true },
+        { str: 'prototipo', regex: SKILLS_REGEX.PROTOTYPING, toBe: true },
+      ],
+    },
+    {
+      type: 'PYTHON',
+      cases: [
+        { str: 'python', regex: SKILLS_REGEX.PYTHON, toBe: true },
+        { str: 'pandas', regex: SKILLS_REGEX.PYTHON, toBe: true },
+      ],
+    },
+    {
+      type: 'RAZOR',
+      cases: [{ str: 'razor', regex: SKILLS_REGEX.RAZOR, toBe: true }],
+    },
+    {
+      type: 'REACT_ROUTER',
+      cases: [{ str: 'react router', regex: SKILLS_REGEX.REACT_ROUTER, toBe: true }],
+    },
+    {
+      type: 'REASONML',
+      cases: [{ str: 'reasonml', regex: SKILLS_REGEX.REASONML, toBe: true }],
+    },
+    {
+      type: 'RUST',
+      cases: [{ str: 'rust', regex: SKILLS_REGEX.RUST, toBe: true }],
+    },
+    {
+      type: 'SALESFORCE',
+      cases: [{ str: 'salesforce', regex: SKILLS_REGEX.SALESFORCE, toBe: true }],
+    },
+    {
+      type: 'SAP',
+      cases: [
+        { str: 'sap', regex: SKILLS_REGEX.SAP, toBe: true },
+        { str: 'abap', regex: SKILLS_REGEX.SAP, toBe: true },
+      ],
+    },
+    {
+      type: 'SAS',
+      cases: [{ str: 'sas', regex: SKILLS_REGEX.SAS, toBe: true }],
+    },
+    {
+      type: 'SASS',
+      cases: [{ str: 'sass', regex: SKILLS_REGEX.SASS, toBe: true }],
+    },
+    {
+      type: 'SCALA',
+      cases: [{ str: 'scala', regex: SKILLS_REGEX.SCALA, toBe: true }],
+    },
+    {
+      type: 'SCRIPT',
+      cases: [
+        { str: 'powershell', regex: SKILLS_REGEX.SCRIPT, toBe: true },
+        { str: 'bash script', regex: SKILLS_REGEX.SCRIPT, toBe: true },
+      ],
+    },
+    {
+      type: 'SITE_RENDERING',
+      cases: [
+        { str: 'server-side rendering', regex: SKILLS_REGEX.SITE_RENDERING, toBe: true },
+        { str: 'ssr', regex: SKILLS_REGEX.SITE_RENDERING, toBe: true },
+      ],
+    },
+    {
+      type: 'SPA',
+      cases: [{ str: 'single page applications', regex: SKILLS_REGEX.SPA, toBe: true }],
+    },
+    {
+      type: 'SPANISH',
+      cases: [
+        { str: 'espanhol', regex: SKILLS_REGEX.SPANISH, toBe: true },
+        { str: 'spanish', regex: SKILLS_REGEX.SPANISH, toBe: true },
+      ],
+    },
+    {
+      type: 'STORYBOOK',
+      cases: [{ str: 'storybook', regex: SKILLS_REGEX.STORYBOOK, toBe: true }],
+    },
+    {
+      type: 'STRAPI',
+      cases: [{ str: 'strapi', regex: SKILLS_REGEX.STRAPI, toBe: true }],
+    },
+    {
+      type: 'SWAGGER',
+      cases: [{ str: 'swagger', regex: SKILLS_REGEX.SWAGGER, toBe: true }],
+    },
+    {
+      type: 'SWIFT',
+      cases: [{ str: 'swift', regex: SKILLS_REGEX.SWIFT, toBe: true }],
+    },
+    {
+      type: 'TELECOMMUNICATIONS',
+      cases: [
+        { str: 'vonage', regex: SKILLS_REGEX.TELECOMMUNICATIONS, toBe: true },
+        { str: 'voip', regex: SKILLS_REGEX.TELECOMMUNICATIONS, toBe: true },
+      ],
+    },
+    {
+      type: 'TOMCAT',
+      cases: [{ str: 'tomcat server', regex: SKILLS_REGEX.TOMCAT, toBe: true }],
+    },
+    {
+      type: 'TOTVS',
+      cases: [
+        { str: 'totvs', regex: SKILLS_REGEX.TOTVS, toBe: true },
+        { str: 'protheus', regex: SKILLS_REGEX.TOTVS, toBe: true },
+      ],
+    },
+    {
+      type: 'UI',
+      cases: [{ str: 'user interface', regex: SKILLS_REGEX.UI, toBe: true }],
+    },
+    {
+      type: 'UTILITY_LIBRARY',
+      cases: [{ str: 'lodash', regex: SKILLS_REGEX.UTILITY_LIBRARY, toBe: true }],
+    },
+    {
+      type: 'UX',
+      cases: [{ str: 'user experience', regex: SKILLS_REGEX.UX, toBe: true }],
+    },
+    {
+      type: 'VITE',
+      cases: [{ str: 'vite', regex: SKILLS_REGEX.VITE, toBe: true }],
+    },
+    {
+      type: 'WEBRTC',
+      cases: [{ str: 'webrtc', regex: SKILLS_REGEX.WEBRTC, toBe: true }],
+    },
+    {
+      type: 'WINDOWS_FORMS',
+      cases: [{ str: 'windows forms', regex: SKILLS_REGEX.WINDOWS_FORMS, toBe: true }],
+    },
+    {
+      type: 'WORDPRESS',
+      cases: [
+        { str: 'wordpress', regex: SKILLS_REGEX.WORDPRESS, toBe: true },
+        { str: 'elementor', regex: SKILLS_REGEX.WORDPRESS, toBe: true },
+      ],
+    },
+  ].sort((a, b) => a.type.localeCompare(b.type));
   doTestCases(testCases);
 
   const allSkills = Object.keys(SKILLS_REGEX);
@@ -1172,8 +1656,27 @@ describe('test BENEFITS_REGEX cases', () => {
         },
       ],
     },
-  ];
-
+    {
+      type: 'NOTEBOOK',
+      cases: [
+        {
+          str: 'notebook fornecido',
+          regex: BENEFITS_REGEX.NOTEBOOK,
+          toBe: true,
+        },
+      ],
+    },
+    {
+      type: 'PRODUCTIVITY_BONUS',
+      cases: [
+        {
+          str: 'bonus de produtividade',
+          regex: BENEFITS_REGEX.PRODUCTIVITY_BONUS,
+          toBe: true,
+        },
+      ],
+    },
+  ].sort((a, b) => a.type.localeCompare(b.type));
   doTestCases(testCases);
 
   const allBenefits = Object.keys(BENEFITS_REGEX);
@@ -1224,7 +1727,10 @@ describe('test TYPES_REGEX cases', () => {
     },
     {
       type: 'HYBRID',
-      cases: [{ str: 'hibrido', regex: TYPES_REGEX.HYBRID, toBe: true }],
+      cases: [
+        { str: 'hibrido', regex: TYPES_REGEX.HYBRID, toBe: true },
+        { str: 'perfil remoto', regex: TYPES_REGEX.HYBRID, toBe: false }
+      ],
     },
     {
       type: 'REMOTE',
@@ -1255,6 +1761,7 @@ describe('test SENIORITY_REGEX cases', () => {
         { str: 'junior', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
         { str: 'estagiario', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
         { str: 'jr', regex: SENIORITY_REGEX.JUNIOR, toBe: true },
+        { str: 'estagio do produto', regex: SENIORITY_REGEX.JUNIOR, toBe: false },
       ],
     },
     {
