@@ -848,6 +848,7 @@ export const normalizeDescription = (description: string) => {
     ?.replace(/;/gi, ';\n')
     ?.replace(//gi, '-')
     ?.replace(/\n+/gi, '\n')
+    ?.replace(/\s+/gi, ' ')
     ?.toLowerCase();
 };
 
@@ -857,12 +858,13 @@ export const getNumberFromString = (str: string): number | undefined => {
     one: 1,
     dois: 2,
     two: 2,
+    três: 3,
     tres: 3,
-    tree: 3,
+    three: 3,
     quatro: 4,
     four: 4,
     cinco: 5,
-    fice: 5,
+    five: 5,
     seis: 6,
     six: 6,
     sete: 7,
@@ -902,16 +904,18 @@ export const isUnwantedJob = (args: {
     'director',
     'designer',
     'junior',
+    'tech lead',
+    'staff',
   ];
-  const companyTitleKeywords = ['bairesdev', 'jobgether'];
-  const descriptionKeywords = ['telemarketing', 'us-based', 'us based'];
-  const unwantedSkillsTitle = [JobSkill.ANGULAR, JobSkill.VUE];
+  const unwantedCompanyKeywords = ['bairesdev', 'jobgether'];
+  const unwantedDescriptionKeywords = ['telemarketing', 'us-based', 'us based'];
+  const unwantedSkillsInTitleKeywords = [SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE, SKILLS_REGEX.PYTHON];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
-    companyTitleKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
-    descriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)) ||
-    unwantedSkillsTitle?.some((cur) => skills?.includes(cur)) ||
+    unwantedCompanyKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
+    unwantedDescriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)) ||
+    unwantedSkillsInTitleKeywords?.some((cur) => stringContainsAny(title, cur)) ||
     !skills.includes(JobSkill.REACT)
   );
 };
