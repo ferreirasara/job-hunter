@@ -6,7 +6,7 @@ import {
   In,
   MoreThanOrEqual,
 } from 'typeorm';
-import { JobInput, JobPlatform } from '../@types/types';
+import { JobBenefit, JobInput, JobPlatform, JobSkill } from '../@types/types';
 import { AppDataSource } from '../data-source';
 import { JobOpportunity } from '../entity/JobOpportunity';
 import { calcContType, convertStrToArray, getJobRegex } from '../utils/utils';
@@ -145,33 +145,18 @@ export default class JobOpportunityController {
       where,
       select: { uuid: true },
     });
-    const allSkillsFromDb = await AppDataSource.manager.find(JobOpportunity, {
-      select: { skills: true },
-      where,
-    });
-    const allBenefitsFromDb = await AppDataSource.manager.find(JobOpportunity, {
-      select: { benefits: true },
-      where,
-    });
     const allRatings = await AppDataSource.manager.find(JobOpportunity, {
       order: { totalRating: 'ASC' },
       select: { totalRating: true },
       where: { discarded: false },
     });
 
-    const allSkills = flatten(
-      allSkillsFromDb?.map((cur) => cur?.skills?.split(',')),
-    );
-    const allBenefits = flatten(
-      allBenefitsFromDb?.map((cur) => cur?.benefits?.split(',')),
-    );
-
     return {
       totalOfJobs,
       data: jobsWithRegex,
       allRatings: allRatings.map((cur) => cur?.totalRating),
-      allSkills: uniq(allSkills)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
-      allBenefits: uniq(allBenefits)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
+      allSkills: Object.keys(JobSkill)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
+      allBenefits: Object.keys(JobBenefit)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
     };
   }
 
