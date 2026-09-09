@@ -405,6 +405,6 @@ export const analyzeDescription = (job: {
     type,
     hiringRegime,
     seniority,
-    description: description?.replace(/\n+/g, '\n'),
+    description,
   };
 };

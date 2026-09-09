@@ -67,7 +67,7 @@ export const SKILLS_REGEX = {
   BOOTSTRAP: [/boo(t)?strap/i, /biblioteca(s)? de ui/i],
   C: [/\bc\b(?!-)/i],
   CERTIFICATIONS: [
-    /\b(?!reembolso por )certificações\b/i,
+    /\b(?<!reembolso por )certificações\b/i,
     /certification(s)?/i,
     /certificac(oes|ao) relevante(s)?/i,
     /certificac(oes|ao) em/i,
@@ -88,7 +88,7 @@ export const SKILLS_REGEX = {
   CLEAN_CODE: [/clean code/i],
   CPLUSPLUS: [/c\+\+/i, /c(\s|-)?plus(\s|-)?plus/i],
   CSHARP: [/c#/i, /csharp/i, /\blinq\b/i],
-  CSS: [/\b(s)?css(3)?\b/i, /flexbox/i, /\bless\b/i],
+  CSS: [/\b(s)?css(3)?\b/i, /flexbox/i, /(?<!show\s)\bless\b/i],
   CYBER_SECURITY: [
     /seguranca( e monitoramento)? de rede/i,
     /pentest/i,
@@ -99,7 +99,7 @@ export const SKILLS_REGEX = {
     /cybersecurity/i,
   ],
   DART: [/dart/i],
-  DATA: [/\bjson\b/i, /\bxml\b/i, /data structures/i],
+  DATA: [/\bjson\b/i, /\bxml\b/i, /data structures/i, /yaml/i],
   DB: [
     /(banco|base)(s)? de dados/i,
     /mongo( |-|\.)?(db)?/i,
@@ -347,13 +347,13 @@ export const SKILLS_REGEX = {
   PERL: [/\bperl\b/],
   PHONEGAP: [/phonegap/i],
   PHP: [
-    /php/i,
-    /laravel/i,
-    /symfony/i,
-    /codeigniter/i,
-    /slim/i,
-    /twig/i,
-    /zend/,
+    /\bphp\b/i,
+    /\blaravel\b/i,
+    /\bsymfony\b/i,
+    /\bcodeigniter\b/i,
+    /\bslim\b/i,
+    /\btwig\b/i,
+    /\bzend\b/i,
   ],
   PIXEL_PERFECT: [/pixel( |-|\.)?perfect/i],
   POSTMAN: [/postman/i],
@@ -621,7 +621,7 @@ export const TYPES_REGEX = {
     /residir (no|na|em)/i,
   ],
   HYBRID: [
-    /(?!perfil )hibrid(o|a)/i,
+    /(?<!(perfil|ambiente(s)?)\s)\bhibrid(o|a)\b/,
     /hybrid(?! app)/i,
   ],
   FACE_TO_FACE: [
@@ -636,7 +636,7 @@ export const TYPES_REGEX = {
 
 export const SENIORITY_REGEX = {
   JUNIOR: [
-    /(?! mentor )junior(?! es)/i,
+    /(?<! mentor )junior(?! es)/i,
     /estagiario/i,
     /estagio(?! (s|do))/i,
     /\bjn\b/i,

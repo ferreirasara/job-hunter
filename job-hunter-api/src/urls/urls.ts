@@ -113,6 +113,7 @@ export const INHIRE_URLS = [
   'https://dtlabs.inhire.app/vagas/',
   'https://frete.inhire.app/',
   'https://nava.inhire.app/',
+  'https://unico.inhire.app/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [

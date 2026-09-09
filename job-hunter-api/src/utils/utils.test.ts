@@ -139,7 +139,7 @@ describe('test normalizeDescription function', () => {
   it('should normalize the input description string', () => {
     const str = '  This is a   `testdescription`.  This will <i>appear</i> in a new line.  ; This also will appear in another line.\n\n\n';
     const result = normalizeDescription(str);
-    expect(result).toBe(' this is a test-description. this will appear in a new line. ; this also will appear in another line. ');
+    expect(result).toBe(' this is a test-description.\n this will appear in a new line.\n ;\n this also will appear in another line.\n ');
   });
 });
 

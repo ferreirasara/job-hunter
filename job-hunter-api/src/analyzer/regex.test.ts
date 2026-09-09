@@ -318,6 +318,8 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'css', regex: SKILLS_REGEX.CSS, toBe: true },
         { str: 'scss', regex: SKILLS_REGEX.CSS, toBe: true },
         { str: 'css3', regex: SKILLS_REGEX.CSS, toBe: true },
+        { str: 'less', regex: SKILLS_REGEX.CSS, toBe: true },
+        { str: 'show less', regex: SKILLS_REGEX.CSS, toBe: false },
       ],
     },
     {
@@ -1729,7 +1731,7 @@ describe('test TYPES_REGEX cases', () => {
       type: 'HYBRID',
       cases: [
         { str: 'hibrido', regex: TYPES_REGEX.HYBRID, toBe: true },
-        { str: 'perfil remoto', regex: TYPES_REGEX.HYBRID, toBe: false }
+        { str: 'perfil hibrido', regex: TYPES_REGEX.HYBRID, toBe: false }
       ],
     },
     {

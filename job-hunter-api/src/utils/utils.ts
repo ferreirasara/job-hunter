@@ -842,13 +842,14 @@ export const sendMessageToTelegram = async (
 
 export const normalizeDescription = (description: string) => {
   return removeAccent(removeHtmlTags(description))
-    ?.replace(/\. /gi, '.\n')
+    ?.replace(/\.\s/gi, '.\n')
     ?.replace(/\`/gi, '')
     ?.replace(/ /gi, ' ')
     ?.replace(/;/gi, ';\n')
     ?.replace(//gi, '-')
-    ?.replace(/\n+/gi, '\n')
     ?.replace(/\s+/gi, ' ')
+    ?.replace(/;/gi, ';\n')
+    ?.replace(/\n+/gi, '\n')
     ?.toLowerCase();
 };
 
@@ -909,7 +910,7 @@ export const isUnwantedJob = (args: {
   ];
   const unwantedCompanyKeywords = ['bairesdev', 'jobgether'];
   const unwantedDescriptionKeywords = ['telemarketing', 'us-based', 'us based'];
-  const unwantedSkillsInTitleKeywords = [SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE, SKILLS_REGEX.PYTHON];
+  const unwantedSkillsInTitleKeywords = [SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE, SKILLS_REGEX.PYTHON, SKILLS_REGEX.PHP, SKILLS_REGEX.DOT_NET];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
