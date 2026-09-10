@@ -114,6 +114,7 @@ export const INHIRE_URLS = [
   'https://frete.inhire.app/',
   'https://nava.inhire.app/',
   'https://unico.inhire.app/',
+  'https://solutis.inhire.app/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [

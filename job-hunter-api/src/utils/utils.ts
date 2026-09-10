@@ -841,16 +841,18 @@ export const sendMessageToTelegram = async (
 };
 
 export const normalizeDescription = (description: string) => {
-  return removeAccent(removeHtmlTags(description))
-    ?.replace(/\.\s/gi, '.\n')
-    ?.replace(/\`/gi, '')
-    ?.replace(/ /gi, ' ')
-    ?.replace(/;/gi, ';\n')
-    ?.replace(//gi, '-')
-    ?.replace(/\s+/gi, ' ')
-    ?.replace(/;/gi, ';\n')
-    ?.replace(/\n+/gi, '\n')
-    ?.toLowerCase();
+  if (!description) return '';
+
+  return removeAccent(removeHtmlTags(description.toLowerCase()))
+    ?.replace(/`/g, '')
+    ?.replace(/\xA0/g, ' ')
+    ?.replace(//g, '-')
+    ?.replace(/[^\S\r\n]+/g, ' ')
+    ?.replace(/\.\s+/g, '.\n')
+    ?.replace(/;\s*/g, ';\n')
+    ?.replace(/•/g, '\n-')
+    ?.replace(/\n+/g, '\n')
+    ?.trim();
 };
 
 export const getNumberFromString = (str: string): number | undefined => {

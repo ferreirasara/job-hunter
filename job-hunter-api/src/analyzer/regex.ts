@@ -186,6 +186,7 @@ export const SKILLS_REGEX = {
     /\b(\.)?net\b/i,
     /dot( |-|\.)?net/i,
     /\basp\b/i,
+    /\bwinforms\b/i,
   ],
   DRUPAL: [/drupal/i],
   ECOMMERCE: [
