@@ -17,7 +17,7 @@ export default class InhireScraper extends ScraperInterface {
   }
 
   public async getJobs(): Promise<JobInput[]> {
-    const { browser, page } = await this.getBrowser({ abortScript: false });
+    const { browser, page } = await this.getBrowser({ abortScript: false, abortStyle: true });
     this.log('Start');
 
     const urls = await this.getUrls(page);
@@ -44,7 +44,7 @@ export default class InhireScraper extends ScraperInterface {
       try {
         await page.goto(url);
         await page.waitForSelector('a[data-component-name="job-position-link"]');
-        await sleep(1000);
+        await sleep(100);
         const urls: string[] = await page?.$$eval('a[data-component-name="job-position-link"]', (el) =>
           el?.map((cur) => cur?.href),
         );
@@ -72,7 +72,8 @@ export default class InhireScraper extends ScraperInterface {
       try {
         const obj = urls[i];
         await page.goto(obj?.url);
-        await page.waitForSelector('div[data-component-name="HtmlParser"]', { timeout: 10000 });
+        await page.waitForSelector('div[data-component-name="HtmlParser"]');
+        await sleep(100);
 
         const title = await page?.$eval(
           'h1',

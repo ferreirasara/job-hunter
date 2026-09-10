@@ -87,6 +87,7 @@ export const INHIRE_URLS = [
   'https://alice.inhire.app/vagas/',
   'https://deloitte.inhire.app/vagas/',
   'https://magazineluiza.inhire.app/luizalabs/vagas/',
+  'https://magazineluiza.inhire.app/vagas/',
   'https://zallpy.inhire.app/vagas/',
   'https://partner.inhire.app/vagas/',
   'https://carreiras.inhire.app/vagas/',
@@ -111,10 +112,10 @@ export const INHIRE_URLS = [
   'https://projectivaholding.inhire.app/vagas/',
   'https://bancobs2.inhire.app/vagas/',
   'https://dtlabs.inhire.app/vagas/',
-  'https://frete.inhire.app/',
-  'https://nava.inhire.app/',
-  'https://unico.inhire.app/',
-  'https://solutis.inhire.app/',
+  'https://frete.inhire.app/vagas/',
+  'https://nava.inhire.app/vagas/',
+  'https://unico.inhire.app/vagas/',
+  'https://solutis.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
