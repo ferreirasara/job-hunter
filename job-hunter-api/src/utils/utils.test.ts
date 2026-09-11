@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { addMarkdown, calcContType, convertStrToArray, getNumberFromString, isUnwantedJob, normalizeDescription, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
+import { addMarkdown, convertStrToArray, getNumberFromString, isUnwantedJob, normalizeDescription, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
 
 const BASE_JOB = {
   title: 'developer',
@@ -80,17 +80,6 @@ describe('test convertStrToArray function', () => {
     const str = 'angular,react,vue';
     const result = convertStrToArray(str);
     expect(result).toEqual(['angular', 'react', 'vue']);
-  });
-});
-
-describe('test calcContType function', () => {
-  it('should return the correct contract type based on the input string', () => {
-    const result1 = calcContType(['react', 'react', 'python', 'typescript']);
-    expect(result1).toEqual([
-      { name: 'react', cont: 2 },
-      { name: 'python', cont: 1 },
-      { name: 'typescript', cont: 1 },
-    ]);
   });
 });
 

@@ -10,11 +10,6 @@ import {
 } from '../analyzer/regex';
 import { JobOpportunity } from '../entity/JobOpportunity';
 
-export type ContType = {
-  name: string;
-  cont: number;
-};
-
 export const interceptRequest = ({
   request,
   abortScript = true,
@@ -49,28 +44,6 @@ export const stringContainsAny = (
 
 export const convertStrToArray = (str: string): string[] => {
   return uniq(str?.split(',')?.map((cur) => cur?.trim()));
-};
-
-export const calcContType = (
-  arr: string[],
-  orderBy: 'cont' | 'name' = 'cont',
-): ContType[] => {
-  if (!isArray(arr)) return [];
-  const contTypes: ContType[] = [];
-  const valueToIndexMap: Record<string, number> = {};
-
-  for (const cur of arr) {
-    if (cur) {
-      const ind = valueToIndexMap[cur];
-      if (ind || ind === 0) {
-        contTypes[ind].cont++;
-      } else {
-        contTypes.push({ name: cur, cont: 1 });
-        valueToIndexMap[cur] = contTypes.length - 1;
-      }
-    }
-  }
-  return orderObjectsByField(contTypes, orderBy);
 };
 
 export function orderObjectsByField<T extends Record<string, any>>(
@@ -912,7 +885,14 @@ export const isUnwantedJob = (args: {
   ];
   const unwantedCompanyKeywords = ['bairesdev', 'jobgether'];
   const unwantedDescriptionKeywords = ['telemarketing', 'us-based', 'us based'];
-  const unwantedSkillsInTitleKeywords = [SKILLS_REGEX.ANGULAR, SKILLS_REGEX.VUE, SKILLS_REGEX.PYTHON, SKILLS_REGEX.PHP, SKILLS_REGEX.DOT_NET];
+  const unwantedSkillsInTitleKeywords = [
+    SKILLS_REGEX.ANGULAR,
+    SKILLS_REGEX.VUE,
+    SKILLS_REGEX.PYTHON,
+    SKILLS_REGEX.PHP,
+    SKILLS_REGEX.DOT_NET,
+    SKILLS_REGEX.MOBILE_DEVELOPMENT,
+  ];
 
   return (
     unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||

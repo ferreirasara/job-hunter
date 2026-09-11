@@ -217,6 +217,7 @@ export default function Stats() {
               <Card style={{ borderRadius: 12 }}><Statistic title="Média de entrevistas" value={data?.medianOfInterviews || 0} precision={2} prefix={<CheckCircleOutlined />} /></Card>
               <Card style={{ borderRadius: 12 }}><Statistic title="Média de testes" value={data?.medianOfTests || 0} precision={2} /></Card>
               <Card style={{ borderRadius: 12 }}><Statistic title="Vagas descartadas" value={data?.totalOfDiscardedJobs || 0} prefix={<CloseCircleOutlined />} valueStyle={{ color: '#cf1322' }} /></Card>
+              <Card style={{ borderRadius: 12 }}><Statistic title="Vagas indesejadas" value={data?.totalOfUnwantedJobs || 0} prefix={<CloseCircleOutlined />} valueStyle={{ color: '#cf1322' }} /></Card>
             </section>
 
             <section style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', marginBottom: 16 }}>

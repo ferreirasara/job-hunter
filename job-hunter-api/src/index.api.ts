@@ -40,6 +40,7 @@ AppDataSource.initialize()
       const showOnlyRecused = params.get('showOnlyRecused');
       const showOnlyNewJobs = params.get('showOnlyNewJobs');
       const showOnlyApplied = params.get('showOnlyApplied');
+      const showOnlyUnwanted = params.get('showOnlyUnwanted');
       const orderByField = params.get('orderByField');
       const orderByOrder = params.get('orderByOrder');
       const limit = params.get('limit');
@@ -77,6 +78,9 @@ AppDataSource.initialize()
         showOnlyApplied: showOnlyApplied
           ? decodeURI(showOnlyApplied)
           : undefined,
+        showOnlyUnwanted: showOnlyUnwanted
+          ? decodeURI(showOnlyUnwanted)
+          : undefined,
         orderByField: orderByField ? decodeURI(orderByField) : undefined,
         orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
       });
@@ -109,6 +113,11 @@ AppDataSource.initialize()
         updated = await JobOpportunityController.updateRecused(
           uuid,
           body?.recused,
+        );
+      if (body?.unwanted)
+        updated = await JobOpportunityController.updateUnwanted(
+          uuid,
+          body?.unwanted,
         );
       if (body?.numberOfInterviews)
         updated = await JobOpportunityController.updateNumberOfInterviews(

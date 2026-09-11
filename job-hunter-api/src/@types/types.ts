@@ -251,6 +251,7 @@ export type JobInput = {
   benefitsRating?: number;
   applied?: boolean;
   discarded?: boolean;
+  unwanted?: boolean;
   seniority?: JobSeniority;
 };
 
@@ -260,6 +261,7 @@ export type UpdateJobBody = {
   applied?: boolean;
   discarded?: boolean;
   recused?: boolean;
+  unwanted?: boolean;
   numberOfInterviews?: number;
   numberOfTests?: number;
 };
@@ -267,7 +269,7 @@ export type UpdateJobBody = {
 export type SaveJobsResponse = {
   totalJobs: number;
   jobsSavedCount: number;
-  jobsUnsavedCount: number;
+  unwantedJobsCount: number;
   duplicatedJobsCount: number;
   errorsList?: string[];
 };

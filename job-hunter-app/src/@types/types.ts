@@ -16,6 +16,7 @@ export interface GetJobsFromAPIArgs {
   showOnlyRecused?: boolean;
   showOnlyNewJobs?: boolean;
   showOnlyApplied?: boolean;
+  showOnlyUnwanted?: boolean;
 };
 
 export interface FiltersState extends GetJobsFromAPIArgs {
@@ -69,6 +70,7 @@ export interface JobsTableData {
   applied: boolean;
   discarded: boolean;
   recused: boolean;
+  unwanted: boolean;
   createdAt: Date;
   type: JobType;
   hiringRegime: JobHiringRegime;
@@ -92,10 +94,6 @@ export interface JobsResponse {
   allBenefits: string[];
 }
 
-export interface ContType {
-  name: string;
-  cont: number;
-};
 export interface StatsResponse {
   message ?: string;
   jobsPerPlatform: { platform: string; count: number } [];
@@ -107,10 +105,9 @@ export interface StatsResponse {
   totalOfAppliedJobs: number;
   totalOfDiscardedJobs: number;
   totalOfRecusedJobs: number;
+  totalOfUnwantedJobs: number;
   totalOfRecusedJobsWithoutEnterview: number;
   medianOfInterviews: number;
   medianOfTests: number;
   medianOfRatings: number;
-  skillsContType: ContType[];
-  benefitsContType: ContType[];
 };

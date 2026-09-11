@@ -44,6 +44,7 @@ const FiltersDrawer = ({
     showOnlyDiscarded: state.showOnlyDiscarded,
     showOnlyNewJobs: state.showOnlyNewJobs,
     showOnlyRecused: state.showOnlyRecused,
+    showOnlyUnwanted: state.showOnlyUnwanted,
     page: state.page,
     limit: state.limit,
     orderByOrder: state.orderByOrder,
@@ -65,6 +66,7 @@ const FiltersDrawer = ({
       { name: 'showOnlyDiscarded', value: INITIAL_FILTERS_STATE.showOnlyDiscarded },
       { name: 'showOnlyNewJobs', value: INITIAL_FILTERS_STATE.showOnlyNewJobs },
       { name: 'showOnlyRecused', value: INITIAL_FILTERS_STATE.showOnlyRecused },
+      { name: 'showOnlyUnwanted', value: INITIAL_FILTERS_STATE.showOnlyUnwanted },
       { name: 'orderByOrder', value: INITIAL_FILTERS_STATE.orderByOrder },
       { name: 'orderByField', value: INITIAL_FILTERS_STATE.orderByField },
     ]);
@@ -81,6 +83,7 @@ const FiltersDrawer = ({
       showOnlyDiscarded: INITIAL_FILTERS_STATE.showOnlyDiscarded,
       showOnlyNewJobs: INITIAL_FILTERS_STATE.showOnlyNewJobs,
       showOnlyRecused: INITIAL_FILTERS_STATE.showOnlyRecused,
+      showOnlyUnwanted: INITIAL_FILTERS_STATE.showOnlyUnwanted,
       orderByOrder: INITIAL_FILTERS_STATE.orderByOrder,
       orderByField: INITIAL_FILTERS_STATE.orderByField,
       skillsFilter: INITIAL_FILTERS_STATE.skillsFilter,
@@ -215,6 +218,9 @@ const FiltersDrawer = ({
         </Form.Item>
         <Form.Item name="showOnlyDiscarded" style={formItemStyle}>
           <Radio.Group options={[{ value: true, label: 'Descartadas' }, { value: false, label: 'Não descartadas' }]} />
+        </Form.Item>
+        <Form.Item name="showOnlyUnwanted" style={formItemStyle}>
+          <Radio.Group options={[{ value: true, label: 'Indesejadas' }, { value: false, label: 'Não indesejadas' }]} />
         </Form.Item>
         <Space>
           <Button

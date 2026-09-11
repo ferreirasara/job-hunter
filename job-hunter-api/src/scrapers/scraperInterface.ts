@@ -72,7 +72,7 @@ export default abstract class ScraperInterface {
     const jobs = await this.getJobs();
     const jobsLength = jobs?.length;
     let jobsSavedCount = 0;
-    let jobsUnsavedCount = 0;
+    let unwantedJobsCount = 0;
     let duplicatedJobsCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
@@ -81,7 +81,7 @@ export default abstract class ScraperInterface {
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwantedJob = isUnwantedJob({
+      const unwanted = isUnwantedJob({
         title,
         company,
         description,
@@ -89,20 +89,20 @@ export default abstract class ScraperInterface {
         skills: job.skills || '',
       });
 
-      if (!unwantedJob) {
-        const response = await JobOpportunityController.insert(job);
-        if (response?.success) {
-          jobsSavedCount++;
-        } else if (response?.message === 'Duplicated') {
-          duplicatedJobsCount++;
-          this.log(`duplicated job: ${job.title} (${job.company})`, {
-            color: '\x1b[34m',
-          });
-        } else {
-          this.log(`error while saving job: ${job.title} (${job.company})`, { error: true });
-        }
+      const response = await JobOpportunityController.insert({ ...job, unwanted });
+      if (response?.success && !unwanted) {
+        jobsSavedCount++;
+      } else if (response?.message === 'Duplicated') {
+        duplicatedJobsCount++;
+        this.log(`duplicated job: ${job.title} (${job.company})`, {
+          color: '\x1b[34m',
+        });
       } else {
-        jobsUnsavedCount++;
+        this.log(`error while saving job: ${job.title} (${job.company})`, { error: true });
+      }
+
+      if (unwanted) {
+        unwantedJobsCount++;
         this.log(`unwanted job: ${job.title} (${job.company})`, {
           color: '\x1b[34m',
         });
@@ -113,7 +113,7 @@ export default abstract class ScraperInterface {
 
     return {
       jobsSavedCount,
-      jobsUnsavedCount,
+      unwantedJobsCount,
       duplicatedJobsCount,
       totalJobs: jobs?.length,
       errorsList: this.errorsList,

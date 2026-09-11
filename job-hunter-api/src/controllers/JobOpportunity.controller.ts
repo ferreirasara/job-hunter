@@ -9,7 +9,7 @@ import {
 import { JobBenefit, JobInput, JobPlatform, JobSkill } from '../@types/types';
 import { AppDataSource } from '../data-source';
 import { JobOpportunity } from '../entity/JobOpportunity';
-import { calcContType, convertStrToArray, getJobRegex } from '../utils/utils';
+import { convertStrToArray, getJobRegex } from '../utils/utils';
 
 const getOrderBy = (
   orderByField: string,
@@ -50,6 +50,7 @@ export default class JobOpportunityController {
       where: {
         company: jobInput.company,
         title: jobInput.title,
+        idInPlatform: jobInput.idInPlatform,
         createdAt: MoreThanOrEqual(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)), // Check for jobs created in the last 30 days
       },
     });
@@ -74,6 +75,7 @@ export default class JobOpportunityController {
       newJob.totalRating = (jobInput?.skillsRating || 0) + (jobInput?.benefitsRating || 0);
       newJob.applied = jobInput.applied || false;
       newJob.discarded = jobInput.discarded || false;
+      newJob.unwanted = jobInput.unwanted || false;
       newJob.seniority = jobInput.seniority;
 
       try {
@@ -105,12 +107,14 @@ export default class JobOpportunityController {
     showOnlyRecused?: string;
     showOnlyNewJobs?: string;
     showOnlyApplied?: string;
+    showOnlyUnwanted?: string;
   }) {
-    const where: FindOptionsWhere<JobOpportunity> = {};
+    const where: FindOptionsWhere<JobOpportunity> = { };
 
     where.discarded = args?.showOnlyDiscarded === 'true' || false;
     where.recused = args?.showOnlyRecused === 'true' || false;
     where.applied = args?.showOnlyApplied === 'true' || false;
+    where.unwanted = args?.showOnlyUnwanted === 'true' || false;
 
     if (args?.platformFilter)
       where.platform = In(args?.platformFilter?.split(','));
@@ -148,7 +152,7 @@ export default class JobOpportunityController {
     const allRatings = await AppDataSource.manager.find(JobOpportunity, {
       order: { totalRating: 'ASC' },
       select: { totalRating: true },
-      where: { discarded: false },
+      where: { discarded: false, unwanted: false },
     });
 
     return {
@@ -175,6 +179,7 @@ export default class JobOpportunityController {
   public static async updateApplied(uuid: string, applied: boolean) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       applied,
+      unwanted: false,
     });
     return response?.affected && response?.affected > 0;
   }
@@ -184,6 +189,14 @@ export default class JobOpportunityController {
       discarded,
       applied: false,
       recused: false,
+      unwanted: false,
+    });
+    return response?.affected && response?.affected > 0;
+  }
+
+  public static async updateUnwanted(uuid: string, unwanted: boolean) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
+      unwanted,
     });
     return response?.affected && response?.affected > 0;
   }
@@ -280,82 +293,26 @@ export default class JobOpportunityController {
     return jobs;
   }
 
-  private static async getAllSkills({
-    unique,
-    considerDiscartedJobs,
-    whereFilter,
-  }: {
-    unique?: boolean;
-    considerDiscartedJobs?: boolean;
-    whereFilter?: FindOptionsWhere<JobOpportunity>;
-  }) {
-    const where: FindOptionsWhere<JobOpportunity> = whereFilter || {};
-
-    if (!considerDiscartedJobs) where.discarded = false;
-
-    const allSkillStrs = await AppDataSource.manager.find(JobOpportunity, {
-      where,
-      select: { skills: true },
-    });
-    const allSkills = flatten(
-      allSkillStrs?.map((cur) => convertStrToArray(cur?.skills || '')),
-    );
-
-    return unique
-      ? uniq(allSkills?.filter((cur) => !!cur))?.sort((a, b) =>
-        a.localeCompare(b),
-      )
-      : allSkills;
-  }
-
-  private static async getAllBenefits({
-    unique,
-    considerDiscartedJobs,
-    whereFilter,
-  }: {
-    unique?: boolean;
-    considerDiscartedJobs?: boolean;
-    whereFilter?: FindOptionsWhere<JobOpportunity>;
-  }) {
-    const where: FindOptionsWhere<JobOpportunity> = whereFilter || {};
-
-    if (!considerDiscartedJobs) where.discarded = false;
-
-    const allBeneftStrs = await AppDataSource.manager.find(JobOpportunity, {
-      where,
-      select: { benefits: true },
-    });
-    const allBenefits = flatten(
-      allBeneftStrs?.map((cur) => convertStrToArray(cur?.benefits || '')),
-    );
-
-    return unique
-      ? uniq(allBenefits?.filter((cur) => !!cur))?.sort((a, b) =>
-        a.localeCompare(b),
-      )
-      : allBenefits;
-  }
-
   public static async getStats() {
     const jobsPerPlatform: { platform: string; count: string }[] =
       await AppDataSource.manager.query(
-        'SELECT platform, COUNT(uuid) FROM job_opportunity GROUP BY platform',
+        'SELECT platform, COUNT(uuid) FROM job_opportunity WHERE unwanted = false GROUP BY platform',
       );
     const jobsPerCompany: { company: string; count: string }[] =
       await AppDataSource.manager.query(
-        'SELECT company, COUNT(uuid) FROM job_opportunity GROUP BY company',
+        'SELECT company, COUNT(uuid) FROM job_opportunity WHERE unwanted = false GROUP BY company',
       );
     const jobsPerRating: { totalRating: number; count: string }[] =
       await AppDataSource.manager.query(
-        'SELECT "totalRating", COUNT(uuid) FROM job_opportunity GROUP BY "totalRating"',
+        'SELECT "totalRating", COUNT(uuid) FROM job_opportunity WHERE unwanted = false GROUP BY "totalRating"',
       );
     const jobsPerType: { type: string; count: string }[] =
       await AppDataSource.manager.query(
-        'SELECT type, COUNT(uuid) FROM job_opportunity GROUP BY type',
+        'SELECT type, COUNT(uuid) FROM job_opportunity WHERE unwanted = false GROUP BY type',
       );
     const jobsPerHiringRegime: { hiringRegime: string; count: string }[] =
       await AppDataSource.manager.query(
-        'SELECT "hiringRegime", COUNT(uuid) FROM job_opportunity GROUP BY "hiringRegime"',
+        'SELECT "hiringRegime", COUNT(uuid) FROM job_opportunity WHERE unwanted = false GROUP BY "hiringRegime"',
       );
     const totalOfJobs = await AppDataSource.manager.count(JobOpportunity, {
       select: { uuid: true },
@@ -371,6 +328,10 @@ export default class JobOpportunityController {
     const totalOfRecusedJobs = await AppDataSource.manager.count(
       JobOpportunity,
       { select: { uuid: true }, where: { recused: true } },
+    );
+    const totalOfUnwantedJobs = await AppDataSource.manager.count(
+      JobOpportunity,
+      { select: { uuid: true }, where: { unwanted: true } },
     );
     const totalOfRecusedJobsWithoutEnterview =
       await AppDataSource.manager.count(JobOpportunity, {
@@ -391,10 +352,6 @@ export default class JobOpportunityController {
       JobOpportunity,
       'totalRating',
     ) || 0;
-    const allSkills = await this.getAllSkills({ considerDiscartedJobs: true });
-    const allBenefits = await this.getAllBenefits({
-      considerDiscartedJobs: true,
-    });
 
     return {
       jobsPerPlatform: jobsPerPlatform
@@ -416,13 +373,12 @@ export default class JobOpportunityController {
       totalOfJobs,
       totalOfAppliedJobs,
       totalOfDiscardedJobs,
+      totalOfUnwantedJobs,
       totalOfRecusedJobs,
       totalOfRecusedJobsWithoutEnterview,
       medianOfInterviews: sumOfNumberOfInterviews / totalOfAppliedJobs,
       medianOfTests: sumOfNumberOfTests / totalOfAppliedJobs,
       medianOfRatings: sumOfTotalRatings / totalOfJobs,
-      skillsContType: calcContType(allSkills),
-      benefitsContType: calcContType(allBenefits),
     };
   }
 }

@@ -204,7 +204,7 @@ export const SKILLS_REGEX = {
   ENGLISH: [/\bingles\b/i, /english/i, /lingua inglesa/],
   FEATURE_FLAG: [/feature flag(s)?/i, /posthog/i, /growthbook/i, /launchdarkly/i, /unleash/i],
   FLASK: [/flask/i],
-  FLUTTER: [/flutter/i],
+  FLUTTER: [/flutter/i, /widgetbook/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i, /\bparcel\b/i, /front( |-|\.)?end build/i, /ferramentas de build/i],
   FULL_STACK: [
     /full( |-|\.)?stack/i,
@@ -372,7 +372,7 @@ export const SKILLS_REGEX = {
   PWA: [/\bpwa\b/i, /progressive web app(s)?/i],
   RAZOR: [/razor/i],
   REACT: [/react(( |-|\.)?js)?(?! native)(?! hooks)(?!tive)/i, /reacjs/i],
-  REACT_HOOKS: [/react( |-|\.)?hook(s)?(?! form)/i, /hooks/i],
+  REACT_HOOKS: [/react( |-|\.)?hook(s)?(?! form)/i],
   REACT_ROUTER: [/react router/i],
   REASONML: [/reasonml/i],
   RESPONSIVE_DESIGN: [
@@ -387,7 +387,7 @@ export const SKILLS_REGEX = {
     /responsive/i,
     /portavel/i,
   ],
-  RUBY: [/\bruby((-| )on(-| )rails)?\b/i, /\brails\b/i],
+  RUBY: [/\bruby((-| )on(-| )rails)?\b/i, /\brails\b/i, /\brspec\b/i],
   RUST: [/\brust\b/i],
   SALESFORCE: [/salesforce/i],
   SAP: [/\bsap\b/i, /hybris/i, /\babap\b/i],

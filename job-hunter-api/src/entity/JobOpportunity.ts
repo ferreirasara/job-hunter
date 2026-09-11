@@ -85,6 +85,9 @@ export class JobOpportunity {
   @Column({ default: false })
   recused!: boolean;
 
+  @Column({ default: false })
+  unwanted!: boolean;
+
   @Column({ default: new Date() })
   createdAt!: Date;
 }

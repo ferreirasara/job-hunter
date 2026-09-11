@@ -10,6 +10,7 @@ export const INITIAL_FILTERS_STATE: Partial<GetJobsFromAPIArgs> = {
   showOnlyDiscarded: false,
   showOnlyNewJobs: false,
   showOnlyRecused: false,
+  showOnlyUnwanted: false,
   orderByOrder: 'ascend',
   orderByField: 'totalRating',
   skillsFilter: undefined,
