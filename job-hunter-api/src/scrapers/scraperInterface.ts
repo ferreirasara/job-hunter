@@ -90,15 +90,15 @@ export default abstract class ScraperInterface {
       });
 
       const response = await JobOpportunityController.insert({ ...job, unwanted });
-      if (response?.success && !unwanted) {
-        jobsSavedCount++;
+      if (response?.success) {
+        if (!unwanted) jobsSavedCount++;
       } else if (response?.message === 'Duplicated') {
         duplicatedJobsCount++;
         this.log(`duplicated job: ${job.title} (${job.company})`, {
           color: '\x1b[34m',
         });
       } else {
-        this.log(`error while saving job: ${job.title} (${job.company})`, { error: true });
+        this.log(`error while saving job: ${job.title} (${job.company}). ${response?.message || ''}`, { error: true });
       }
 
       if (unwanted) {

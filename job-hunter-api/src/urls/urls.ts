@@ -116,6 +116,8 @@ export const INHIRE_URLS = [
   'https://nava.inhire.app/vagas/',
   'https://unico.inhire.app/vagas/',
   'https://solutis.inhire.app/vagas/',
+  'https://cashme.inhire.app/vagas/',
+  'https://lighthouseit.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
