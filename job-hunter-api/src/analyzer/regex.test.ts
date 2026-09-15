@@ -504,6 +504,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'next-js', regex: SKILLS_REGEX.NEXT, toBe: true },
         { str: 'next js', regex: SKILLS_REGEX.NEXT, toBe: true },
         { str: 'nextjs', regex: SKILLS_REGEX.NEXT, toBe: true },
+        { str: 'nextdoor', regex: SKILLS_REGEX.NEXT, toBe: false },
       ],
     },
     {

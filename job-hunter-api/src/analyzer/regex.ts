@@ -204,7 +204,7 @@ export const SKILLS_REGEX = {
   ENGLISH: [/\bingles\b/i, /english/i, /lingua inglesa/],
   FEATURE_FLAG: [/feature flag(s)?/i, /posthog/i, /growthbook/i, /launchdarkly/i, /unleash/i],
   FLASK: [/flask/i],
-  FLUTTER: [/flutter/i, /widgetbook/i],
+  FLUTTER: [/f(l)?utter/i, /widgetbook/i],
   FRONTEND_BUILD_TOOLS: [/webpack/i, /babel/i, /\vite/i, /\bparcel\b/i, /front( |-|\.)?end build/i, /ferramentas de build/i],
   FULL_STACK: [
     /full( |-|\.)?stack/i,
@@ -309,8 +309,8 @@ export const SKILLS_REGEX = {
     /react( |-|\.)?native/i,
     /watermelondb/i,
   ],
-  NEST: [/\bnest(( |-|\.)?js)?\b/i],
-  NEXT: [/\bnext(( |-|\.)?js)?(?! (steps|generation|in))/i],
+  NEST: [/\b\bnest(( |-|\.)?js)?\b/i],
+  NEXT: [/\bnext(( |-|\.)?js)?(?! (steps|generation|in))\b/i],
   NETWORK: [
     /\bcpe\b/i,
     /\bgpon\b/i,

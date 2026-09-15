@@ -118,6 +118,7 @@ export const INHIRE_URLS = [
   'https://solutis.inhire.app/vagas/',
   'https://cashme.inhire.app/vagas/',
   'https://lighthouseit.inhire.app/vagas/',
+  'https://sympla.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
