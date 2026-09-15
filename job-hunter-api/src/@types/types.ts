@@ -203,6 +203,7 @@ export enum JobPlatform {
   INHIRE = 'INHIRE',
   FRONTENDBR = 'FRONTENDBR',
   REMOTEROCKETSHIP = 'REMOTEROCKETSHIP',
+  QUICKIN = 'QUICKIN',
 }
 
 export type GupyResponse = {
@@ -291,6 +292,7 @@ export type ScrapersToRun = 'gupy' |
   'inhire' |
   'frontendbr' |
   'remoterocketship' |
+  'quickin' |
   'all';
 
 export type SolidesResponse = {

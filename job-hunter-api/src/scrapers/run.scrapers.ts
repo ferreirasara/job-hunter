@@ -7,6 +7,7 @@ import GupyScraper from './gupy.scraper';
 import InhireScraper from './inhire.scraper';
 import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
+import QuickinScraper from './quickin.scraper';
 import RemotarScraper from './remotar.scraper';
 import RemoteOkScraper from './remoteok.scraper';
 import RemoteRocketshipScraper from './remoterocketship.scraper';
@@ -146,6 +147,13 @@ export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
     const remoteRocketshipScraper = new RemoteRocketshipScraper({});
     result = await remoteRocketshipScraper.saveJobs();
     remoteRocketshipScraper.clearErrorsList();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun.includes('quickin') || scrapersToRun.includes('all')) {
+    const quickinScraper = new QuickinScraper({});
+    result = await quickinScraper.saveJobs();
+    quickinScraper.clearErrorsList();
     updateCounts(result);
   }
 
