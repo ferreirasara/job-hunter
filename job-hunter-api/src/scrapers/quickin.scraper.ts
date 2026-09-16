@@ -87,9 +87,10 @@ export default class QuickinScraper extends ScraperInterface {
           'div.mb-4',
           (el) => el?.innerText,
         );
+        const info = (await page?.$$eval('h5 > span', (el) => el?.map((cur) => cur?.innerText)))?.join(', ');
         const analyzerResponse = analyzeDescription({
           title,
-          description,
+          description: info + '\n\n' + description,
         });
 
         jobs?.push({
