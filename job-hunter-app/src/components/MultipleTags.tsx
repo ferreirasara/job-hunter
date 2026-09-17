@@ -158,6 +158,7 @@ export const SKILL_RATING = {
   STORYBOOK: 3,
   STRAPI: -5,
   STYLED_COMPONENTS: 5,
+  SVELTE: -5,
   SWAGGER: 4,
   SWIFT: -5,
   TAILWIND: 4,

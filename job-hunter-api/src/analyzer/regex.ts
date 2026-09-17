@@ -422,6 +422,7 @@ export const SKILLS_REGEX = {
   STORYBOOK: [/storybook/i, /documentacao de componentes/i],
   STRAPI: [/strapi/i],
   STYLED_COMPONENTS: [/styled( |-|\.)?component(s)?/i],
+  SVELTE: [/svelte(( |-|\.)?js)?/i],
   SWAGGER: [/swag(g)?e(r)?/i],
   SWIFT: [/\bswift\b/i],
   TAILWIND: [/tailwind( |-|\.)?(css)?/i],
