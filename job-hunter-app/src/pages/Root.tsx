@@ -82,8 +82,13 @@ export default function Root() {
       icon: <CopyOutlined />,
     },
     {
-      key: 'online-curriculum',
-      label: <a href="https://ferreirasara.github.io/curriculum-vitae/" target='_blank'>Currículo on-line</a>,
+      key: 'online-curriculum-en',
+      label: <a href="https://ferreirasara.github.io/curriculum-vitae/" target='_blank'>Currículo on-line (en)</a>,
+      icon: <LinkOutlined />,
+    },
+    {
+      key: 'online-curriculum-pt-br',
+      label: <a href="https://ferreirasara.github.io/curriculum-vitae/index-pt-br/" target='_blank'>Currículo on-line (pt-br)</a>,
       icon: <LinkOutlined />,
     },
     {
