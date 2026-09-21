@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_URL, LOCAL_STORAGE_SECRET_TOKEN_KEY } from '../utils/utils';
+import message from 'antd/es/message';
 
 export const useUpdateDiscarded = () => {
   const queryClient = useQueryClient();
@@ -17,10 +18,19 @@ export const useUpdateDiscarded = () => {
         body: JSON.stringify({ discarded }),
       });
       const responseJson = await response?.json();
+
+      if (!response.ok) {
+        throw new Error(responseJson?.message || 'Unknown error');
+      }
+
       return responseJson;
     },
     onSuccess: () => {
+      message.success(`Status de descartado atualizado com sucesso`);
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    },
+    onError: (error) => {
+      message.error(`Erro ao atualizar o status de descartado: ${error instanceof Error ? error.message : 'Unknown error'}`);
     },
   })
 };

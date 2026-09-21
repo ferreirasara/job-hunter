@@ -1,5 +1,5 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import { memo, useCallback } from 'react';
 import { useUpdateUnwanted } from '../hooks/useUpdateUnwanted';
 import { JobsTableData } from '../@types/types';
@@ -15,42 +15,22 @@ const UnwantedButton = ({
   job,
   onFinish,
 }: UnwantedButtonProps) => {
-  const [messageApi, contextHolder] = message.useMessage();
-
   const { mutateAsync, isPending } = useUpdateUnwanted();
   const handleSetAsUnwanted = useCallback(async () => {
     if (!uuid) return;
-    await mutateAsync({ uuid, unwanted: !job?.unwanted }, {
-      onError(error) {
-        messageApi.open({
-          content: `Erro ao atualizar vaga! Erro: ${error.message}`,
-          type: 'error',
-          duration: 10,
-        });
-      },
-      onSuccess() {
-        messageApi.open({
-          content: `Vaga ${job?.unwanted ? 'não indesejada' : 'indesejada'}!`,
-          type: 'success',
-          duration: 10,
-        });
-        onFinish();
-      }
-    });
-  }, [messageApi, onFinish, uuid]);
+    await mutateAsync({ uuid, unwanted: !job?.unwanted });
+    onFinish?.();
+  }, [onFinish, uuid]);
 
   return (
-    <>
-      {contextHolder}
-      <Button
-        size="small"
-        icon={<CloseCircleOutlined />}
-        onClick={handleSetAsUnwanted}
-        loading={isPending}
-      >
-        {job?.unwanted ? 'Não indesejar' : 'Indesejar'}
-      </Button>
-    </>
+    <Button
+      size="small"
+      icon={<CloseCircleOutlined />}
+      onClick={handleSetAsUnwanted}
+      loading={isPending}
+    >
+      {job?.unwanted ? 'Não indesejar' : 'Indesejar'}
+    </Button>
   );
 };
 
