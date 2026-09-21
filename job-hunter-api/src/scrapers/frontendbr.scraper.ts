@@ -8,12 +8,8 @@ import { uniq } from 'lodash';
 const platform: JobPlatform = JobPlatform.FRONTENDBR;
 
 export default class FrontendBrScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -22,13 +18,7 @@ export default class FrontendBrScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
-      this.platform,
-    );
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls.slice(0, 1));
@@ -39,16 +29,17 @@ export default class FrontendBrScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page) {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     try {
       await page.goto('https://frontendbr.com/');
       const urls: string[] = await page?.$$eval('a.text-sm.font-medium.text-primary.underline-offset-4', (el) =>
         el?.map((cur) => cur?.href),
       );
 
-      const result: JobInitialData[] = urls?.map((url) => ({
-        url,
-        idInPlatform: url?.split('vagas/')?.[1]?.split('/')?.[0],
-      }));
+      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
 
       return result;
     } catch (e) {
@@ -100,5 +91,12 @@ export default class FrontendBrScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url?.split('vagas/')?.[1]?.split('/')?.[0],
+    };
   }
 }

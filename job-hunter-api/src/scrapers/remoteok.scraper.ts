@@ -9,12 +9,8 @@ import { sleep } from '../utils/utils';
 const platform: JobPlatform = JobPlatform.REMOTEOK;
 
 export default class RemoteOkScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -23,13 +19,7 @@ export default class RemoteOkScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
-      this.platform,
-    );
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
@@ -39,7 +29,11 @@ export default class RemoteOkScraper extends ScraperInterface {
     return jobs;
   }
 
-  private async getUrls(page: Page) {
+  private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     try {
       await page.goto('https://remoteok.com/remote-front-end-jobs', {
         waitUntil: 'domcontentloaded',
@@ -60,22 +54,9 @@ export default class RemoteOkScraper extends ScraperInterface {
       );
 
       const allUrls: string[] = uniq([...frontendUrls, ...reactUrls]);
-      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => {
-        const urlParts = url?.split('/remote-jobs/')?.[1]?.split('-');
-        return {
-          url,
-          idInPlatform: urlParts?.[urlParts?.length - 1],
-        };
-      });
+      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
 
-      const existentJobs =
-        await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-      const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-      const filteredUrls = this.filterExistentsJobs
-        ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-        : urls;
-
-      return filteredUrls;
+      return urls;
     } catch (e) {
       this.log(e, { error: true });
       return [];
@@ -122,5 +103,13 @@ export default class RemoteOkScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    const urlParts = url?.split('/remote-jobs/')?.[1]?.split('-');
+    return {
+      url,
+      idInPlatform: urlParts?.[urlParts?.length - 1],
+    };
   }
 }

@@ -1,10 +1,10 @@
-import { Button, Drawer, Form, Grid, Input, Radio, Select, Space, Switch } from 'antd';
+import { INITIAL_FILTERS_STATE, PLATFORM_OPTIONS, TYPE_OPTIONS, HIRING_REGIME_OPTIONS, SENIORITY_OPTIONS } from '../utils/constants';
 import { memo } from 'react';
-import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types';
+import { GetJobsFromAPIArgs } from '../@types/types';
 import { useFilters } from '../store/filters.store';
 import { useGetJobs } from '../hooks/useGetJobs';
 import { ClearOutlined, FilterOutlined } from '@ant-design/icons';
-import { INITIAL_FILTERS_STATE } from '../utils/constants';
+import { Grid, Form, Drawer, Select, Input, Switch, Radio, Space, Button } from 'antd';
 
 interface FiltersDrawerProps {
   open: boolean;
@@ -26,11 +26,6 @@ const FiltersDrawer = ({
   const state = useFilters((state) => state);
   const { data, isLoading } = useGetJobs();
   const showAllJobs = Form.useWatch('showAllJobs', form);
-
-  const typeOptions = Object.keys(JobType);
-  const hiringRegimeOptions = Object.keys(JobHiringRegime);
-  const seniorityOptions = Object.keys(JobSeniority);
-  const platformOptions = Object.keys(JobPlatform);
 
   const initialValues: GetJobsFromAPIArgs = {
     benefitFilter: state.benefitFilter,
@@ -113,7 +108,7 @@ const FiltersDrawer = ({
           <Select
             allowClear
             showSearch
-            options={platformOptions?.map((cur) => ({
+            options={PLATFORM_OPTIONS?.map((cur) => ({
               label: cur,
               value: cur,
             }))}
@@ -129,7 +124,7 @@ const FiltersDrawer = ({
           <Select
             allowClear
             showSearch
-            options={typeOptions?.map((cur) => ({ label: cur, value: cur }))}
+            options={TYPE_OPTIONS?.map((cur) => ({ label: cur, value: cur }))}
           />
         </Form.Item>
         <Form.Item
@@ -140,7 +135,7 @@ const FiltersDrawer = ({
           <Select
             allowClear
             showSearch
-            options={hiringRegimeOptions?.map((cur) => ({
+            options={HIRING_REGIME_OPTIONS?.map((cur) => ({
               label: cur,
               value: cur,
             }))}
@@ -154,7 +149,7 @@ const FiltersDrawer = ({
           <Select
             allowClear
             showSearch
-            options={seniorityOptions?.map((cur) => ({
+            options={SENIORITY_OPTIONS?.map((cur) => ({
               label: cur,
               value: cur,
             }))}

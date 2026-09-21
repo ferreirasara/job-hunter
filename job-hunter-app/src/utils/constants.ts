@@ -1,4 +1,4 @@
-import { GetJobsFromAPIArgs } from '../@types/types'
+import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types'
 
 export const COVER_LETTER = 'Sou bacharel em Ciência da Computação e pós-graduada em User Experience (UX), contando com 6 anos de experiência em desenvolvimento de software. Minha principal força e foco de atuação estão no ecossistema Front-end, no qual possuo sólido domínio de tecnologias como React, Next.js, TypeScript, testes automatizados e arquitetura de interfaces intuitivas e de alta performance. Embora minha clara preferência seja o Front-end, também tenho bagagem consistente em Back-end (com Node.js, Nest.js, APIs e bancos de dados) e experiência prévia atuando como desenvolvedora Full Stack. Além da bagagem técnica, destacam-se como minhas principais soft skills a comunicação clara e empática, a organização rigorosa com código e entregas, e uma elevada autonomia para conduzir projetos do início ao fim.'
 
@@ -14,3 +14,8 @@ export const INITIAL_FILTERS_STATE: Partial<GetJobsFromAPIArgs> = {
   orderByField: 'totalRating',
   skillsFilter: undefined,
 }
+
+export const TYPE_OPTIONS = Object.keys(JobType).sort((a, b) => a.localeCompare(b));
+export const HIRING_REGIME_OPTIONS = Object.keys(JobHiringRegime).sort((a, b) => a.localeCompare(b));
+export const SENIORITY_OPTIONS = Object.keys(JobSeniority).sort((a, b) => a.localeCompare(b));
+export const PLATFORM_OPTIONS = Object.keys(JobPlatform).sort((a, b) => a.localeCompare(b));

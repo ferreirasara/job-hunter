@@ -1,4 +1,4 @@
-import { JobInput, JobPlatform, SolidesJob, SolidesResponse } from '../@types/types';
+import { JobInitialData, JobInput, JobPlatform, SolidesJob, SolidesResponse } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { formSolidesUrl, removeHtmlTags } from '../utils/utils';
@@ -7,12 +7,8 @@ import ScraperInterface from './scraperInterface';
 const platform: JobPlatform = JobPlatform.SOLIDES;
 
 export default class SolidesScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -33,7 +29,7 @@ export default class SolidesScraper extends ScraperInterface {
   }
 
   private convertJob(solidesJob: SolidesJob): JobInput {
-    const description = `Área de ocupação: ${solidesJob?.occupationAreas?.map((cur) => cur.name).join(', ')}\n\nSkills: ${solidesJob?.hardSkills?.map((cur) => cur.name).join(', ')}\n\nEducação: ${solidesJob?.education?.map((cur) => cur.name).join(', ')}\n\Idiomas: ${solidesJob?.language?.map((cur) => cur.name).join(', ')}\n\Senioridade: ${solidesJob?.seniority?.map((cur) => cur.name).join(', ')}\n\Tipo de recrutamento: ${solidesJob?.recruitmentContractType?.map((cur) => cur.name).join(', ')}\n\nBenefícios: ${solidesJob?.benefits?.map((cur) => cur.name).join(', ')}\n\nDescrição: ${removeHtmlTags(solidesJob?.description)}`;
+    const description = `Área de ocupação: ${solidesJob?.occupationAreas?.map((cur) => cur.name).join(', ')}\n\nSkills: ${solidesJob?.hardSkills?.map((cur) => cur.name).join(', ')}\n\nEducação: ${solidesJob?.education?.map((cur) => cur.name).join(', ')}\n\nIdiomas: ${solidesJob?.language?.map((cur) => cur.name).join(', ')}\n\nSenioridade: ${solidesJob?.seniority?.map((cur) => cur.name).join(', ')}\n\nTipo de recrutamento: ${solidesJob?.recruitmentContractType?.map((cur) => cur.name).join(', ')}\n\nBenefícios: ${solidesJob?.benefits?.map((cur) => cur.name).join(', ')}\n\nDescrição: ${removeHtmlTags(solidesJob?.description)}`;
     const analyzerResponse = analyzeDescription({
       title: solidesJob?.title,
       description,
@@ -142,5 +138,12 @@ export default class SolidesScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url,
+    };
   }
 }

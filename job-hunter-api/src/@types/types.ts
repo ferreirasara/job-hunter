@@ -200,7 +200,7 @@ export enum JobPlatform {
   SOLIDES = 'SOLIDES',
   WE_WORK_REMOTELY = 'WE_WORK_REMOTELY',
   REMOTEOK = 'REMOTEOK',
-  REMOTIFYEUREPE = 'REMOTIFYEUREPE',
+  REMOTIFYEUROPE = 'REMOTIFYEUROPE',
   INHIRE = 'INHIRE',
   FRONTENDBR = 'FRONTENDBR',
   REMOTEROCKETSHIP = 'REMOTEROCKETSHIP',
@@ -272,29 +272,7 @@ export type SaveJobsResponse = {
   totalJobs: number;
   jobsSavedCount: number;
   unwantedJobsCount: number;
-  duplicatedJobsCount: number;
-  errorsList?: string[];
 };
-
-export type ScrapersToRun = 'gupy' |
-  'programathor' |
-  'remotar' |
-  'trampos' |
-  'vagas' |
-  'linkedin' |
-  'jobatus' |
-  'divulgaVagas' |
-  'coodesh' |
-  'startup' |
-  'solides' |
-  'weworkremotely' |
-  'remoteok' |
-  'remotifyeurope' |
-  'inhire' |
-  'frontendbr' |
-  'remoterocketship' |
-  'quickin' |
-  'all';
 
 export type SolidesResponse = {
   data: {

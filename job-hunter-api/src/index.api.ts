@@ -198,8 +198,27 @@ AppDataSource.initialize()
         return;
       }
 
-      runScrapers(['all']);
+      runScrapers('all');
       res.send({ message: 'Scrapers executed successfully' });
+    });
+
+    app.post('/import-job', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      const platform = req.body?.platform;
+      const url = req.body?.url;
+
+      if (!platform || !url) {
+        res.send({ message: 'Platform and URL are required' });
+        return;
+      }
+
+      const totalJobs = await runScrapers(platform, url);
+      res.send({ message: 'Scrapers executed successfully', totalJobs });
     });
 
     app.all('/{*splat}', (req, res) => {

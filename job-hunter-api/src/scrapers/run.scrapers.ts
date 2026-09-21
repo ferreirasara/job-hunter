@@ -1,10 +1,11 @@
-import { SaveJobsResponse, ScrapersToRun } from '../@types/types';
-import { sendMessageToTelegram, uploadErrorList } from '../utils/utils';
+import { JobPlatform, SaveJobsResponse } from '../@types/types';
+import { sendMessageToTelegram } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import FrontendBrScraper from './frontendbr.scraper';
 import GupyScraper from './gupy.scraper';
 import InhireScraper from './inhire.scraper';
+import JobatusScraper from './jobatus.scraper';
 import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import QuickinScraper from './quickin.scraper';
@@ -14,162 +15,147 @@ import RemoteRocketshipScraper from './remoterocketship.scraper';
 import RemotifyEuropeScraper from './remotifyeurope.scraper';
 import SolidesScraper from './solides.scraper';
 import StartupScraper from './startup.scraper';
+import TramposScraper from './trampos.scraper';
+import VagasScraper from './vagas.scraper';
 import WeWorkRemotelyScraper from './weworkremotely.scraper';
 
-export const runScrapers = async (scrapersToRun: ScrapersToRun[]) => {
+export const runScrapers = async (scrapersToRun: JobPlatform | 'all', initialUrl?: string): Promise<number> => {
   let result: SaveJobsResponse | null = null;
   let totalJobs = 0;
   let jobsSavedCount = 0;
   let unwantedJobsCount = 0;
-  let duplicatedJobsCount = 0;
-
-  const errorsList: string[] = [];
 
   const updateCounts = (result: SaveJobsResponse) => {
     totalJobs += result.totalJobs;
     jobsSavedCount += result.jobsSavedCount;
     unwantedJobsCount += result.unwantedJobsCount;
-    duplicatedJobsCount += result.duplicatedJobsCount;
-    errorsList.push(...(result.errorsList || []));
   };
 
   const start = new Date();
+  const runAll = scrapersToRun === 'all';
 
-  if (scrapersToRun.includes('startup') || scrapersToRun.includes('all')) {
-    const startupScraper = new StartupScraper({});
+  if (scrapersToRun === JobPlatform.STARTUP || runAll) {
+    const startupScraper = new StartupScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await startupScraper.saveJobs();
-    startupScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('gupy') || scrapersToRun.includes('all')) {
-    const gupyScraper = new GupyScraper({});
+  if (scrapersToRun === JobPlatform.GUPY || runAll) {
+    const gupyScraper = new GupyScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await gupyScraper.saveJobs();
-    gupyScraper.clearErrorsList();
     updateCounts(result);
   }
 
 
-  if (scrapersToRun.includes('linkedin') || scrapersToRun.includes('all')) {
-    const linkedinScraper = new LinkedinScraper({});
+  if (scrapersToRun === JobPlatform.LINKEDIN || runAll) {
+    const linkedinScraper = new LinkedinScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await linkedinScraper.saveJobs();
-    linkedinScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('programathor') || scrapersToRun.includes('all')) {
-    const programathorScraper = new ProgramathorScraper({});
+  if (scrapersToRun === JobPlatform.PROGRAMATHOR || runAll) {
+    const programathorScraper = new ProgramathorScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await programathorScraper.saveJobs();
-    programathorScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('remotar') || scrapersToRun.includes('all')) {
-    const remotarScraper = new RemotarScraper({});
+  if (scrapersToRun === JobPlatform.REMOTAR || runAll) {
+    const remotarScraper = new RemotarScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await remotarScraper.saveJobs();
-    remotarScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  // if (scrapersToRun.includes('trampos') || scrapersToRun.includes('all')) {
-  //   const tramposScraper = new TramposScraper({});
-  //   result = await tramposScraper.saveJobs();
-  //   updateCounts(result);
-  // }
+  if (scrapersToRun === JobPlatform.TRAMPOS || runAll) {
+    const tramposScraper = new TramposScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await tramposScraper.saveJobs();
+    updateCounts(result);
+  }
 
-  // if (scrapersToRun.includes('vagas') || scrapersToRun.includes('all')) {
-  //   const vagasScraper = new VagasScraper({});
-  //   result = await vagasScraper.saveJobs();
-  //   updateCounts(result);
-  // }
+  if (scrapersToRun === JobPlatform.VAGAS || runAll) {
+    const vagasScraper = new VagasScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await vagasScraper.saveJobs();
+    updateCounts(result);
+  }
 
-  // const jobatusScraper = new JobatusScraper({});
-  // result = await jobatusScraper.saveJobs();
-  // updateCounts(result);
+  if (scrapersToRun === JobPlatform.JOBATUS || runAll) {
+    const jobatusScraper = new JobatusScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await jobatusScraper.saveJobs();
+    updateCounts(result);
+  }
 
-  if (scrapersToRun.includes('divulgaVagas') || scrapersToRun.includes('all')) {
-    const divulgaVagasScraper = new DivulgaVagasScraper({});
+  if (scrapersToRun === JobPlatform.DIVULGA_VAGAS || runAll) {
+    const divulgaVagasScraper = new DivulgaVagasScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await divulgaVagasScraper.saveJobs();
-    divulgaVagasScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('coodesh') || scrapersToRun.includes('all')) {
-    const coodeshScraper = new CoodeshScraper({});
+  if (scrapersToRun === JobPlatform.COODESH || runAll) {
+    const coodeshScraper = new CoodeshScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await coodeshScraper.saveJobs();
-    coodeshScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('solides') || scrapersToRun.includes('all')) {
-    const solidesScraper = new SolidesScraper({});
+  if (scrapersToRun === JobPlatform.SOLIDES || runAll) {
+    const solidesScraper = new SolidesScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await solidesScraper.saveJobs();
-    solidesScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('weworkremotely') || scrapersToRun.includes('all')) {
-    const weWorkRemotelyScraper = new WeWorkRemotelyScraper({});
+  if (scrapersToRun === JobPlatform.WE_WORK_REMOTELY || runAll) {
+    const weWorkRemotelyScraper = new WeWorkRemotelyScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await weWorkRemotelyScraper.saveJobs();
-    weWorkRemotelyScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('remoteok') || scrapersToRun.includes('all')) {
-    const remoteOkScraper = new RemoteOkScraper({});
+  if (scrapersToRun === JobPlatform.REMOTEOK || runAll) {
+    const remoteOkScraper = new RemoteOkScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await remoteOkScraper.saveJobs();
-    remoteOkScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('remotifyeurope') || scrapersToRun.includes('all')) {
-    const remotifyEuropeScraper = new RemotifyEuropeScraper({});
+  if (scrapersToRun === JobPlatform.REMOTIFYEUROPE || runAll) {
+    const remotifyEuropeScraper = new RemotifyEuropeScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await remotifyEuropeScraper.saveJobs();
-    remotifyEuropeScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('inhire') || scrapersToRun.includes('all')) {
-    const inhireScraper = new InhireScraper({});
+  if (scrapersToRun === JobPlatform.INHIRE || runAll) {
+    const inhireScraper = new InhireScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await inhireScraper.saveJobs();
-    inhireScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('frontendbr') || scrapersToRun.includes('all')) {
-    const frontendBrScraper = new FrontendBrScraper({});
+  if (scrapersToRun === JobPlatform.FRONTENDBR || runAll) {
+    const frontendBrScraper = new FrontendBrScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await frontendBrScraper.saveJobs();
-    frontendBrScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('remoterocketship') || scrapersToRun.includes('all')) {
-    const remoteRocketshipScraper = new RemoteRocketshipScraper({});
+  if (scrapersToRun === JobPlatform.REMOTEROCKETSHIP || runAll) {
+    const remoteRocketshipScraper = new RemoteRocketshipScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await remoteRocketshipScraper.saveJobs();
-    remoteRocketshipScraper.clearErrorsList();
     updateCounts(result);
   }
 
-  if (scrapersToRun.includes('quickin') || scrapersToRun.includes('all')) {
-    const quickinScraper = new QuickinScraper({});
+  if (scrapersToRun === JobPlatform.QUICKIN || runAll) {
+    const quickinScraper = new QuickinScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await quickinScraper.saveJobs();
-    quickinScraper.clearErrorsList();
     updateCounts(result);
   }
 
   const end = new Date();
   const durationInMinutes = ((end.getTime() - start.getTime()) / 60000).toFixed(2);
 
-  
-  console.log(`\n\n\x1b[43m Number of total jobs: ${totalJobs} \x1b[0m`);
-  console.log(`\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
-  console.log(`\x1b[43m Number of unwanted jobs: ${unwantedJobsCount} \x1b[0m`);
-  console.log(`\x1b[43m Number of duplicated jobs: ${duplicatedJobsCount} \x1b[0m`);
-  console.log(`\x1b[43m Scraping duration: ${durationInMinutes} min \x1b[0m`);
+  if (totalJobs > 0) {
+    console.log(`\n\n\x1b[43m Total jobs: ${totalJobs} \x1b[0m`);
+    console.log(`\n\x1b[43m Number of saved jobs: ${jobsSavedCount} \x1b[0m`);
+    console.log(`\x1b[43m Number of unwanted jobs: ${unwantedJobsCount} \x1b[0m`);
+    console.log(`\x1b[43m Scraping duration: ${durationInMinutes} min \x1b[0m`);
 
-  if (jobsSavedCount > 0) {
-    await sendMessageToTelegram(`Scrapers executed!\n\nNumber of total jobs: ${totalJobs}\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unwanted jobs: ${unwantedJobsCount}\nNumber of duplicated jobs: ${duplicatedJobsCount}\n\nScraping duration: ${durationInMinutes} min`);
+    if (jobsSavedCount > 0) {
+      await sendMessageToTelegram(`Scrapers executed!\n\nNumber of total jobs: ${totalJobs}\nNumber of saved jobs: ${jobsSavedCount}\nNumber of unwanted jobs: ${unwantedJobsCount}\n\nScraping duration: ${durationInMinutes} min`);
+    }
   }
 
-  await uploadErrorList(errorsList);
+  return totalJobs;
 }

@@ -8,12 +8,8 @@ import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.JOBATUS;
 export default class JobatusScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -22,12 +18,7 @@ export default class JobatusScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs =
-      await JobOpportunityController.getAllJobsFromPlatform(platform);
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
@@ -39,6 +30,10 @@ export default class JobatusScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     const result: JobInitialData[] = [];
     for (const url of JOBATUS_URLS) {
       try {
@@ -46,12 +41,7 @@ export default class JobatusScraper extends ScraperInterface {
         const urls: string[] = await page?.$$eval('p.jobtitle > a', (el) =>
           el?.map((cur) => cur?.href),
         );
-        result?.push(
-          ...urls?.map((url) => ({
-            url,
-            idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1],
-          })),
-        );
+        result?.push(...urls?.map((url) => this.convertUrlToJobInitialData(url)));
       } catch (e) {
         this.log(e, { error: true });
         continue;
@@ -115,5 +105,12 @@ export default class JobatusScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url?.split('-')?.[url?.split('-')?.length - 1],
+    };
   }
 }

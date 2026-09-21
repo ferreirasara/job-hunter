@@ -7,12 +7,8 @@ import ScraperInterface from './scraperInterface';
 const platform: JobPlatform = JobPlatform.TRAMPOS;
 
 export default class TramposScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -21,13 +17,7 @@ export default class TramposScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
-      this.platform,
-    );
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
@@ -37,7 +27,11 @@ export default class TramposScraper extends ScraperInterface {
     return jobs;
   }
 
-  private async getUrls(page: Page) {
+  private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     try {
       await page.goto(
         'https://trampos.co/oportunidades/?ct[]=programacao&tp[]=emprego&tp[]=freela',
@@ -57,10 +51,7 @@ export default class TramposScraper extends ScraperInterface {
       const urls: string[] = await page?.$$eval('a.ember-view', (el) =>
         el?.map((cur) => cur?.href),
       );
-      const result: JobInitialData[] = urls?.map((url) => ({
-        url,
-        idInPlatform: url?.split('oportunidades/')?.[1]?.split('?')?.[0],
-      }));
+      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
 
       return result;
     } catch (e) {
@@ -128,5 +119,12 @@ export default class TramposScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url?.split('oportunidades/')?.[1]?.split('?')?.[0],
+    };
   }
 }

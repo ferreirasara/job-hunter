@@ -1,4 +1,4 @@
-import { BarChartOutlined, CopyOutlined, FilePdfOutlined, FilterOutlined, LinkOutlined, MoreOutlined, PlayCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, CopyOutlined, FilePdfOutlined, FilterOutlined, LinkOutlined, MoreOutlined, PlayCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Alert, Button, Divider, Dropdown, MenuProps, message, Space } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
@@ -11,11 +11,13 @@ import { useFilters } from '../store/filters.store';
 import { calcLimit } from '../utils/utils';
 import { useRunScrapers } from '../hooks/useRunScrapers';
 import { COVER_LETTER } from '../utils/constants';
+import ImportJobModal from '../components/ImportJobModal';
 
 export default function Root() {
   const [selectedJobUuid, setSelectedJobUuid] = useState<string>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
+  const [importJobModalOpen, setImportJobModalOpen] = useState<boolean>(false);
   const setLimit = useFilters(useShallow(state => state.setLimit));
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -72,6 +74,12 @@ export default function Root() {
       label: 'Executar scrapers',
       onClick: () => handleRunScrapers(),
       icon: <PlayCircleOutlined />,
+    },
+    {
+      key: 'import-job',
+      label: 'Importar vaga',
+      onClick: () => setImportJobModalOpen(true),
+      icon: <UploadOutlined />,
     },
     {
       key: 'copy-cover-letter',
@@ -142,6 +150,12 @@ export default function Root() {
           allSkills={data?.allSkills || []}
           allBenefits={data?.allBenefits || []}
           loading={isLoading}
+        />
+      )}
+      {importJobModalOpen && (
+        <ImportJobModal
+          open={importJobModalOpen}
+          onClose={() => setImportJobModalOpen(false)}
         />
       )}
     </div>

@@ -10,12 +10,8 @@ import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.PROGRAMATHOR;
 export default class ProgramathorScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -24,12 +20,7 @@ export default class ProgramathorScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs =
-      await JobOpportunityController.getAllJobsFromPlatform(platform);
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
@@ -41,6 +32,10 @@ export default class ProgramathorScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     const result: JobInitialData[] = [];
     for (const url of PROGRAMATHOR_URLS) {
       try {
@@ -48,12 +43,7 @@ export default class ProgramathorScraper extends ScraperInterface {
         const urls: string[] = await page?.$$eval('div.cell-list > a', (el) =>
           el?.map((cur) => cur?.href),
         );
-        result?.push(
-          ...urls?.map((url) => ({
-            url,
-            idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0],
-          })),
-        );
+        result?.push(...urls?.map((url) => this.convertUrlToJobInitialData(url)));
       } catch (e) {
         this.log(e, { error: true });
         continue;
@@ -79,7 +69,7 @@ export default class ProgramathorScraper extends ScraperInterface {
             (el) => el?.innerText,
           );
           if (!!expired) continue;
-        } catch {}
+        } catch { }
 
         const title = await page?.$eval(
           'div.container > h1',
@@ -132,5 +122,12 @@ export default class ProgramathorScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url?.split('jobs/')?.[1]?.split('-')?.[0],
+    };
   }
 }

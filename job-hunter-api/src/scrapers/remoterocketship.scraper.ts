@@ -7,12 +7,8 @@ import { INHIRE_URLS, REMOTEROCKETSHIP_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.REMOTEROCKETSHIP;
 export default class RemoteRocketshipScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -21,12 +17,7 @@ export default class RemoteRocketshipScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs =
-      await JobOpportunityController.getAllJobsFromPlatform(platform);
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs: JobInput[] = await this.getDetails(page, filteredUrls);
@@ -38,6 +29,10 @@ export default class RemoteRocketshipScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     const result: JobInitialData[] = [];
     for (const url of REMOTEROCKETSHIP_URLS) {
       try {
@@ -46,12 +41,7 @@ export default class RemoteRocketshipScraper extends ScraperInterface {
         const urls: string[] = await page?.$$eval('h3 > a', (el) =>
           el?.map((cur) => cur?.href),
         );
-        result?.push(
-          ...urls?.map((url) => ({
-            url,
-            idInPlatform: url?.split('empresa/')?.[1]?.split('/')?.[1],
-          })),
-        );
+        result?.push(...urls?.map((url) => this.convertUrlToJobInitialData(url)));
       } catch (e) {
         this.log(e, { error: true });
         continue;
@@ -110,5 +100,12 @@ export default class RemoteRocketshipScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url?.split('empresa/')?.[1]?.split('/')?.[1],
+    };
   }
 }

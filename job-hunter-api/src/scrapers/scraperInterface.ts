@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-extra';
-import { JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
+import { JobInitialData, JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { formatDateHour, interceptRequest, isUnwantedJob, removeAccent } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
@@ -14,18 +14,17 @@ type LogOptions = {
 
 export default abstract class ScraperInterface {
   protected platform: JobPlatform;
-  protected filterExistentsJobs: boolean;
-  protected errorsList: string[] = [];
+  protected initialUrl?: string;
 
   constructor({
     platform,
-    filterExistentsJobs,
+    initialUrl,
   }: {
     platform: JobPlatform;
-    filterExistentsJobs: boolean;
+    initialUrl?: string;
   }) {
     this.platform = platform;
-    this.filterExistentsJobs = filterExistentsJobs;
+    this.initialUrl = initialUrl;
   }
 
   public abstract getJobs(): Promise<JobInput[]>;
@@ -63,9 +62,6 @@ export default abstract class ScraperInterface {
       : plainLog;
 
     console.log(consoleLog);
-    if (options.error) {
-      this.errorsList.push(plainLog);
-    }
   }
 
   public async saveJobs(): Promise<SaveJobsResponse> {
@@ -73,7 +69,6 @@ export default abstract class ScraperInterface {
     const jobsLength = jobs?.length;
     let jobsSavedCount = 0;
     let unwantedJobsCount = 0;
-    let duplicatedJobsCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
@@ -81,7 +76,7 @@ export default abstract class ScraperInterface {
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwanted = isUnwantedJob({
+      const unwanted = !this.initialUrl || isUnwantedJob({
         title,
         company,
         description,
@@ -92,11 +87,6 @@ export default abstract class ScraperInterface {
       const response = await JobOpportunityController.insert({ ...job, unwanted });
       if (response?.success) {
         if (!unwanted) jobsSavedCount++;
-      } else if (response?.message === 'Duplicated') {
-        duplicatedJobsCount++;
-        this.log(`duplicated job: ${job.title} (${job.company})`, {
-          color: '\x1b[34m',
-        });
       } else {
         this.log(`error while saving job: ${job.title} (${job.company}). ${response?.message || ''}`, { error: true });
       }
@@ -114,13 +104,18 @@ export default abstract class ScraperInterface {
     return {
       jobsSavedCount,
       unwantedJobsCount,
-      duplicatedJobsCount,
       totalJobs: jobs?.length,
-      errorsList: this.errorsList,
     };
   }
 
-  public clearErrorsList() {
-    this.errorsList = [];
+  protected abstract convertUrlToJobInitialData(url: string): JobInitialData;
+
+  protected async filterJobs(jobs: JobInitialData[]): Promise<JobInitialData[]> {
+    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
+      this.platform,
+    );
+    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
+
+    return jobs?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform));
   }
 }

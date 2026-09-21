@@ -8,12 +8,8 @@ import { uniq } from 'lodash';
 const platform: JobPlatform = JobPlatform.COODESH;
 
 export default class CoodeshScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -26,13 +22,7 @@ export default class CoodeshScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
-      this.platform,
-    );
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
@@ -43,6 +33,10 @@ export default class CoodeshScraper extends ScraperInterface {
   }
 
   private async getUrls(page: Page) {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     try {
       await page.goto('https://coodesh.com/jobs?search=react&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
       await page.waitForSelector('div.chakra-stack > a.chakra-link');
@@ -65,13 +59,7 @@ export default class CoodeshScraper extends ScraperInterface {
       const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
       const urls = uniq(allUrls);
 
-      const result: JobInitialData[] = urls?.map((url) => {
-        const url1 = url?.split('?')?.[0];
-        return {
-          url,
-          idInPlatform: url1?.split('-')?.[url1?.split('-')?.length - 1],
-        };
-      });
+      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
 
       return result;
     } catch (e) {
@@ -127,5 +115,13 @@ export default class CoodeshScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    const url1 = url?.split('?')?.[0];
+    return {
+      url,
+      idInPlatform: url1?.split('-')?.[url1?.split('-')?.length - 1],
+    };
   }
 }

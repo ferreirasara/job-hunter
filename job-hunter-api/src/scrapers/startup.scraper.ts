@@ -8,12 +8,8 @@ import ScraperInterface from './scraperInterface';
 const platform: JobPlatform = JobPlatform.STARTUP;
 
 export default class StartupScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs(): Promise<JobInput[]> {
@@ -22,13 +18,7 @@ export default class StartupScraper extends ScraperInterface {
 
     const urls = await this.getUrls(page);
     this.log(`Scraped jobs: ${urls?.length}`);
-    const existentJobs = await JobOpportunityController.getAllJobsFromPlatform(
-      this.platform,
-    );
-    const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-    const filteredUrls = this.filterExistentsJobs
-      ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-      : urls;
+    const filteredUrls = await this.filterJobs(urls);
     this.log(`Filtered jobs: ${filteredUrls?.length}`);
 
     const jobs = await this.getDetails(page, filteredUrls);
@@ -38,7 +28,11 @@ export default class StartupScraper extends ScraperInterface {
     return jobs;
   }
 
-  private async getUrls(page: Page) {
+  private async getUrls(page: Page): Promise<JobInitialData[]> {
+    if (!!this.initialUrl) {
+      return [this.convertUrlToJobInitialData(this.initialUrl)];
+    }
+
     try {
       const urls: JobInitialData[] = [];
 
@@ -69,23 +63,10 @@ export default class StartupScraper extends ScraperInterface {
 
       const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
       urls.push(
-        ...uniq(allUrls)?.map((url) => {
-          const urlSplit = url?.split('-');
-          return {
-            url,
-            idInPlatform: urlSplit?.[urlSplit?.length - 1],
-          };
-        }),
+        ...uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url)),
       );
 
-      const existentJobs =
-        await JobOpportunityController.getAllJobsFromPlatform(this.platform);
-      const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
-      const filteredUrls = this.filterExistentsJobs
-        ? urls?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform))
-        : urls;
-
-      return filteredUrls;
+      return urls;
     } catch (e) {
       this.log(e, { error: true });
       return [];
@@ -145,5 +126,13 @@ export default class StartupScraper extends ScraperInterface {
     }
 
     return jobs;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    const urlSplit = url?.split('-');
+    return {
+      url,
+      idInPlatform: urlSplit?.[urlSplit?.length - 1],
+    };
   }
 }

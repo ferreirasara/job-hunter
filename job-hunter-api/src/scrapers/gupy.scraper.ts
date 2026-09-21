@@ -2,6 +2,7 @@ import { uniqBy } from 'lodash';
 import {
   GupyData,
   GupyResponse,
+  JobInitialData,
   JobInput,
   JobPlatform,
   JobType,
@@ -12,12 +13,8 @@ import ScraperInterface from './scraperInterface';
 
 const platform: JobPlatform = JobPlatform.GUPY;
 export default class GupyScraper extends ScraperInterface {
-  constructor({
-    filterExistentsJobs = true,
-  }: {
-    filterExistentsJobs?: boolean;
-  }) {
-    super({ platform, filterExistentsJobs });
+  constructor({ initialUrl }: { initialUrl?: string }) {
+    super({ platform, initialUrl });
   }
 
   public async getJobs() {
@@ -52,10 +49,10 @@ export default class GupyScraper extends ScraperInterface {
 
       allJobs = [
         ...response1Json?.data,
-          ...response2Json?.data,
-          ...response3Json?.data,
-          ...response4Json?.data,
-          ...response5Json?.data,
+        ...response2Json?.data,
+        ...response3Json?.data,
+        ...response4Json?.data,
+        ...response5Json?.data,
       ];
     } catch (e) {
       this.log(e, { error: true });
@@ -69,9 +66,7 @@ export default class GupyScraper extends ScraperInterface {
     const existentJobIds = existentJobs?.map((cur) =>
       parseInt(cur?.idInPlatform || ''),
     );
-    const filteredJobs = this.filterExistentsJobs
-      ? uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id))
-      : uniqJobs;
+    const filteredJobs = uniqJobs?.filter((cur) => !existentJobIds?.includes(cur?.id));
     this.log(`Filtered jobs: ${filteredJobs?.length}`);
 
     const jobs = await this.getNewJobsWithDescription(filteredJobs);
@@ -125,5 +120,12 @@ export default class GupyScraper extends ScraperInterface {
 
     await browser.close();
     return jobsWithDescription;
+  }
+
+  protected convertUrlToJobInitialData(url: string): JobInitialData {
+    return {
+      url,
+      idInPlatform: url,
+    };
   }
 }
