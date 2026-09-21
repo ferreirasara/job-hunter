@@ -7,12 +7,13 @@ import MultipleTags from './MultipleTags';
 import NumberOfInterviewsInput from './NumberOfInterviewsInput';
 import NumberOfTestsInput from './NumberOfTestsInput';
 import RecusedButton from './RecusedButton';
-import { JobsTableData } from '../@types/types';
+import UnwantedButton from './UnwantedButton';
+import { useGetJobs } from '../hooks/useGetJobs';
 
 interface DetailsDrawerProps {
   open: boolean;
   onClose: () => void;
-  selectedJob?: JobsTableData;
+  selectedJobUuid?: string;
 }
 
 interface ListItemInnerProps {
@@ -30,11 +31,14 @@ const ListItemInner = memo(({ children, title }: ListItemInnerProps) => {
 const DetailsDrawer = ({
   onClose,
   open,
-  selectedJob,
+  selectedJobUuid,
 }: DetailsDrawerProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
+  const { data } = useGetJobs();
+
+  const selectedJob = data?.data?.find((cur) => cur?.uuid === selectedJobUuid);
   const descriptionSplit = selectedJob?.description?.split('\n');
   const description = descriptionSplit?.filter((cur) => !!cur);
   const allRegex = useMemo(
@@ -134,7 +138,7 @@ const DetailsDrawer = ({
           </List.Item>
         ) : null}
         <List.Item>
-          <div style={{ display: 'flex', gap: 8, flexDirection: 'column' }}>
+          <ListItemInner title="Ações">
             <div
               style={{
                 display: 'flex',
@@ -143,47 +147,36 @@ const DetailsDrawer = ({
                 flexWrap: 'wrap',
               }}
             >
-              <strong>Ações:</strong>
               <AppliedButton
                 onFinish={onClose}
                 uuid={selectedJob?.uuid}
-                disabled={!!selectedJob?.applied}
+                job={selectedJob}
               />
-              {!selectedJob?.applied ? (
-                <DiscardedButton
-                  onFinish={onClose}
-                  uuid={selectedJob?.uuid}
-                  disabled={!!selectedJob?.discarded}
-                />
-              ) : null}
-              {selectedJob?.applied ? (
-                <RecusedButton
-                  onFinish={onClose}
-                  uuid={selectedJob?.uuid}
-                  disabled={!!selectedJob?.recused}
-                />
-              ) : null}
+              <DiscardedButton
+                onFinish={onClose}
+                uuid={selectedJob?.uuid}
+                job={selectedJob}
+              />
+              <RecusedButton
+                onFinish={onClose}
+                uuid={selectedJob?.uuid}
+                job={selectedJob}
+              />
+              <UnwantedButton
+                onFinish={onClose}
+                uuid={selectedJob?.uuid}
+                job={selectedJob}
+              />
+              {selectedJob?.applied ? (<NumberOfInterviewsInput
+                numberOfInterviews={selectedJob?.numberOfInterviews}
+                uuid={selectedJob?.uuid}
+              />) : null}
+              {selectedJob?.applied ? (<NumberOfTestsInput
+                uuid={selectedJob?.uuid}
+                numberOfTests={selectedJob?.numberOfTests}
+              />) : null}
             </div>
-            {selectedJob?.applied ? (
-              <div
-                style={{
-                  display: 'flex',
-                  gap: 8,
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <NumberOfInterviewsInput
-                  numberOfInterviews={selectedJob?.numberOfInterviews}
-                  uuid={selectedJob?.uuid}
-                />
-                <NumberOfTestsInput
-                  uuid={selectedJob?.uuid}
-                  numberOfTests={selectedJob?.numberOfTests}
-                />
-              </div>
-            ) : null}
-          </div>
+          </ListItemInner>
         </List.Item>
       </List>
       <Divider

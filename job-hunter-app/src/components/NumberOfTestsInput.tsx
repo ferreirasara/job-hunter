@@ -1,5 +1,5 @@
 import { SaveOutlined } from '@ant-design/icons';
-import { Button, InputNumber, Space } from 'antd';
+import { Button, InputNumber, message, Space } from 'antd';
 import { memo, useCallback, useState } from 'react';
 import { useUpdateNumberOfTests } from '../hooks/useUpdateNumberOfTests';
 
@@ -12,6 +12,7 @@ const NumberOfTestsInput = ({
   numberOfTests,
   uuid,
 }: NumberOfTestsInputProps) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [newNumberOfTests, setNewNumberOfTests] = useState<number>(
     numberOfTests || 0,
   );
@@ -19,11 +20,28 @@ const NumberOfTestsInput = ({
   const { mutateAsync, isPending } = useUpdateNumberOfTests();
   const handleUpdateNumberOfTests = useCallback(async () => {
     if (!uuid) return;
-    await mutateAsync({ uuid, numberOfTests: newNumberOfTests });
-  }, [newNumberOfTests, uuid]);
+    await mutateAsync({ uuid, numberOfTests: newNumberOfTests }, {
+      onError(error) {
+        messageApi.open({
+          content: `Erro ao atualizar vaga! Erro: ${error.message}`,
+          type: 'error',
+          duration: 10,
+        });
+      },
+      onSuccess() {
+        messageApi.open({
+          content: `Vaga atualizada!`,
+          type: 'success',
+          duration: 10,
+        });
+      }
+    });
+  }, [newNumberOfTests, uuid, messageApi]);
 
   return (
-    <Space.Compact>
+    <>
+      {contextHolder}
+      <Space.Compact>
       <InputNumber
         size="small"
         disabled={isPending}
@@ -40,7 +58,8 @@ const NumberOfTestsInput = ({
           />
         }
       />
-    </Space.Compact>
+      </Space.Compact>
+    </>
   );
 };
 

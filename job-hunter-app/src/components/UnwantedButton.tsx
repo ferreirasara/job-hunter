@@ -1,25 +1,26 @@
-import { FormOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { memo, useCallback } from 'react';
-import { useUpdateApplied } from '../hooks/useUpdateApplied';
+import { useUpdateUnwanted } from '../hooks/useUpdateUnwanted';
 import { JobsTableData } from '../@types/types';
 
-interface AppliedButtonProps {
+interface UnwantedButtonProps {
   uuid?: string;
   job?: JobsTableData;
   onFinish: () => void;
 }
-const AppliedButton = ({
+
+const UnwantedButton = ({
   uuid,
   job,
   onFinish,
-}: AppliedButtonProps) => {
+}: UnwantedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { mutateAsync, isPending } = useUpdateApplied();
-  const handleSetAsApplied = useCallback(async () => {
+  const { mutateAsync, isPending } = useUpdateUnwanted();
+  const handleSetAsUnwanted = useCallback(async () => {
     if (!uuid) return;
-    await mutateAsync({ uuid, applied: !job?.applied }, {
+    await mutateAsync({ uuid, unwanted: !job?.unwanted }, {
       onError(error) {
         messageApi.open({
           content: `Erro ao atualizar vaga! Erro: ${error.message}`,
@@ -29,7 +30,7 @@ const AppliedButton = ({
       },
       onSuccess() {
         messageApi.open({
-          content: `Vaga ${job?.applied ? 'não aplicada' : 'aplicada'}!`,
+          content: `Vaga ${job?.unwanted ? 'não indesejada' : 'indesejada'}!`,
           type: 'success',
           duration: 10,
         });
@@ -43,14 +44,14 @@ const AppliedButton = ({
       {contextHolder}
       <Button
         size="small"
-        icon={<FormOutlined />}
-        onClick={handleSetAsApplied}
+        icon={<CloseCircleOutlined />}
+        onClick={handleSetAsUnwanted}
         loading={isPending}
       >
-        {job?.applied ? 'Não aplicar' : 'Aplicar'}
+        {job?.unwanted ? 'Não indesejar' : 'Indesejar'}
       </Button>
     </>
   );
 };
 
-export default memo(AppliedButton);
+export default memo(UnwantedButton);

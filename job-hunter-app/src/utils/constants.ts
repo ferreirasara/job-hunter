@@ -8,7 +8,6 @@ export const INITIAL_FILTERS_STATE: Partial<GetJobsFromAPIArgs> = {
   seniorityFilter: undefined,
   showOnlyApplied: false,
   showOnlyDiscarded: false,
-  showOnlyNewJobs: false,
   showOnlyRecused: false,
   showOnlyUnwanted: false,
   orderByOrder: 'ascend',

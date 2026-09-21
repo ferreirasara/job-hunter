@@ -38,13 +38,13 @@ AppDataSource.initialize()
       const seniorityFilter = params.get('seniorityFilter');
       const showOnlyDiscarded = params.get('showOnlyDiscarded');
       const showOnlyRecused = params.get('showOnlyRecused');
-      const showOnlyNewJobs = params.get('showOnlyNewJobs');
       const showOnlyApplied = params.get('showOnlyApplied');
       const showOnlyUnwanted = params.get('showOnlyUnwanted');
       const orderByField = params.get('orderByField');
       const orderByOrder = params.get('orderByOrder');
       const limit = params.get('limit');
       const page = params.get('page');
+      const showAllJobs = params.get('showAllJobs');
 
       if (!limit || !page) {
         res.send({ message: 'Invalid params' });
@@ -72,9 +72,6 @@ AppDataSource.initialize()
         showOnlyRecused: showOnlyRecused
           ? decodeURI(showOnlyRecused)
           : undefined,
-        showOnlyNewJobs: showOnlyNewJobs
-          ? decodeURI(showOnlyNewJobs)
-          : undefined,
         showOnlyApplied: showOnlyApplied
           ? decodeURI(showOnlyApplied)
           : undefined,
@@ -83,11 +80,12 @@ AppDataSource.initialize()
           : undefined,
         orderByField: orderByField ? decodeURI(orderByField) : undefined,
         orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
+        showAllJobs: showAllJobs ? decodeURI(showAllJobs) : undefined,
       });
       res.send(result);
     });
 
-    app.post('/job/:uuid', async (req, res) => {
+    app.post('/job/:uuid/discarded', async (req, res) => {
       const secretToken = req?.get('authorization');
       if (secretToken !== process.env.SECRET_TOKEN) {
         res.send({ message: 'Invalid Token' });
@@ -95,41 +93,79 @@ AppDataSource.initialize()
       }
 
       const uuid = req.params.uuid;
-      const body: UpdateJobBody = req.body;
+      const discarded = req.body?.discarded;
 
-      let updated = null;
+      const updated = await JobOpportunityController.updateDiscarded(uuid, discarded);
+      res.send({ updated });
+    });
 
-      if (body?.applied)
-        updated = await JobOpportunityController.updateApplied(
-          uuid,
-          body?.applied,
-        );
-      if (body?.discarded)
-        updated = await JobOpportunityController.updateDiscarded(
-          uuid,
-          body?.discarded,
-        );
-      if (body?.recused)
-        updated = await JobOpportunityController.updateRecused(
-          uuid,
-          body?.recused,
-        );
-      if (body?.unwanted)
-        updated = await JobOpportunityController.updateUnwanted(
-          uuid,
-          body?.unwanted,
-        );
-      if (body?.numberOfInterviews)
-        updated = await JobOpportunityController.updateNumberOfInterviews(
-          uuid,
-          body?.numberOfInterviews,
-        );
-      if (body?.numberOfTests)
-        updated = await JobOpportunityController.updateNumberOfTests(
-          uuid,
-          body?.numberOfTests,
-        );
+    app.post('/job/:uuid/recused', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
 
+      const uuid = req.params.uuid;
+      const recused = req.body?.recused;
+
+      const updated = await JobOpportunityController.updateRecused(uuid, recused);
+      res.send({ updated });
+    });
+
+    app.post('/job/:uuid/unwanted', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      const uuid = req.params.uuid;
+      const unwanted = req.body?.unwanted;
+
+      const updated = await JobOpportunityController.updateUnwanted(uuid, unwanted);
+      res.send({ updated });
+    });
+
+    app.post('/job/:uuid/applied', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      const uuid = req.params.uuid;
+      const applied = req.body?.applied;
+
+      const updated = await JobOpportunityController.updateApplied(uuid, applied);
+      res.send({ updated });
+    });
+
+    app.post('/job/:uuid/number-of-interviews', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      const uuid = req.params.uuid;
+      const numberOfInterviews = req.body?.numberOfInterviews;
+
+      const updated = await JobOpportunityController.updateNumberOfInterviews(uuid, numberOfInterviews);
+      res.send({ updated });
+    });
+
+    app.post('/job/:uuid/number-of-tests', async (req, res) => {
+      const secretToken = req?.get('authorization');
+      if (secretToken !== process.env.SECRET_TOKEN) {
+        res.send({ message: 'Invalid Token' });
+        return;
+      }
+
+      const uuid = req.params.uuid;
+      const numberOfTests = req.body?.numberOfTests;
+
+      const updated = await JobOpportunityController.updateNumberOfTests(uuid, numberOfTests);
       res.send({ updated });
     });
 
@@ -164,6 +200,10 @@ AppDataSource.initialize()
 
       runScrapers(['all']);
       res.send({ message: 'Scrapers executed successfully' });
+    });
+
+    app.all('/{*splat}', (req, res) => {
+      res.status(404).send({ message: `Endpoint not found` });
     });
 
     app.listen(PORT, () => {

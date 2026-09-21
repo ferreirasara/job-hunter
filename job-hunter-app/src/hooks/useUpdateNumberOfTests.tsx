@@ -8,7 +8,7 @@ export const useUpdateNumberOfTests = () => {
     mutationFn: async ({ numberOfTests, uuid }: { uuid: string, numberOfTests: number }) => {
       const secretToken = localStorage?.getItem(LOCAL_STORAGE_SECRET_TOKEN_KEY);
 
-      const response = await fetch(`${API_URL}/job/` + uuid, {
+      const response = await fetch(`${API_URL}/job/` + uuid + '/number-of-tests', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

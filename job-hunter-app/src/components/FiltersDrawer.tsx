@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Grid, Input, Radio, Select, Space } from 'antd';
+import { Button, Drawer, Form, Grid, Input, Radio, Select, Space, Switch } from 'antd';
 import { memo } from 'react';
 import { GetJobsFromAPIArgs, JobHiringRegime, JobPlatform, JobSeniority, JobType } from '../@types/types';
 import { useFilters } from '../store/filters.store';
@@ -25,6 +25,7 @@ const FiltersDrawer = ({
   const [form] = Form.useForm<GetJobsFromAPIArgs>();
   const state = useFilters((state) => state);
   const { data, isLoading } = useGetJobs();
+  const showAllJobs = Form.useWatch('showAllJobs', form);
 
   const typeOptions = Object.keys(JobType);
   const hiringRegimeOptions = Object.keys(JobHiringRegime);
@@ -42,7 +43,6 @@ const FiltersDrawer = ({
     seniorityFilter: state.seniorityFilter,
     showOnlyApplied: state.showOnlyApplied,
     showOnlyDiscarded: state.showOnlyDiscarded,
-    showOnlyNewJobs: state.showOnlyNewJobs,
     showOnlyRecused: state.showOnlyRecused,
     showOnlyUnwanted: state.showOnlyUnwanted,
     page: state.page,
@@ -50,6 +50,7 @@ const FiltersDrawer = ({
     orderByOrder: state.orderByOrder,
     orderByField: state.orderByField,
     skillsFilter: state.skillsFilter,
+    showAllJobs: state.showAllJobs,
   };
 
   const handleReset = () => {
@@ -64,11 +65,11 @@ const FiltersDrawer = ({
       { name: 'seniorityFilter', value: INITIAL_FILTERS_STATE.seniorityFilter },
       { name: 'showOnlyApplied', value: INITIAL_FILTERS_STATE.showOnlyApplied },
       { name: 'showOnlyDiscarded', value: INITIAL_FILTERS_STATE.showOnlyDiscarded },
-      { name: 'showOnlyNewJobs', value: INITIAL_FILTERS_STATE.showOnlyNewJobs },
       { name: 'showOnlyRecused', value: INITIAL_FILTERS_STATE.showOnlyRecused },
       { name: 'showOnlyUnwanted', value: INITIAL_FILTERS_STATE.showOnlyUnwanted },
       { name: 'orderByOrder', value: INITIAL_FILTERS_STATE.orderByOrder },
       { name: 'orderByField', value: INITIAL_FILTERS_STATE.orderByField },
+      { name: 'showAllJobs', value: INITIAL_FILTERS_STATE.showAllJobs },
     ]);
     state.setState({
       benefitFilter: INITIAL_FILTERS_STATE.benefitFilter,
@@ -81,12 +82,12 @@ const FiltersDrawer = ({
       seniorityFilter: INITIAL_FILTERS_STATE.seniorityFilter,
       showOnlyApplied: INITIAL_FILTERS_STATE.showOnlyApplied,
       showOnlyDiscarded: INITIAL_FILTERS_STATE.showOnlyDiscarded,
-      showOnlyNewJobs: INITIAL_FILTERS_STATE.showOnlyNewJobs,
       showOnlyRecused: INITIAL_FILTERS_STATE.showOnlyRecused,
       showOnlyUnwanted: INITIAL_FILTERS_STATE.showOnlyUnwanted,
       orderByOrder: INITIAL_FILTERS_STATE.orderByOrder,
       orderByField: INITIAL_FILTERS_STATE.orderByField,
       skillsFilter: INITIAL_FILTERS_STATE.skillsFilter,
+      showAllJobs: INITIAL_FILTERS_STATE.showAllJobs,
     });
   };
 
@@ -207,20 +208,20 @@ const FiltersDrawer = ({
             ]}
           />
         </Form.Item>
-        <Form.Item name="showOnlyNewJobs" style={formItemStyle}>
-          <Radio.Group options={[{ value: true, label: 'Novas' }, { value: false, label: 'Todas' }]} />
+        <Form.Item name="showAllJobs" style={formItemStyle} label="Todas">
+          <Switch size='small' />
         </Form.Item>
         <Form.Item name="showOnlyApplied" style={formItemStyle}>
-          <Radio.Group options={[{ value: true, label: 'Aplicadas' }, { value: false, label: 'Não aplicadas' }]} />
+          <Radio.Group options={[{ value: true, label: 'Aplicadas' }, { value: false, label: 'Não aplicadas' }]} disabled={showAllJobs} />
         </Form.Item>
         <Form.Item name="showOnlyRecused" style={formItemStyle}>
-          <Radio.Group options={[{ value: true, label: 'Recusadas' }, { value: false, label: 'Não recusadas' }]} />
+          <Radio.Group options={[{ value: true, label: 'Recusadas' }, { value: false, label: 'Não recusadas' }]} disabled={showAllJobs} />
         </Form.Item>
         <Form.Item name="showOnlyDiscarded" style={formItemStyle}>
-          <Radio.Group options={[{ value: true, label: 'Descartadas' }, { value: false, label: 'Não descartadas' }]} />
+          <Radio.Group options={[{ value: true, label: 'Descartadas' }, { value: false, label: 'Não descartadas' }]} disabled={showAllJobs} />
         </Form.Item>
         <Form.Item name="showOnlyUnwanted" style={formItemStyle}>
-          <Radio.Group options={[{ value: true, label: 'Indesejadas' }, { value: false, label: 'Não indesejadas' }]} />
+          <Radio.Group options={[{ value: true, label: 'Indesejadas' }, { value: false, label: 'Não indesejadas' }]} disabled={showAllJobs} />
         </Form.Item>
         <Space>
           <Button

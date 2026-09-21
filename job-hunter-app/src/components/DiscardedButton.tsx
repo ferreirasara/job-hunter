@@ -1,32 +1,43 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { memo, useCallback } from 'react';
-import { useSetJobAsDiscarded } from '../hooks/useSetJobAsDiscarded';
+import { useUpdateDiscarded } from '../hooks/useUpdateDiscarded';
+import { JobsTableData } from '../@types/types';
 
 interface DiscardedButtonProps {
   uuid?: string;
-  disabled?: boolean;
+  job?: JobsTableData;
   onFinish?: () => void;
   onlyIcon?: boolean;
 }
 const DiscardedButton = ({
   uuid,
-  disabled,
+  job,
   onFinish,
   onlyIcon,
 }: DiscardedButtonProps) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { mutateAsync, isPending } = useSetJobAsDiscarded();
+  const { mutateAsync, isPending } = useUpdateDiscarded();
   const handleSetAsDiscarded = useCallback(async () => {
     if (!uuid) return;
-    await mutateAsync({ uuid });
-    messageApi.open({
-      content: 'Vaga descartada!',
-      type: 'success',
-      duration: 10,
+    await mutateAsync({ uuid, discarded: !job?.discarded }, {
+      onError(error) {
+        messageApi.open({
+          content: `Erro ao atualizar vaga! Erro: ${error.message}`,
+          type: 'error',
+          duration: 10,
+        });
+      },
+      onSuccess() {
+        messageApi.open({
+          content: `Vaga ${job?.discarded ? 'não descartada' : 'descartada'}!`,
+          type: 'success',
+          duration: 10,
+        });
+        onFinish?.();
+      }
     });
-    onFinish?.();
   }, [messageApi, onFinish, uuid]);
 
   return (
@@ -41,10 +52,9 @@ const DiscardedButton = ({
           handleSetAsDiscarded();
         }}
         loading={isPending}
-        disabled={disabled}
         type={onlyIcon ? 'text' : 'default'}
       >
-        {!onlyIcon ? 'Descartar' : null}
+        {!onlyIcon ? `${job?.discarded ? 'Não descartar' : 'Descartar'}` : null}
       </Button>
     </>
   );

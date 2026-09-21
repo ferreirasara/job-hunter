@@ -105,9 +105,9 @@ export default class JobOpportunityController {
     orderByOrder?: string;
     showOnlyDiscarded?: string;
     showOnlyRecused?: string;
-    showOnlyNewJobs?: string;
     showOnlyApplied?: string;
     showOnlyUnwanted?: string;
+    showAllJobs?: string;
   }) {
     const where: FindOptionsWhere<JobOpportunity> = { };
 
@@ -115,6 +115,12 @@ export default class JobOpportunityController {
     where.recused = args?.showOnlyRecused === 'true' || false;
     where.applied = args?.showOnlyApplied === 'true' || false;
     where.unwanted = args?.showOnlyUnwanted === 'true' || false;
+    if (args?.showAllJobs === 'true') {
+      delete where.discarded;
+      delete where.recused;
+      delete where.applied;
+      delete where.unwanted;
+    }
 
     if (args?.platformFilter)
       where.platform = In(args?.platformFilter?.split(','));
@@ -127,11 +133,6 @@ export default class JobOpportunityController {
     if (args?.companyFilter) where.company = ILike(`%${args?.companyFilter}%`);
     if (args?.seniorityFilter)
       where.seniority = ILike(`%${args?.seniorityFilter}%`);
-    if (args?.showOnlyNewJobs) {
-      const date = new Date();
-      date.setDate(date.getDate() - 2);
-      where.createdAt = MoreThanOrEqual(date);
-    }
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
       skip: (args?.page || 0) * (args?.limit || 10),

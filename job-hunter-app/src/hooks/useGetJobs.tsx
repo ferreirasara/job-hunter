@@ -20,13 +20,13 @@ export const useGetJobs = () => {
     orderByField,
     showOnlyDiscarded,
     showOnlyRecused,
-    showOnlyNewJobs,
     showOnlyApplied,
     showOnlyUnwanted,
+    showAllJobs,
   } = useFilters((state) => state);
 
   return useQuery({
-    queryKey: ['jobs', page, limit, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, skillsFilter, titleFilter, companyFilter, seniorityFilter, orderByField, orderByOrder, showOnlyDiscarded, showOnlyRecused, showOnlyNewJobs, showOnlyApplied, showOnlyUnwanted],
+    queryKey: ['jobs', page, limit, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, skillsFilter, titleFilter, companyFilter, seniorityFilter, orderByField, orderByOrder, showOnlyDiscarded, showOnlyRecused, showOnlyApplied, showOnlyUnwanted, showAllJobs],
     queryFn: async (): Promise<JobsResponse> => {
       const searchParams: any = {};
 
@@ -43,9 +43,9 @@ export const useGetJobs = () => {
       if (seniorityFilter) searchParams.seniorityFilter = seniorityFilter;
       if (showOnlyDiscarded) searchParams.showOnlyDiscarded = showOnlyDiscarded;
       if (showOnlyRecused) searchParams.showOnlyRecused = showOnlyRecused;
-      if (showOnlyNewJobs) searchParams.showOnlyNewJobs = showOnlyNewJobs;
       if (showOnlyApplied) searchParams.showOnlyApplied = showOnlyApplied;
       if (showOnlyUnwanted) searchParams.showOnlyUnwanted = showOnlyUnwanted;
+      if (showAllJobs) searchParams.showAllJobs = showAllJobs;
       if (orderByField) searchParams.orderByField = orderByField;
       if (orderByOrder) searchParams.orderByOrder = orderByOrder;
 

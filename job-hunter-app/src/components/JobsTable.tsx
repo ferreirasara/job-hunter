@@ -12,11 +12,11 @@ import { useGetJobs } from '../hooks/useGetJobs';
 import DiscardedButton from './DiscardedButton';
 
 interface JobsTableProps {
-  handleSeeDetails: (uuid: string) => void;
+  handleSelectJob: (uuid: string) => void;
 }
 
 const JobsTable = ({
-  handleSeeDetails,
+  handleSelectJob,
 }: JobsTableProps) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
@@ -143,7 +143,7 @@ const JobsTable = ({
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <Button
               size="small"
-              onClick={() => handleSeeDetails(uuid)}
+              onClick={() => handleSelectJob(uuid)}
               icon={<ZoomInOutlined />}
               type="text"
             />
@@ -155,7 +155,7 @@ const JobsTable = ({
         ),
       },
     ],
-    [data?.allRatings, handleSeeDetails, screens?.xl, screens?.xxl],
+    [data?.allRatings, handleSelectJob, screens?.xl, screens?.xxl],
   );
 
   return (
@@ -167,7 +167,7 @@ const JobsTable = ({
       rowKey="uuid"
       size="small"
       onRow={(data) => ({
-        onClick: () => handleSeeDetails(data.uuid),
+        onClick: () => handleSelectJob(data.uuid),
       })}
       rowHoverable
       styles={{ body: { row: { cursor: 'pointer' } } }}

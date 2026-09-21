@@ -14,9 +14,9 @@ export interface GetJobsFromAPIArgs {
   orderByField?: string;
   showOnlyDiscarded?: boolean;
   showOnlyRecused?: boolean;
-  showOnlyNewJobs?: boolean;
   showOnlyApplied?: boolean;
   showOnlyUnwanted?: boolean;
+  showAllJobs?: boolean;
 };
 
 export interface FiltersState extends GetJobsFromAPIArgs {

@@ -5,7 +5,6 @@ import { NavLink, Navigate } from 'react-router-dom';
 import DetailsDrawer from '../components/DetailsDrawer';
 import FiltersDrawer from '../components/FiltersDrawer';
 import JobsTable from '../components/JobsTable';
-import { JobsTableData } from '../@types/types';
 import { useGetJobs } from '../hooks/useGetJobs';
 import { useShallow } from 'zustand/shallow';
 import { useFilters } from '../store/filters.store';
@@ -14,7 +13,7 @@ import { useRunScrapers } from '../hooks/useRunScrapers';
 import { COVER_LETTER } from '../utils/constants';
 
 export default function Root() {
-  const [selectedJob, setSelectedJob] = useState<JobsTableData>();
+  const [selectedJobUuid, setSelectedJobUuid] = useState<string>();
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState<boolean>(false);
   const [filtersDrawerOpen, setFiltersDrawerOpen] = useState<boolean>(false);
   const setLimit = useFilters(useShallow(state => state.setLimit));
@@ -24,8 +23,7 @@ export default function Root() {
 
   const handleSeeDetails = useCallback(
     (uuid: string) => {
-      const job = data?.data?.find((cur) => cur?.uuid === uuid);
-      setSelectedJob(job);
+      setSelectedJobUuid(uuid);
       setDetailsDrawerOpen(true);
     },
     [data],
@@ -33,7 +31,7 @@ export default function Root() {
 
   const onCloseDrawer = useCallback(() => {
     setDetailsDrawerOpen(false);
-    setSelectedJob(undefined);
+    setSelectedJobUuid(undefined);
   }, []);
 
   useEffect(() => {
@@ -128,13 +126,13 @@ export default function Root() {
         {error ? (
           <Alert type="error" showIcon message={error?.message} />
         ) : null}
-        <JobsTable handleSeeDetails={(uuid) => handleSeeDetails(uuid)} />
+        <JobsTable handleSelectJob={(uuid) => handleSeeDetails(uuid)} />
       </Space>
-      {!!selectedJob && detailsDrawerOpen && (
+      {!!selectedJobUuid && detailsDrawerOpen && (
         <DetailsDrawer
           open={detailsDrawerOpen}
           onClose={onCloseDrawer}
-          selectedJob={selectedJob}
+          selectedJobUuid={selectedJobUuid}
         />
       )}
       {filtersDrawerOpen && (

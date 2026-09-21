@@ -18,7 +18,6 @@ export const useFilters = create<FiltersState>()(persist((set) => ({
   orderByOrder: INITIAL_FILTERS_STATE.orderByOrder,
   showOnlyDiscarded: INITIAL_FILTERS_STATE.showOnlyDiscarded,
   showOnlyRecused: INITIAL_FILTERS_STATE.showOnlyRecused,
-  showOnlyNewJobs: INITIAL_FILTERS_STATE.showOnlyNewJobs,
   showOnlyApplied: INITIAL_FILTERS_STATE.showOnlyApplied,
   showOnlyUnwanted: INITIAL_FILTERS_STATE.showOnlyUnwanted,
   limit: calcLimit(),

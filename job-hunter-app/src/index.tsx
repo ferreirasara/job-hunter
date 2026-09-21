@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
     mutations: {
       retry: false,
     },
-  }
+  },
 });
 
 const root = ReactDOM.createRoot(
