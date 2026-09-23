@@ -19,7 +19,6 @@ export class JobOpportunity {
       'VAGAS',
       'REMOTAR',
       'LINKEDIN',
-      'JOBATUS',
       'DIVULGA_VAGAS',
       'COODESH',
       'STARTUP',

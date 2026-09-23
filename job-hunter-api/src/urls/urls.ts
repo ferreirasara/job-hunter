@@ -10,12 +10,6 @@ export const PROGRAMATHOR_URLS = [
   'https://programathor.com.br/jobs-front-end/remoto',
 ];
 
-export const JOBATUS_URLS = [
-  'https://www.jobatus.com.br/emprego?q=frontend+developer&l=&jb=all',
-  'https://www.jobatus.com.br/emprego?q=frontend&l=',
-  'https://www.jobatus.com.br/emprego?q=react&l=',
-];
-
 export const INHIRE_URLS = [
   'https://csptech.inhire.app/vagas/',
   'https://mjv.inhire.app/vagas/',

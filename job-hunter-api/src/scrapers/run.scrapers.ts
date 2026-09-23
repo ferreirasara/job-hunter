@@ -5,7 +5,6 @@ import DivulgaVagasScraper from './divulgaVagas.scraper';
 import FrontendBrScraper from './frontendbr.scraper';
 import GupyScraper from './gupy.scraper';
 import InhireScraper from './inhire.scraper';
-import JobatusScraper from './jobatus.scraper';
 import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import QuickinScraper from './quickin.scraper';
@@ -74,12 +73,6 @@ export const runScrapers = async (scrapersToRun: JobPlatform | 'all', initialUrl
   if (scrapersToRun === JobPlatform.VAGAS || runAll) {
     const vagasScraper = new VagasScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await vagasScraper.saveJobs();
-    updateCounts(result);
-  }
-
-  if (scrapersToRun === JobPlatform.JOBATUS || runAll) {
-    const jobatusScraper = new JobatusScraper({ initialUrl: !runAll ? initialUrl : undefined });
-    result = await jobatusScraper.saveJobs();
     updateCounts(result);
   }
 
