@@ -10,6 +10,7 @@ import {
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
+import { GUPY_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.GUPY;
 export default class GupyScraper extends ScraperInterface {
@@ -19,43 +20,17 @@ export default class GupyScraper extends ScraperInterface {
 
   public async getJobs() {
     this.log('Start');
-    let allJobs: GupyData[] = [];
 
-    try {
-      const response1 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
-      );
-      const response1Json: GupyResponse = await response1?.json();
+    const allJobs: GupyData[] = [];
 
-      const response2 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
-      );
-      const response2Json: GupyResponse = await response2?.json();
-
-      const response3 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
-      );
-      const response3Json: GupyResponse = await response3?.json();
-
-      const response4 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
-      );
-      const response4Json: GupyResponse = await response4?.json();
-
-      const response5 = await fetch(
-        'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
-      );
-      const response5Json: GupyResponse = await response5?.json();
-
-      allJobs = [
-        ...response1Json?.data,
-        ...response2Json?.data,
-        ...response3Json?.data,
-        ...response4Json?.data,
-        ...response5Json?.data,
-      ];
-    } catch (e) {
-      this.log(e, { error: true });
+    for (const url of GUPY_URLS) {
+      try {
+        const response = await fetch(url);
+        const responseJson: GupyResponse = await response?.json();
+        allJobs.push(...responseJson?.data);
+      } catch (e) {
+        this.log(e, { error: true, url });
+      }
     }
 
     const uniqJobs = uniqBy(allJobs, 'id');

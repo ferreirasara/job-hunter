@@ -1,6 +1,7 @@
 import { JobInitialData, JobInput, JobPlatform, SolidesJob, SolidesResponse } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
+import { SOLIDES_URLS } from '../urls/urls';
 import { formSolidesUrl, removeHtmlTags } from '../utils/utils';
 import ScraperInterface from './scraperInterface';
 
@@ -57,83 +58,24 @@ export default class SolidesScraper extends ScraperInterface {
   private async getDetails(): Promise<JobInput[]> {
     const jobs: JobInput[] = [];
 
-    let totalPages = 100;
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      try {
-        const response = await fetch(
-          `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=frontend&take=10`,
-        );
-        const responseJson: SolidesResponse = await response?.json();
-        totalPages = responseJson?.data?.totalPages || 1;
+    for (const url of SOLIDES_URLS) {
+      let totalPages = 100;
 
-        responseJson?.data?.data?.forEach(data => {
-          if (!jobs.some((cur) => cur.idInPlatform === String(data.id))) {
-            jobs?.push(this.convertJob(data));
-          }
-        });
-      } catch (e) {
-        this.log(e, { error: true });
-        continue;
-      }
-    }
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        try {
+          const response = await fetch(url(pageNumber));
+          const responseJson: SolidesResponse = await response?.json();
+          totalPages = responseJson?.data?.totalPages || 1;
 
-    totalPages = 100;
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      try {
-        const response = await fetch(
-          `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=react&take=10`,
-        );
-        const responseJson: SolidesResponse = await response?.json();
-        totalPages = responseJson?.data?.totalPages || 1;
-
-        responseJson?.data?.data?.forEach(data => {
-          if (!jobs.some((cur) => cur.idInPlatform === String(data.id))) {
-            jobs?.push(this.convertJob(data));
-          }
-        });
-      } catch (e) {
-        this.log(e, { error: true });
-        continue;
-      }
-    }
-
-    totalPages = 100;
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      try {
-        const response = await fetch(
-          `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=desenvolvedor&take=10`,
-        );
-        const responseJson: SolidesResponse = await response?.json();
-        totalPages = responseJson?.data?.totalPages || 1;
-
-        responseJson?.data?.data?.forEach(data => {
-          if (!jobs.some((cur) => cur.idInPlatform === String(data.id))) {
-            jobs?.push(this.convertJob(data));
-          }
-        });
-      } catch (e) {
-        this.log(e, { error: true });
-        continue;
-      }
-    }
-
-    totalPages = 100;
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      try {
-        const response = await fetch(
-          `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=developer&take=10`,
-        );
-        const responseJson: SolidesResponse = await response?.json();
-        totalPages = responseJson?.data?.totalPages || 1;
-
-        responseJson?.data?.data?.forEach(data => {
-          if (!jobs.some((cur) => cur.idInPlatform === String(data.id))) {
-            jobs?.push(this.convertJob(data));
-          }
-        });
-      } catch (e) {
-        this.log(e, { error: true });
-        continue;
+          responseJson?.data?.data?.forEach(data => {
+            if (!jobs.some((cur) => cur.idInPlatform === String(data.id))) {
+              jobs?.push(this.convertJob(data));
+            }
+          });
+        } catch (e) {
+          this.log(e, { error: true });
+          continue;
+        }
       }
     }
 

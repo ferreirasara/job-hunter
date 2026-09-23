@@ -1,4 +1,4 @@
-import { flatten, isArray, uniq } from 'lodash';
+import { flatten, uniq } from 'lodash';
 import { HTTPRequest } from 'puppeteer';
 import { JobSkill } from '../@types/types';
 import {

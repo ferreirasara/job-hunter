@@ -2,8 +2,8 @@ import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
+import { STARTUP_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.STARTUP;
 
@@ -33,44 +33,23 @@ export default class StartupScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
-    try {
-      const urls: JobInitialData[] = [];
-
-      await page.goto(
-        `https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d`,
-      );
-      const selector = 'div.grow.overflow-hidden > div.flex.flex-col.justify-center > a.flex.items-center.gap-1.font-medium';
-      await page.waitForSelector(selector);
-      const frontendUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
-
-      await page.goto(
-        `https://startup.jobs/remote-jobs?q=front%20end&remote=true&since=30d`,
-      );
-      await page.waitForSelector(selector);
-      const frontend2Urls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
-
-      await page.goto(
-        `https://startup.jobs/remote-jobs?q=react&remote=true&since=30d`,
-      );
-      await page.waitForSelector(selector);
-      const reactUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
-
-      await page.goto(
-        `https://startup.jobs/remote-jobs?q=desenvolvedor&remote=true&since=30d`,
-      );
-      await page.waitForSelector(selector);
-      const developerUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
-
-      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
-      urls.push(
-        ...uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url)),
-      );
-
-      return urls;
-    } catch (e) {
-      this.log(e, { error: true });
-      return [];
+    const allUrls: string[] = [];
+    for (const url of STARTUP_URLS) {
+      try {
+        await page.goto(url);
+        const selector = 'div.grow.overflow-hidden > div.flex.flex-col.justify-center > a.flex.items-center.gap-1.font-medium';
+        await page.waitForSelector(selector);
+        const localUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
+        allUrls.push(...localUrls);
+      } catch (e) {
+        this.log(e, { error: true });
+        continue;
+      }
     }
+
+    const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+
+    return urls;
   }
 
   private async getDetails(

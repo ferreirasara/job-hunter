@@ -4,6 +4,7 @@ import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
+import { REMOTAR_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.REMOTAR;
 
@@ -33,45 +34,23 @@ export default class RemotarScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
-    try {
-      await page.goto('https://remotar.com.br/search/jobs?q=frontend', {
-        waitUntil: 'networkidle2',
-      });
-      const frontendUrls: string[] = await page?.$$eval(
-        'a.job-title',
-        (el) => el?.map((cur) => cur?.href),
-      );
-
-      await page.goto('https://remotar.com.br/search/jobs?q=front%20end', {
-        waitUntil: 'networkidle2',
-      });
-      const frontend2Urls: string[] = await page?.$$eval(
-        'a.job-title',
-        (el) => el?.map((cur) => cur?.href),
-      );
-
-      await page.goto('https://remotar.com.br/search/jobs?q=react', {
-        waitUntil: 'networkidle2',
-      });
-      const reactUrls: string[] = await page?.$$eval('a.job-title', (el) =>
-        el?.map((cur) => cur?.href),
-      );
-
-      await page.goto('https://remotar.com.br/search/jobs?q=desenvolvedor', {
-        waitUntil: 'networkidle2',
-      });
-      const developerUrls: string[] = await page?.$$eval('a.job-title', (el) =>
-        el?.map((cur) => cur?.href),
-      );
-
-      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls, ...developerUrls];
-      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
-
-      return urls;
-    } catch (e) {
-      this.log(e, { error: true });
-      return [];
+    const allUrls: string[] = [];
+    for (const url of REMOTAR_URLS) {
+      try {
+        await page.goto(url, { waitUntil: 'networkidle2' });
+        const localUrls: string[] = await page?.$$eval(
+          'a.job-title',
+          (el) => el?.map((cur) => cur?.href),
+        );
+        allUrls.push(...localUrls);
+      } catch (e) {
+        this.log(e, { error: true, url });
+      }
     }
+
+    const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+
+    return urls;
   }
 
   private async getDetails(

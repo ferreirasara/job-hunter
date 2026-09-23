@@ -2,8 +2,8 @@ import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
+import { DIVULGA_VAGAS_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.DIVULGA_VAGAS;
 export default class DivulgaVagasScraper extends ScraperInterface {
@@ -35,50 +35,24 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
-    try {
-      await page.goto('https://divulgavagas.com.br/vagas-de-frontend/');
-      let frontendUrls: string[] = [];
+    const allUrls: string[] = [];
+    for (const url of DIVULGA_VAGAS_URLS) {
       try {
+        await page.goto(url);
         await page.waitForSelector('div.vaga-titulo-text > a');
-        frontendUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+        const localUrls: string[] = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
           el?.map((cur) => cur?.href),
         );
+        allUrls.push(...localUrls);
       } catch (e) {
-        this.log('No frontend jobs found');
+        this.log(e, { error: true, url });
       }
-
-      await page.goto('https://divulgavagas.com.br/vagas-de-react/');
-      let reactUrls: string[] = [];
-      try {
-        await page.waitForSelector('div.vaga-titulo-text > a');
-        reactUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
-          el?.map((cur) => cur?.href),
-        );
-      } catch (e) {
-        this.log('No react jobs found');
-      }
-
-      await page.goto('https://divulgavagas.com.br/vagas-de-desenvolvedor/');
-      let developerUrls: string[] = [];
-      try {
-        await page.waitForSelector('div.vaga-titulo-text > a');
-        developerUrls = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
-          el?.map((cur) => cur?.href),
-        );
-      } catch (e) {
-        this.log('No developer jobs found');
-      }
-
-      const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
-      const urls = uniq(allUrls);
-
-      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
-
-      return result;
-    } catch (e) {
-      this.log(e, { error: true });
-      return [];
     }
+
+    const urls = uniq(allUrls);
+    const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
+
+    return result;
   }
 
   private async getDetails(

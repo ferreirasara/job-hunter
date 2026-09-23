@@ -177,3 +177,55 @@ export const QUICKIN_URLS = [
   'https://jobs.quickin.io/roxpartner/jobs',
   'https://jobs.quickin.io/pigz/jobs',
 ]
+
+export const COODESH_URLS = [
+  'https://coodesh.com/jobs?search=react&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D',
+  'https://coodesh.com/jobs?search=frontend&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D',
+  'https://coodesh.com/jobs?search=desenvolvedor&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D',
+];
+
+export const DIVULGA_VAGAS_URLS = [
+  'https://divulgavagas.com.br/vagas-de-frontend/',
+  'https://divulgavagas.com.br/vagas-de-react/',
+  'https://divulgavagas.com.br/vagas-de-desenvolvedor/',
+]
+
+export const GUPY_URLS = [
+  'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
+  'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
+  'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
+  'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
+  'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
+]
+
+export const REMOTAR_URLS = [
+  'https://remotar.com.br/search/jobs?q=frontend',
+  'https://remotar.com.br/search/jobs?q=front%20end',
+  'https://remotar.com.br/search/jobs?q=react',
+  'https://remotar.com.br/search/jobs?q=desenvolvedor',
+]
+
+export const REMOTE_OK_URLS = [
+  'https://remoteok.com/remote-front-end-jobs',
+  'https://remoteok.com/remote-react-jobs',
+]
+
+export const SOLIDES_URLS = [
+  (pageNumber: number) => `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=frontend&take=10`,
+  (pageNumber: number) => `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=react&take=10`,
+  (pageNumber: number) => `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=desenvolvedor&take=10`,
+  (pageNumber: number) => `https://apigw.solides.com.br/jobs/v3/portal-vacancies-new?jobsType=remoto&page=${pageNumber}&title=developer&take=10`,
+]
+
+export const STARTUP_URLS = [
+  'https://startup.jobs/remote-jobs?q=frontend&remote=true&since=30d',
+  'https://startup.jobs/remote-jobs?q=front%20end&remote=true&since=30d',
+  'https://startup.jobs/remote-jobs?q=react&remote=true&since=30d',
+  'https://startup.jobs/remote-jobs?q=desenvolvedor&remote=true&since=30d',
+]
+
+export const VAGAS_URLS = [
+  'https://www.vagas.com.br/vagas-de-frontend?m%5B%5D=100%25+Home+Office',
+  'https://www.vagas.com.br/vagas-de-front%20end?m%5B%5D=100%25+Home+Office',
+  'https://www.vagas.com.br/vagas-de-react?m%5B%5D=100%25+Home+Office',
+]

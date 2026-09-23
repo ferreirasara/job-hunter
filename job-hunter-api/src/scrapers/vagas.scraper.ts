@@ -2,8 +2,8 @@ import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
+import { VAGAS_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.VAGAS;
 export default class VagasScraper extends ScraperInterface {
@@ -32,41 +32,21 @@ export default class VagasScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
-    try {
-      await page.goto(
-        'https://www.vagas.com.br/vagas-de-frontend?m%5B%5D=100%25+Home+Office',
-      );
-      const frontendUrls: string[] = await page?.$$eval(
-        'a.link-detalhes-vaga',
-        (el) => el?.map((cur) => cur?.href),
-      );
-
-      await page.goto(
-        'https://www.vagas.com.br/vagas-de-front%20end?m%5B%5D=100%25+Home+Office',
-      );
-      const frontend2Urls: string[] = await page?.$$eval(
-        'a.link-detalhes-vaga',
-        (el) => el?.map((cur) => cur?.href),
-      );
-
-      await page.goto(
-        'https://www.vagas.com.br/vagas-de-react?m%5B%5D=100%25+Home+Office',
-      );
-      const reactUrls: string[] = await page?.$$eval(
-        'a.link-detalhes-vaga',
-        (el) => el?.map((cur) => cur?.href),
-      );
-
-      const allUrls = [...frontendUrls, ...frontend2Urls, ...reactUrls];
-      const urls = uniq(allUrls);
-
-      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
-
-      return result;
-    } catch (e) {
-      this.log(e, { error: true });
-      return [];
+    const allUrls: string[] = [];
+    for (const url of VAGAS_URLS) {
+      try {
+        await page.goto(url);
+        const localUrls: string[] = await page?.$$eval('a.link-detalhes-vaga', (el) => el?.map((cur) => cur?.href));
+        allUrls.push(...localUrls);
+      } catch (e) {
+        this.log(e, { error: true });
+        continue;
+      }
     }
+
+    const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+
+    return urls;
   }
 
   private async getDetails(

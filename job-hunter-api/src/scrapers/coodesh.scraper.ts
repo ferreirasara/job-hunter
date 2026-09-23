@@ -1,9 +1,9 @@
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
 import { uniq } from 'lodash';
+import { COODESH_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.COODESH;
 
@@ -37,35 +37,24 @@ export default class CoodeshScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
-    try {
-      await page.goto('https://coodesh.com/jobs?search=react&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
-      await page.waitForSelector('div.chakra-stack > a.chakra-link');
-      const reactUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
-        el?.map((cur) => cur?.href),
-      );
-
-      await page.goto('https://coodesh.com/jobs?search=frontend&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
-      await page.waitForSelector('div.chakra-stack > a.chakra-link');
-      const frontendUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
-        el?.map((cur) => cur?.href),
-      );
-
-      await page.goto('https://coodesh.com/jobs?search=desenvolvedor&query=eyJhbmQiOlt7ImluIjpbeyJ2YXIiOiJob21lX29mZmljZSJ9LFsiaW50ZWdyYWwiXV19XX0%3D');
-      await page.waitForSelector('div.chakra-stack > a.chakra-link');
-      const developerUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
-        el?.map((cur) => cur?.href),
-      );
-
-      const allUrls = [...frontendUrls, ...reactUrls, ...developerUrls];
-      const urls = uniq(allUrls);
-
-      const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
-
-      return result;
-    } catch (e) {
-      this.log(e, { error: true });
-      return [];
+    const allUrls: string[] = [];
+    for (const url of COODESH_URLS) {
+      try {
+        await page.goto(url);
+        await page.waitForSelector('div.chakra-stack > a.chakra-link');
+        const localUrls: string[] = await page?.$$eval('div.chakra-stack > a.chakra-link', (el) =>
+          el?.map((cur) => cur?.href),
+        );
+        allUrls.push(...localUrls);
+      } catch (e) {
+        this.log(e, { error: true, url });
+      }
     }
+
+    const urls = uniq(allUrls);
+    const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
+
+    return result;
   }
 
   private async getDetails(
