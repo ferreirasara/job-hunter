@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { addMarkdown, convertStrToArray, getNumberFromString, isUnwantedJob, normalizeDescription, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
+import { addMarkdown, convertStrToArray, getNumberFromString, isUnwantedJob, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
 
 const BASE_JOB = {
   title: 'developer',

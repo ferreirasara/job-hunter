@@ -1,4 +1,3 @@
-import { flatten, uniq } from 'lodash';
 import {
   FindOptionsOrder,
   FindOptionsWhere,
@@ -9,7 +8,7 @@ import {
 import { JobBenefit, JobInput, JobPlatform, JobSkill } from '../@types/types';
 import { AppDataSource } from '../data-source';
 import { JobOpportunity } from '../entity/JobOpportunity';
-import { convertStrToArray, getJobRegex } from '../utils/utils';
+import { getJobRegex } from '../utils/utils';
 
 const getOrderBy = (
   orderByField: string,

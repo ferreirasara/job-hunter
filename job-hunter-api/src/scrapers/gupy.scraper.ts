@@ -26,7 +26,7 @@ export default class GupyScraper extends ScraperInterface {
     for (const url of GUPY_URLS) {
       try {
         const response = await fetch(url);
-        const responseJson: GupyResponse = await response?.json();
+        const responseJson: GupyResponse = await response?.json() as GupyResponse;
         allJobs.push(...responseJson?.data);
       } catch (e) {
         this.log(e, { error: true, url });

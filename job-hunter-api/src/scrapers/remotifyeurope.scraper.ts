@@ -2,7 +2,6 @@ import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
 import { sleep } from '../utils/utils';
 

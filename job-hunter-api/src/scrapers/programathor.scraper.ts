@@ -4,7 +4,6 @@ import {
   analyzeDescription,
   getProgramathorNormalizedSkill,
 } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { PROGRAMATHOR_URLS } from '../urls/urls';
 import ScraperInterface from './scraperInterface';
 

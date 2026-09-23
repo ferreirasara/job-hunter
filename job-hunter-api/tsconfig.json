@@ -1,18 +1,34 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
     "lib": [
-      "es5",
-      "es6",
-      "DOM"
+      "ES2022"
+    ], // Removido 'DOM' já que é Node.js
+    "types": [
+      "node"
     ],
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "ignoreDeprecations": "6.0",
+    "module": "node16", // Ou "CommonJS" se seu package.json não usa "type": "module"
+    "moduleResolution": "node16",
     "rootDir": "./src",
     "outDir": "./build",
-    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
-  }
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
 }

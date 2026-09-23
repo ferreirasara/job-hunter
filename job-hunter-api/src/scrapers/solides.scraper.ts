@@ -64,7 +64,7 @@ export default class SolidesScraper extends ScraperInterface {
       for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
         try {
           const response = await fetch(url(pageNumber));
-          const responseJson: SolidesResponse = await response?.json();
+          const responseJson: SolidesResponse = await response?.json() as SolidesResponse;
           totalPages = responseJson?.data?.totalPages || 1;
 
           responseJson?.data?.data?.forEach(data => {

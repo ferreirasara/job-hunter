@@ -3,7 +3,6 @@ import cors = require('cors');
 import morgan = require('morgan');
 import { AppDataSource } from './data-source';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
-import { UpdateJobBody } from './@types/types';
 import { runScrapers } from './scrapers/run.scrapers';
 
 AppDataSource.initialize()
@@ -221,7 +220,7 @@ AppDataSource.initialize()
       res.send({ message: 'Scrapers executed successfully', totalJobs });
     });
 
-    app.all('/{*splat}', (req, res) => {
+    app.all('/{*splat}', (_, res) => {
       res.status(404).send({ message: `Endpoint not found` });
     });
 

@@ -1,9 +1,8 @@
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
-import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import ScraperInterface from './scraperInterface';
-import { INHIRE_URLS, REMOTEROCKETSHIP_URLS } from '../urls/urls';
+import { REMOTEROCKETSHIP_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.REMOTEROCKETSHIP;
 export default class RemoteRocketshipScraper extends ScraperInterface {
