@@ -51,7 +51,7 @@ export default class RemotifyEuropeScraper extends ScraperInterface {
       );
 
       const allUrls: string[] = uniq([...frontendUrls, ...reactUrls]);
-      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+      const urls: JobInitialData[] = allUrls?.map((url) => this.convertUrlToJobInitialData(url));
 
       return urls;
     } catch (e) {

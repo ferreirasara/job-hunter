@@ -27,7 +27,7 @@ export default class GupyScraper extends ScraperInterface {
       try {
         const response = await fetch(url);
         const responseJson: GupyResponse = await response?.json() as GupyResponse;
-        allJobs.push(...responseJson?.data);
+        allJobs.push(...responseJson?.data?.filter((cur) => !cur.jobUrl.includes('inactive')));
       } catch (e) {
         this.log(e, { error: true, url });
       }

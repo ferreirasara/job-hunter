@@ -1,4 +1,3 @@
-import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
@@ -41,7 +40,7 @@ export default class WeWorkRemotelyScraper extends ScraperInterface {
         (el) => el?.map((cur) => cur?.href),
       );
 
-      const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+      const urls: JobInitialData[] = allUrls.map((url) => this.convertUrlToJobInitialData(url));
 
       return urls;
     } catch (e) {

@@ -108,7 +108,7 @@ export default class JobOpportunityController {
     showOnlyUnwanted?: string;
     showAllJobs?: string;
   }) {
-    const where: FindOptionsWhere<JobOpportunity> = { };
+    const where: FindOptionsWhere<JobOpportunity> = {};
 
     where.discarded = args?.showOnlyDiscarded === 'true' || false;
     where.recused = args?.showOnlyRecused === 'true' || false;

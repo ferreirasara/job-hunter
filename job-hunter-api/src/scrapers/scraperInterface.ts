@@ -3,6 +3,7 @@ import { JobInitialData, JobInput, JobPlatform, SaveJobsResponse } from '../@typ
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { formatDateHour, interceptRequest, isUnwantedJob, removeAccent } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { uniqBy } from 'lodash';
 
 puppeteer.use(StealthPlugin());
 
@@ -88,12 +89,12 @@ export default abstract class ScraperInterface {
       if (response?.success) {
         if (!unwanted) jobsSavedCount++;
       } else {
-        this.log(`error while saving job: ${job.title} (${job.company}). ${response?.message || ''}`, { error: true });
+        this.log(`Error while saving job: ${job.title} (${job.company}). ${response?.message || ''}`, { error: true });
       }
 
       if (unwanted) {
         unwantedJobsCount++;
-        this.log(`unwanted job: ${job.title} (${job.company})`, {
+        this.log(`Unwanted job: ${job.title} (${job.company})`, {
           color: '\x1b[34m',
         });
       }
@@ -116,6 +117,6 @@ export default abstract class ScraperInterface {
     );
     const existentJobsIds = existentJobs?.map((cur) => cur?.idInPlatform);
 
-    return jobs?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform));
+    return uniqBy(jobs, 'idInPlatform')?.filter((cur) => !existentJobsIds?.includes(cur?.idInPlatform));
   }
 }

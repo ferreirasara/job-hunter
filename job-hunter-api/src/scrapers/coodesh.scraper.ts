@@ -2,7 +2,6 @@ import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import ScraperInterface from './scraperInterface';
-import { uniq } from 'lodash';
 import { COODESH_URLS } from '../urls/urls';
 
 const platform: JobPlatform = JobPlatform.COODESH;
@@ -51,7 +50,7 @@ export default class CoodeshScraper extends ScraperInterface {
       }
     }
 
-    const urls = uniq(allUrls);
+    const urls = allUrls;
     const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
 
     return result;

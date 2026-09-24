@@ -1,4 +1,3 @@
-import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
@@ -40,14 +39,14 @@ export default class StartupScraper extends ScraperInterface {
         const selector = 'div.grow.overflow-hidden > div.flex.flex-col.justify-center > a.flex.items-center.gap-1.font-medium';
         await page.waitForSelector(selector);
         const localUrls: string[] = await page?.$$eval(selector, (el) => el?.map((cur) => cur?.href));
-        allUrls.push(...localUrls);
+        allUrls.push(...localUrls?.filter((cur) => !cur.includes('early_access')));
       } catch (e) {
-        this.log(e, { error: true });
+        this.log(e, { error: true, url });
         continue;
       }
     }
 
-    const urls: JobInitialData[] = uniq(allUrls)?.map((url) => this.convertUrlToJobInitialData(url));
+    const urls: JobInitialData[] = allUrls.map((url) => this.convertUrlToJobInitialData(url));
 
     return urls;
   }

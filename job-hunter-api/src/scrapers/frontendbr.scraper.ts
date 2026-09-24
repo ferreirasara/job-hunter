@@ -57,7 +57,14 @@ export default class FrontendBrScraper extends ScraperInterface {
         const obj = urls[i];
         await page.goto(obj?.url, { waitUntil: 'networkidle0' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
-        const company = await page?.$eval('span.font-medium.flex.gap-2.items-center', (el) => el?.innerText);
+
+        let company = '';
+        try {
+          company = await page?.$eval('span.font-medium.flex.gap-2.items-center', (el) => el?.innerText);
+        } catch (e) {
+          company = 'Empresa não informada';
+        }
+
         const description = await page?.$$eval(
           'div.markdown-body',
           (el) => el?.map((cur) => cur?.innerText)?.join('\n\n'),

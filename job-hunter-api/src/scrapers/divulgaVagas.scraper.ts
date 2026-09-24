@@ -1,4 +1,3 @@
-import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
@@ -49,7 +48,7 @@ export default class DivulgaVagasScraper extends ScraperInterface {
       }
     }
 
-    const urls = uniq(allUrls);
+    const urls = allUrls;
     const result: JobInitialData[] = urls?.map((url) => this.convertUrlToJobInitialData(url));
 
     return result;

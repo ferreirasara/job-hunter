@@ -46,7 +46,7 @@ export default class QuickinScraper extends ScraperInterface {
           ...urls?.map((url) => this.convertUrlToJobInitialData(url)),
         );
       } catch (e) {
-        this.log(e, { error: true });
+        this.log(e, { error: true, url });
         continue;
       }
     }
