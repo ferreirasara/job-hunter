@@ -7,22 +7,22 @@ const COLOR_LEVEL = 5;
 
 interface RatingProps {
   rating: number;
-  indexOf?: number;
-  length: number;
+  minRating?: number;
+  maxRating?: number;
 }
 
-const Rating = ({ indexOf, length, rating }: RatingProps) => {
+const Rating = ({ minRating, maxRating, rating }: RatingProps) => {
   const classifyRating = useCallback(
-    (indexOf?: number, length?: number): 'low' | 'median' | 'high' => {
-      if (indexOf === undefined || length === undefined) return 'low';
-      if (indexOf < length / 3) return 'low';
-      if (indexOf < (length * 2) / 3) return 'median';
+    (minRating?: number, maxRating?: number): 'low' | 'median' | 'high' => {
+      if (rating === undefined || minRating === undefined || maxRating === undefined) return 'low';
+      if (rating < (minRating + (maxRating - minRating) / 3)) return 'low';
+      if (rating < (minRating + (2 * (maxRating - minRating)) / 3)) return 'median';
       return 'high';
     },
     [],
   );
 
-  const classification = classifyRating(indexOf, length);
+  const classification = classifyRating(minRating, maxRating);
   const color =
     classification === 'low'
       ? red[COLOR_LEVEL]

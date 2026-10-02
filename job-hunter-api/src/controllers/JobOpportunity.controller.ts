@@ -150,16 +150,22 @@ export default class JobOpportunityController {
       where,
       select: { uuid: true },
     });
-    const allRatings = await AppDataSource.manager.find(JobOpportunity, {
-      order: { totalRating: 'ASC' },
-      select: { totalRating: true },
-      where: { discarded: false, unwanted: false },
-    });
+    const minRating = await AppDataSource.manager
+      .createQueryBuilder(JobOpportunity, 'job')
+      .select('MIN(job.totalRating)', 'min')
+      .getRawOne()
+      .then((res) => res?.min || 0);
+    const maxRating = await AppDataSource.manager
+      .createQueryBuilder(JobOpportunity, 'job')
+      .select('MAX(job.totalRating)', 'max')
+      .getRawOne()
+      .then((res) => res?.max || 0);
 
     return {
       totalOfJobs,
       data: jobsWithRegex,
-      allRatings: allRatings.map((cur) => cur?.totalRating),
+      minRating,
+      maxRating,
       allSkills: Object.keys(JobSkill)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
       allBenefits: Object.keys(JobBenefit)?.sort((a, b) => (a || '')?.localeCompare(b || '')),
     };

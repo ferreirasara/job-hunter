@@ -89,7 +89,8 @@ export interface JobsResponse {
   message?: string;
   totalOfJobs: number;
   data: JobsTableData[];
-  allRatings: number[];
+  minRating: number;
+  maxRating: number;
   allSkills: string[];
   allBenefits: string[];
 }

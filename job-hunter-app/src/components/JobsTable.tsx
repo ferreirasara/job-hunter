@@ -126,8 +126,8 @@ const JobsTable = ({
         render: (rating) => (
           <Rating
             rating={rating}
-            indexOf={data?.allRatings?.indexOf(rating)}
-            length={data?.allRatings?.length || 0}
+            minRating={data?.minRating}
+            maxRating={data?.maxRating}
           />
         ),
         showSorterTooltip: false,
@@ -155,7 +155,7 @@ const JobsTable = ({
         ),
       },
     ],
-    [data?.allRatings, handleSelectJob, screens?.xl, screens?.xxl],
+    [data?.minRating, data?.maxRating, handleSelectJob, screens?.xl, screens?.xxl],
   );
 
   return (
