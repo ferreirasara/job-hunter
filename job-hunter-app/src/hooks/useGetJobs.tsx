@@ -23,10 +23,32 @@ export const useGetJobs = () => {
     showOnlyApplied,
     showOnlyUnwanted,
     showAllJobs,
+    lastDaysFilter,
   } = useFilters((state) => state);
 
   return useQuery({
-    queryKey: ['jobs', page, limit, platformFilter, typeFilter, hiringRegimeFilter, skillFilter, benefitFilter, skillsFilter, titleFilter, companyFilter, seniorityFilter, orderByField, orderByOrder, showOnlyDiscarded, showOnlyRecused, showOnlyApplied, showOnlyUnwanted, showAllJobs],
+    queryKey: [
+      'jobs',
+      page,
+      limit,
+      platformFilter,
+      typeFilter,
+      hiringRegimeFilter,
+      skillFilter,
+      benefitFilter,
+      skillsFilter,
+      titleFilter,
+      companyFilter,
+      seniorityFilter,
+      orderByField,
+      orderByOrder,
+      showOnlyDiscarded,
+      showOnlyRecused,
+      showOnlyApplied,
+      showOnlyUnwanted,
+      showAllJobs,
+      lastDaysFilter,
+    ],
     queryFn: async (): Promise<JobsResponse> => {
       const searchParams: any = {};
 
@@ -48,6 +70,7 @@ export const useGetJobs = () => {
       if (showAllJobs) searchParams.showAllJobs = showAllJobs;
       if (orderByField) searchParams.orderByField = orderByField;
       if (orderByOrder) searchParams.orderByOrder = orderByOrder;
+      if (lastDaysFilter) searchParams.lastDaysFilter = lastDaysFilter;
 
       const qs = new URLSearchParams(searchParams);
 

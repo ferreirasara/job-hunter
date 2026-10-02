@@ -44,6 +44,7 @@ AppDataSource.initialize()
       const limit = params.get('limit');
       const page = params.get('page');
       const showAllJobs = params.get('showAllJobs');
+      const lastDaysFilter = params.get('lastDaysFilter');
 
       if (!limit || !page) {
         res.send({ message: 'Invalid params' });
@@ -80,6 +81,7 @@ AppDataSource.initialize()
         orderByField: orderByField ? decodeURI(orderByField) : undefined,
         orderByOrder: orderByOrder ? decodeURI(orderByOrder) : undefined,
         showAllJobs: showAllJobs ? decodeURI(showAllJobs) : undefined,
+        lastDaysFilter: lastDaysFilter ? parseInt(lastDaysFilter) : undefined,
       });
       res.send(result);
     });

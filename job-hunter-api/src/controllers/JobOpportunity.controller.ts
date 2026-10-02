@@ -108,6 +108,7 @@ export default class JobOpportunityController {
     showOnlyApplied?: string;
     showOnlyUnwanted?: string;
     showAllJobs?: string;
+    lastDaysFilter?: number;
   }) {
     const where: FindOptionsWhere<JobOpportunity> = {};
 
@@ -133,6 +134,12 @@ export default class JobOpportunityController {
     if (args?.companyFilter) where.company = ILike(`%${args?.companyFilter}%`);
     if (args?.seniorityFilter)
       where.seniority = ILike(`%${args?.seniorityFilter}%`);
+    if (args?.lastDaysFilter) {
+      const date = new Date();
+      date.setDate(date.getDate() - args?.lastDaysFilter);
+      console.log('🚀 | date:', date);
+      where.createdAt = MoreThanOrEqual(date);
+    }
 
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
       skip: (args?.page || 0) * (args?.limit || 10),

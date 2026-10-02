@@ -20,6 +20,8 @@ export const useFilters = create<FiltersState>()(persist((set) => ({
   showOnlyRecused: INITIAL_FILTERS_STATE.showOnlyRecused,
   showOnlyApplied: INITIAL_FILTERS_STATE.showOnlyApplied,
   showOnlyUnwanted: INITIAL_FILTERS_STATE.showOnlyUnwanted,
+  showAllJobs: INITIAL_FILTERS_STATE.showAllJobs,
+  lastDaysFilter: INITIAL_FILTERS_STATE.lastDaysFilter,
   limit: calcLimit(),
   page: 0,
   setState: (partialState: Partial<FiltersState>) => set(partialState),

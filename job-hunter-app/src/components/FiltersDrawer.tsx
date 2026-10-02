@@ -46,6 +46,7 @@ const FiltersDrawer = ({
     orderByField: state.orderByField,
     skillsFilter: state.skillsFilter,
     showAllJobs: state.showAllJobs,
+    lastDaysFilter: state.lastDaysFilter,
   };
 
   const handleReset = () => {
@@ -65,6 +66,7 @@ const FiltersDrawer = ({
       { name: 'orderByOrder', value: INITIAL_FILTERS_STATE.orderByOrder },
       { name: 'orderByField', value: INITIAL_FILTERS_STATE.orderByField },
       { name: 'showAllJobs', value: INITIAL_FILTERS_STATE.showAllJobs },
+      { name: 'lastDaysFilter', value: INITIAL_FILTERS_STATE.lastDaysFilter },
     ]);
     state.setState({
       benefitFilter: INITIAL_FILTERS_STATE.benefitFilter,
@@ -83,6 +85,7 @@ const FiltersDrawer = ({
       orderByField: INITIAL_FILTERS_STATE.orderByField,
       skillsFilter: INITIAL_FILTERS_STATE.skillsFilter,
       showAllJobs: INITIAL_FILTERS_STATE.showAllJobs,
+      lastDaysFilter: INITIAL_FILTERS_STATE.lastDaysFilter,
     });
   };
 
@@ -168,6 +171,9 @@ const FiltersDrawer = ({
             showSearch
             options={data?.allBenefits?.map((cur) => ({ label: cur, value: cur }))}
           />
+        </Form.Item>
+        <Form.Item name="lastDaysFilter" style={formItemStyle} label="Últimos dias">
+          <Input type="number" min={0} />
         </Form.Item>
         <Form.Item
           label="Ordenação (campo)"

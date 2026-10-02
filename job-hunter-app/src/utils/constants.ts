@@ -13,6 +13,13 @@ export const INITIAL_FILTERS_STATE: Partial<GetJobsFromAPIArgs> = {
   orderByOrder: 'ascend',
   orderByField: 'totalRating',
   skillsFilter: undefined,
+  benefitFilter: undefined,
+  lastDaysFilter: undefined,
+  showAllJobs: false,
+  companyFilter: undefined,
+  hiringRegimeFilter: undefined,
+  platformFilter: undefined,
+  skillFilter: undefined,
 }
 
 export const TYPE_OPTIONS = Object.keys(JobType).sort((a, b) => a.localeCompare(b));

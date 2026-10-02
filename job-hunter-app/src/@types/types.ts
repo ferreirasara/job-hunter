@@ -17,6 +17,7 @@ export interface GetJobsFromAPIArgs {
   showOnlyApplied?: boolean;
   showOnlyUnwanted?: boolean;
   showAllJobs?: boolean;
+  lastDaysFilter?: number;
 };
 
 export interface FiltersState extends GetJobsFromAPIArgs {
