@@ -5,7 +5,7 @@ import {
   In,
   MoreThanOrEqual,
 } from 'typeorm';
-import { JobBenefit, JobInput, JobPlatform, JobSkill } from '../@types/types';
+import { JobBenefit, JobInput, JobPlatform, JobSkill, UnwantedReason } from '../@types/types';
 import { AppDataSource } from '../data-source';
 import { JobOpportunity } from '../entity/JobOpportunity';
 import { getJobRegex } from '../utils/utils';
@@ -76,6 +76,7 @@ export default class JobOpportunityController {
       newJob.discarded = jobInput.discarded || false;
       newJob.unwanted = jobInput.unwanted || false;
       newJob.seniority = jobInput.seniority;
+      newJob.unwantedReason = jobInput.unwantedReason;
 
       try {
         const res = await AppDataSource.manager.save(newJob);
@@ -282,6 +283,13 @@ export default class JobOpportunityController {
   public static async updateUrl(uuid: string, url: string) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       url,
+    });
+    return response?.affected && response?.affected > 0;
+  }
+
+  public static async updateUnwantedReason(uuid: string, unwantedReason?: UnwantedReason) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
+      unwantedReason,
     });
     return response?.affected && response?.affected > 0;
   }

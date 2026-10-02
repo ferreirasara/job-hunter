@@ -82,6 +82,7 @@ export interface JobsTableData {
   numberOfTests: number;
   seniority: JobSeniority;
   regex: string[];
+  unwantedReason?: string;
 }
 
 export interface JobsResponse {

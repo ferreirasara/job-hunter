@@ -5,21 +5,24 @@ import {
 } from './analyzer/analyzer';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
 import { AppDataSource } from './data-source';
-import { convertStrToArray, formSolidesUrl, normalizeDescription } from './utils/utils';
+import { convertStrToArray, formSolidesUrl, isUnwantedJob, normalizeDescription } from './utils/utils';
 
 const AVAILABLE_FUNCTIONS = [
   'update-jobs',
   'normalize-programathor-skills',
   'normalize-description',
   'update-solides-urls',
+  'update-unwanted-jobs',
 ];
+
+const PERCENTAGE_LOG_INTERVAL = 100;
 
 AppDataSource.initialize()
   .then(async () => {
     const functionToCall = process?.argv?.[2];
 
     if (!functionToCall)
-      throw new Error('Please provide a function to call as argument (update-jobs, normalize-programathor-skills, normalize-description)');
+      throw new Error(`Please provide a function to call as argument (${AVAILABLE_FUNCTIONS.join(', ')})`);
 
     if (!AVAILABLE_FUNCTIONS.includes(functionToCall))
       throw new Error(`Invalid function provided. Available functions are: ${AVAILABLE_FUNCTIONS.join(', ')}`);
@@ -30,7 +33,7 @@ AppDataSource.initialize()
       const allJobsLength = allJobs?.length;
       for (let i = 0; i < allJobsLength; i++) {
         const job = allJobs[i];
-        if (i % 50 === 0)
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
           console.log(
             `[update-jobs] Updating job ${i + 1} of ${allJobsLength}`,
           );
@@ -78,7 +81,7 @@ AppDataSource.initialize()
       const allJobsLength = allJobs?.length;
       for (let i = 0; i < allJobsLength; i++) {
         const job = allJobs[i];
-        if (i % 50 === 0)
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
           console.log(
             `[normalize-programathor-skills] Updating job ${i + 1} of ${allJobsLength}`,
           );
@@ -98,7 +101,7 @@ AppDataSource.initialize()
       const allJobsLength = allJobs?.length;
       for (let i = 0; i < allJobsLength; i++) {
         const job = allJobs[i];
-        if (i % 50 === 0)
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
           console.log(
             `[normalize-description] Updating job ${i + 1} of ${allJobsLength}`,
           );
@@ -115,7 +118,7 @@ AppDataSource.initialize()
       const allJobsLength = allJobs?.length;
       for (let i = 0; i < allJobsLength; i++) {
         const job = allJobs[i];
-        if (i % 50 === 0)
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
           console.log(
             `[update-solides-urls] Updating job ${i + 1} of ${allJobsLength}`,
           );
@@ -126,6 +129,37 @@ AppDataSource.initialize()
         );
       }
       console.log(`[update-solides-urls] End`);
+    } else if (functionToCall === 'update-unwanted-jobs') {
+      console.log(`[update-unwanted-jobs] Start`);
+      const allJobs = await JobOpportunityController.getAllJobs();
+      const allJobsLength = allJobs?.length;
+
+      let updatedCount = 0;
+      let notUpdatedCount = 0;
+
+      for (let i = 0; i < allJobsLength; i++) {
+        const job = allJobs[i];
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
+          console.log(
+            `[update-unwanted-jobs] Updating job ${i + 1} of ${allJobsLength}`,
+          );
+        const unwantedResponse = isUnwantedJob(job);
+
+        if (unwantedResponse?.unwanted !== job?.unwanted) {
+          await JobOpportunityController.updateUnwanted(
+            job.uuid,
+            unwantedResponse?.unwanted,
+          );
+          if (unwantedResponse.reason) await JobOpportunityController.updateUnwantedReason(
+            job.uuid,
+            unwantedResponse.reason,
+          );
+          updatedCount++;
+        } else {
+          notUpdatedCount++;
+        }
+      }
+      console.log(`[update-unwanted-jobs] End. Updated count: ${updatedCount}. Not updated count: ${notUpdatedCount}`);
     }
   })
   .catch((error) => console.log(error));

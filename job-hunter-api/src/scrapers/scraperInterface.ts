@@ -77,15 +77,16 @@ export default abstract class ScraperInterface {
       const company = removeAccent(job?.company?.toLowerCase());
       const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwanted = !this.initialUrl || isUnwantedJob({
+      const unwantedResponse = isUnwantedJob({
         title,
         company,
         description,
         skillsRating: job.skillsRating || 0,
         skills: job.skills || '',
       });
+      const unwanted = unwantedResponse?.unwanted;
 
-      const response = await JobOpportunityController.insert({ ...job, unwanted });
+      const response = await JobOpportunityController.insert({ ...job, unwanted, unwantedReason: unwantedResponse?.reason });
       if (response?.success) {
         if (!unwanted) jobsSavedCount++;
       } else {
@@ -94,7 +95,7 @@ export default abstract class ScraperInterface {
 
       if (unwanted) {
         unwantedJobsCount++;
-        this.log(`Unwanted job: ${job.title} (${job.company})`, {
+        this.log(`Unwanted job: ${job.title} (${job.company}). Reason: ${unwantedResponse?.reason || 'N/A'}`, {
           color: '\x1b[34m',
         });
       }

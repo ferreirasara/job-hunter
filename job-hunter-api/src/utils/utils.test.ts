@@ -1,5 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { addMarkdown, convertStrToArray, getNumberFromString, isUnwantedJob, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
+import { UnwantedReason } from '../@types/types';
 
 const BASE_JOB = {
   title: 'developer',
@@ -12,50 +13,62 @@ const BASE_JOB = {
 describe('test isUnwantedJob function', () => {
   it('should return true for unwanted job based on title', () => {
     const result1 = isUnwantedJob({ ...BASE_JOB, title: 'junior developer' });
-    expect(result1).toBe(true);
+    expect(result1.unwanted).toBe(true);
+    expect(result1.reason).toBe(UnwantedReason.UNWANTED_TITLE_KEYWORD);
 
     const result2 = isUnwantedJob({ ...BASE_JOB, title: 'python developer' });
-    expect(result2).toBe(true);
+    expect(result2.unwanted).toBe(true);
+    expect(result2.reason).toBe(UnwantedReason.UNWANTED_TITLE_KEYWORD);
 
     const result3 = isUnwantedJob({ ...BASE_JOB, title: 'angular and vue developer' });
-    expect(result3).toBe(true);
+    expect(result3.unwanted).toBe(true);
+    expect(result3.reason).toBe(UnwantedReason.UNWANTED_TITLE_KEYWORD);
 
     const result4 = isUnwantedJob({ ...BASE_JOB, title: 'banco de talentos' });
-    expect(result4).toBe(true);
+    expect(result4.unwanted).toBe(true);
+    expect(result4.reason).toBe(UnwantedReason.UNWANTED_TITLE_KEYWORD);
   });
 
   it('should return true for unwanted job based on company', () => {
     const result1 = isUnwantedJob({ ...BASE_JOB, company: 'bairesdev' });
-    expect(result1).toBe(true);
+    expect(result1.unwanted).toBe(true);
+    expect(result1.reason).toBe(UnwantedReason.UNWANTED_COMPANY_KEYWORD);
 
     const result2 = isUnwantedJob({ ...BASE_JOB, company: 'jobgether' });
-    expect(result2).toBe(true);
+    expect(result2.unwanted).toBe(true);
+    expect(result2.reason).toBe(UnwantedReason.UNWANTED_COMPANY_KEYWORD);
   });
 
   it('should return true for unwanted job based on description', () => {
     const result1 = isUnwantedJob({ ...BASE_JOB, description: 'telemarketing' });
-    expect(result1).toBe(true);
+    expect(result1.unwanted).toBe(true);
+    expect(result1.reason).toBe(UnwantedReason.UNWANTED_DESCRIPTION_KEYWORD);
 
     const result2 = isUnwantedJob({ ...BASE_JOB, description: 'us-based' });
-    expect(result2).toBe(true);
+    expect(result2.unwanted).toBe(true);
+    expect(result2.reason).toBe(UnwantedReason.UNWANTED_DESCRIPTION_KEYWORD);
 
     const result3 = isUnwantedJob({ ...BASE_JOB, description: 'us based' });
-    expect(result3).toBe(true);
+    expect(result3.unwanted).toBe(true);
+    expect(result3.reason).toBe(UnwantedReason.UNWANTED_DESCRIPTION_KEYWORD);
   });
 
   it('should return true for unwanted job based on missing required skills', () => {
     const result = isUnwantedJob({ ...BASE_JOB, skills: 'ANGULAR' });
-    expect(result).toBe(true);
+    expect(result.unwanted).toBe(true);
+    expect(result.reason).toBe(UnwantedReason.MISSING_REACT_SKILL);
   });
 
   it('should return true for unwanted job based on skillsRating', () => {
     const result = isUnwantedJob({ ...BASE_JOB, skillsRating: 10 });
-    expect(result).toBe(true);
+    expect(result.unwanted).toBe(true);
+    expect(result.reason).toBe(UnwantedReason.SKILLS_RATING_BELOW_THRESHOLD);
   });
 
   it('should return false for wanted job', () => {
     const result = isUnwantedJob({ ...BASE_JOB });
-    expect(result).toBe(false);
+    expect(result.unwanted).toBe(false);
+    expect(result.reason).toBeUndefined();
   });
 });
 

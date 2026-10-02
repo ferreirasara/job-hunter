@@ -1,6 +1,6 @@
 import { flatten, uniq } from 'lodash';
 import { HTTPRequest } from 'puppeteer';
-import { JobSkill } from '../@types/types';
+import { JobSkill, UnwantedJobResponse, UnwantedReason } from '../@types/types';
 import {
   BENEFITS_REGEX,
   HIRING_REGIMES_REGEX,
@@ -861,15 +861,15 @@ export const getNumberFromString = (str: string): number | undefined => {
 };
 
 export const isUnwantedJob = (args: {
-  title: string;
-  company: string;
-  description: string;
-  skillsRating: number;
-  skills: string;
-}): boolean => {
-  const { company, description, title, skillsRating, skills } = args;
+  title?: string;
+  company?: string;
+  description?: string;
+  skillsRating?: number;
+  skills?: string;
+}): UnwantedJobResponse => {
+  const { company = '', description = '', title = '', skillsRating = 0, skills = '' } = args;
 
-  if (skillsRating < 15) return true;
+  if (skillsRating !== undefined && skillsRating < 15) return { unwanted: true, reason: UnwantedReason.SKILLS_RATING_BELOW_THRESHOLD };
 
   const unwantedTitleKeywords = [
     'banco de talentos',
@@ -880,8 +880,12 @@ export const isUnwantedJob = (args: {
     'director',
     'designer',
     'junior',
+    'estagio',
     'tech lead',
     'staff',
+    'hibrido',
+    'presencial',
+    'product owner',
   ];
   const unwantedCompanyKeywords = ['bairesdev', 'jobgether'];
   const unwantedDescriptionKeywords = ['telemarketing', 'us-based', 'us based'];
@@ -894,13 +898,37 @@ export const isUnwantedJob = (args: {
     SKILLS_REGEX.MOBILE_DEVELOPMENT,
   ];
 
-  return (
-    unwantedTitleKeywords?.some((cur) => title?.toLowerCase()?.includes(cur)) ||
-    unwantedCompanyKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)) ||
-    unwantedDescriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)) ||
-    unwantedSkillsInTitleKeywords?.some((cur) => stringContainsAny(title, cur)) ||
-    !skills.includes(JobSkill.REACT)
-  );
+  const isUnwantedByTitle: UnwantedJobResponse = {
+    unwanted: unwantedTitleKeywords?.some((cur) => removeAccent(title)?.toLowerCase()?.includes(cur)),
+    reason: UnwantedReason.UNWANTED_TITLE_KEYWORD
+  };
+  if (isUnwantedByTitle.unwanted) return isUnwantedByTitle;
+
+  const isUnwantedByCompany: UnwantedJobResponse = {
+    unwanted: unwantedCompanyKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)),
+    reason: UnwantedReason.UNWANTED_COMPANY_KEYWORD
+  };
+  if (isUnwantedByCompany.unwanted) return isUnwantedByCompany;
+
+  const isUnwantedByDescription: UnwantedJobResponse = {
+    unwanted: unwantedDescriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)),
+    reason: UnwantedReason.UNWANTED_DESCRIPTION_KEYWORD
+  };
+  if (isUnwantedByDescription.unwanted) return isUnwantedByDescription;
+
+  const isUnwantedBySkillsInTitle: UnwantedJobResponse = {
+    unwanted: unwantedSkillsInTitleKeywords?.some((cur) => stringContainsAny(title, cur)),
+    reason: UnwantedReason.UNWANTED_TITLE_KEYWORD
+  };
+  if (isUnwantedBySkillsInTitle.unwanted) return isUnwantedBySkillsInTitle;
+
+  const isUnwantedByMissingReactSkill: UnwantedJobResponse = {
+    unwanted: !skills.includes(JobSkill.REACT),
+    reason: UnwantedReason.MISSING_REACT_SKILL,
+  };
+  if (isUnwantedByMissingReactSkill.unwanted) return isUnwantedByMissingReactSkill;
+
+  return { unwanted: false };
 };
 
 export const getJobRegex = (job: JobOpportunity): string[] => {

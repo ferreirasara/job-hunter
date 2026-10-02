@@ -254,6 +254,7 @@ export type JobInput = {
   discarded?: boolean;
   unwanted?: boolean;
   seniority?: JobSeniority;
+  unwantedReason?: UnwantedReason;
 };
 
 export type OrderBy = { field: string; order: 'ascend' | 'descend' };
@@ -315,3 +316,15 @@ export type SolidesJob = {
     name: string;
   }[];
 };
+
+export enum UnwantedReason {
+  UNWANTED_TITLE_KEYWORD = 'Unwanted title keyword',
+  UNWANTED_COMPANY_KEYWORD = 'Unwanted company keyword',
+  UNWANTED_DESCRIPTION_KEYWORD = 'Unwanted description keyword',
+  MISSING_REACT_SKILL = 'Missing React skill',
+  SKILLS_RATING_BELOW_THRESHOLD = 'Skills rating below threshold',
+}
+export interface UnwantedJobResponse {
+  unwanted: boolean;
+  reason?: UnwantedReason;
+}

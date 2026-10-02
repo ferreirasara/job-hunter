@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UnwantedReason } from '../@types/types';
 
 @Entity()
 export class JobOpportunity {
@@ -23,6 +24,13 @@ export class JobOpportunity {
       'COODESH',
       'STARTUP',
       'SOLIDES',
+      'WE_WORK_REMOTELY',
+      'REMOTEOK',
+      'REMOTIFYEUROPE',
+      'INHIRE',
+      'FRONTENDBR',
+      'REMOTEROCKETSHIP',
+      'QUICKIN',
     ],
   })
   platform!: string;
@@ -89,4 +97,7 @@ export class JobOpportunity {
 
   @Column({ default: new Date() })
   createdAt!: Date;
+
+  @Column({ enum: Object.values(UnwantedReason), nullable: true })
+  unwantedReason?: UnwantedReason;
 }

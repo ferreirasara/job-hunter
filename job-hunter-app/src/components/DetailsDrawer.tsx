@@ -116,6 +116,13 @@ const DetailsDrawer = ({
             </ListItemInner>
           </List.Item>
         ) : null}
+        {selectedJob?.unwantedReason ? (
+          <List.Item key="unwantedReason">
+            <ListItemInner title="Indesejada por">
+              {selectedJob?.unwantedReason}
+            </ListItemInner>
+          </List.Item>
+        ) : null}
         {selectedJob?.country || selectedJob?.state || selectedJob?.city ? (
           <List.Item key="address">
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
