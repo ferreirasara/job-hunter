@@ -113,6 +113,7 @@ export const INHIRE_URLS = [
   'https://cashme.inhire.app/vagas/',
   'https://lighthouseit.inhire.app/vagas/',
   'https://sympla.inhire.app/vagas/',
+  'https://sensedia-trial.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
