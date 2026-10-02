@@ -243,6 +243,7 @@ export const SKILLS_REGEX = {
   GRAPHQL: [/graph( |-|\.)?ql/i],
   HTML: [/htm(l)?(5)?/i],
   INTEGRATIONS: [/integracoes (de|com) (servico|api)(s)? de terceiros/i],
+  INTERNATIONALIZATION: [/i18n/i, /internacionalizacao/i, /internationalization/i],
   IONIC: [/\bionic\b/i],
   JAVA: [
     /java(?!( |-|\.)?script)/i,
