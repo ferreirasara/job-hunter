@@ -137,7 +137,6 @@ export default class JobOpportunityController {
     if (args?.lastDaysFilter) {
       const date = new Date();
       date.setDate(date.getDate() - args?.lastDaysFilter);
-      console.log('🚀 | date:', date);
       where.createdAt = MoreThanOrEqual(date);
     }
 
