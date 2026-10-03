@@ -42,6 +42,7 @@ AppDataSource.initialize()
           title: job?.title,
           description: newDescription,
         });
+        const unwantedResponse = isUnwantedJob(job);
 
         await JobOpportunityController.updateSkills(
           job.uuid,
@@ -71,6 +72,14 @@ AppDataSource.initialize()
           skillsRating: analyzerResponse?.skillsRating,
           benefitsRating: analyzerResponse?.benefitsRating,
         });
+        await JobOpportunityController.updateUnwanted(
+          job.uuid,
+          unwantedResponse?.unwanted,
+        );
+        if (unwantedResponse?.reason) await JobOpportunityController.updateUnwantedReason(
+          job.uuid,
+          unwantedResponse?.reason,
+        );
       }
       console.log(`[update-jobs] End`);
     } else if (functionToCall === 'normalize-programathor-skills') {

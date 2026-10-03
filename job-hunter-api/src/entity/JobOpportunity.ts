@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UnwantedReason } from '../@types/types';
+import { JobHiringRegime, JobType, JobSeniority, UnwantedReason, JobPlatform } from '../@types/types';
 
 @Entity()
 export class JobOpportunity {
@@ -12,28 +12,8 @@ export class JobOpportunity {
   @Column()
   company!: string;
 
-  @Column({
-    enum: [
-      'GUPY',
-      'PROGRAMATHOR',
-      'TRAMPOS',
-      'VAGAS',
-      'REMOTAR',
-      'LINKEDIN',
-      'DIVULGA_VAGAS',
-      'COODESH',
-      'STARTUP',
-      'SOLIDES',
-      'WE_WORK_REMOTELY',
-      'REMOTEOK',
-      'REMOTIFYEUROPE',
-      'INHIRE',
-      'FRONTENDBR',
-      'REMOTEROCKETSHIP',
-      'QUICKIN',
-    ],
-  })
-  platform!: string;
+  @Column({ enum: Object.values(JobPlatform) })
+  platform!: JobPlatform;
 
   @Column()
   title!: string;
@@ -50,14 +30,14 @@ export class JobOpportunity {
   @Column()
   url!: string;
 
-  @Column({ enum: ['REMOTE', 'HYBRID', 'FACE_TO_FACE'], nullable: true })
-  type?: string;
+  @Column({ enum: Object.values(JobType), nullable: true })
+  type?: JobType;
 
-  @Column({ enum: ['CLT', 'PJ'], nullable: true })
-  hiringRegime?: string;
+  @Column({ enum: Object.values(JobHiringRegime), nullable: true })
+  hiringRegime?: JobHiringRegime;
 
-  @Column({ enum: ['JUNIOR', 'MID_LEVEL', 'SENIOR'], nullable: true })
-  seniority?: string;
+  @Column({ enum: Object.values(JobSeniority), nullable: true })
+  seniority?: JobSeniority;
 
   @Column({ nullable: true })
   country?: string;

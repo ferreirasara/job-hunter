@@ -2,10 +2,9 @@ import {
   FindOptionsOrder,
   FindOptionsWhere,
   ILike,
-  In,
   MoreThanOrEqual,
 } from 'typeorm';
-import { JobBenefit, JobInput, JobPlatform, JobSkill, UnwantedReason } from '../@types/types';
+import { JobBenefit, JobHiringRegime, JobInput, JobPlatform, JobSeniority, JobSkill, JobType, UnwantedReason } from '../@types/types';
 import { AppDataSource } from '../data-source';
 import { JobOpportunity } from '../entity/JobOpportunity';
 import { getJobRegex } from '../utils/utils';
@@ -93,14 +92,14 @@ export default class JobOpportunityController {
   public static async getAllJobsWithFilter(args: {
     limit?: number;
     page?: number;
-    platformFilter?: string;
-    typeFilter?: string;
-    hiringRegimeFilter?: string;
+    platformFilter?: JobPlatform;
+    typeFilter?: JobType;
+    hiringRegimeFilter?: JobHiringRegime;
     skillFilter?: string;
     benefitFilter?: string;
     titleFilter?: string;
     companyFilter?: string;
-    seniorityFilter?: string;
+    seniorityFilter?: JobSeniority;
     orderByField?: string;
     orderByOrder?: string;
     showOnlyDiscarded?: string;
@@ -123,17 +122,14 @@ export default class JobOpportunityController {
       delete where.unwanted;
     }
 
-    if (args?.platformFilter)
-      where.platform = In(args?.platformFilter?.split(','));
-    if (args?.typeFilter) where.type = In(args?.typeFilter?.split(','));
-    if (args?.hiringRegimeFilter)
-      where.hiringRegime = In(args?.hiringRegimeFilter?.split(','));
+    if (args?.platformFilter) where.platform = ILike<JobPlatform>(args?.platformFilter);
+    if (args?.typeFilter) where.type = ILike<JobType>(args?.typeFilter);
+    if (args?.hiringRegimeFilter) where.hiringRegime = ILike<JobHiringRegime>(args?.hiringRegimeFilter);
     if (args?.skillFilter) where.skills = ILike(`%${args?.skillFilter}%`);
     if (args?.benefitFilter) where.benefits = ILike(`%${args?.benefitFilter}%`);
     if (args?.titleFilter) where.title = ILike(`%${args?.titleFilter}%`);
     if (args?.companyFilter) where.company = ILike(`%${args?.companyFilter}%`);
-    if (args?.seniorityFilter)
-      where.seniority = ILike(`%${args?.seniorityFilter}%`);
+    if (args?.seniorityFilter) where.seniority = ILike<JobSeniority>(args?.seniorityFilter);
     if (args?.lastDaysFilter) {
       const date = new Date();
       date.setDate(date.getDate() - args?.lastDaysFilter);
@@ -264,21 +260,21 @@ export default class JobOpportunityController {
     return response?.affected && response?.affected > 0;
   }
 
-  public static async updateType(uuid: string, type: string) {
+  public static async updateType(uuid: string, type: JobType) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       type,
     });
     return response?.affected && response?.affected > 0;
   }
 
-  public static async updateHiringRegime(uuid: string, hiringRegime: string) {
+  public static async updateHiringRegime(uuid: string, hiringRegime: JobHiringRegime) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       hiringRegime,
     });
     return response?.affected && response?.affected > 0;
   }
 
-  public static async updateSeniority(uuid: string, seniority: string) {
+  public static async updateSeniority(uuid: string, seniority: JobSeniority) {
     const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
       seniority,
     });

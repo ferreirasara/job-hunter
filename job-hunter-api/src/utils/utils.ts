@@ -1,6 +1,6 @@
 import { flatten, uniq } from 'lodash';
 import { HTTPRequest } from 'puppeteer';
-import { JobSkill, UnwantedJobResponse, UnwantedReason } from '../@types/types';
+import { JobInput, JobSkill, UnwantedJobResponse, UnwantedReason } from '../@types/types';
 import {
   BENEFITS_REGEX,
   HIRING_REGIMES_REGEX,
@@ -860,13 +860,8 @@ export const getNumberFromString = (str: string): number | undefined => {
   return undefined;
 };
 
-export const isUnwantedJob = (args: {
-  title?: string;
-  company?: string;
-  description?: string;
-  skills?: string;
-}): UnwantedJobResponse => {
-  const { company = '', description = '', title = '', skills = '' } = args;
+export const isUnwantedJob = (job: JobInput): UnwantedJobResponse => {
+  if (job.applied || job.discarded) return { unwanted: false };
 
   const unwantedTitleKeywords = [
     'banco de talentos',
@@ -895,32 +890,36 @@ export const isUnwantedJob = (args: {
     SKILLS_REGEX.MOBILE_DEVELOPMENT,
   ];
 
+  const title = removeAccent(job?.title?.toLowerCase());
+  const company = removeAccent(job?.company?.toLowerCase());
+  const description = removeAccent(job?.description?.toLowerCase());
+
   const isUnwantedByTitle: UnwantedJobResponse = {
-    unwanted: unwantedTitleKeywords?.some((cur) => removeAccent(title)?.toLowerCase()?.includes(cur)),
+    unwanted: unwantedTitleKeywords?.some((cur) => title?.includes(cur)),
     reason: UnwantedReason.UNWANTED_TITLE_KEYWORD
   };
   if (isUnwantedByTitle.unwanted) return isUnwantedByTitle;
 
   const isUnwantedByCompany: UnwantedJobResponse = {
-    unwanted: unwantedCompanyKeywords?.some((cur) => company?.toLowerCase()?.includes(cur)),
+    unwanted: unwantedCompanyKeywords?.some((cur) => company?.includes(cur)),
     reason: UnwantedReason.UNWANTED_COMPANY_KEYWORD
   };
   if (isUnwantedByCompany.unwanted) return isUnwantedByCompany;
 
   const isUnwantedByDescription: UnwantedJobResponse = {
-    unwanted: unwantedDescriptionKeywords?.some((cur) => description?.toLowerCase()?.includes(cur)),
+    unwanted: unwantedDescriptionKeywords?.some((cur) => description?.includes(cur)),
     reason: UnwantedReason.UNWANTED_DESCRIPTION_KEYWORD
   };
   if (isUnwantedByDescription.unwanted) return isUnwantedByDescription;
 
   const isUnwantedBySkillsInTitle: UnwantedJobResponse = {
-    unwanted: unwantedSkillsInTitleKeywords?.some((cur) => stringContainsAny(title, cur)),
+    unwanted: unwantedSkillsInTitleKeywords?.some((cur) => stringContainsAny(job?.title, cur)),
     reason: UnwantedReason.UNWANTED_TITLE_KEYWORD
   };
   if (isUnwantedBySkillsInTitle.unwanted) return isUnwantedBySkillsInTitle;
 
   const isUnwantedByMissingReactSkill: UnwantedJobResponse = {
-    unwanted: !skills.includes(JobSkill.REACT),
+    unwanted: !job?.skills?.includes(JobSkill.REACT),
     reason: UnwantedReason.MISSING_REACT_SKILL,
   };
   if (isUnwantedByMissingReactSkill.unwanted) return isUnwantedByMissingReactSkill;

@@ -4,6 +4,7 @@ import morgan = require('morgan');
 import { AppDataSource } from './data-source';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
 import { runScrapers } from './scrapers/run.scrapers';
+import { JobHiringRegime, JobPlatform, JobSeniority, JobType } from './@types/types';
 
 AppDataSource.initialize()
   .then(async () => {
@@ -54,17 +55,17 @@ AppDataSource.initialize()
       const result = await JobOpportunityController.getAllJobsWithFilter({
         limit: parseInt(limit),
         page: parseInt(page),
-        platformFilter: platformFilter ? decodeURI(platformFilter) : undefined,
-        typeFilter: typeFilter ? decodeURI(typeFilter) : undefined,
+        platformFilter: platformFilter ? decodeURI(platformFilter) as JobPlatform : undefined,
+        typeFilter: typeFilter ? decodeURI(typeFilter) as JobType : undefined,
         hiringRegimeFilter: hiringRegimeFilter
-          ? decodeURI(hiringRegimeFilter)
+          ? decodeURI(hiringRegimeFilter) as JobHiringRegime
           : undefined,
         skillFilter: skillFilter ? decodeURI(skillFilter) : undefined,
         benefitFilter: benefitFilter ? decodeURI(benefitFilter) : undefined,
         titleFilter: titleFilter ? decodeURI(titleFilter) : undefined,
         companyFilter: companyFilter ? decodeURI(companyFilter) : undefined,
         seniorityFilter: seniorityFilter
-          ? decodeURI(seniorityFilter)
+          ? decodeURI(seniorityFilter) as JobSeniority
           : undefined,
         showOnlyDiscarded: showOnlyDiscarded
           ? decodeURI(showOnlyDiscarded)

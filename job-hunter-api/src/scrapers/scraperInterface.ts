@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer-extra';
 import { JobInitialData, JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import { formatDateHour, interceptRequest, isUnwantedJob, removeAccent } from '../utils/utils';
+import { formatDateHour, interceptRequest, isUnwantedJob } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import { uniqBy } from 'lodash';
 
@@ -73,16 +73,8 @@ export default abstract class ScraperInterface {
 
     for (let i = 0; i < jobsLength; i++) {
       const job = jobs?.[i];
-      const title = removeAccent(job?.title?.toLowerCase());
-      const company = removeAccent(job?.company?.toLowerCase());
-      const description = removeAccent(job?.description?.toLowerCase());
 
-      const unwantedResponse = isUnwantedJob({
-        title,
-        company,
-        description,
-        skills: job.skills || '',
-      });
+      const unwantedResponse = isUnwantedJob(job);
       const unwanted = unwantedResponse?.unwanted;
 
       const response = await JobOpportunityController.insert({ ...job, unwanted, unwantedReason: unwantedResponse?.reason });
