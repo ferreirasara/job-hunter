@@ -3,6 +3,7 @@ import { sendMessageToTelegram } from '../utils/utils';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import FrontendBrScraper from './frontendbr.scraper';
+import GreenhouseScraper from './greenhouse.scraper';
 import GupyScraper from './gupy.scraper';
 import InhireScraper from './inhire.scraper';
 import LinkedinScraper from './linkedin.scraper';
@@ -133,6 +134,12 @@ export const runScrapers = async (scrapersToRun: JobPlatform | 'all', initialUrl
   if (scrapersToRun === JobPlatform.QUICKIN || runAll) {
     const quickinScraper = new QuickinScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await quickinScraper.saveJobs();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun === JobPlatform.GREENHOUSE || runAll) {
+    const greenhouseScraper = new GreenhouseScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await greenhouseScraper.saveJobs();
     updateCounts(result);
   }
 

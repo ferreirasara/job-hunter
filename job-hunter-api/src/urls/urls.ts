@@ -220,3 +220,23 @@ export const VAGAS_URLS = [
   'https://www.vagas.com.br/vagas-de-front%20end?m%5B%5D=100%25+Home+Office',
   'https://www.vagas.com.br/vagas-de-react?m%5B%5D=100%25+Home+Office',
 ]
+
+export const GREENHOUSE_URLS = [
+  'https://carreiras.inter.co/carreiras?&q=',
+  'https://job-boards.greenhouse.io/xpinc?keyword=',
+  'https://job-boards.greenhouse.io/ilia?keyword=',
+  'https://job-boards.greenhouse.io/mergeapiintegrationsandbox?keyword=',
+  'https://job-boards.greenhouse.io/capco?keyword=',
+  'https://job-boards.greenhouse.io/encora10?keyword=',
+  'https://job-boards.greenhouse.io/linkedinzup?keyword=',
+  'https://job-boards.greenhouse.io/underdog?keyword=',
+  'https://job-boards.greenhouse.io/xebiacee?keyword=',
+  'https://job-boards.greenhouse.io/arcoeducacao?keyword=',
+  'https://job-boards.greenhouse.io/sourcemeridian?keyword=',
+  'https://job-boards.greenhouse.io/devfuturetalent?keyword=',
+  'https://job-boards.greenhouse.io/oneimaging?keyword=',
+  'https://job-boards.greenhouse.io/gemini?keyword=',
+  'https://job-boards.greenhouse.io/momence?keyword=',
+  'https://job-boards.greenhouse.io/skildai-careers?keyword=',
+  'https://job-boards.greenhouse.io/enumerate?keyword=',
+];
