@@ -324,7 +324,6 @@ export enum UnwantedReason {
   UNWANTED_COMPANY_KEYWORD = 'Unwanted company keyword',
   UNWANTED_DESCRIPTION_KEYWORD = 'Unwanted description keyword',
   MISSING_REACT_SKILL = 'Missing React skill',
-  SKILLS_RATING_BELOW_THRESHOLD = 'Skills rating below threshold',
 }
 export interface UnwantedJobResponse {
   unwanted: boolean;

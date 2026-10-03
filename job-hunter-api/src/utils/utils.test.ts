@@ -6,7 +6,6 @@ const BASE_JOB = {
   title: 'developer',
   company: 'some company',
   description: 'some description',
-  skillsRating: 20,
   skills: 'REACT',
 };
 
@@ -57,12 +56,6 @@ describe('test isUnwantedJob function', () => {
     const result = isUnwantedJob({ ...BASE_JOB, skills: 'ANGULAR' });
     expect(result.unwanted).toBe(true);
     expect(result.reason).toBe(UnwantedReason.MISSING_REACT_SKILL);
-  });
-
-  it('should return true for unwanted job based on skillsRating', () => {
-    const result = isUnwantedJob({ ...BASE_JOB, skillsRating: 10 });
-    expect(result.unwanted).toBe(true);
-    expect(result.reason).toBe(UnwantedReason.SKILLS_RATING_BELOW_THRESHOLD);
   });
 
   it('should return false for wanted job', () => {

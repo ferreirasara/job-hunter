@@ -864,12 +864,9 @@ export const isUnwantedJob = (args: {
   title?: string;
   company?: string;
   description?: string;
-  skillsRating?: number;
   skills?: string;
 }): UnwantedJobResponse => {
-  const { company = '', description = '', title = '', skillsRating = 0, skills = '' } = args;
-
-  if (skillsRating !== undefined && skillsRating < 15) return { unwanted: true, reason: UnwantedReason.SKILLS_RATING_BELOW_THRESHOLD };
+  const { company = '', description = '', title = '', skills = '' } = args;
 
   const unwantedTitleKeywords = [
     'banco de talentos',

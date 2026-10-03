@@ -81,7 +81,6 @@ export default abstract class ScraperInterface {
         title,
         company,
         description,
-        skillsRating: job.skillsRating || 0,
         skills: job.skills || '',
       });
       const unwanted = unwantedResponse?.unwanted;
