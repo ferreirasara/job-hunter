@@ -182,11 +182,11 @@ export const DIVULGA_VAGAS_URLS = [
 ]
 
 export const GUPY_URLS = [
-  'https://employability-portal.gupy.io/api/v1/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
-  'https://employability-portal.gupy.io/api/v1/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
-  'https://employability-portal.gupy.io/api/v1/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
-  'https://employability-portal.gupy.io/api/v1/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
-  'https://employability-portal.gupy.io/api/v1/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
+  'https://portal.gupy.io/api/job-search/jobs?jobName=react&limit=100&offset=0&workplaceType=remote',
+  'https://portal.gupy.io/api/job-search/jobs?jobName=frontend&limit=100&offset=0&workplaceType=remote',
+  'https://portal.gupy.io/api/job-search/jobs?jobName=front%20end&limit=100&offset=0&workplaceType=remote',
+  'https://portal.gupy.io/api/job-search/jobs?jobName=javascript&limit=100&offset=0&workplaceType=remote',
+  'https://portal.gupy.io/api/job-search/jobs?jobName=desenvolvedor&limit=100&offset=0&workplaceType=remote',
 ]
 
 export const REMOTAR_URLS = [
