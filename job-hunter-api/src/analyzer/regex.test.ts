@@ -404,6 +404,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'spring boot', regex: SKILLS_REGEX.JAVA, toBe: true },
         { str: 'javascript', regex: SKILLS_REGEX.JAVA, toBe: false },
         { str: 'java script', regex: SKILLS_REGEX.JAVA, toBe: false },
+        { str: 'javascipt', regex: SKILLS_REGEX.JAVA, toBe: false },
       ],
     },
     {
@@ -418,6 +419,7 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'next.js', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
         { str: 'react-js', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
         { str: 'java', regex: SKILLS_REGEX.JAVASCRIPT, toBe: false },
+        { str: 'javascipt', regex: SKILLS_REGEX.JAVASCRIPT, toBe: true },
       ],
     },
     {
@@ -594,6 +596,9 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'react js', regex: SKILLS_REGEX.REACT, toBe: true },
         { str: 'react native', regex: SKILLS_REGEX.REACT, toBe: false },
         { str: 'react hooks', regex: SKILLS_REGEX.REACT, toBe: false },
+        { str: 'reactive', regex: SKILLS_REGEX.REACT, toBe: false },
+        { str: 'reactif', regex: SKILLS_REGEX.REACT, toBe: false },
+        { str: 'react to', regex: SKILLS_REGEX.REACT, toBe: false },
       ],
     },
     {
@@ -1070,6 +1075,19 @@ describe('test SKILLS_REGEX cases', () => {
         { str: 'wordpress', regex: SKILLS_REGEX.WORDPRESS, toBe: true },
         { str: 'elementor', regex: SKILLS_REGEX.WORDPRESS, toBe: true },
       ],
+    },
+    {
+      type: 'INTERNATIONALIZATION',
+      cases: [
+        { str: 'i18n', regex: SKILLS_REGEX.INTERNATIONALIZATION, toBe: true },
+        { str: 'internationalization', regex: SKILLS_REGEX.INTERNATIONALIZATION, toBe: true },
+        { str: 'internacionalizacao', regex: SKILLS_REGEX.INTERNATIONALIZATION, toBe: true },
+        { str: 'internacional', regex: SKILLS_REGEX.INTERNATIONALIZATION, toBe: false },
+      ],
+    },
+    {
+      type: 'SVELTE',
+      cases: [{ str: 'svelte', regex: SKILLS_REGEX.SVELTE, toBe: true }],
     },
   ].sort((a, b) => a.type.localeCompare(b.type));
   doTestCases(testCases);

@@ -246,7 +246,7 @@ export const SKILLS_REGEX = {
   INTERNATIONALIZATION: [/i18n/i, /internacionalizacao/i, /internationalization/i],
   IONIC: [/\bionic\b/i],
   JAVA: [
-    /java(?!( |-|\.)?script)/i,
+    /java(?!( |-|\.)?sc(r)?ipt)/i,
     /java\d/i,
     /\bspring(( |-|\.)?boot)?\b/i,
     /eclipse/i,
@@ -258,7 +258,7 @@ export const SKILLS_REGEX = {
     /netbeans/i,
   ],
   JAVASCRIPT: [
-    /java( |-|\.)?script/i,
+    /java( |-|\.)?sc(r)?ipt/i,
     /^(.|-)?js\b/i,
     /es(5|6|7)/i,
     /js(5|6|7)/i,
@@ -372,7 +372,7 @@ export const SKILLS_REGEX = {
   PYTHON: [/python/i, /phyton/i, /\bpandas\b/i],
   PWA: [/\bpwa\b/i, /progressive web app(s)?/i],
   RAZOR: [/razor/i],
-  REACT: [/react(( |-|\.)?js)?(?! native)(?! hooks)(?!tive)/i, /reacjs/i],
+  REACT: [/react(( |-|\.)?js)?(?! native)(?! hooks)(?! to)(?!(tive|if))\b/i, /reacjs/i],
   REACT_HOOKS: [/react( |-|\.)?hook(s)?(?! form)/i],
   REACT_ROUTER: [/react router/i],
   REASONML: [/reasonml/i],

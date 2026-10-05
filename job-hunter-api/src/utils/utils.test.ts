@@ -1,13 +1,13 @@
 import { describe, it, expect } from '@jest/globals';
 import { addMarkdown, convertStrToArray, getNumberFromString, isUnwantedJob, orderObjectsByField, removeAccent, sleep, stringContainsAny } from './utils';
-import { UnwantedReason } from '../@types/types';
+import { JobInput, UnwantedReason } from '../@types/types';
 
-const BASE_JOB = {
+const BASE_JOB: JobInput = {
   title: 'developer',
   company: 'some company',
   description: 'some description',
   skills: 'REACT',
-};
+} as JobInput;
 
 describe('test isUnwantedJob function', () => {
   it('should return true for unwanted job based on title', () => {
