@@ -878,6 +878,7 @@ export const isUnwantedJob = (job: JobInput): UnwantedJobResponse => {
     'hibrido',
     'presencial',
     'product owner',
+    'gerente',
   ];
   const unwantedCompanyKeywords = ['bairesdev', 'jobgether'];
   const unwantedDescriptionKeywords = ['telemarketing', 'us-based', 'us based'];
@@ -888,6 +889,7 @@ export const isUnwantedJob = (job: JobInput): UnwantedJobResponse => {
     SKILLS_REGEX.PHP,
     SKILLS_REGEX.DOT_NET,
     SKILLS_REGEX.MOBILE_DEVELOPMENT,
+    SKILLS_REGEX.JAVA,
   ];
 
   const title = removeAccent(job?.title?.toLowerCase());

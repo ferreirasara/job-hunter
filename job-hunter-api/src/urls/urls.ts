@@ -114,6 +114,8 @@ export const INHIRE_URLS = [
   'https://lighthouseit.inhire.app/vagas/',
   'https://sympla.inhire.app/vagas/',
   'https://sensedia-trial.inhire.app/vagas/',
+  'https://winnin.inhire.app/vagas/',
+  'https://jump.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
