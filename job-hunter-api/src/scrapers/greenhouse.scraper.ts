@@ -3,6 +3,7 @@ import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import ScraperInterface from './scraperInterface';
 import { GREENHOUSE_URLS } from '../urls/urls';
+import { KEYWORDS } from '../constants/keywords';
 
 const platform: JobPlatform = JobPlatform.GREENHOUSE;
 export default class GreenhouseScraper extends ScraperInterface {
@@ -34,7 +35,7 @@ export default class GreenhouseScraper extends ScraperInterface {
 
     const result: JobInitialData[] = [];
     for (const url of GREENHOUSE_URLS) {
-      for (const keyword of ['react', 'frontend', 'developer', 'desenvolvedor']) {
+      for (const keyword of KEYWORDS) {
         try {
           await page.goto(url + keyword);
 

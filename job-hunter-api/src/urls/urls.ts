@@ -253,3 +253,26 @@ export const GREENHOUSE_URLS = [
   'https://job-boards.greenhouse.io/connectwise?keyword=',
   'https://job-boards.greenhouse.io/avochato?keyword=',
 ];
+
+export const RECRUTEI_URLS = [
+  'https://jobs.recrutei.com.br/rehva-tech?model=remote&search=',
+  'https://jobs.recrutei.com.br/singularis-rh?model=remote&search=',
+  'https://jobs.recrutei.com.br/fourhands-brasil?model=remote&search=',
+  'https://jobs.recrutei.com.br/clicksoft?model=remote&search=',
+  'https://jobs.recrutei.com.br/grupo-regazzo?model=remote&search=',
+  'https://jobs.recrutei.com.br/ss-consultoria?model=remote&search=',
+  'https://jobs.recrutei.com.br/atom6?model=remote&search=',
+  'https://jobs.recrutei.com.br/grupo-ourho?model=remote&search=',
+  'https://jobs.recrutei.com.br/agencia-doggus?model=remote&search=',
+  'https://jobs.recrutei.com.br/thera-consulting?model=remote&search=',
+  'https://jobs.recrutei.com.br/meta-3-servicos-e-tecnologias-em-informacao-ltda?model=remote&search=',
+  'https://jobs.recrutei.com.br/gateware-346576643?model=remote&search=',
+  'https://jobs.recrutei.com.br/staffer-talentos-e-tecnologia?model=remote&search=',
+  'https://jobs.recrutei.com.br/maistodos?model=remote&search=',
+  'https://jobs.recrutei.com.br/grow-consulting?model=remote&search=',
+  'https://jobs.recrutei.com.br/inventcloud?model=remote&search=',
+  'https://jobs.recrutei.com.br/infox?model=remote&search=',
+  'https://jobs.recrutei.com.br/devellop-labs?model=remote&search=',
+  'https://jobs.recrutei.com.br/projeto-conecta?model=remote&search=',
+  'https://jobs.recrutei.com.br/RegianeMendoncaConsult?model=remote&search=',
+]

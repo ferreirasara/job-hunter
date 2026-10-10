@@ -302,6 +302,13 @@ export default class JobOpportunityController {
     return response?.affected && response?.affected > 0;
   }
 
+  public static async updateCompany(uuid: string, company: string) {
+    const response = await AppDataSource.manager.update(JobOpportunity, uuid, {
+      company,
+    });
+    return response?.affected && response?.affected > 0;
+  }
+
   public static async getAllJobsFromPlatform(platform: JobPlatform) {
     const jobs = await AppDataSource.manager.find(JobOpportunity, {
       where: { platform: platform },

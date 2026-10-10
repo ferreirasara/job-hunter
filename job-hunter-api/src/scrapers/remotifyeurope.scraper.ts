@@ -1,9 +1,9 @@
-import { uniq } from 'lodash';
 import { Page } from 'puppeteer';
 import { JobInitialData, JobInput, JobPlatform } from '../@types/types';
 import { analyzeDescription } from '../analyzer/analyzer';
 import ScraperInterface from './scraperInterface';
 import { sleep } from '../utils/utils';
+import { KEYWORDS } from '../constants/keywords';
 
 const platform: JobPlatform = JobPlatform.REMOTIFYEUROPE;
 
@@ -33,27 +33,22 @@ export default class RemotifyEuropeScraper extends ScraperInterface {
       return [this.convertUrlToJobInitialData(this.initialUrl)];
     }
 
+    const result: JobInitialData[] = [];
     try {
       await page.goto('https://remotifyeurope.com/remote-jobs');
 
-      await page.type('input#title', 'frontend');
-      await sleep(1000);
-      const frontendUrls: string[] = await page?.$$eval(
-        'a.w-full.flex.flex-col.items-center.justify-center',
-        (el) => el?.map((cur) => cur?.href),
-      );
+      for (const keyword of KEYWORDS) {
+        await page.type('input#title', keyword);
+        await sleep(1000);
+        const urls: string[] = await page?.$$eval(
+          'a.w-full.flex.flex-col.items-center.justify-center',
+          (el) => el?.map((cur) => cur?.href),
+        );
 
-      await page.type('input#title', 'react');
-      await sleep(1000);
-      const reactUrls: string[] = await page?.$$eval(
-        'a.w-full.flex.flex-col.items-center.justify-center',
-        (el) => el?.map((cur) => cur?.href),
-      );
+        result.push(...urls.map((url) => this.convertUrlToJobInitialData(url)));
+      }
 
-      const allUrls: string[] = uniq([...frontendUrls, ...reactUrls]);
-      const urls: JobInitialData[] = allUrls?.map((url) => this.convertUrlToJobInitialData(url));
-
-      return urls;
+      return result;
     } catch (e) {
       this.log(e, { error: true });
       return [];

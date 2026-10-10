@@ -5,7 +5,7 @@ import {
 } from './analyzer/analyzer';
 import JobOpportunityController from './controllers/JobOpportunity.controller';
 import { AppDataSource } from './data-source';
-import { convertStrToArray, formSolidesUrl, isUnwantedJob, normalizeDescription } from './utils/utils';
+import { capitalize, convertStrToArray, formSolidesUrl, isUnwantedJob, normalizeDescription } from './utils/utils';
 
 const AVAILABLE_FUNCTIONS = [
   'update-jobs',
@@ -169,6 +169,28 @@ AppDataSource.initialize()
         }
       }
       console.log(`[update-unwanted-jobs] End. Updated count: ${updatedCount}. Not updated count: ${notUpdatedCount}`);
+    } else if (functionToCall === 'capitalize-company') {
+      console.log(`[capitalize-company] Start`);
+      const allJobs = await JobOpportunityController.getAllJobs();
+      const allJobsLength = allJobs?.length;
+
+      let updatedCount = 0;
+
+      for (let i = 0; i < allJobsLength; i++) {
+        const job = allJobs[i];
+        if (i % PERCENTAGE_LOG_INTERVAL === 0)
+          console.log(
+            `[capitalize-company] Updating job ${i + 1} of ${allJobsLength}`,
+          );
+        const capitalizedCompany = capitalize(job?.company);
+
+        await JobOpportunityController.updateCompany(
+          job.uuid,
+          capitalizedCompany,
+        );
+        updatedCount++;
+      }
+      console.log(`[capitalize-company] End. Updated count: ${updatedCount}.`);
     }
   })
   .catch((error) => console.log(error));

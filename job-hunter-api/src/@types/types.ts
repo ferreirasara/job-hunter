@@ -206,6 +206,7 @@ export enum JobPlatform {
   REMOTEROCKETSHIP = 'REMOTEROCKETSHIP',
   QUICKIN = 'QUICKIN',
   GREENHOUSE = 'GREENHOUSE',
+  RECRUTEI = 'RECRUTEI',
 }
 
 export type GupyResponse = {

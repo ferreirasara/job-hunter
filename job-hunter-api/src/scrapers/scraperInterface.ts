@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer-extra';
 import { JobInitialData, JobInput, JobPlatform, SaveJobsResponse } from '../@types/types';
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
-import { formatDateHour, interceptRequest, isUnwantedJob } from '../utils/utils';
+import { capitalize, formatDateHour, interceptRequest, isUnwantedJob } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import { uniqBy } from 'lodash';
 
@@ -77,7 +77,13 @@ export default abstract class ScraperInterface {
       const unwantedResponse = isUnwantedJob(job);
       const unwanted = unwantedResponse?.unwanted;
 
-      const response = await JobOpportunityController.insert({ ...job, unwanted, unwantedReason: unwantedResponse?.reason });
+      const response = await JobOpportunityController.insert({
+        ...job,
+        company: capitalize(job?.company),
+        unwanted,
+        unwantedReason: unwantedResponse?.reason,
+      });
+
       if (response?.success) {
         if (!unwanted) jobsSavedCount++;
       } else {

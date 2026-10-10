@@ -9,6 +9,7 @@ import InhireScraper from './inhire.scraper';
 import LinkedinScraper from './linkedin.scraper';
 import ProgramathorScraper from './programathor.scraper';
 import QuickinScraper from './quickin.scraper';
+import RecruteiScraper from './recrutei.scraper';
 import RemotarScraper from './remotar.scraper';
 import RemoteOkScraper from './remoteok.scraper';
 import RemoteRocketshipScraper from './remoterocketship.scraper';
@@ -140,6 +141,12 @@ export const runScrapers = async (scrapersToRun: JobPlatform | 'all', initialUrl
   if (scrapersToRun === JobPlatform.GREENHOUSE || runAll) {
     const greenhouseScraper = new GreenhouseScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await greenhouseScraper.saveJobs();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun === JobPlatform.RECRUTEI || runAll) {
+    const recruteiScraper = new RecruteiScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await recruteiScraper.saveJobs();
     updateCounts(result);
   }
 

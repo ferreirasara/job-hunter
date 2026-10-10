@@ -973,3 +973,7 @@ export const removeHtmlTags = (html: string): string => {
 export const formSolidesUrl = (id: number | string, title: string) => {
   return `https://vagas.solides.com.br/vaga/${id}/${encodeURIComponent((title).toLowerCase()).replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\s+/g, '-')}`
 }
+
+export const capitalize = (str: string): string => {
+  return str.replace(/-/g, ' ').split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
