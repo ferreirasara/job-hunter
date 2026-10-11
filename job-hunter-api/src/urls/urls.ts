@@ -116,6 +116,7 @@ export const INHIRE_URLS = [
   'https://sensedia-trial.inhire.app/vagas/',
   'https://winnin.inhire.app/vagas/',
   'https://jump.inhire.app/vagas/',
+  'https://iconit.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [
