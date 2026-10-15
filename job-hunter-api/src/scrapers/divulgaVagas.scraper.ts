@@ -38,8 +38,8 @@ export default class DivulgaVagasScraper extends ScraperInterface {
     for (const url of DIVULGA_VAGAS_URLS) {
       try {
         await page.goto(url);
-        await page.waitForSelector('div.vaga-titulo-text > a');
-        const localUrls: string[] = await page?.$$eval('div.vaga-titulo-text > a', (el) =>
+        await page.waitForSelector('a.dv-vaga__link');
+        const localUrls: string[] = await page?.$$eval('a.dv-vaga__link', (el) =>
           el?.map((cur) => cur?.href),
         );
         allUrls.push(...localUrls);
@@ -66,14 +66,14 @@ export default class DivulgaVagasScraper extends ScraperInterface {
         await page.goto(obj?.url, { waitUntil: 'domcontentloaded' });
         const title = await page?.$eval('h1', (el) => el?.innerText);
         const location: string = await page?.$eval(
-          'div.job-company-section > div.job-info-grid > div.job-info-item',
+          'ul.dv-chips.job-info-grid > li',
           (el) => el?.innerText,
         );
         const company = (
-          await page?.$eval('div.job-company-name', (el) => el?.innerText)
+          await page?.$eval('span.dv-hero__empresa-nome', (el) => el?.innerText)
         )?.trim();
         const descriptionOriginal = (
-          await page?.$$eval('section.job-card', (el) =>
+          await page?.$$eval('section.dv-card.job-card', (el) =>
             el?.map((cur) => cur?.innerText),
           )
         )?.join('\n\n');
