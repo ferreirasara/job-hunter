@@ -82,6 +82,9 @@ const DetailsDrawer = ({
             <ListItemInner title="uuid">
               <Typography.Text copyable>{selectedJob?.uuid}</Typography.Text>
             </ListItemInner>
+            <ListItemInner title="ID na Plataforma">
+              {selectedJob?.idInPlatform}
+            </ListItemInner>
           </div>
         </List.Item>
         <List.Item key="platform_type_hiringRegime">
