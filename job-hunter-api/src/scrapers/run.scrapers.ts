@@ -1,5 +1,6 @@
 import { JobPlatform, SaveJobsResponse } from '../@types/types';
 import { sendMessageToTelegram } from '../utils/utils';
+import BuscoJobsScraper from './buscoJobs.scraper';
 import CoodeshScraper from './coodesh.scraper';
 import DivulgaVagasScraper from './divulgaVagas.scraper';
 import FrontendBrScraper from './frontendbr.scraper';
@@ -147,6 +148,12 @@ export const runScrapers = async (scrapersToRun: JobPlatform | 'all', initialUrl
   if (scrapersToRun === JobPlatform.RECRUTEI || runAll) {
     const recruteiScraper = new RecruteiScraper({ initialUrl: !runAll ? initialUrl : undefined });
     result = await recruteiScraper.saveJobs();
+    updateCounts(result);
+  }
+
+  if (scrapersToRun === JobPlatform.BUSCO_JOBS || runAll) {
+    const buscoJobsScraper = new BuscoJobsScraper({ initialUrl: !runAll ? initialUrl : undefined });
+    result = await buscoJobsScraper.saveJobs();
     updateCounts(result);
   }
 

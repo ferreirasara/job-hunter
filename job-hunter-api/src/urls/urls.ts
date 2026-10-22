@@ -278,3 +278,7 @@ export const RECRUTEI_URLS = [
   'https://jobs.recrutei.com.br/projeto-conecta?model=remote&search=',
   'https://jobs.recrutei.com.br/RegianeMendoncaConsult?model=remote&search=',
 ]
+
+export const BUSCO_JOBS_URLS = [
+  'https://br.buscojobs.com/vagas/frontend_/',
+]
