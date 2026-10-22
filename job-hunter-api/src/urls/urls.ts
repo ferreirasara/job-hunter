@@ -117,6 +117,7 @@ export const INHIRE_URLS = [
   'https://winnin.inhire.app/vagas/',
   'https://jump.inhire.app/vagas/',
   'https://iconit.inhire.app/vagas/',
+  'https://programmers.inhire.app/vagas/',
 ]
 
 export const REMOTEROCKETSHIP_URLS = [

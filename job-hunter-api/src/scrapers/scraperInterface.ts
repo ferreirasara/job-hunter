@@ -3,7 +3,7 @@ import { JobInitialData, JobInput, JobPlatform, SaveJobsResponse } from '../@typ
 import JobOpportunityController from '../controllers/JobOpportunity.controller';
 import { capitalize, formatDateHour, interceptRequest, isUnwantedJob } from '../utils/utils';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { uniqBy } from 'lodash';
+import { uniqBy, uniqWith } from 'lodash';
 
 puppeteer.use(StealthPlugin());
 
@@ -66,13 +66,14 @@ export default abstract class ScraperInterface {
   }
 
   public async saveJobs(): Promise<SaveJobsResponse> {
-    const jobs = await this.getJobs();
-    const jobsLength = jobs?.length;
+    const allJobs = await this.getJobs();
+    const uniqJobs = uniqWith(allJobs, (a, b) => a.title.toLowerCase() === b.title.toLowerCase() && a.company.toLowerCase() === b.company.toLowerCase());
+    const jobsLength = uniqJobs?.length;
     let jobsSavedCount = 0;
     let unwantedJobsCount = 0;
 
     for (let i = 0; i < jobsLength; i++) {
-      const job = jobs?.[i];
+      const job = uniqJobs?.[i];
 
       const unwantedResponse = isUnwantedJob(job);
       const unwanted = unwantedResponse?.unwanted;
@@ -103,7 +104,7 @@ export default abstract class ScraperInterface {
     return {
       jobsSavedCount,
       unwantedJobsCount,
-      totalJobs: jobs?.length,
+      totalJobs: uniqJobs?.length,
     };
   }
 
